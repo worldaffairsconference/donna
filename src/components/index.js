@@ -54,7 +54,7 @@ export default class App extends Component {
     this.removeListener()
   }
   render() {
-    return this.state.loading === true ? <h1>Loading</h1> : (
+    return this.state.loading === true ? <p>Content on the way!</p> : (
       <BrowserRouter>
         <div>
           <Navbar color="faded" light toggleable>

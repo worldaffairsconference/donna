@@ -46,6 +46,8 @@ export default class Login extends Component {
           {/* <Button onClick="submit" color="primary">Login</Button>{' '} */}
           <button  className="btn btn-primary">Login</button>
         </form>
+        <br/>
+        <p>If you're not registered. Register <a href="/register">here</a>.</p>
       </div>
     )
   }

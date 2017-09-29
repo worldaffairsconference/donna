@@ -8,6 +8,7 @@ import { logout } from '../helpers/auth'
 import { firebaseAuth } from '../config/constants'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
+
 function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
     <Route
@@ -68,21 +69,20 @@ export default class App extends Component {
                 <NavItem>
                   <NavLink href="/dashboard">Dashboard</NavLink>
                 </NavItem>
-                <NavItem>
-                  <li>
-                    {this.state.authed
-                      ? <button
-                          style={{border: 'none', background: 'transparent'}}
-                          onClick={() => {
-                            logout()
-                          }}
-                          className="navbar-brand">Logout</button>
-                      : <span>
-                          <Link to="/login" className="navbar-brand">Login</Link>
-                          <Link to="/register" className="navbar-brand">Register</Link>
-                        </span>}
-                  </li>
-                </NavItem>
+                {this.state.authed
+                  ? <button
+                      style={{border: 'none', background: 'transparent'}}
+                      onClick={() => {
+                        logout()
+                      }}
+                      className="navbar-brand">Logout</button>
+                  :<p><NavItem>
+                      <NavLink to="/login">Login</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink to="/register">Register</NavLink>
+                    </NavItem>
+                    </p>}
               </Nav>
             </Collapse>
           </Navbar>

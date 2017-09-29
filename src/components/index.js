@@ -4,9 +4,11 @@ import Login from './Login'
 import Register from './Register'
 import Home from './Home'
 import Dashboard from './protected/Dashboard'
+import Dropdown from './Dropdown'
 import { logout } from '../helpers/auth'
 import { firebaseAuth } from '../config/constants'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
@@ -68,21 +70,7 @@ export default class App extends Component {
                 <NavItem>
                   <NavLink href="/dashboard">Dashboard</NavLink>
                 </NavItem>
-                <NavItem>
-                  <li>
-                    {this.state.authed
-                      ? <button
-                          style={{border: 'none', background: 'transparent'}}
-                          onClick={() => {
-                            logout()
-                          }}
-                          className="navbar-brand">Logout</button>
-                      : <span>
-                          <Link to="/login" className="navbar-brand">Login</Link>
-                          <Link to="/register" className="navbar-brand">Register</Link>
-                        </span>}
-                  </li>
-                </NavItem>
+                <Dropdown auth={this.state.authed}/>
               </Nav>
             </Collapse>
           </Navbar>

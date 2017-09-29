@@ -9,7 +9,6 @@ import { logout } from '../helpers/auth'
 import { firebaseAuth } from '../config/constants'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
-
 function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
     <Route
@@ -61,7 +60,7 @@ export default class App extends Component {
         <div>
           <Navbar color="faded" light toggleable>
             <NavbarToggler right onClick={this.toggle} />
-            <NavbarBrand href="/">World Affairs Conference</NavbarBrand>
+            <NavbarBrand href="/"><img alt="World Affairs Conference" height="7.5%" width="7.5%"/></NavbarBrand>
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>

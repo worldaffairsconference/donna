@@ -60,7 +60,7 @@ export default class App extends Component {
         <div>
           <Navbar color="faded" light toggleable>
             <NavbarToggler right onClick={this.toggle} />
-            <NavbarBrand href="/"><img src={require('./wac_logo.svg')} alt="World Affairs Conference" height="7.5%" width="7.5%"/></NavbarBrand>
+            <NavbarBrand href="/"><img alt="World Affairs Conference" height="7.5%" width="7.5%"/></NavbarBrand>
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>

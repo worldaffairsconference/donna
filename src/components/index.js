@@ -4,6 +4,7 @@ import Login from './Login'
 import Register from './Register'
 import Home from './Home'
 import Dashboard from './protected/Dashboard'
+import Dropdown from './Dropdown'
 import { logout } from '../helpers/auth'
 import { firebaseAuth } from '../config/constants'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
@@ -69,20 +70,7 @@ export default class App extends Component {
                 <NavItem>
                   <NavLink href="/dashboard">Dashboard</NavLink>
                 </NavItem>
-                {this.state.authed
-                  ? <button
-                      style={{border: 'none', background: 'transparent'}}
-                      onClick={() => {
-                        logout()
-                      }}
-                      className="navbar-brand">Logout</button>
-                  :<p><NavItem>
-                      <NavLink to="/login">Login</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink to="/register">Register</NavLink>
-                    </NavItem>
-                    </p>}
+                <Dropdown auth={this.state.authed}/>
               </Nav>
             </Collapse>
           </Navbar>

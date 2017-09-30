@@ -4,10 +4,12 @@ import Login from './Login'
 import Register from './Register'
 import Home from './Home'
 import Dashboard from './protected/Dashboard'
+import AddStudent from './protected/AddStudent'
 import Dropdown from './Dropdown'
 import { logout } from '../helpers/auth'
 import { firebaseAuth } from '../config/constants'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import Logo from './img/wac_logo.svg'
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
@@ -60,7 +62,7 @@ export default class App extends Component {
         <div>
           <Navbar color="faded" light toggleable>
             <NavbarToggler right onClick={this.toggle} />
-            <NavbarBrand href="/"><img alt="World Affairs Conference" height="7.5%" width="7.5%"/></NavbarBrand>
+            <NavbarBrand href="/"><img src={Logo} alt="World Affairs Conference" height="7.5%" width="7.5%"/></NavbarBrand>
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
@@ -81,6 +83,7 @@ export default class App extends Component {
                 <PublicRoute authed={this.state.authed} path='/login' component={Login} />
                 <PublicRoute authed={this.state.authed} path='/register' component={Register} />
                 <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard} />
+                <PrivateRoute authed={this.state.authed} path="/add" component={AddStudent} />
                 <Route render={() => <h3>No Match</h3>} />
               </Switch>
             </div>

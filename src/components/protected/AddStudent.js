@@ -26,10 +26,10 @@ export default class AddStudent extends Component {
 							<form>
 								<div className="form-group">
 									<label for="studentEmail">Name</label>
-							    <input type="text" className="form-control" id="studentName" placeholder="Enter Name"/>
+							    <input type="text" className="form-control" id="studentName" placeholder="Enter Name" name="name"/>
 							    <br/>
 							    <label for="accessability">Any accessibility issues?</label>
-							    <input type="text" className="form-control" id="accessability" placeholder="If so, please describe."/>
+							    <input type="text" className="form-control" id="accessability" placeholder="If so, please describe." name="accessability"/>
 							    <br/>
 							    <label>
 							    Choose plenaries (pick 4 of the 6)

@@ -14,14 +14,15 @@ export default class Home extends Component {
       	<br/>
         <div className="jumbotron">
         	<h1 className="display-5">Welcome to WAC!</h1>
-        	<p className="lead">This is the registration site. Please log in to register students. If you're not registered, <a href="/register">sign up</a>.</p>
-        	<hr className="my-4" />
+          <p> This the wac info website </p>
+        	{/* <p className="lead">This is the registration site. Please log in to register students. If you're not registered, <a href="/register">sign up</a>.</p> */}
+        	{/* <hr className="my-4" />
 	        <p className="lead">
 	        	<ul style={ulStyle}>
 				    	<li><a className="btn btn-primary btn-lg" href="/login" role="button">Log in</a></li><br/>
 				    	<li><a className="btn btn-primary btn-lg" href="/register" role="button">Register</a></li>
 				    </ul>
-				  </p>
+				  </p> */}
         </div>
         <center>
 	        <div className="btn-group mr-2" role="group" aria-label="First group">

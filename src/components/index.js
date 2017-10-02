@@ -71,9 +71,6 @@ export default class App extends Component {
                 <NavItem>
                   <NavLink href="/dashboard">Dashboard</NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink href="/add">Add Students</NavLink>
-                </NavItem>
                 <Dropdown auth={this.state.authed}/>
               </Nav>
             </Collapse>

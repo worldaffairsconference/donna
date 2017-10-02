@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Speakers from '../img/speaker-medley.png';
+import { FormGroup, Label, Input } from "reactstrap";
 
 export default class AddStudent extends Component {
 	 constructor(props) {
@@ -25,45 +26,63 @@ export default class AddStudent extends Component {
 						<div className="card-block">
 							<form>
 								<div className="form-group">
-									<label for="studentEmail">Name</label>
-							    <input type="text" className="form-control" id="studentName" placeholder="Enter Name" name="name"/>
-							    <br/>
-							    <label for="accessability">Any accessibility issues?</label>
-							    <input type="text" className="form-control" id="accessability" placeholder="If so, please describe." name="accessability"/>
-							    <br/>
-							    <label>
-							    Choose plenaries (pick 4 of the 6)
-							    </label><br/>
-							    <label className="custom-control custom-checkbox">
-									  <input type="checkbox" className="custom-control-input" name="plenary1"/>
-									  <span className="custom-control-indicator"></span>
-									  <span className="custom-control-description">Plenary 1</span>
-									</label><br/>
-									<label className="custom-control custom-checkbox">
-									  <input type="checkbox" className="custom-control-input" name="plenary2"/>
-									  <span className="custom-control-indicator"></span>
-									  <span className="custom-control-description">Plenary 2</span>
-									</label><br/>
-									<label className="custom-control custom-checkbox">
-									  <input type="checkbox" className="custom-control-input" name="plenary3"/>
-									  <span className="custom-control-indicator"></span>
-									  <span className="custom-control-description">Plenary 3</span>
-									</label><br/>
-									<label className="custom-control custom-checkbox">
-									  <input type="checkbox" className="custom-control-input" name="plenary4"/>
-									  <span className="custom-control-indicator"></span>
-									  <span className="custom-control-description">Plenary 4</span>
-									</label><br/>
-									<label className="custom-control custom-checkbox">
-									  <input type="checkbox" className="custom-control-input" name="plenary5"/>
-									  <span className="custom-control-indicator"></span>
-									  <span className="custom-control-description">Plenary 5</span>
-									</label><br/>
-									<label className="custom-control custom-checkbox">
-									  <input type="checkbox" className="custom-control-input" name="plenary6"/>
-									  <span className="custom-control-indicator"></span>
-									  <span className="custom-control-description">Plenary 6</span>
-									</label><br/>
+									<FormGroup>
+					          <Label for="studentName">Name</Label>
+					          <Input type="text" name="name" id="studentName" placeholder="Student Name" />
+					        </FormGroup>
+									<FormGroup>
+							      <Label for="exampleSelect">Grade</Label>
+							      <Input type="select" name="select" id="exampleSelect">
+							        <option>8</option>
+							        <option>9</option>
+							        <option>10</option>
+							        <option>11</option>
+							        <option>12</option>
+							      </Input>
+							    </FormGroup>
+									<FormGroup>
+					          <Label for="accessability">Accessability Issues</Label>
+					          <Input type="text" name="name" id="accessability" placeholder="If so, please describe." />
+					        </FormGroup>
+									<FormGroup check>
+										<Label>Choose plenaries (pick 4 of the 6) </Label>
+					        </FormGroup>
+									<FormGroup check>
+										 <Label check>
+											 <Input type="checkbox" />{' '}
+											 	Panel 1
+										 </Label>
+									 </FormGroup>
+									 <FormGroup check>
+ 										 <Label check>
+ 											 <Input type="checkbox" />{' '}
+ 											 	Panel 2
+ 										 </Label>
+ 									 </FormGroup>
+									 <FormGroup check>
+ 										 <Label check>
+ 											 <Input type="checkbox" />{' '}
+ 											 	Panel 3
+ 										 </Label>
+ 									 </FormGroup>
+									 <FormGroup check>
+ 										 <Label check>
+ 											 <Input type="checkbox" />{' '}
+ 											 	Panel 4
+ 										 </Label>
+ 									 </FormGroup>
+									 <FormGroup check>
+ 										 <Label check>
+ 											 <Input type="checkbox" />{' '}
+ 											 	Panel 5
+ 										 </Label>
+ 									 </FormGroup>
+									 <FormGroup check>
+ 										 <Label check>
+ 											 <Input type="checkbox" />{' '}
+ 											 	Panel 6
+ 										 </Label>
+ 									 </FormGroup>
 									<button type="submit" className="btn btn-primary">Add Student</button>
 								</div>
 							</form>

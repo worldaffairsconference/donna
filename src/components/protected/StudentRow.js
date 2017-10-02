@@ -8,8 +8,8 @@ export function StudentRow(props) {
         <td>{student.grade}</td>
         <td>{student.panel[0]}</td>
         <td>{student.panel[1]}</td>
+        <td>{student.panel[2]}</td>
         <td>{student.panel[3]}</td>
-        <td>{student.panel[4]}</td>
         <td>{student.accessability}</td>
       </tr>
      );

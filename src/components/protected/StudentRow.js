@@ -3,7 +3,7 @@ import { Table } from 'reactstrap';
 
 export function StudentRow(props) {
       const content = props.studentData.map((student) =>
-      <tr>
+      <div>
         <td>{student.name}</td>
         <td>{student.grade}</td>
         <td>{student.panel[0]}</td>
@@ -11,12 +11,12 @@ export function StudentRow(props) {
         <td>{student.panel[2]}</td>
         <td>{student.panel[3]}</td>
         <td>{student.accessability}</td>
-      </tr>
+      </div>
      );
 
     return (
-      <div>
+      <tr>
        {content}
-      </div>
+      </tr>
     );
 }

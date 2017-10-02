@@ -11,7 +11,7 @@ export default class Register extends Component {
   state = { registerError: null }
   handleSubmit = (e) => {
     e.preventDefault()
-    auth(this.email.value, this.pw.value, this.school.value, this.payment.value)
+    auth(this.email.value, this.pw.value, this.school.value)
       .catch(e => this.setState(setErrorMsg(e)))
   }
   render () {
@@ -30,14 +30,6 @@ export default class Register extends Component {
           <div className="form-group">
             <label>School</label>
             <input type="text" className="form-control" placeholder="School Name" ref={(school) => this.school = school} />
-          </div>
-          <div className="form-group">
-            <label>Payment Method</label>
-            <select className="form-control" ref={(payment) => this.payment = payment} >
-              <option>Method 1</option>
-              <option>Method 2</option>
-              <option>Method 3</option>
-            </select>
           </div>
           {
             this.state.registerError &&

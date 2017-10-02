@@ -1,6 +1,6 @@
 import { ref, firebaseAuth } from '../config/constants'
 
-export function auth (email, pw, school, payment) {
+export function auth (email, pw, school) {
   return firebaseAuth().createUserWithEmailAndPassword(email, pw)
     .then(function(user){
       ref.child(`users/${user.uid}/info`)
@@ -8,7 +8,7 @@ export function auth (email, pw, school, payment) {
           email: email,
           uid: user.uid,
           school: school,
-          payment: payment
+          payment: false
         })
         .then(() => user)
     })

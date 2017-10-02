@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
-import { Table } from 'reactstrap';
+import { Table, Alert } from 'reactstrap';
 import { StudentRow } from  './StudentRow'
 import firebase from 'firebase'
 
@@ -8,19 +8,22 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     var myStudentData = null;
-
     var userId = firebase.auth().currentUser.uid;
+    this.state = {
+      studentDataSet: [{name: "Simon", grade:"11",panel:[1,2,3,4], accessability: "tired"},
+      {name: "Nick", grade:"11",panel:[2,3,4,5], accessability: "sleepy"}],
+      payment: null,
+    }
     firebase.database().ref('users/' + userId + '/students/').once("value", function(snapshot) {
       myStudentData = snapshot.val();
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);
     });
-    this.state = {
-      studentDataSet: [{name: "Simon", grade:"11",panel:[1,2,3,4], accessability: "tired"},
-      {name: "Nick", grade:"11",panel:[2,3,4,5], accessability: "sleepy"}
-    ]
-    }
     console.log(myStudentData);
+
+    firebase.database().ref('users/' + userId + '/info/').once('value', (snapshot) => this.setState({
+      payment: snapshot.val().payment,
+    }));
   }
   render () {
     return (
@@ -28,6 +31,14 @@ export default class Dashboard extends Component {
     		<h2>Dashboard</h2>
     		<Link to="/add">Add Students</Link>
     		<hr/>
+        {this.state.payment
+            ?  <Alert color="success">
+                  <center>You have submitted your payment.</center>
+                </Alert>
+            : <Alert color="danger">
+                <center>Please submit payment.</center>
+              </Alert>
+          }
     		<h3>Students</h3>
         <Table>
           <thead>

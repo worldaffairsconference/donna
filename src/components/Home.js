@@ -2,11 +2,16 @@ import React, { Component } from 'react'
 import FontAwesome from 'react-fontawesome'
 
 const ulStyle = {
-	'list-style-type': 'none'
+	'list-style-type': 'none',
+  'display': 'inline'
+}
+
+const liStyle = {
+  'display': 'inline',
+  'padding-right': '1rem'
 }
 
 export default class Home extends Component {
-
 
   render () {
     return (
@@ -14,15 +19,14 @@ export default class Home extends Component {
       	<br/>
         <div className="jumbotron">
         	<h1 className="display-5">Welcome to WAC!</h1>
-          <p> This the wac info website </p>
-        	{/* <p className="lead">This is the registration site. Please log in to register students. If you're not registered, <a href="/register">sign up</a>.</p> */}
-        	{/* <hr className="my-4" />
+        	<p className="lead">This is the registration site. Please log in to register students. If you're not registered, <a href="/register">sign up</a>.</p>
+        	<hr className="my-4" />
 	        <p className="lead">
 	        	<ul style={ulStyle}>
-				    	<li><a className="btn btn-primary btn-lg" href="/login" role="button">Log in</a></li><br/>
-				    	<li><a className="btn btn-primary btn-lg" href="/register" role="button">Register</a></li>
+				    	<li style={liStyle}><a className="btn btn-primary btn-lg" href="/login" role="button">Log in</a></li>
+				    	<li style={liStyle}><a className="btn btn-primary btn-lg" href="/register" role="button">Register</a></li>
 				    </ul>
-				  </p> */}
+				  </p>
         </div>
         <center>
 	        <div className="btn-group mr-2" role="group" aria-label="First group">

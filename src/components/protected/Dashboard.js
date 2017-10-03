@@ -52,9 +52,7 @@ export default class Dashboard extends Component {
               <th>Accessability</th>
             </tr>
           </thead>
-          <tbody>
-            <StudentRow studentData={this.state.studentDataSet} />
-          </tbody>
+          <StudentRow studentData={this.state.studentDataSet} />
       </Table>
       </div>
     )

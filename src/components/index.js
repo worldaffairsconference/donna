@@ -56,7 +56,7 @@ export default class App extends Component {
     this.removeListener()
   }
   render() {
-    return this.state.loading === true ? <p>Content on the way!</p> : (
+    return this.state.loading === true ? <p>Loading</p> : (
       <BrowserRouter>
         <div>
           <Navbar color="faded" light toggleable>
@@ -82,7 +82,7 @@ export default class App extends Component {
                 <PublicRoute authed={this.state.authed} path='/login' component={Login} />
                 <PublicRoute authed={this.state.authed} path='/register' component={Register} />
                 <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard} />
-                <Route render={() => <h3>No Match</h3>} />
+                <Route render={() => <h3>Not Found</h3>} />
               </Switch>
             </div>
           </div>

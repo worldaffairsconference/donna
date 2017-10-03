@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Alert } from 'reactstrap';
+import { Table, Alert, Container, Row, Col } from 'reactstrap';
 import { StudentRow } from  './StudentRow'
 import firebase from 'firebase'
 import AddStudent from './AddStudent'
@@ -27,7 +27,8 @@ export default class Dashboard extends Component {
   }
   render () {
     return (
-      <div>
+      <Container>
+        <br/>
     		<h2>Dashboard</h2>
     		<br/>
         {this.state.payment
@@ -38,7 +39,8 @@ export default class Dashboard extends Component {
                 <center>Please submit payment.</center>
               </Alert>
           }
-    		<h3>Students</h3>
+        <br/>
+    		<h3>My Students</h3>
         <Table>
           <thead>
             <tr>
@@ -55,7 +57,7 @@ export default class Dashboard extends Component {
           <StudentRow studentData={this.state.studentDataSet} />
         </Table>
         <AddStudent />
-      </div>
+      </Container>
     )
   }
 }

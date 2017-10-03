@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { hashHistory } from 'react-router-dom'
-import { FormGroup, Label, Input, Button } from "reactstrap";
+import { FormGroup, Label, Input, Button, Alert } from "reactstrap";
 import firebase from "firebase";
 import FontAwesome from 'react-fontawesome';
 
@@ -20,6 +20,7 @@ export default class AddStudent extends Component {
 			panel6: '',
 			panel: [],
 			showForm: false,
+			addedAlert: false,
 		};
 
 		var userId = firebase.auth().currentUser.uid;
@@ -99,6 +100,7 @@ export default class AddStudent extends Component {
 	handleShowCard(event) {
 		this.setState({
       showForm: true,
+			addedAlert: false,
     });
 	}
 	handleSubmitStudent(event) {
@@ -112,6 +114,7 @@ export default class AddStudent extends Component {
 		 );
 		 this.setState({
        showForm: false,
+			 addedAlert: true,
      });
    }
 
@@ -206,6 +209,13 @@ export default class AddStudent extends Component {
 		          />
 						Add new student</Button>{' '}</div>
 					 }
+					 <br />
+					 {this.state.addedAlert
+						 ?  <Alert color="success">
+									 <center>{this.state.name} has been registered</center>
+								</Alert>
+						 : null
+					  }
 				</div>
 		)
 	}

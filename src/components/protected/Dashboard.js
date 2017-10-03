@@ -41,6 +41,8 @@ export default class Dashboard extends Component {
           }
         <br/>
     		<h3>My Students</h3>
+        <AddStudent />
+        <br />
         <Table>
           <thead>
             <tr>
@@ -56,7 +58,6 @@ export default class Dashboard extends Component {
           </thead>
           <StudentRow studentData={this.state.studentDataSet} />
         </Table>
-        <AddStudent />
       </Container>
     )
   }

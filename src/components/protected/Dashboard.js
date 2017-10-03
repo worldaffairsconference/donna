@@ -50,6 +50,7 @@ export default class Dashboard extends Component {
               <th>Panel 3</th>
               <th>Panel 4</th>
               <th>Accessability</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <StudentRow studentData={this.state.studentDataSet} />

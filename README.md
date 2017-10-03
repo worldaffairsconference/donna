@@ -3,9 +3,11 @@
 *Using React, Firebase, reactstrap*
 
 #### Getting Started:
-* Create a folder under ```src``` called ```config```
-* ```cd src/config/```
-* Create a file called ```constants.js``` and add Firebase API credentials
-* ```npm install```
-* ```npm start```
-* Visit ```localhost:3000``` on your browser
+
+Run the following command:
+
+```bash
+./setup.sh
+```
+
+When it asks for your Firebase API Key, paste that in. You'll need access to a valid Firebase Plan to run a local instance of this server.

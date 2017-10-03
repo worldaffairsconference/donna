@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { hashHistory } from 'react-router-dom'
-import Speakers from '../img/speaker-medley.png';
-import { FormGroup, Label, Input } from "reactstrap";
+import { FormGroup, Label, Input, Button } from "reactstrap";
 import firebase from "firebase";
+import FontAwesome from 'react-fontawesome';
 
 export default class AddStudent extends Component {
 	 constructor(props) {
@@ -18,7 +18,8 @@ export default class AddStudent extends Component {
 			panel4: '',
 			panel5: '',
 			panel6: '',
-			panel: []
+			panel: [],
+			showForm: false,
 		};
 
 		var userId = firebase.auth().currentUser.uid;
@@ -35,7 +36,7 @@ export default class AddStudent extends Component {
 		this.handleChangePanel4 = this.handleChangePanel4.bind(this);
 		this.handleChangePanel5 = this.handleChangePanel5.bind(this);
 		this.handleChangePanel6 = this.handleChangePanel6.bind(this);
-
+		this.handleShowCard = this.handleShowCard.bind(this);
 
 		this.handleSubmitStudent = this.handleSubmitStudent.bind(this);
     this.writeStudentData = this.writeStudentData.bind(this);
@@ -95,6 +96,11 @@ export default class AddStudent extends Component {
    });
 	 this.state.panel.push('6');
   }
+	handleShowCard(event) {
+		this.setState({
+      showForm: true,
+    });
+	}
 	handleSubmitStudent(event) {
      event.preventDefault();
      this.writeStudentData(
@@ -104,6 +110,9 @@ export default class AddStudent extends Component {
 			 this.state.accessability,
 			 this.state.panel
 		 );
+		 this.setState({
+       showForm: false,
+     });
    }
 
 	 writeStudentData(name, school, grade, accessability, panel) {
@@ -119,89 +128,85 @@ export default class AddStudent extends Component {
 
 	render () {
 		return (
-			<div className="row">
 				<div className="col">
 					<br/>
-					<div className="card">
-						<div className="card-block">
-							<form onSubmit={this.handleSubmitStudent}>
-								<div className="form-group">
-									<FormGroup onChange={this.handleChangeName}>
-					          <Label for="studentName">Name</Label>
-					          <Input type="text" name="name" id="studentName" placeholder="Student Name" />
-					        </FormGroup>
-									<FormGroup onChange={this.handleChangeGrade}>
-							      <Label for="exampleSelect">Grade</Label>
-							      <Input type="select" name="select" id="exampleSelect">
-							        <option>8</option>
-							        <option>9</option>
-							        <option>10</option>
-							        <option>11</option>
-							        <option>12</option>
-							      </Input>
-							    </FormGroup>
-									<FormGroup onChange={this.handleChangeAccessability}>
-					          <Label for="accessability">Accessability Issues</Label>
-					          <Input type="text" name="name" id="accessability" placeholder="If so, please describe." />
-					        </FormGroup>
-									{/* {this.state.panel} */}
-									<FormGroup check>
-										<Label>Choose plenaries (pick 4 of the 6) </Label>
-					        </FormGroup>
-									<FormGroup check onChange={this.handleChangePanel1}>
-										 <Label check>
-											 <Input type="checkbox" />{' '}
-											 	Panel 1
-										 </Label>
-									 </FormGroup>
-									 <FormGroup check onChange={this.handleChangePanel2}>
- 										 <Label check>
- 											 <Input type="checkbox" />{' '}
- 											 	Panel 2
- 										 </Label>
- 									 </FormGroup>
-									 <FormGroup check onChange={this.handleChangePanel3}>
- 										 <Label check>
- 											 <Input type="checkbox" />{' '}
- 											 	Panel 3
- 										 </Label>
- 									 </FormGroup>
-									 <FormGroup check onChange={this.handleChangePanel4}>
- 										 <Label check>
- 											 <Input type="checkbox" />{' '}
- 											 	Panel 4
- 										 </Label>
- 									 </FormGroup>
-									 <FormGroup check onChange={this.handleChangePanel5}>
- 										 <Label check>
- 											 <Input type="checkbox" />{' '}
- 											 	Panel 5
- 										 </Label>
- 									 </FormGroup>
-									 <FormGroup check onChange={this.handleChangePanel6}>
- 										 <Label check>
- 											 <Input type="checkbox" />{' '}
- 											 	Panel 6
- 										 </Label>
- 									 </FormGroup>
-									 <button type="submit" className="btn btn-primary" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button>
+					{this.state.showForm
+						? <div className="card">
+								<div className="card-block">
+									<form onSubmit={this.handleSubmitStudent}>
+										<div className="form-group">
+											<FormGroup onChange={this.handleChangeName}>
+							          <Label for="studentName">Name</Label>
+							          <Input type="text" name="name" id="studentName" placeholder="Student Name" />
+							        </FormGroup>
+											<FormGroup onChange={this.handleChangeGrade}>
+									      <Label for="exampleSelect">Grade</Label>
+									      <Input type="select" name="select" id="exampleSelect">
+									        <option>8</option>
+									        <option>9</option>
+									        <option>10</option>
+									        <option>11</option>
+									        <option>12</option>
+									      </Input>
+									    </FormGroup>
+											<FormGroup onChange={this.handleChangeAccessability}>
+							          <Label for="accessability">Accessability Issues</Label>
+							          <Input type="text" name="name" id="accessability" placeholder="If so, please describe." />
+							        </FormGroup>
+											{/* {this.state.panel} */}
+											<FormGroup check>
+												<Label>Choose plenaries (pick 4 of the 6) </Label>
+							        </FormGroup>
+											<FormGroup check onChange={this.handleChangePanel1}>
+												 <Label check>
+													 <Input type="checkbox" />{' '}
+													 	Panel 1
+												 </Label>
+											 </FormGroup>
+											 <FormGroup check onChange={this.handleChangePanel2}>
+		 										 <Label check>
+		 											 <Input type="checkbox" />{' '}
+		 											 	Panel 2
+		 										 </Label>
+		 									 </FormGroup>
+											 <FormGroup check onChange={this.handleChangePanel3}>
+		 										 <Label check>
+		 											 <Input type="checkbox" />{' '}
+		 											 	Panel 3
+		 										 </Label>
+		 									 </FormGroup>
+											 <FormGroup check onChange={this.handleChangePanel4}>
+		 										 <Label check>
+		 											 <Input type="checkbox" />{' '}
+		 											 	Panel 4
+		 										 </Label>
+		 									 </FormGroup>
+											 <FormGroup check onChange={this.handleChangePanel5}>
+		 										 <Label check>
+		 											 <Input type="checkbox" />{' '}
+		 											 	Panel 5
+		 										 </Label>
+		 									 </FormGroup>
+											 <FormGroup check onChange={this.handleChangePanel6}>
+		 										 <Label check>
+		 											 <Input type="checkbox" />{' '}
+		 											 	Panel 6
+		 										 </Label>
+		 									 </FormGroup>
+											 <button type="submit" className="btn btn-primary" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button>
+										</div>
+									</form>
 								</div>
-							</form>
-						</div>
-					</div>
+							</div>
+						: <div><Button color="success" onClick={this.handleShowCard}>
+							<FontAwesome
+		            name='plus'
+		            size='1x'
+		            style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 10px 0px 0px' }}
+		          />
+						Add new student</Button>{' '}</div>
+					 }
 				</div>
-				<div className="col">
-				<br/>
-					<div className="card">
-					  <img className="card-img-top" src={Speakers} alt="Past Speakers" width="100%"/>
-					  <div className="card-block">
-					    <h4 className="card-title">Plenaries</h4>
-					    <p className="card-text">More info on plenaries on the offical World Affairs Conference website.</p>
-					    <a href="https://world.ac" className="btn btn-primary" target="_blank">world.ac</a>
-					  </div>
-					</div>
-				</div>
-			</div>
 		)
 	}
 }

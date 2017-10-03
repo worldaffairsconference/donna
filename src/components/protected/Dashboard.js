@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
 import { Table, Alert } from 'reactstrap';
 import { StudentRow } from  './StudentRow'
 import firebase from 'firebase'
+import AddStudent from './AddStudent'
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -29,8 +29,7 @@ export default class Dashboard extends Component {
     return (
       <div>
     		<h2>Dashboard</h2>
-    		<Link to="/add">Add Students</Link>
-    		<hr/>
+    		<br/>
         {this.state.payment
             ?  <Alert color="success">
                   <center>You have submitted your payment.</center>
@@ -54,7 +53,8 @@ export default class Dashboard extends Component {
             </tr>
           </thead>
           <StudentRow studentData={this.state.studentDataSet} />
-      </Table>
+        </Table>
+        <AddStudent />
       </div>
     )
   }

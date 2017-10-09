@@ -15,12 +15,10 @@ export function StudentRow(props) {
         <td>
           <FontAwesome
             name='edit'
-            size='1x'
             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 25px 0px 0px' }}
           />
           <FontAwesome
             name='trash'
-            size='1x'
             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
           />
         </td>

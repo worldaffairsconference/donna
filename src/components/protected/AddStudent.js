@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { hashHistory } from 'react-router-dom'
-import { Card, Row, CardBody, Col, Form, Container, FormGroup, Label, Input, Button, Alert } from "reactstrap";
+import { Card, Row, Col, Form, Container, FormGroup, Label, Input, Button, Alert } from "reactstrap";
 import firebase from "firebase";
 import FontAwesome from 'react-fontawesome';
 
@@ -151,7 +151,8 @@ export default class AddStudent extends Component {
 								        </FormGroup>
 												<FormGroup onChange={this.handleChangeGrade}>
 										      <Label for="exampleSelect">Grade</Label>
-										      <Input type="select" name="select" id="exampleSelect">
+										      <Input type="select" name="select">
+														<option>Please Select Grade</option>
 										        <option>8</option>
 										        <option>9</option>
 										        <option>10</option>
@@ -221,7 +222,6 @@ export default class AddStudent extends Component {
 						: <div><Button color="success" onClick={this.handleShowCard}>
 							<FontAwesome
 		            name='plus'
-		            size='1x'
 		            style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 10px 0px 0px' }}
 		          />
 						Add new student</Button>{' '}</div>

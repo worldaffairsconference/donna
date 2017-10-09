@@ -7,19 +7,29 @@ import AddStudent from './AddStudent'
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
-    var myStudentData = null;
     var userId = firebase.auth().currentUser.uid;
+    var myStudentDataKey = [];
+    var myStudentDataArr = [];
+    
+    firebase.database().ref('users/' + userId + '/students/').once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var childKey = childSnapshot.key;
+        myStudentDataKey.push(childKey);
+        var childData = childSnapshot.val();
+        myStudentDataArr.push(childData);
+      });
+    });
+
     this.state = {
       studentDataSet: [{name: "Simon", grade:"11",panel:[1,2,3,4], accessability: "tired"},
       {name: "Nick", grade:"11",panel:[2,3,4,5], accessability: "sleepy"}],
       payment: null,
+      myStudentDataKey: myStudentDataKey,
+      myStudentDataArr: myStudentDataArr
     }
-    firebase.database().ref('users/' + userId + '/students/').once("value", function(snapshot) {
-      myStudentData = snapshot.val();
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    });
-    console.log(myStudentData);
+
+    console.log(this.state.myStudentDataKey);
+    console.log(this.state.myStudentDataArr);
 
     firebase.database().ref('users/' + userId + '/info/').once('value', (snapshot) => this.setState({
       payment: snapshot.val().payment,

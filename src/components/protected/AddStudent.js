@@ -12,12 +12,12 @@ export default class AddStudent extends Component {
 			grade: '',
 			accessability: '',
 			school: '',
-			panel1: '',
-			panel2: '',
-			panel3: '',
-			panel4: '',
-			panel5: '',
-			panel6: '',
+			panel1: false,
+			panel2: false,
+			panel3: false,
+			panel4: false,
+			panel5: false,
+			panel6: false,
 			panel: [],
 			showForm: false,
 			addedAlert: false,
@@ -63,39 +63,33 @@ export default class AddStudent extends Component {
 
 	handleChangePanel1(event) {
    this.setState({
-     panel1: event.target.value,
+     panel1: !this.state.panel1,
    });
-	 this.state.panel.push('1');
   }
 	handleChangePanel2(event) {
    this.setState({
-     panel2: event.target.value,
+     panel2: !this.state.panel2,
    });
-	 this.state.panel.push('2');
   }
 	handleChangePanel3(event) {
    this.setState({
-     panel3: event.target.value,
+     panel3: !this.state.panel3,
    });
-	 this.state.panel.push('3');
   }
 	handleChangePanel4(event) {
    this.setState({
-     panel4: event.target.value,
+     panel4: !this.state.panel4,
    });
-	 this.state.panel.push('4');
   }
 	handleChangePanel5(event) {
    this.setState({
-     panel5: event.target.value,
+     panel5: !this.state.panel5,
    });
-	 this.state.panel.push('5');
   }
 	handleChangePanel6(event) {
    this.setState({
-     panel6: event.target.value,
+     panel6: !this.state.panel6,
    });
-	 this.state.panel.push('6');
   }
 	handleShowCard(event) {
 		this.setState({
@@ -110,7 +104,12 @@ export default class AddStudent extends Component {
 			 this.state.school,
 			 this.state.grade,
 			 this.state.accessability,
-			 this.state.panel
+			 this.state.panel1,
+			 this.state.panel2,
+			 this.state.panel3,
+			 this.state.panel4,
+			 this.state.panel5,
+			 this.state.panel6,
 		 );
 		 this.setState({
        showForm: false,
@@ -118,14 +117,19 @@ export default class AddStudent extends Component {
      });
    }
 
-	 writeStudentData(name, school, grade, accessability, panel) {
+	 writeStudentData(name, school, grade, accessability, panel1, panel2, panel3, panel4, panel5, panel6) {
 		 var userId = firebase.auth().currentUser.uid;
      firebase.database().ref('users/' + userId + '/students/').push({
 			 name: name,
 			 school: school,
 			 grade: grade,
 			 accessability: accessability,
-			 panel: panel
+			 panel1: panel1,
+			 panel2: panel2,
+			 panel3: panel3,
+			 panel4: panel4,
+			 panel5: panel5,
+			 panel6: panel6,
      });
    }
 
@@ -148,7 +152,6 @@ export default class AddStudent extends Component {
 												<FormGroup onChange={this.handleChangeGrade}>
 										      <Label for="exampleSelect">Grade</Label>
 										      <Input type="select" name="select" id="exampleSelect">
-														<option>Please Select Grade</option>
 										        <option>8</option>
 										        <option>9</option>
 										        <option>10</option>
@@ -166,6 +169,12 @@ export default class AddStudent extends Component {
 												<FormGroup check>
 													<Label>Choose plenaries (pick 4 of the 6) </Label>
 								        </FormGroup>
+												{/* <FormGroup check>
+													 <Label check>
+														 <Input type="checkbox" onChange={ () => { this.setState({ panel1: !this.state.panel1 }); }} />{' '}
+														 	Test
+													 </Label>
+												 </FormGroup> */}
 												<FormGroup check onChange={this.handleChangePanel1}>
 													 <Label check>
 														 <Input type="checkbox" />{' '}

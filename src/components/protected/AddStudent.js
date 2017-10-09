@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { hashHistory } from 'react-router-dom'
-import { FormGroup, Label, Input, Button, Alert } from "reactstrap";
+import { Card, Row, CardBody, Col, Form, Container, FormGroup, Label, Input, Button, Alert } from "reactstrap";
 import firebase from "firebase";
 import FontAwesome from 'react-fontawesome';
 
@@ -134,73 +134,81 @@ export default class AddStudent extends Component {
 				<div className="col">
 					<br/>
 					{this.state.showForm
-						? <div className="card">
-								<div className="card-block">
-									<form onSubmit={this.handleSubmitStudent}>
-										<div className="form-group">
-											<FormGroup onChange={this.handleChangeName}>
-							          <Label for="studentName">Name</Label>
-							          <Input type="text" name="name" id="studentName" placeholder="Student Name" />
-							        </FormGroup>
-											<FormGroup onChange={this.handleChangeGrade}>
-									      <Label for="exampleSelect">Grade</Label>
-									      <Input type="select" name="select" id="exampleSelect">
-									        <option>8</option>
-									        <option>9</option>
-									        <option>10</option>
-									        <option>11</option>
-									        <option>12</option>
-									      </Input>
-									    </FormGroup>
-											<FormGroup onChange={this.handleChangeAccessability}>
-							          <Label for="accessability">Accessability Issues</Label>
-							          <Input type="text" name="name" id="accessability" placeholder="If so, please describe." />
-							        </FormGroup>
+						?
+							<Card>
+								<Container>
+									<br />
+									<Form onSubmit={this.handleSubmitStudent}>
+										<Row>
+											<Col>
+												<FormGroup onChange={this.handleChangeName}>
+								          <Label for="studentName">Name</Label>
+								          <Input type="text" name="name" id="studentName" placeholder="Student Name" />
+								        </FormGroup>
+												<FormGroup onChange={this.handleChangeGrade}>
+										      <Label for="exampleSelect">Grade</Label>
+										      <Input type="select" name="select" id="exampleSelect">
+														<option>Please Select Grade</option>
+										        <option>8</option>
+										        <option>9</option>
+										        <option>10</option>
+										        <option>11</option>
+										        <option>12</option>
+										      </Input>
+										    </FormGroup>
+												<FormGroup onChange={this.handleChangeAccessability}>
+								          <Label for="accessability">Accessability Issues</Label>
+								          <Input type="text" name="name" id="accessability" placeholder="If so, please describe." />
+								        </FormGroup>
+											</Col>
 											{/* {this.state.panel} */}
-											<FormGroup check>
-												<Label>Choose plenaries (pick 4 of the 6) </Label>
-							        </FormGroup>
-											<FormGroup check onChange={this.handleChangePanel1}>
-												 <Label check>
-													 <Input type="checkbox" />{' '}
-													 	Panel 1
-												 </Label>
-											 </FormGroup>
-											 <FormGroup check onChange={this.handleChangePanel2}>
-		 										 <Label check>
-		 											 <Input type="checkbox" />{' '}
-		 											 	Panel 2
-		 										 </Label>
-		 									 </FormGroup>
-											 <FormGroup check onChange={this.handleChangePanel3}>
-		 										 <Label check>
-		 											 <Input type="checkbox" />{' '}
-		 											 	Panel 3
-		 										 </Label>
-		 									 </FormGroup>
-											 <FormGroup check onChange={this.handleChangePanel4}>
-		 										 <Label check>
-		 											 <Input type="checkbox" />{' '}
-		 											 	Panel 4
-		 										 </Label>
-		 									 </FormGroup>
-											 <FormGroup check onChange={this.handleChangePanel5}>
-		 										 <Label check>
-		 											 <Input type="checkbox" />{' '}
-		 											 	Panel 5
-		 										 </Label>
-		 									 </FormGroup>
-											 <FormGroup check onChange={this.handleChangePanel6}>
-		 										 <Label check>
-		 											 <Input type="checkbox" />{' '}
-		 											 	Panel 6
-		 										 </Label>
-		 									 </FormGroup>
-											 <button type="submit" className="btn btn-primary" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button>
-										</div>
-									</form>
-								</div>
-							</div>
+											<Col>
+												<FormGroup check>
+													<Label>Choose plenaries (pick 4 of the 6) </Label>
+								        </FormGroup>
+												<FormGroup check onChange={this.handleChangePanel1}>
+													 <Label check>
+														 <Input type="checkbox" />{' '}
+														 	Panel 1
+													 </Label>
+												 </FormGroup>
+												 <FormGroup check onChange={this.handleChangePanel2}>
+			 										 <Label check>
+			 											 <Input type="checkbox" />{' '}
+			 											 	Panel 2
+			 										 </Label>
+			 									 </FormGroup>
+												 <FormGroup check onChange={this.handleChangePanel3}>
+			 										 <Label check>
+			 											 <Input type="checkbox" />{' '}
+			 											 	Panel 3
+			 										 </Label>
+			 									 </FormGroup>
+												 <FormGroup check onChange={this.handleChangePanel4}>
+			 										 <Label check>
+			 											 <Input type="checkbox" />{' '}
+			 											 	Panel 4
+			 										 </Label>
+			 									 </FormGroup>
+												 <FormGroup check onChange={this.handleChangePanel5}>
+			 										 <Label check>
+			 											 <Input type="checkbox" />{' '}
+			 											 	Panel 5
+			 										 </Label>
+			 									 </FormGroup>
+												 <FormGroup check onChange={this.handleChangePanel6}>
+			 										 <Label check>
+			 											 <Input type="checkbox" />{' '}
+			 											 	Panel 6
+			 										 </Label>
+			 									 </FormGroup>
+											 </Col>
+										 </Row>
+										 <center><button type="submit" className="btn btn-primary" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button></center>
+										 <br />
+									</Form>
+							</Container>
+						</Card>
 						: <div><Button color="success" onClick={this.handleShowCard}>
 							<FontAwesome
 		            name='plus'

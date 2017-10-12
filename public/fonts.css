@@ -1,0 +1,27 @@
+@font-face{
+	font-family: "Nexa";
+	src: url("./corefonts/nexa/nexa_light.otf");
+}
+@font-face{
+	font-family: "Nexa";
+	src: url("./corefonts/nexa/nexa_bold.otf");
+	font-weight: bold;
+}
+@font-face{
+	font-family: "Nexa Slab";
+	src: url("./corefonts/nexaslab/nexa_slab_regular.otf");
+}
+@font-face{
+	font-family: "Nexa Slab";
+	src: url("./corefonts/nexaslab/nexa_slab_bold.otf");
+	font-weight: bold;
+}
+
+body {
+	font-family: "Nexa";
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-family: "Nexa Slab";
+}
+

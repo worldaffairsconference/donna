@@ -19,7 +19,6 @@ export default class AddStudent extends Component {
 			panel5: false,
 			panel6: false,
 			numPanelChoosen: 0,
-			readyToSubmit: true,
 			showForm: false,
 			addedAlert: false,
 		};
@@ -194,7 +193,7 @@ export default class AddStudent extends Component {
 										        <option>11</option>
 										        <option>12</option>
 										      </Input>
-													{this.state.grade == ''
+													{this.state.grade == '' || this.state.grade == 'Please Select Grade'
 													? <Badge color="danger">Please select a grade</Badge>
 													: null
 													}
@@ -258,10 +257,10 @@ export default class AddStudent extends Component {
 			 									 </FormGroup>
 											 </Col>
 										 </Row>
-										 {this.state.readyToSubmit
-										 ? <center><button type="submit" className="btn btn-primary" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button></center>
-										 : <center><button type="submit" className="btn btn-primary" disabled>Add Student</button></center>
-									 	}
+										 {this.state.name == '' || this.state.grade == '' || this.state.numPanelChoosen != 4
+										 ? <center><button type="submit" className="btn btn-primary" disabled>Add Student</button></center>
+										 : <center><button type="submit" className="btn btn-primary" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button></center>
+									 	 }
 										 <br />
 									</Form>
 							</Container>

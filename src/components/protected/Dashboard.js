@@ -11,7 +11,7 @@ export default class Dashboard extends Component {
     var myStudentDataKey = [];
     var myStudentDataArr = [];
 
-    firebase.database().ref('users/' + userId + '/students/').once('value', function(snapshot) {
+    firebase.database().ref('users/' + userId + '/students/').on('value', function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key;
         myStudentDataKey.push(childKey);
@@ -68,7 +68,7 @@ export default class Dashboard extends Component {
               <th>Actions</th>
             </tr>
           </thead>
-          <StudentRow studentData={this.state.studentDataSet} />
+          <StudentRow studentData={this.state.myStudentDataArr} />
         </Table>
       </Container>
     )

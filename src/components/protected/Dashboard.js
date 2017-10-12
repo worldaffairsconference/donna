@@ -10,7 +10,7 @@ export default class Dashboard extends Component {
     var userId = firebase.auth().currentUser.uid;
     var myStudentDataKey = [];
     var myStudentDataArr = [];
-    
+
     firebase.database().ref('users/' + userId + '/students/').once('value', function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key;
@@ -21,8 +21,8 @@ export default class Dashboard extends Component {
     });
 
     this.state = {
-      studentDataSet: [{name: "Simon", grade:"11",panel:[1,2,3,4], accessability: "tired"},
-      {name: "Nick", grade:"11",panel:[2,3,4,5], accessability: "sleepy"}],
+      studentDataSet: [{name: "Simon", grade:"11",panel1: true, panel2: false, panel3: true, panel4: true, panel5: true, panel6: false, accessability: "tired"},
+      {name: "Nick", grade:"11",panel1: false, panel2: true, panel3: true, panel4: true, panel5: true, panel6: false, accessability: "sleepy"}],
       payment: null,
       myStudentDataKey: myStudentDataKey,
       myStudentDataArr: myStudentDataArr
@@ -62,6 +62,8 @@ export default class Dashboard extends Component {
               <th>Panel 2</th>
               <th>Panel 3</th>
               <th>Panel 4</th>
+              <th>Panel 5</th>
+              <th>Panel 6</th>
               <th>Accessability</th>
               <th>Actions</th>
             </tr>

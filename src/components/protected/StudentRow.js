@@ -7,10 +7,66 @@ export function StudentRow(props) {
       <tr>
         <td>{student.name}</td>
         <td>{student.grade}</td>
-        <td>{student.panel[0]}</td>
-        <td>{student.panel[1]}</td>
-        <td>{student.panel[2]}</td>
-        <td>{student.panel[3]}</td>
+        {student.panel1
+          ? <td>
+            <FontAwesome
+              name='check'
+              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+            />
+            </td>
+          : <td>{' '}
+            </td>
+        }
+        {student.panel2
+          ? <td>
+            <FontAwesome
+              name='check'
+              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+            />
+            </td>
+          : <td>{' '}
+            </td>
+        }
+        {student.panel3
+          ? <td>
+            <FontAwesome
+              name='check'
+              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+            />
+            </td>
+          : <td>{' '}
+            </td>
+        }
+        {student.panel4
+          ? <td>
+            <FontAwesome
+              name='check'
+              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+            />
+            </td>
+          : <td>{' '}
+            </td>
+        }
+        {student.panel5
+          ? <td>
+            <FontAwesome
+              name='check'
+              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+            />
+            </td>
+          : <td>{' '}
+            </td>
+        }
+        {student.panel6
+          ? <td>
+            <FontAwesome
+              name='check'
+              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+            />
+            </td>
+          : <td>{' '}
+            </td>
+        }
         <td>{student.accessability}</td>
         <td>
           <FontAwesome
@@ -19,7 +75,7 @@ export function StudentRow(props) {
           />
           <FontAwesome
             name='trash'
-            style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+            style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' , color: '#FF0000'}}
           />
         </td>
       </tr>

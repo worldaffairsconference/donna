@@ -21,8 +21,6 @@ export default class Dashboard extends Component {
     });
 
     this.state = {
-      studentDataSet: [{name: "Simon", grade:"11",panel1: true, panel2: false, panel3: true, panel4: true, panel5: true, panel6: false, accessability: "tired"},
-      {name: "Nick", grade:"11",panel1: false, panel2: true, panel3: true, panel4: true, panel5: true, panel6: false, accessability: "sleepy"}],
       payment: null,
       myStudentDataKey: myStudentDataKey,
       myStudentDataArr: myStudentDataArr

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { logout } from '../helpers/auth'
+import { logout, deleteUserData, deleteAccount } from '../helpers/auth'
 
 export default class DropDown extends Component {
 	constructor(props){
@@ -25,13 +25,23 @@ export default class DropDown extends Component {
         </DropdownToggle>
         <DropdownMenu>
           {this.props.auth ?
-        		<a style={{border: 'none', background: 'transparent'}}
-        			onClick={() => {
-                logout()
-							}}
-							className="dropdown-item">
-							Logout
-						</a>
+						<div>
+							<a style={{border: 'none', background: 'transparent'}}
+	        			onClick={() => {
+	                logout()
+								}}
+								className="dropdown-item">
+								Logout
+							</a>
+							<a style={{border: 'none', background: 'transparent'}}
+	        			onClick={() => {
+									deleteUserData()
+	                deleteAccount()
+								}}
+								className="dropdown-item">
+								Delete Account
+							</a>
+						</div>
 						: <span>
 							 <DropdownItem href="/login">Login</DropdownItem>
 							 <DropdownItem href="/register">Register</DropdownItem>

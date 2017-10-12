@@ -20,6 +20,18 @@ export function logout () {
   return firebaseAuth().signOut()
 }
 
+export function deleteUserData() {
+  console.log(firebaseAuth().currentUser.uid);
+  return ref.child(`users/${firebaseAuth().currentUser.uid}`).remove();
+}
+
+export function deleteAccount () {
+  return firebaseAuth().currentUser.delete().then(function() {
+  // User deleted.
+  });
+}
+
+
 export function login (email, pw) {
   return firebaseAuth().signInWithEmailAndPassword(email, pw)
 }

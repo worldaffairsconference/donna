@@ -66,7 +66,7 @@ export default class Dashboard extends Component {
               <th>Actions</th>
             </tr>
           </thead>
-          <StudentRow studentData={this.state.myStudentDataArr} />
+          <StudentRow studentData={this.state.myStudentDataArr} studentKey={this.state.myStudentDataKey} />
         </Table>
       </Container>
     )

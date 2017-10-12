@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { hashHistory } from 'react-router-dom'
-import { Card, Row, Col, Form, Container, FormGroup, Label, Input, Button, Alert } from "reactstrap";
+import { Card, Badge, Row, Col, Form, Container, FormGroup, Label, Input, Button, Alert } from "reactstrap";
 import firebase from "firebase";
 import FontAwesome from 'react-fontawesome';
 
@@ -18,7 +18,8 @@ export default class AddStudent extends Component {
 			panel4: false,
 			panel5: false,
 			panel6: false,
-			panel: [],
+			numPanelChoosen: 0,
+			readyToSubmit: true,
 			showForm: false,
 			addedAlert: false,
 		};
@@ -62,31 +63,61 @@ export default class AddStudent extends Component {
   }
 
 	handleChangePanel1(event) {
+	 if (this.state.panel1){
+		 this.state.numPanelChoosen -= 1;
+	 } else {
+		 this.state.numPanelChoosen += 1;
+	 }
    this.setState({
      panel1: !this.state.panel1,
    });
   }
 	handleChangePanel2(event) {
+	 if (this.state.panel2){
+ 		 this.state.numPanelChoosen -= 1;
+ 	 } else {
+ 		 this.state.numPanelChoosen += 1;
+ 	 }
    this.setState({
      panel2: !this.state.panel2,
    });
   }
 	handleChangePanel3(event) {
+		if (this.state.panel3){
+  		 this.state.numPanelChoosen -= 1;
+  	 } else {
+  		 this.state.numPanelChoosen += 1;
+  	 }
    this.setState({
      panel3: !this.state.panel3,
    });
   }
 	handleChangePanel4(event) {
+		if (this.state.panel4){
+  		 this.state.numPanelChoosen -= 1;
+  	 } else {
+  		 this.state.numPanelChoosen += 1;
+  	 }
    this.setState({
      panel4: !this.state.panel4,
    });
   }
 	handleChangePanel5(event) {
+		if (this.state.panel5){
+  		 this.state.numPanelChoosen -= 1;
+  	 } else {
+  		 this.state.numPanelChoosen += 1;
+  	 }
    this.setState({
      panel5: !this.state.panel5,
    });
   }
 	handleChangePanel6(event) {
+		if (this.state.panel6){
+  		 this.state.numPanelChoosen -= 1;
+  	 } else {
+  		 this.state.numPanelChoosen += 1;
+  	 }
    this.setState({
      panel6: !this.state.panel6,
    });
@@ -176,6 +207,11 @@ export default class AddStudent extends Component {
 														 	Test
 													 </Label>
 												 </FormGroup> */}
+												{this.state.numPanelChoosen == 4
+												? null
+												: <Badge color="danger">Please select four plenaries.</Badge>
+												}
+												<br />
 												<FormGroup check onChange={this.handleChangePanel1}>
 													 <Label check>
 														 <Input type="checkbox" />{' '}
@@ -214,7 +250,10 @@ export default class AddStudent extends Component {
 			 									 </FormGroup>
 											 </Col>
 										 </Row>
-										 <center><button type="submit" className="btn btn-primary" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button></center>
+										 {this.state.readyToSubmit
+										 ? <center><button type="submit" className="btn btn-primary" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button></center>
+										 : <center><button type="submit" className="btn btn-primary" disabled>Add Student</button></center>
+									 	}
 										 <br />
 									</Form>
 							</Container>

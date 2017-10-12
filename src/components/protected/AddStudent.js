@@ -179,6 +179,10 @@ export default class AddStudent extends Component {
 												<FormGroup onChange={this.handleChangeName}>
 								          <Label for="studentName">Name</Label>
 								          <Input type="text" name="name" id="studentName" placeholder="Student Name" />
+													{this.state.name == ''
+													? <Badge color="danger">Please enter a student Name</Badge>
+													: null
+													}
 								        </FormGroup>
 												<FormGroup onChange={this.handleChangeGrade}>
 										      <Label for="exampleSelect">Grade</Label>
@@ -190,6 +194,10 @@ export default class AddStudent extends Component {
 										        <option>11</option>
 										        <option>12</option>
 										      </Input>
+													{this.state.grade == ''
+													? <Badge color="danger">Please select a grade</Badge>
+													: null
+													}
 										    </FormGroup>
 												<FormGroup onChange={this.handleChangeAccessability}>
 								          <Label for="accessability">Accessability Issues</Label>

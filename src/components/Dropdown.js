@@ -16,29 +16,29 @@ export default class DropDown extends Component {
 			dropdownOpen: !this.state.dropdownOpen
 		})
 	}
-
+// style={{border: 'none', background: 'transparent'}}
 	render() {
 		return (
-			<UncontrolledDropdown tag="a" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+			<UncontrolledDropdown tag="a" className="fonted" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle caret>
           Account
         </DropdownToggle>
         <DropdownMenu>
           {this.props.auth ?
 						<div>
-							<a style={{border: 'none', background: 'transparent'}}
-	        			onClick={() => {
-	                logout()
-								}}
-								className="dropdown-item">
+
+							<a onClick={() => {
+	                			logout()
+							}}
+							className="dropdown-item">
 								Logout
 							</a>
-							<a style={{border: 'none', background: 'transparent'}}
-	        			onClick={() => {
-									deleteUserData()
-	                deleteAccount()
-								}}
-								className="dropdown-item">
+
+							<a onClick={() => {
+								deleteUserData()
+	                			deleteAccount()
+							}}
+							className="dropdown-item">
 								Delete Account
 							</a>
 						</div>

@@ -3,6 +3,7 @@ import { Table, Alert, Container, Row, Col } from 'reactstrap';
 import { StudentRow } from  './StudentRow'
 import firebase from 'firebase'
 import AddStudent from './AddStudent'
+import { Plenaries } from "../../config/config.json"
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -26,8 +27,8 @@ export default class Dashboard extends Component {
       myStudentDataArr: myStudentDataArr
     }
 
-    console.log(this.state.myStudentDataKey);
-    console.log(this.state.myStudentDataArr);
+    // console.log(this.state.myStudentDataKey);
+    // console.log(this.state.myStudentDataArr);
 
     firebase.database().ref('users/' + userId + '/info/').once('value', (snapshot) => this.setState({
       payment: snapshot.val().payment,
@@ -56,12 +57,12 @@ export default class Dashboard extends Component {
             <tr>
               <th>Name</th>
               <th>Grade</th>
-              <th>Panel 1</th>
-              <th>Panel 2</th>
-              <th>Panel 3</th>
-              <th>Panel 4</th>
-              <th>Panel 5</th>
-              <th>Panel 6</th>
+              <th>{Plenaries[0]}</th>
+              <th>{Plenaries[1]}</th>
+              <th>{Plenaries[2]}</th>
+              <th>{Plenaries[3]}</th>
+              <th>{Plenaries[4]}</th>
+              <th>{Plenaries[5]}</th>
               <th>Accessability</th>
               <th>Actions</th>
             </tr>

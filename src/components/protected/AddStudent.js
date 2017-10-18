@@ -178,7 +178,7 @@ export default class AddStudent extends Component {
 												<FormGroup onChange={this.handleChangeName}>
 								          <Label for="studentName">Name</Label>
 								          <Input type="text" name="name" id="studentName" placeholder="Student Name" />
-													{this.state.name == ''
+													{this.state.name === ''
 													? <Badge color="danger">Please enter a student Name</Badge>
 													: null
 													}
@@ -193,7 +193,7 @@ export default class AddStudent extends Component {
 										        <option>11</option>
 										        <option>12</option>
 										      </Input>
-													{this.state.grade == '' || this.state.grade == 'Please Select Grade'
+													{this.state.grade === '' || this.state.grade === 'Please Select Grade'
 													? <Badge color="danger">Please select a grade</Badge>
 													: null
 													}
@@ -214,7 +214,7 @@ export default class AddStudent extends Component {
 														 	Test
 													 </Label>
 												 </FormGroup> */}
-												{this.state.numPanelChoosen == 4
+												{this.state.numPanelChoosen === 4
 												? null
 												: <Badge color="danger">Please select four plenaries.</Badge>
 												}
@@ -257,7 +257,7 @@ export default class AddStudent extends Component {
 			 									 </FormGroup>
 											 </Col>
 										 </Row>
-										 {this.state.name == '' || this.state.grade == '' || this.state.numPanelChoosen != 4
+										 {this.state.name === '' || this.state.grade === '' || this.state.numPanelChoosen != 4
 										 ? <center><button type="submit" className="btn btn-primary" disabled>Add Student</button></center>
 										 : <center><button type="submit" className="btn btn-primary" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button></center>
 									 	 }
@@ -275,7 +275,7 @@ export default class AddStudent extends Component {
 					 <br />
 					 {this.state.addedAlert
 						 ?  <Alert color="success">
-									 <center>{this.state.name} has been registered</center>
+									 <center>{this.state.name} has been registered. <a onClick={location.reload()}>Reload</a> to see changes</center>
 								</Alert>
 						 : null
 					  }

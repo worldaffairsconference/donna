@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import FontAwesome from 'react-fontawesome'
+import {Year} from '../config/config.json'
 
 const ulStyle = {
 	'list-style-type': 'none',
@@ -18,7 +19,7 @@ export default class Home extends Component {
       <div className="container">
       	<br/>
         <div className="jumbotron">
-        	<h1 className="display-5">Welcome to WAC!</h1>
+        	<h1 className="display-5">Welcome to WAC {Year}!</h1>
         	<p className="lead">This is the registration site. Please log in to register students. If you're not registered, <a href="/register">sign up</a>.</p>
         	<hr className="my-4" />
 	        <p className="lead">

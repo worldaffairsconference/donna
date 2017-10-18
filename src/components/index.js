@@ -9,6 +9,7 @@ import { logout } from '../helpers/auth'
 import { firebaseAuth } from '../config/constants'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import Logo from './img/wac_logo_full.png'
+import {Year} from "../config/config.json"
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
@@ -64,13 +65,13 @@ export default class App extends Component {
             <NavbarBrand href="/"><img src={Logo} alt="World Affairs Conference" height="25%" width="25%"/></NavbarBrand>
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
+                <Dropdown auth={this.state.authed}/>
                 <NavItem>
-                  <NavLink href="/">Home</NavLink>
+                  <NavLink href="/">WAC {Year}</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink href="/dashboard">Dashboard</NavLink>
                 </NavItem>
-                <Dropdown auth={this.state.authed}/>
               </Nav>
             </Collapse>
           </Navbar>

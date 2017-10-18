@@ -19,9 +19,9 @@ export default class DropDown extends Component {
 // style={{border: 'none', background: 'transparent'}}
 	render() {
 		return (
-			<UncontrolledDropdown tag="a" className="fonted" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
-          Account
+			<UncontrolledDropdown tag="a" className="fonted dropdown-menu-right" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+        <DropdownToggle caret className="fonted">
+        Account
         </DropdownToggle>
         <DropdownMenu>
           {this.props.auth ?

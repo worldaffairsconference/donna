@@ -7,97 +7,98 @@ export function StudentRow(props) {
 
       function deleteStudent(key){
         ref.child(`users/${firebaseAuth().currentUser.uid}/students/${key}`).remove();
+
       };
-
+      let key
+      const action = props.studentKey
       const studentInfo = props.studentData.map((student) =>
-      <tr>
-        <td>{student.name}</td>
-        <td>{student.grade}</td>
-        {student.panel1
-          ? <td>
-            <FontAwesome
-              name='check'
-              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
-            />
-            </td>
-          : <td>{' '}
-            </td>
-        }
-        {student.panel2
-          ? <td>
-            <FontAwesome
-              name='check'
-              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
-            />
-            </td>
-          : <td>{' '}
-            </td>
-        }
-        {student.panel3
-          ? <td>
-            <FontAwesome
-              name='check'
-              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
-            />
-            </td>
-          : <td>{' '}
-            </td>
-        }
-        {student.panel4
-          ? <td>
-            <FontAwesome
-              name='check'
-              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
-            />
-            </td>
-          : <td>{' '}
-            </td>
-        }
-        {student.panel5
-          ? <td>
-            <FontAwesome
-              name='check'
-              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
-            />
-            </td>
-          : <td>{' '}
-            </td>
-        }
-        {student.panel6
-          ? <td>
-            <FontAwesome
-              name='check'
-              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
-            />
-            </td>
-          : <td>{' '}
-            </td>
-        }
-        <td>{student.accessability}</td>
-      </tr>
-     );
 
-     const studentAction = props.studentKey.map((key) =>
-     <tr>
-       <td>
-         <FontAwesome
-           name='edit'
-           style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 25px 0px 0px' }}
-         />
-         <a onClick={() => {
-           deleteStudent(key);
-         }}><FontAwesome
-           name='trash'
-           style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' , color: '#FF0000'}}
-         /></a>
-       </td>
-     </tr>
-    );
+        <tr>
+          <td>{student.name}</td>
+          <td>{student.grade}</td>
+          {student.panel1
+            ? <td>
+              <FontAwesome
+                name='check'
+                style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+              />
+              </td>
+            : <td>{' '}
+              </td>
+          }
+          {student.panel2
+            ? <td>
+              <FontAwesome
+                name='check'
+                style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+              />
+              </td>
+            : <td>{' '}
+              </td>
+          }
+          {student.panel3
+            ? <td>
+              <FontAwesome
+                name='check'
+                style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+              />
+              </td>
+            : <td>{' '}
+              </td>
+          }
+          {student.panel4
+            ? <td>
+              <FontAwesome
+                name='check'
+                style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+              />
+              </td>
+            : <td>{' '}
+              </td>
+          }
+          {student.panel5
+            ? <td>
+              <FontAwesome
+                name='check'
+                style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+              />
+              </td>
+            : <td>{' '}
+              </td>
+          }
+          {student.panel6
+            ? <td>
+              <FontAwesome
+                name='check'
+                style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#008000', padding: '0px 20px 0px 20px' }}
+              />
+              </td>
+            : <td>{' '}
+              </td>
+          }
+          <td>{student.accessability}</td>
+          {console.log(key)}
+          <td>
+            <FontAwesome
+              name='edit'
+              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 25px 0px 0px' }}
+            />
+            <a onClick={() => {
+              key = props.studentData.indexOf(student)
+              deleteStudent(action[key]);
+              location.reload()
+            }}><FontAwesome
+              name='trash'
+              style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' , color: '#FF0000'}}
+            /></a>
+          </td>
+        </tr>
+       );
+
 
     return (
       <tbody>
           {studentInfo}
-          {studentAction}
      </tbody>
     );
 }

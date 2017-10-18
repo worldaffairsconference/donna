@@ -265,7 +265,7 @@ export default class AddStudent extends Component {
 									</Form>
 							</Container>
 						</Card>
-						: <div><Button color="success" onClick={this.handleShowCard}>
+						: <div><Button color="success" onClick={this.handleShowCard} className="fonted">
 							<FontAwesome
 		            name='plus'
 		            style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 10px 0px 0px' }}

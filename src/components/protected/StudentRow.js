@@ -18,8 +18,8 @@ export function StudentRow(props) {
       };
       let key
       const action = props.studentKey
+      console.log(props.studentData.length)
       const studentInfo = props.studentData.map((student) =>
-
         <tr>
           <td>{student.name}</td>
           <td>{student.grade}</td>
@@ -90,7 +90,6 @@ export function StudentRow(props) {
               name='edit'
               style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 25px 0px 0px' }}
             />
-<<<<<<< HEAD
             <a onClick={() => {
               key = props.studentData.indexOf(student)
               deleteStudent(action[key]);
@@ -102,31 +101,10 @@ export function StudentRow(props) {
           </td>
         </tr>
        );
-=======
-            </td>
-          : <td>{' '}
-            </td>
-        }
-        <td>{student.accessibility}</td>
-      </tr>
-     );
->>>>>>> 9946c3de34ab333bb3563cca43d2148f786b9f7c
-
 
     return (
-      <Table>
       <tbody>
-<<<<<<< HEAD
           {studentInfo}
      </tbody>
-=======
-        {studentInfo}
-        {studentAction}
-      </tbody>
-      {/* {showEdit
-      ? <EditStudent />
-      : null} */}
-      </Table>
->>>>>>> 9946c3de34ab333bb3563cca43d2148f786b9f7c
     );
 }

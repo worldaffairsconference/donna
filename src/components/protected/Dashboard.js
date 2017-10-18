@@ -38,7 +38,7 @@ export default class Dashboard extends Component {
     return (
       <Container>
         <br/>
-    		<h2>Dashboard</h2>
+    		<h2 className="fonted-h">Dashboard</h2>
     		<br/>
         {this.state.payment
             ?  <Alert color="success">

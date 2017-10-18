@@ -258,8 +258,8 @@ export default class AddStudent extends Component {
 											 </Col>
 										 </Row>
 										 {this.state.name === '' || this.state.grade === '' || this.state.numPanelChoosen != 4
-										 ? <center><button type="submit" className="btn btn-primary" disabled>Add Student</button></center>
-										 : <center><button type="submit" className="btn btn-primary" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button></center>
+										 ? <center><button type="submit" className="btn btn-primary fonted" disabled>Add Student</button></center>
+										 : <center><button type="submit" className="btn btn-primary fonted" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button></center>
 									 	 }
 										 <br />
 									</Form>

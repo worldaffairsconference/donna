@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import { Table } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
-import { ref, firebaseAuth } from '../../config/constants'
+import { ref, firebaseAuth } from '../../config/constants';
+import EditStudent from './EditStudent';
 
 export function StudentRow(props) {
+
+      var showEdit = true;
+
+      // this.state = {
+      //   showEdit: true,
+      // }
 
       function deleteStudent(key){
         ref.child(`users/${firebaseAuth().currentUser.uid}/students/${key}`).remove();
@@ -83,6 +90,7 @@ export function StudentRow(props) {
               name='edit'
               style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 25px 0px 0px' }}
             />
+<<<<<<< HEAD
             <a onClick={() => {
               key = props.studentData.indexOf(student)
               deleteStudent(action[key]);
@@ -94,11 +102,31 @@ export function StudentRow(props) {
           </td>
         </tr>
        );
+=======
+            </td>
+          : <td>{' '}
+            </td>
+        }
+        <td>{student.accessibility}</td>
+      </tr>
+     );
+>>>>>>> 9946c3de34ab333bb3563cca43d2148f786b9f7c
 
 
     return (
+      <Table>
       <tbody>
+<<<<<<< HEAD
           {studentInfo}
      </tbody>
+=======
+        {studentInfo}
+        {studentAction}
+      </tbody>
+      {/* {showEdit
+      ? <EditStudent />
+      : null} */}
+      </Table>
+>>>>>>> 9946c3de34ab333bb3563cca43d2148f786b9f7c
     );
 }

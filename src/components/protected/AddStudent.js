@@ -10,7 +10,7 @@ export default class AddStudent extends Component {
 		this.state = {
 			name: '',
 			grade: '',
-			accessability: '',
+			accessibility: '',
 			school: '',
 			panel1: false,
 			panel2: false,
@@ -30,7 +30,7 @@ export default class AddStudent extends Component {
 
 		this.handleChangeName = this.handleChangeName.bind(this);
 		this.handleChangeGrade = this.handleChangeGrade.bind(this);
-		this.handleChangeAccessability = this.handleChangeAccessability.bind(this);
+		this.handleChangeAccessibility = this.handleChangeAccessibility.bind(this);
 		this.handleChangePanel1 = this.handleChangePanel1.bind(this);
 		this.handleChangePanel2 = this.handleChangePanel2.bind(this);
 		this.handleChangePanel3 = this.handleChangePanel3.bind(this);
@@ -55,9 +55,9 @@ export default class AddStudent extends Component {
    });
   }
 
-	handleChangeAccessability(event) {
+	handleChangeAccessibility(event) {
    this.setState({
-     accessability: event.target.value,
+     accessibility: event.target.value,
    });
   }
 
@@ -133,7 +133,7 @@ export default class AddStudent extends Component {
 			 this.state.name,
 			 this.state.school,
 			 this.state.grade,
-			 this.state.accessability,
+			 this.state.accessibility,
 			 this.state.panel1,
 			 this.state.panel2,
 			 this.state.panel3,
@@ -147,13 +147,13 @@ export default class AddStudent extends Component {
      });
    }
 
-	 writeStudentData(name, school, grade, accessability, panel1, panel2, panel3, panel4, panel5, panel6) {
+	 writeStudentData(name, school, grade, accessibility, panel1, panel2, panel3, panel4, panel5, panel6) {
 		 var userId = firebase.auth().currentUser.uid;
      firebase.database().ref('users/' + userId + '/students/').push({
 			 name: name,
 			 school: school,
 			 grade: grade,
-			 accessability: accessability,
+			 accessibility: accessibility,
 			 panel1: panel1,
 			 panel2: panel2,
 			 panel3: panel3,
@@ -198,9 +198,9 @@ export default class AddStudent extends Component {
 													: null
 													}
 										    </FormGroup>
-												<FormGroup onChange={this.handleChangeAccessability}>
-								          <Label for="accessability">Accessability Issues</Label>
-								          <Input type="text" name="name" id="accessability" placeholder="If so, please describe." />
+												<FormGroup onChange={this.handleChangeAccessibility}>
+								          <Label for="accessibility">Accessibility Issues</Label>
+								          <Input type="text" name="name" id="accessibility" placeholder="If so, please describe." />
 								        </FormGroup>
 											</Col>
 											{/* {this.state.panel} */}

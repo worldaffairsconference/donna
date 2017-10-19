@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'reactstrap';
+import { Table, Button, Popover, PopoverHeader, PopoverBody  } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import { ref, firebaseAuth } from '../../config/constants';
 import EditStudent from './EditStudent';

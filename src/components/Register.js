@@ -42,7 +42,7 @@ export default class Register extends Component {
           <button type="submit" className="btn btn-primary">Register</button>
         </form>
         <br/>
-        <p>If you're already registered. <a href="/register">Sign in</a>.</p>
+        <p>If you're already registered. <a href="/login">Log in</a>.</p>
       </div>
     )
   }

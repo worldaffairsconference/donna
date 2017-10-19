@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { logout, deleteUserData, deleteAccount } from '../helpers/auth'
 
 export default class DropDown extends Component {
@@ -35,8 +35,8 @@ export default class DropDown extends Component {
 							</a>
 
 							<a onClick={() => {
-								deleteUserData()
-	                			deleteAccount()
+								// deleteUserData()
+	              // deleteAccount()
 							}}
 							className="dropdown-item">
 								Delete Account

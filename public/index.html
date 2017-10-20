@@ -7,43 +7,24 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="./favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-    <link rel="stylesheet" type="text/css" href="footer.css">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>World Affairs Conference</title>
   </head>
   <body>
     <link rel="stylesheet" type="text/css" href="font-family.css">
 
+    <!-- REACT PLACE -->
     <div id="root"></div>
-    <br>
-    <footer class="footer">
-      <div class="container" style="padding-top: 1rem;" >
-        <div style="display:block;width: 100vw; background-color: background-color: #f5f5f5;">
-        <p class="text-muted">
-          World Affairs Conference
-          <ul style="list-style-type: none;" class="text-muted">
-            <li class="footer-list"><a href="htts://world.ac">World.ac</a></li>
+    <!-- REACT PLACE -->
 
-            <li class="footer-list"><a href="https://www.facebook.com/worldaffairsconference/">Facebook</a></li>
-            <li class="footer-list"><a href="https://twitter.com/worldaffairscon">Twitter</a></li>
-            <li class="footer-list"><a href="https://www.instagram.com/worldaffairscon/">Instagram</a></li><br><br>
-            <p style="padding-left: 7px;">Made with <i class="fa fa-code"></i> and <i class="fa fa-heart"></i> by the <a href="https://github.com/worldaffairsconference">World Affairs Conference</a> registration team</p>
-          </ul>
-        </p>
-      </div>
-      </div>
-    </footer>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+</script>
   </body>
 </html>

@@ -3,6 +3,24 @@
 @font-face{font-family: "Nexa Slab";src: url("./corefonts/nexaslab/nexa_slab_regular.otf");}
 @font-face{font-family: "Nexa Slab";src: url("./corefonts/nexaslab/nexa_slab_bold.otf");font-weight: bold;}
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 156px;
+}
+
+
+
 body, .fonted {
 	font-family: "Nexa";
 }

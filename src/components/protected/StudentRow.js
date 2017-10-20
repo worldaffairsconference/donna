@@ -84,14 +84,13 @@ export function StudentRow(props) {
               </td>
           }
           <td>{student.accessability}</td>
-          {console.log(key)}
           <td>
             {// <FontAwesome
             //   name='edit'
             //   style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 25px 0px 0px' }}
             // />
           }
-            <a onClick={() => {
+            <a data-toggle="tooltip" title="Click to delete student" onClick={() => {
               key = props.studentData.indexOf(student)
               deleteStudent(action[key]);
               location.reload()

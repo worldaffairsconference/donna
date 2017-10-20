@@ -5,6 +5,7 @@ import firebase from 'firebase'
 import AddStudent from './AddStudent'
 import { Plenaries } from "../../config/config.json"
 
+
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -69,8 +70,9 @@ export default class Dashboard extends Component {
           </thead>
           <StudentRow studentData={this.state.myStudentDataArr} studentKey={this.state.myStudentDataKey} />
         </Table>
-
+        <br/><br/><br/>
       </Container>
+
     )
   }
 }

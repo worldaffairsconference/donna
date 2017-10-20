@@ -5,6 +5,7 @@ import Register from './Register'
 import Home from './Home'
 import Dashboard from './protected/Dashboard'
 import Dropdown from './Dropdown'
+import Footer from './Footer'
 import { logout } from '../helpers/auth'
 import { firebaseAuth } from '../config/constants'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
@@ -34,9 +35,10 @@ function PublicRoute ({component: Component, authed, ...rest}) {
 }
 
 export default class App extends Component {
+
   state = {
     authed: false,
-    loading: true,
+    loading: true
   }
   componentDidMount () {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
@@ -56,6 +58,8 @@ export default class App extends Component {
   componentWillUnmount () {
     this.removeListener()
   }
+
+
   render() {
     return this.state.loading === true ? <p>Loading</p> : (
       <BrowserRouter>
@@ -87,7 +91,9 @@ export default class App extends Component {
               </Switch>
             </div>
           </div>
+          <Footer/>
         </div>
+
       </BrowserRouter>
     );
   }

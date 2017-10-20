@@ -1,1 +1,1 @@
-./scripts/setup.sh && ./scripts/config.py
+./scripts/setup.sh

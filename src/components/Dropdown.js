@@ -1,20 +1,27 @@
 import React, {Component} from 'react';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import { Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { logout, deleteUserData, deleteAccount } from '../helpers/auth'
 
 export default class DropDown extends Component {
 	constructor(props){
 		super(props);
 
-		this.toggle = this.toggle.bind(this)
+		this.toggleModal = this.toggleModal.bind(this)
+		this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this)
+
 		this.state = {
-			dropdownOpen: false
+		  modal: false
 		};
 	}
-	toggle() {
+	toggleModal() {
 		this.setState({
-			dropdownOpen: !this.state.dropdownOpen
+			modal: !this.state.modal
 		})
+	}
+
+	proceedDeleteAccount() {
+		deleteUserData();
+		deleteAccount();
 	}
 // style={{border: 'none', background: 'transparent'}}
 	render() {
@@ -28,19 +35,25 @@ export default class DropDown extends Component {
 						<div>
 
 							<a onClick={() => {
-	                			logout()
+          			 logout()
 							}}
 							className="dropdown-item">
 								Logout
 							</a>
 
-							<a onClick={() => {
-								// deleteUserData()
-	              // deleteAccount()
-							}}
-							className="dropdown-item">
-								Delete Account
-							</a>
+							<a onClick = {this.toggleModal} className="dropdown-item">Delete Account
+				        <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+				          <ModalHeader toggle={this.toggleModal}>Delete Account</ModalHeader>
+				          <ModalBody>
+				            Your information and registered students will be deleted from our database. Are your sure to proceed?
+				          </ModalBody>
+				          <ModalFooter>
+				            <Button color="danger" onClick={this.proceedDeleteAccount}>Delete</Button>{' '}
+				            <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+				          </ModalFooter>
+				        </Modal>
+				      </a>
+
 						</div>
 						: <span>
 							 <DropdownItem href="/login">Login</DropdownItem>

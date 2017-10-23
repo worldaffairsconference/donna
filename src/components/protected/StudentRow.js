@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Table, Button, Popover, PopoverHeader, PopoverBody  } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import { ref, firebaseAuth } from '../../config/constants';
-import EditStudent from './EditStudent';
 
 export function StudentRow(props) {
 
@@ -85,11 +84,6 @@ export function StudentRow(props) {
           }
           <td>{student.accessability}</td>
           <td>
-            {// <FontAwesome
-            //   name='edit'
-            //   style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 25px 0px 0px' }}
-            // />
-          }
             <a data-toggle="tooltip" title="Click to delete student" onClick={() => {
               key = props.studentData.indexOf(student)
               deleteStudent(action[key]);

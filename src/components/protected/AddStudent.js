@@ -3,6 +3,7 @@ import { hashHistory } from 'react-router-dom'
 import { Card, Badge, Row, Col, Form, Container, FormGroup, Label, Input, Button, Alert } from "reactstrap";
 import firebase from "firebase";
 import FontAwesome from 'react-fontawesome';
+import { Plenaries } from "../../config/config.json"
 
 export default class AddStudent extends Component {
 	 constructor(props) {
@@ -222,37 +223,37 @@ export default class AddStudent extends Component {
 												<FormGroup check onChange={this.handleChangePanel1}>
 													 <Label check>
 														 <Input type="checkbox" />{' '}
-														 	Panel 1
+														 	{Plenaries[0]}
 													 </Label>
 												 </FormGroup>
 												 <FormGroup check onChange={this.handleChangePanel2}>
 			 										 <Label check>
 			 											 <Input type="checkbox" />{' '}
-			 											 	Panel 2
+			 											 	{Plenaries[1]}
 			 										 </Label>
 			 									 </FormGroup>
 												 <FormGroup check onChange={this.handleChangePanel3}>
 			 										 <Label check>
 			 											 <Input type="checkbox" />{' '}
-			 											 	Panel 3
+			 											 	{Plenaries[2]}
 			 										 </Label>
 			 									 </FormGroup>
 												 <FormGroup check onChange={this.handleChangePanel4}>
 			 										 <Label check>
 			 											 <Input type="checkbox" />{' '}
-			 											 	Panel 4
+			 											 	{Plenaries[3]}
 			 										 </Label>
 			 									 </FormGroup>
 												 <FormGroup check onChange={this.handleChangePanel5}>
 			 										 <Label check>
 			 											 <Input type="checkbox" />{' '}
-			 											 	Panel 5
+			 											 	{Plenaries[4]}
 			 										 </Label>
 			 									 </FormGroup>
 												 <FormGroup check onChange={this.handleChangePanel6}>
 			 										 <Label check>
 			 											 <Input type="checkbox" />{' '}
-			 											 	Panel 6
+			 											 	{Plenaries[5]}
 			 										 </Label>
 			 									 </FormGroup>
 											 </Col>

@@ -188,6 +188,7 @@ export default class AddStudent extends Component {
 										      <Label for="exampleSelect">Grade</Label>
 										      <Input type="select" name="select">
 														<option>Please Select Grade</option>
+														<option>7</option>
 										        <option>8</option>
 										        <option>9</option>
 										        <option>10</option>

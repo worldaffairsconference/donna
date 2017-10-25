@@ -35,10 +35,14 @@ function PublicRoute ({component: Component, authed, ...rest}) {
 }
 
 export default class App extends Component {
-
-  state = {
-    authed: false,
-    loading: true
+  constructor(props){
+    super(props)
+    this.toggle = this.toggle.bind(this)
+    this.state = {
+      authed: false,
+      loading: true,
+      isOpen: false
+    }
   }
   componentDidMount () {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
@@ -58,15 +62,20 @@ export default class App extends Component {
   componentWillUnmount () {
     this.removeListener()
   }
-
+  toggle(){
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
+  }
 
   render() {
     return this.state.loading === true ? <p>Loading</p> : (
       <BrowserRouter>
         <div>
-          <Navbar color="faded" light toggleable>
-            <NavbarToggler right onClick={this.toggle} />
+          <Navbar color="faded" light toggleable expand="md">
             <NavbarBrand href="/"><img src={Logo} alt="World Affairs Conference" height="25%" width="25%"/></NavbarBrand>
+            <NavbarToggler right onClick={this.toggle} />
+
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <Dropdown auth={this.state.authed}/>

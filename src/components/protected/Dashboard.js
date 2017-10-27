@@ -29,7 +29,7 @@ export default class Dashboard extends Component {
     }
 
     // console.log(this.state.myStudentDataKey);
-    // console.log(this.state.myStudentDataArr);
+    console.log(this.state.myStudentDataArr);
 
     firebase.database().ref('users/' + userId + '/info/').once('value', (snapshot) => this.setState({
       payment: snapshot.val().payment,

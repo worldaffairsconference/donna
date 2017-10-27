@@ -7,17 +7,12 @@ export function StudentRow(props) {
 
       var showEdit = true;
 
-      // this.state = {
-      //   showEdit: true,
-      // }
-
       function deleteStudent(key){
         ref.child(`users/${firebaseAuth().currentUser.uid}/students/${key}`).remove();
 
       };
       let key
       const action = props.studentKey
-      console.log(props.studentData.length)
       const studentInfo = props.studentData.map((student) =>
         <tr>
           <td>{student.name}</td>
@@ -82,7 +77,7 @@ export function StudentRow(props) {
             : <td>{' '}
               </td>
           }
-          <td>{student.accessability}</td>
+          <td>{student.accessibility}</td>
           <td>
             <a data-toggle="tooltip" title="Click to delete student" onClick={() => {
               key = props.studentData.indexOf(student)

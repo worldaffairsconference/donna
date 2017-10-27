@@ -5,18 +5,16 @@
 
 html {
   position: relative;
-  min-height: 100%;
+  height: 100%;
+  width: 100vw;
 }
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 156px;
 }
 
 
@@ -27,4 +25,13 @@ body, .fonted {
 
 .fonted-h {
 	font-family: "Nexa Slab";
+}
+
+#table {
+  max-width: 100vw;
+  overflow-x: scroll;
+}
+
+#alert {
+  max-width: 100vw;
 }

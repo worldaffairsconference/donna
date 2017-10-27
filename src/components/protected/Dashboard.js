@@ -42,10 +42,10 @@ export default class Dashboard extends Component {
     		<h2 className="fonted-h">Dashboard</h2>
     		<br/>
         {this.state.payment
-            ?  <Alert color="success">
+            ?  <Alert color="success" id="alert">
                   <center>You have submitted your payment.</center>
                 </Alert>
-            : <Alert color="danger">
+            : <Alert color="danger" id="alert">
                 <center>Please submit payment.</center>
               </Alert>
           }
@@ -53,6 +53,7 @@ export default class Dashboard extends Component {
     		<h3>My Students</h3>
         <AddStudent />
         <br />
+        <div id="table">
         <Table>
           <thead>
             <tr>
@@ -70,7 +71,7 @@ export default class Dashboard extends Component {
           </thead>
           <StudentRow studentData={this.state.myStudentDataArr} studentKey={this.state.myStudentDataKey} />
         </Table>
-
+        </div>
         <br/><br/><br/><br/><br/>
       </Container>
 

@@ -48,11 +48,11 @@ export default class Dashboard extends Component {
               <h2>Payment Status: <br /><Badge color="danger">Not Received</Badge></h2>
               </Col>
               <Col xs="8">
-                <h2>Payment Instruction:</h2>
-                <h5>The ticket price for the World Affairs Conference 2018 is $50 per student.
+                <h3>Payment Instruction:</h3>
+                <p>The ticket price for the World Affairs Conference 2018 is $45 per student before Jan 9th, 2018, $50 per student after Jan 9th, 2018.
                 <br />Financial Aids are available upon requests.
-                <br />Please send a cheque to Upper Canada College, by Dec 2018.
-                <br /><a href="mailto:wac@ucc.on.ca">Contact Us</a> if you have any question.</h5>
+                <br />Please send a cheque by Dec 2018 to Mr. Gregory McDonald, Upper Canada College, 200 Lonsdale Rd, Toronto, ON M4V 1W6.
+                <br /><a href="mailto:wac@ucc.on.ca">Contact Us</a> if you have any question.</p>
               </Col>
               </Row>
           }

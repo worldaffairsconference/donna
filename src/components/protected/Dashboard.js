@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Badge, Table, Alert, Container, Row, Col } from 'reactstrap';
+import { Badge, Table, Container, Row, Col } from 'reactstrap';
 import { StudentRow } from  './StudentRow'
 import firebase from 'firebase'
 import AddStudent from './AddStudent'
@@ -50,8 +50,8 @@ export default class Dashboard extends Component {
               <Col xs="8">
                 <h3>Payment Instruction:</h3>
                 <p>The ticket price for the World Affairs Conference 2018 is $45 per student before Jan 9th, 2018, $50 per student after Jan 9th, 2018.
-                <br />Financial Aids are available upon requests.
-                <br />Please send a cheque by Dec 2018 to Mr. Gregory McDonald, Upper Canada College, 200 Lonsdale Rd, Toronto, ON M4V 1W6.
+                <br />Financial Aid is available upon requests.
+                <br />Please send a cheque to Mr. Gregory McDonald, Upper Canada College, 200 Lonsdale Rd, Toronto, ON M4V 1W6.
                 <br /><a href="mailto:wac@ucc.on.ca">Contact Us</a> if you have any question.</p>
               </Col>
               </Row>

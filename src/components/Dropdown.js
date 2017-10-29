@@ -41,7 +41,7 @@ export default class DropDown extends Component {
 								Logout
 							</a>
 
-							<a onClick = {this.toggleModal} className="dropdown-item">Delete Account
+							<a onClick={this.toggleModal} className="dropdown-item">Delete Account
 				        <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
 				          <ModalHeader toggle={this.toggleModal}>Delete Account</ModalHeader>
 				          <ModalBody>

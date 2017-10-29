@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
-import { Table, Button, Popover, PopoverHeader, PopoverBody  } from 'reactstrap';
+import React from 'react'
+import { Button } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import { ref, firebaseAuth } from '../../config/constants';
 
 export function StudentRow(props) {
-
-      var showEdit = true;
 
       function deleteStudent(key){
         ref.child(`users/${firebaseAuth().currentUser.uid}/students/${key}`).remove();

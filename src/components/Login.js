@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { login, resetPassword } from '../helpers/auth'
-import { Button } from 'reactstrap'
 
 function setErrorMsg(error) {
   return {

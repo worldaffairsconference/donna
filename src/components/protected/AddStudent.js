@@ -64,9 +64,13 @@ export default class AddStudent extends Component {
 
 	handleChangePanel1(event) {
 	 if (this.state.panel1){
-		 this.state.numPanelChoosen -= 1;
+		 this.setState({
+			 numPanelChoosen: this.state.numPanelChoosen -= 1,
+		 });
 	 } else {
-		 this.state.numPanelChoosen += 1;
+		 this.setState({
+			 numPanelChoosen: this.state.numPanelChoosen += 1,
+		 });
 	 }
    this.setState({
      panel1: !this.state.panel1,
@@ -74,9 +78,13 @@ export default class AddStudent extends Component {
   }
 	handleChangePanel2(event) {
 	 if (this.state.panel2){
- 		 this.state.numPanelChoosen -= 1;
+		 this.setState({
+			 numPanelChoosen: this.state.numPanelChoosen -= 1,
+		 });
  	 } else {
- 		 this.state.numPanelChoosen += 1;
+		 this.setState({
+			 numPanelChoosen: this.state.numPanelChoosen += 1,
+		 });
  	 }
    this.setState({
      panel2: !this.state.panel2,
@@ -84,9 +92,13 @@ export default class AddStudent extends Component {
   }
 	handleChangePanel3(event) {
 		if (this.state.panel3){
-  		 this.state.numPanelChoosen -= 1;
+			this.setState({
+				numPanelChoosen: this.state.numPanelChoosen -= 1,
+			});
   	 } else {
-  		 this.state.numPanelChoosen += 1;
+			 this.setState({
+		     numPanelChoosen: this.state.numPanelChoosen += 1,
+		   });
   	 }
    this.setState({
      panel3: !this.state.panel3,
@@ -94,9 +106,13 @@ export default class AddStudent extends Component {
   }
 	handleChangePanel4(event) {
 		if (this.state.panel4){
-  		 this.state.numPanelChoosen -= 1;
+			this.setState({
+				numPanelChoosen: this.state.numPanelChoosen -= 1,
+			});
   	 } else {
-  		 this.state.numPanelChoosen += 1;
+			 this.setState({
+		     numPanelChoosen: this.state.numPanelChoosen += 1,
+		   });
   	 }
    this.setState({
      panel4: !this.state.panel4,
@@ -104,9 +120,13 @@ export default class AddStudent extends Component {
   }
 	handleChangePanel5(event) {
 		if (this.state.panel5){
-  		 this.state.numPanelChoosen -= 1;
+			this.setState({
+				numPanelChoosen: this.state.numPanelChoosen -= 1,
+			});
   	 } else {
-  		 this.state.numPanelChoosen += 1;
+			 this.setState({
+		     numPanelChoosen: this.state.numPanelChoosen += 1,
+		   });
   	 }
    this.setState({
      panel5: !this.state.panel5,
@@ -114,9 +134,13 @@ export default class AddStudent extends Component {
   }
 	handleChangePanel6(event) {
 		if (this.state.panel6){
-  		 this.state.numPanelChoosen -= 1;
+			this.setState({
+				numPanelChoosen: this.state.numPanelChoosen -= 1,
+			});
   	 } else {
-  		 this.state.numPanelChoosen += 1;
+			 this.setState({
+		     numPanelChoosen: this.state.numPanelChoosen += 1,
+		   });
   	 }
    this.setState({
      panel6: !this.state.panel6,
@@ -259,7 +283,7 @@ export default class AddStudent extends Component {
 			 									 </FormGroup>
 											 </Col>
 										 </Row>
-										 {this.state.name === '' || this.state.grade === '' || this.state.numPanelChoosen != 4
+										 {this.state.name === '' || this.state.grade === '' || this.state.numPanelChoosen !== 4
 										 ? <center><button type="submit" className="btn btn-primary fonted" disabled>Add Student</button></center>
 										 : <center><button type="submit" className="btn btn-primary fonted" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button></center>
 									 	 }

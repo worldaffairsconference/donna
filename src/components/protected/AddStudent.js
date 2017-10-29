@@ -64,13 +64,13 @@ export default class AddStudent extends Component {
 
 	handleChangePanel1(event) {
 	 if (this.state.panel1){
-		 this.setState({
-			 numPanelChoosen: this.state.numPanelChoosen -= 1,
-		 });
+		 this.setState((prevState, props) => ({
+			 numPanelChoosen: prevState.numPanelChoosen - 1
+		 }));
 	 } else {
-		 this.setState({
-			 numPanelChoosen: this.state.numPanelChoosen += 1,
-		 });
+		 this.setState((prevState, props) => ({
+			 numPanelChoosen: prevState.numPanelChoosen + 1
+		 }));
 	 }
    this.setState({
      panel1: !this.state.panel1,
@@ -78,13 +78,13 @@ export default class AddStudent extends Component {
   }
 	handleChangePanel2(event) {
 	 if (this.state.panel2){
-		 this.setState({
-			 numPanelChoosen: this.state.numPanelChoosen -= 1,
-		 });
+		 this.setState((prevState, props) => ({
+			 numPanelChoosen: prevState.numPanelChoosen - 1
+		 }));
  	 } else {
-		 this.setState({
-			 numPanelChoosen: this.state.numPanelChoosen += 1,
-		 });
+		 this.setState((prevState, props) => ({
+			 numPanelChoosen: prevState.numPanelChoosen + 1
+		 }));
  	 }
    this.setState({
      panel2: !this.state.panel2,
@@ -92,13 +92,13 @@ export default class AddStudent extends Component {
   }
 	handleChangePanel3(event) {
 		if (this.state.panel3){
-			this.setState({
-				numPanelChoosen: this.state.numPanelChoosen -= 1,
-			});
+			this.setState((prevState, props) => ({
+ 			 numPanelChoosen: prevState.numPanelChoosen - 1
+ 		 	}));
   	 } else {
-			 this.setState({
-		     numPanelChoosen: this.state.numPanelChoosen += 1,
-		   });
+			 this.setState((prevState, props) => ({
+  			 numPanelChoosen: prevState.numPanelChoosen + 1
+  		 }));
   	 }
    this.setState({
      panel3: !this.state.panel3,
@@ -106,13 +106,13 @@ export default class AddStudent extends Component {
   }
 	handleChangePanel4(event) {
 		if (this.state.panel4){
-			this.setState({
-				numPanelChoosen: this.state.numPanelChoosen -= 1,
-			});
+			this.setState((prevState, props) => ({
+ 			 numPanelChoosen: prevState.numPanelChoosen - 1
+ 		 	}));
   	 } else {
-			 this.setState({
-		     numPanelChoosen: this.state.numPanelChoosen += 1,
-		   });
+			 this.setState((prevState, props) => ({
+  			 numPanelChoosen: prevState.numPanelChoosen + 1
+  		 }));
   	 }
    this.setState({
      panel4: !this.state.panel4,
@@ -120,13 +120,13 @@ export default class AddStudent extends Component {
   }
 	handleChangePanel5(event) {
 		if (this.state.panel5){
-			this.setState({
-				numPanelChoosen: this.state.numPanelChoosen -= 1,
-			});
+			this.setState((prevState, props) => ({
+ 			 numPanelChoosen: prevState.numPanelChoosen - 1
+ 		 	}));
   	 } else {
-			 this.setState({
-		     numPanelChoosen: this.state.numPanelChoosen += 1,
-		   });
+			 this.setState((prevState, props) => ({
+  			 numPanelChoosen: prevState.numPanelChoosen + 1
+  		 }));
   	 }
    this.setState({
      panel5: !this.state.panel5,
@@ -134,13 +134,13 @@ export default class AddStudent extends Component {
   }
 	handleChangePanel6(event) {
 		if (this.state.panel6){
-			this.setState({
-				numPanelChoosen: this.state.numPanelChoosen -= 1,
-			});
+			this.setState((prevState, props) => ({
+ 			 numPanelChoosen: prevState.numPanelChoosen - 1
+ 		 	}));
   	 } else {
-			 this.setState({
-		     numPanelChoosen: this.state.numPanelChoosen += 1,
-		   });
+			 this.setState((prevState, props) => ({
+  			 numPanelChoosen: prevState.numPanelChoosen + 1
+  		 }));
   	 }
    this.setState({
      panel6: !this.state.panel6,

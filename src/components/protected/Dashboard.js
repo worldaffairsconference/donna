@@ -3,7 +3,7 @@ import { Badge, Table, Container, Row, Col } from 'reactstrap';
 import { StudentRow } from  './StudentRow'
 import firebase from 'firebase'
 import AddStudent from './AddStudent'
-import { Plenaries } from "../../config/config.json"
+import { Plenaries, Year, EarlyBirdDueDate } from "../../config/config.json"
 
 
 export default class Dashboard extends Component {
@@ -49,7 +49,7 @@ export default class Dashboard extends Component {
                 </Col>
                 <Col md="8" sm="12" xs="12">
                   <h3>We have received your payment.
-                  <br />See you at WAC 2018!</h3>
+                  <br />See you at WAC {Year}!</h3>
                 </Col>
               </Row>
             : <Row>
@@ -59,7 +59,7 @@ export default class Dashboard extends Component {
                 </Col>
                 <Col md="8" sm="12" xs="12">
                   <h3>Payment Instruction:</h3>
-                  <p>The ticket price for the World Affairs Conference 2018 is $45 per student before Jan 9th, 2018, $50 per student after Jan 9th, 2018.
+                  <p>The ticket price for the World Affairs Conference {Year} is $45 per student before {EarlyBirdDueDate}, $50 per student after {EarlyBirdDueDate}.
                   <br />Financial Aid is available upon requests.
                   <br />Please send a cheque to Mr. Gregory McDonald, Upper Canada College, 200 Lonsdale Rd, Toronto, ON M4V 1W6.
                   <br /><a href="mailto:wac@ucc.on.ca">Contact Us</a> if you have any question.</p>
@@ -68,6 +68,7 @@ export default class Dashboard extends Component {
           }
         <br/>
     		<h2>My Students</h2>
+        <p>If you need to register more than 50 students, please <a href="mailto:wac@ucc.on.ca">contact us</a> directly</p>
         <AddStudent />
         <br />
         <div id="table">

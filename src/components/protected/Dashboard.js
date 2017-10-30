@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Badge, Table, Container, Row, Col } from 'reactstrap';
+import { Button, Badge, Table, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { StudentRow } from  './StudentRow'
 import firebase from 'firebase'
 import AddStudent from './AddStudent'
 import { Plenaries, Year, EarlyBirdDueDate } from "../../config/config.json"
+import { deleteUserData, deleteAccount } from '../../helpers/auth'
 
 
 export default class Dashboard extends Component {
@@ -22,10 +23,14 @@ export default class Dashboard extends Component {
       });
     });
 
+    this.toggleModal = this.toggleModal.bind(this)
+		this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this)
+
     this.state = {
       payment: null,
       myStudentDataKey: myStudentDataKey,
-      myStudentDataArr: myStudentDataArr
+      myStudentDataArr: myStudentDataArr,
+      modal: false
     }
 
     // console.log(this.state.myStudentDataKey);
@@ -35,11 +40,39 @@ export default class Dashboard extends Component {
       payment: snapshot.val().payment,
     }));
   }
+  toggleModal() {
+		this.setState({
+			modal: !this.state.modal
+		})
+	}
+
+	proceedDeleteAccount() {
+		deleteUserData();
+		deleteAccount();
+	}
+
   render () {
     return (
       <Container>
         <br/>
-    		<h2 className="fonted-h">Teacher Dashboard</h2>
+        <Row>
+          <Col md="10" sm="12" xs="12">
+            <h1 className="fonted-h">Teacher Dashboard</h1>
+          </Col>
+          <Col md="2" sm="12" xs="12">
+            <Button color="danger" className="fonted" onClick={this.toggleModal}>Delete Account</Button>
+            <Modal isOpen={this.state.modal} toggle={this.toggleModal} className="modal-dialog">
+              <ModalHeader toggle={this.toggleModal}>Delete Account</ModalHeader>
+              <ModalBody>
+                Your information and registered students will be deleted from our database. Are your sure to proceed?
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" onClick={this.proceedDeleteAccount}>Delete</Button>{' '}
+                <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
+          </Col>
+        </Row>
     		<br/>
         {this.state.payment
             ? <Row>

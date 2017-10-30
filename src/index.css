@@ -3,3 +3,8 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.modal-dialog {
+   position: absolute;
+   top: 30%;
+}

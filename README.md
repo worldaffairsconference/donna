@@ -2,7 +2,11 @@
 
 *Using React, Firebase, reactstrap*
 
+More documentation coming soon.
+
 #### Getting Started:
+
+We're using Node version 8.4 - pick it up from the Node website or use nvm.
 
 Run the following commands:
 

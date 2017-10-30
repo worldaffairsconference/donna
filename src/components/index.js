@@ -4,12 +4,13 @@ import Login from './Login'
 import Register from './Register'
 import Home from './Home'
 import Dashboard from './protected/Dashboard'
-import Dropdown from './Dropdown'
 import Footer from './Footer'
 import { firebaseAuth } from '../config/constants'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import Logo from './img/wac_logo_full.png'
-import {Year} from "../config/config.json"
+import { Year } from "../config/config.json"
+import { logout } from '../helpers/auth'
+
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
@@ -77,13 +78,20 @@ export default class App extends Component {
 
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
-                <Dropdown auth={this.state.authed}/>
                 <NavItem>
                   <NavLink href="/">WAC {Year}</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink href="/dashboard">Dashboard</NavLink>
                 </NavItem>
+                {this.state.authed
+                  ?<NavItem>
+                    <NavLink onClick={() => {logout()}} >Log Out</NavLink>
+                   </NavItem>
+                  :<NavItem>
+                    <NavLink href="/login">Log In</NavLink>
+                   </NavItem>
+                }
               </Nav>
             </Collapse>
           </Navbar>

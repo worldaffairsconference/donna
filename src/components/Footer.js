@@ -37,12 +37,7 @@ export default class Footer extends Component {
 				            </a>{' '}
 				          </p>
 				          <p>
-				            Made by the 
-				            <a href="http://github.com/worldaffairsconference">WAC team</a>
-										 with
-				            <FontAwesome name="code"/>
-				             and
-				            <FontAwesome name="heart" style={redHeart}/>
+				            Made by the <a href="http://github.com/worldaffairsconference">WAC team</a> with <FontAwesome name="code"/> and <FontAwesome name="heart" style={redHeart}/>
 				          </p>
 				        </div>
 				      </center>

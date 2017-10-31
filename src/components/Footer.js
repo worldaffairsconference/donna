@@ -21,19 +21,19 @@ export default class Footer extends Component {
 				          <h4>World Affairs Conference</h4>
 				          <p>
 				            <a href="http://world.ac">
-											<FontAwesome name="link" className="fa-2x"/>
+											<FontAwesome name="link" className="fa-2x black-icon"/>
 										</a>{' '}
 				            <a href="http://instagram.com/worldaffairscon">
-				              <FontAwesome name="instagram" className="fa-2x"/>
+				              <FontAwesome name="instagram" className="fa-2x black-icon"/>
 				            </a>{' '}
 				            <a href="http://facebook.com/worldaffairsconference">
-				              <FontAwesome name="facebook" className="fa-2x"/>
+				              <FontAwesome name="facebook" className="fa-2x black-icon"/>
 				            </a>{' '}
 				            <a href="http://twitter.com/worldaffairscon">
-				              <FontAwesome name="twitter" className="fa-2x"/>
+				              <FontAwesome name="twitter" className="fa-2x black-icon"/>
 				            </a>{' '}
 				            <a href="http://github.com/worldaffairsconference">
-				              <FontAwesome name="github" className="fa-2x"/>
+				              <FontAwesome name="github" className="fa-2x black-icon"/>
 				            </a>{' '}
 				          </p>
 				          <p>

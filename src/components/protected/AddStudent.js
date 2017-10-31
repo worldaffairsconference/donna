@@ -225,8 +225,8 @@ export default class AddStudent extends Component {
 													}
 										    </FormGroup>
 												<FormGroup onChange={this.handleChangeAccessibility}>
-								          <Label for="accessibility">Accessibility Issues</Label>
-								          <Input type="text" name="name" id="accessibility" placeholder="If so, please describe." />
+								          <Label for="accessibility">Accessibility/Dietary Restrictions/Other Notes</Label>
+								          <Input type="text" name="name" id="accessibility" placeholder="This input is optional." />
 								        </FormGroup>
 											</Col>
 											{/* {this.state.panel} */}
@@ -294,7 +294,7 @@ export default class AddStudent extends Component {
 						: <div>
 							<Button color="success" onClick={this.handleShowCard} className="fonted">
 								<FontAwesome name='plus' style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 10px 0px 0px' }}/>
-								Add new student
+								Click To Add a Student
 							</Button>{' '}
 						</div>
 					 }

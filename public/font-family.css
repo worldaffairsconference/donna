@@ -35,3 +35,13 @@ body, .fonted {
 #alert {
   max-width: 100vw;
 }
+
+.black-icon{
+	color: black;
+}
+a.black-icon:hover{
+	color: black;
+}
+a.black-icon:visited{
+	color:black;
+}

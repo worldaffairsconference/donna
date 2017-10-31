@@ -18,8 +18,11 @@ export default class Home extends Component {
       <div className="container">
       	<br/>
         <div className="jumbotron">
-        	<h1 className="display-5 fonted-h">Welcome to WAC {Year}!</h1>
-        	<p className="lead">This is the registration site. Please log in to register students. If you're not registered, <a href="/register">sign up</a>.</p>
+        	<h1 className="display-5 fonted-h">WAC Online Registration</h1>
+        	<p className="lead">Welcome to the WAC {Year} online registration system, where faculty advisers can manage their attending delegation. To get started, <a href="/register">sign up</a>.</p>
+					<p className="lead">
+						Have any questions? <a href="mailto:wac@ucc.on.ca">Get in touch.</a>
+					</p>
         	<hr className="my-4" />
 	        <p className="lead">
 	        	<ul style={ulStyle}>

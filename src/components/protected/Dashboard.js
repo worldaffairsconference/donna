@@ -75,31 +75,21 @@ export default class Dashboard extends Component {
         </Row>
     		<br/>
         {this.state.payment
-            ? <Row>
-                <Col md="4" sm="12" xs="12">
-                <h2>Payment Status: <br /><Badge color="success">Received</Badge></h2>
-                <br />
-                </Col>
-                <Col md="8" sm="12" xs="12">
-                  <h3>We have received your payment.
-                  <br />See you at WAC {Year}!</h3>
-                </Col>
-              </Row>
-            : <Row>
-                <Col md="4" sm="12" xs="12">
-                <h2>Payment Status: <br /><Badge color="danger">Not Received</Badge></h2>
-                <br />
-                </Col>
-                <Col md="8" sm="12" xs="12">
-                  <h3>Payment Instructions:</h3>
-                  <p>The ticket prices for the World Affairs Conference {Year} is $45 per student before {EarlyBirdDueDate}, and $50 per student after {EarlyBirdDueDate}.
-                  <br />Financial aid is available upon request - please <a href="mailto:wac@ucc.on.ca">contact us</a> if that is the case.
-                  <br />Please send a cheque to Mr. Gregory McDonald, Upper Canada College, 200 Lonsdale Rd, Toronto, ON M4V 1W6 by the respective registration due dates along with your online registration.
-                  <br /><a href="mailto:wac@ucc.on.ca">Contact Us</a> if you have any question.</p>
-                </Col>
-              </Row>
-          }
-        <br/>
+          ? <div>
+              <h2>Payment Status: <br /><Badge color="success">Received</Badge></h2>
+            </div>
+          : <div>
+              <h2>Payment Status: <br /><Badge color="danger">Not Received</Badge></h2>
+            </div>
+        }
+        <hr />
+        <h3>Payment Instructions:</h3>
+        <p>The ticket prices for the World Affairs Conference {Year} is $45 per student before {EarlyBirdDueDate}, and $50 per student after {EarlyBirdDueDate}.
+        <br />Financial aid is available upon request - please <a href="mailto:wac@ucc.on.ca">contact us</a> if that is the case.
+        <br />Please send a cheque to Mr. Gregory McDonald, Upper Canada College, 200 Lonsdale Rd, Toronto, ON M4V 1W6 by the respective registration due dates along with your online registration.
+        <br /><a href="mailto:wac@ucc.on.ca">Contact Us</a> if you have any question.</p>
+        <hr />
+        <br />
     		<h2>My Students</h2>
         <p>If you need to register more than 50 students, please <a href="mailto:wac@ucc.on.ca">contact us</a> directly.</p>
         <AddStudent />

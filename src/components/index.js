@@ -72,7 +72,7 @@ export default class App extends Component {
     return this.state.loading === true ? <p>Loading</p> : (
       <BrowserRouter>
         <div>
-          <Navbar color="faded" light toggleable expand="md">
+          <Navbar color="faded" light toggleable>
             <NavbarBrand href="/"><img src={Logo} alt="World Affairs Conference" height="25%" width="25%"/></NavbarBrand>
             <NavbarToggler right onClick={this.toggle} />
 

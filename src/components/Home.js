@@ -14,12 +14,10 @@ export default class Home extends Component {
 						Have any questions? <a href="mailto:wac@ucc.on.ca">Get in touch.</a>
 					</p>
         	<hr className="my-4" />
-	        <p className="lead">
 	        	<ul className="ulStyle">
 				    	<li className="liStyle"><a className="btn btn-primary btn-lg" href="/login" role="button">Log in</a></li>
 				    	<li className="liStyle"><a className="btn btn-primary btn-lg" href="/register" role="button">Register</a></li>
 				    </ul>
-				  </p>
         </div>
       </div>
     )

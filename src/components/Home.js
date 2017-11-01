@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Year} from '../config/config.json'
+import {Year, Links} from '../config/config.json'
 
 export default class Home extends Component {
 
@@ -11,7 +11,7 @@ export default class Home extends Component {
         	<h1 className="display-5 fonted-h">WAC Online Registration</h1>
         	<p className="lead">Welcome to the WAC {Year} online registration system, where faculty advisers can manage their attending delegation. To get started, <a href="/register">sign up</a>.</p>
 					<p className="lead">
-						Have any questions? <a href="mailto:wac@ucc.on.ca">Get in touch.</a>
+						Have any questions? <a href={Links['email']}>Get in touch.</a>
 					</p>
         	<hr className="my-4" />
 	        	<ul className="ulStyle">

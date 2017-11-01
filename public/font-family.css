@@ -45,3 +45,8 @@ a.black-icon:hover{
 a.black-icon:visited{
 	color:black;
 }
+
+.nav-image{
+	height: 30px;
+	width: auto;
+}

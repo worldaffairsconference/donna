@@ -73,7 +73,7 @@ export default class App extends Component {
       <BrowserRouter>
         <div>
           <Navbar color="faded" light toggleable>
-            <NavbarBrand href="/"><img src={Logo} alt="World Affairs Conference" height="25%" width="25%"/></NavbarBrand>
+            <NavbarBrand href="/"><img src={Logo} alt="World Affairs Conference Logo" className="nav-image"/></NavbarBrand>
             <NavbarToggler right onClick={this.toggle} />
 
             <Collapse isOpen={this.state.isOpen} navbar>

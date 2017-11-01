@@ -1,13 +1,22 @@
 {
 	"Plenaries": [
-		"China and Neocolonialism",
-		"What’s Best for Feminism",
+		"China and the World",
+		"Cryptocurrencies",
 		"Drug Legalization",
-		"Earth Overburdened – Providing Food",
-		"Weapons of Mass Destruction",
-		"Cryptocurrencies"
+		"Earth Overburdened",
+		"Future of Feminism",
+		"A Nuclear World"
 	],
 	"Year": "2018",
 	"Theme": "Paradigm Shifts",
-	"EarlyBirdDueDate" : "Jan 9th, 2018"
+	"EarlyBirdDueDate" : "Jan 9th, 2018",
+	"Links": {
+		"site": "https://world.ac",
+		"repo": "https://github.com/worldaffairsconference/donna",
+		"email": "mailto:wac@ucc.on.ca",
+		"facebook": "http://facebook.com/worldaffairsconference",
+		"github": "http://github.com/worldaffairsconference",
+		"instagram": "http://instagram.com/worldaffairscon",
+		"twitter": "http://twitter.com/worldaffairscon"
+	}
 }

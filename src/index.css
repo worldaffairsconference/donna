@@ -8,3 +8,14 @@ body {
    position: absolute;
    top: 30%;
 }
+
+
+.ulStyle {
+  list-style-type: none;
+  display: inline;
+}
+
+.liStyle {
+  display: inline;
+  padding-right: 1rem;
+}

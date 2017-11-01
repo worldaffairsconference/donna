@@ -26,9 +26,7 @@ export function deleteUserData() {
 }
 
 export function deleteAccount () {
-  return firebaseAuth().currentUser.delete().then(function() {
-  // User deleted.
-  });
+  return firebaseAuth().currentUser.delete();
 }
 
 

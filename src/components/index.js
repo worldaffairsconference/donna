@@ -8,7 +8,7 @@ import Footer from './Footer'
 import { firebaseAuth } from '../config/constants'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import Logo from './img/wac_logo_full.png'
-import { Year } from "../config/config.json"
+import { Year, Links } from "../config/config.json"
 import { logout } from '../helpers/auth'
 
 
@@ -79,7 +79,7 @@ export default class App extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="/">WAC {Year}</NavLink>
+                  <NavLink href={Links["site"]}>WAC {Year}</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink href="/dashboard">Dashboard</NavLink>

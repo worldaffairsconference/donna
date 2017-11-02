@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-echo "enter desired port"
+echo "Enter desired port"
 read USEPORT
 
 if [[ $USEPORT == '' ]]; then
@@ -9,3 +9,5 @@ if [[ $USEPORT == '' ]]; then
 fi
 
 echo "PORT=${USEPORT}" > .env
+echo '[done]'
+echo "Site will be served on port ${USEPORT}"

@@ -31,8 +31,6 @@ npm run setup
 npm start
 ```
 
-Change `XXXX` to your desired port. If you do not set a port the server will default to 3000
-
 When it asks for your Firebase API Key, paste that in. You'll need access to a valid Firebase Plan to run a local instance of this server.
 
 The server will output to `http://127.0.0.1` on the port that you set.

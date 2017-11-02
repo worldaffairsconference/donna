@@ -16,7 +16,7 @@
     "reactstrap": "^4.8.0"
   },
   "scripts": {
-    "setup": "./shell/setup.sh",
+    "setup": "./setup.sh",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

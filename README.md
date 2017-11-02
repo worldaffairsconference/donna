@@ -27,7 +27,8 @@ Run the following commands:
 
 ```bash
 npm run setup
-PORT=XXXX npm start
+./port # if you want to change the port
+npm start
 ```
 
 Change `XXXX` to your desired port. If you do not set a port the server will default to 3000

@@ -3,7 +3,7 @@ import { Button, Badge, Table, Container, Row, Col, Modal, ModalHeader, ModalBod
 import { StudentRow } from  './StudentRow'
 import firebase from 'firebase'
 import AddStudent from './AddStudent'
-import { Plenaries, Year, EarlyBirdDueDate, Links } from "../../config/config.json"
+import { Plenaries, Year, EarlyBirdDueDate, DueDate, Links } from "../../config/config.json"
 import { deleteUserData, deleteAccount } from '../../helpers/auth'
 
 
@@ -64,7 +64,7 @@ export default class Dashboard extends Component {
             <Modal isOpen={this.state.modal} toggle={this.toggleModal} className="modal-dialog">
               <ModalHeader toggle={this.toggleModal}>Delete Account</ModalHeader>
               <ModalBody>
-                Your information and registered students will be deleted from our database. Are your sure to proceed?
+                Your information and registered students will be deleted from our database. Do you want to proceed?
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" onClick={this.proceedDeleteAccount}>Delete</Button>{' '}
@@ -84,14 +84,20 @@ export default class Dashboard extends Component {
         }
         <hr />
         <h3>Payment Instructions:</h3>
-        <p>The ticket prices for the World Affairs Conference {Year} is $45 per student before {EarlyBirdDueDate}, and $50 per student after {EarlyBirdDueDate}.
-        <br />Financial aid is available upon request - please <a href={Links['email']}>contact us at wac@ucc.on.ca</a> if that is the case.
-        <br />Please send a cheque to Mr. Gregory McDonald, Upper Canada College, 200 Lonsdale Rd, Toronto, ON M4V 1W6 by the respective registration due dates along with your online registration.
-        <br /><a href={Links['email']}>Contact Us</a> if you have any question.</p>
+        <p>The ticket prices for the World Affairs Conference {Year} is $45 per student before {EarlyBirdDueDate}, and $50 per student after {EarlyBirdDueDate}. <b>Registration is due by {DueDate}.</b>
+        </p>
+        <p>
+        Financial aid is available upon request - please <a href={Links['email']}>email us at wac@ucc.on.ca</a> for more information.
+        </p>
+        <p>Please send a cheque to Mr. Gregory McDonald, Upper Canada College, 200 Lonsdale Rd, Toronto, ON M4V 1W6 by the respective registration due dates along with your online registration.
+        </p>
+        <p>
+        <a href={Links['contact']}>Contact us</a> if you have any questions.
+        </p>
         <hr />
         <br />
     		<h2>My Students</h2>
-        <p>If you need to register more than 50 students, please <a href={Links['email']}>contact us</a> directly.</p>
+        <p>If you need to register more than 50 students, please <a href={Links['contact']}>contact us</a> directly.</p>
         <AddStudent />
         <br />
         <div id="table">

@@ -11,6 +11,7 @@
 	"Theme": "Paradigm Shifts",
 	"EarlyBirdDueDate" : "Jan 9th, 2018",
 	"DueDate": "Jan 26th, 2018",
+	"RegOpen": false,
 	"Links": {
 		"site": "https://world.ac",
 		"contact": "https://world.ac/contact/",

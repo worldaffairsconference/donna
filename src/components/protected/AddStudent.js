@@ -3,7 +3,7 @@ import { hashHistory } from 'react-router-dom'
 import { Card, Badge, Row, Col, Form, Container, FormGroup, Label, Input, Button, Alert } from "reactstrap";
 import firebase from "firebase";
 import FontAwesome from 'react-fontawesome';
-import { Plenaries } from "../../config/config.json"
+import { Plenaries, RegOpen } from "../../config/config.json"
 
 export default class AddStudent extends Component {
 	 constructor(props) {
@@ -21,7 +21,7 @@ export default class AddStudent extends Component {
 			panel6: false,
 			numPanelChoosen: 0,
 			showForm: false,
-			addedAlert: false,
+			addedAlert: false
 		};
 
 		var userId = firebase.auth().currentUser.uid;
@@ -292,11 +292,17 @@ export default class AddStudent extends Component {
 							</Container>
 						</Card>
 						: <div>
-							<Button color="success" onClick={this.handleShowCard} className="fonted">
-								<FontAwesome name='plus' style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 10px 0px 0px' }}/>
-								Click To Add a Student
-							</Button>{' '}
-						</div>
+							{RegOpen
+								? <Button color="success" onClick={this.handleShowCard} className="fonted">
+										<FontAwesome name='plus' style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 10px 0px 0px' }}/>
+										Click To Add a Student
+									</Button>
+								: <Button disabled color="danger" className="fonted">
+										<FontAwesome name='exclamation' style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', padding: '0px 10px 0px 0px' }}/>
+										Registration is now closed
+									</Button>
+							}
+							</div>
 					 }
 					 <br />
 					 {this.state.addedAlert

@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import { ref, firebaseAuth } from '../../config/constants';
+import { RegOpen } from "../../config/config.json"
 
 export function StudentRow(props) {
 
@@ -77,15 +78,18 @@ export function StudentRow(props) {
           }
           <td>{student.accessibility}</td>
           <td>
-            <a data-toggle="tooltip" title="Click to delete student" onClick={() => {
+            {RegOpen
+            ? <a data-toggle="tooltip" title="Click to delete student" onClick={() => {
               key = props.studentData.indexOf(student)
               deleteStudent(action[key]);
-              location.reload()
+              location.reload();
             }}>
               <Button color="danger">
                 <FontAwesome name='trash' style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' , color: '#FFF'}}/>
               </Button>
             </a>
+            : null
+            }
           </td>
         </tr>
        );

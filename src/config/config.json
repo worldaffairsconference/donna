@@ -1,18 +1,18 @@
 {
 	"RegOpen": true,
 	"Plenaries": [
-		"China and the World",
-		"Cryptocurrencies",
-		"Drug Legalization",
-		"Earth Overburdened",
-		"Future of Feminism",
-		"A Nuclear World"
+		"Space vs Climate",
+		"Immigration       ",
+		"Education vs Entrepreneurship",
+		"Spread vs Satire",
+        "placeholder1",
+        "placeholder2"
 	],
-	"Year": "2018",
+	"Year": "2020",
 	"Theme": "Paradigm Shifts",
-	"EarlyBirdDueDate" : "Jan 9th, 2018",
-	"DueDate": "Jan 26th, 2018",
-	"RegOpen": false,
+	"EarlyBirdDueDate" : "Jan 9th, 2020",
+	"DueDate": "Jan 26th, 2020",
+	"RegOpen": true,
 	"Links": {
 		"site": "https://world.ac",
 		"contact": "https://world.ac/contact/",

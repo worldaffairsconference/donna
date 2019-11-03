@@ -110,6 +110,8 @@ export default class Dashboard extends Component {
               <th>{Plenaries[1]}</th>
               <th>{Plenaries[2]}</th>
               <th>{Plenaries[3]}</th>
+              <th>{Plenaries[4]}</th>
+              <th>{Plenaries[5]}</th>
               <th>Accessibility</th>
               <th>Actions</th>
             </tr>

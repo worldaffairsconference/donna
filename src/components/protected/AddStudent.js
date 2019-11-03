@@ -17,8 +17,8 @@ export default class AddStudent extends Component {
 			panel2: false,
 			panel3: false,
 			panel4: false,
-			//panel5: false,
-			//panel6: false,
+			panel5: false,
+			panel6: false,
 			numPanelChoosen: 0,
 			showForm: false,
 			addedAlert: false
@@ -36,8 +36,8 @@ export default class AddStudent extends Component {
 		this.handleChangePanel2 = this.handleChangePanel2.bind(this);
 		this.handleChangePanel3 = this.handleChangePanel3.bind(this);
 		this.handleChangePanel4 = this.handleChangePanel4.bind(this);
-		//this.handleChangePanel5 = this.handleChangePanel5.bind(this);
-		//this.handleChangePanel6 = this.handleChangePanel6.bind(this);
+		this.handleChangePanel5 = this.handleChangePanel5.bind(this);
+		this.handleChangePanel6 = this.handleChangePanel6.bind(this);
 		this.handleShowCard = this.handleShowCard.bind(this);
 
 		this.handleSubmitStudent = this.handleSubmitStudent.bind(this);
@@ -118,7 +118,7 @@ export default class AddStudent extends Component {
      panel4: !this.state.panel4,
    });
   }
-	/**handleChangePanel5(event) {
+	handleChangePanel5(event) {
 		if (this.state.panel5){
 			this.setState((prevState, props) => ({
  			 numPanelChoosen: prevState.numPanelChoosen - 1
@@ -145,7 +145,7 @@ export default class AddStudent extends Component {
    this.setState({
      panel6: !this.state.panel6,
    });
-  }**/
+  }
 	handleShowCard(event) {
 		this.setState({
       	showForm: true,
@@ -163,8 +163,8 @@ export default class AddStudent extends Component {
 			 this.state.panel2,
 			 this.state.panel3,
 			 this.state.panel4,
-			 //this.state.panel5,
-			 //this.state.panel6,
+			 this.state.panel5,
+			 this.state.panel6,
 		 );
 		 this.setState({
        showForm: false,
@@ -183,8 +183,8 @@ export default class AddStudent extends Component {
 			 panel2: panel2,
 			 panel3: panel3,
 			 panel4: panel4,
-			 //panel5: panel5,
-			 //panel6: panel6,
+			 panel5: panel5,
+			 panel6: panel6,
      });
    }
 
@@ -232,7 +232,7 @@ export default class AddStudent extends Component {
 											{/* {this.state.panel} */}
 											<Col>
 												<FormGroup check>
-													<Label>Choose plenaries (pick 2 of the 4) </Label>
+													<Label>Choose plenaries (pick 4 of the 6) </Label>
 								        </FormGroup>
 												{/* <FormGroup check>
 													 <Label check>
@@ -240,9 +240,9 @@ export default class AddStudent extends Component {
 														 	Test
 													 </Label>
 												 </FormGroup> */}
-												{this.state.numPanelChoosen === 2
+												{this.state.numPanelChoosen === 4
 												? null
-												: <Badge color="danger">Please select two plenaries.</Badge>
+												: <Badge color="danger">Please select four plenaries.</Badge>
 												}
 												<br />
 												<FormGroup check onChange={this.handleChangePanel1}>
@@ -269,9 +269,21 @@ export default class AddStudent extends Component {
 			 											 	{Plenaries[3]}
 			 										 </Label>
 			 									 </FormGroup>
+												 <FormGroup check onChange={this.handleChangePanel5}>
+			 										 <Label check>
+			 											 <Input type="checkbox" />{' '}
+			 											 	{Plenaries[4]}
+			 										 </Label>
+			 									 </FormGroup>
+												 <FormGroup check onChange={this.handleChangePanel6}>
+			 										 <Label check>
+			 											 <Input type="checkbox" />{' '}
+			 											 	{Plenaries[5]}
+			 										 </Label>
+			 									 </FormGroup>
 											 </Col>
 										 </Row>
-										 {this.state.name === '' || this.state.grade === '' || this.state.numPanelChoosen !== 2
+										 {this.state.name === '' || this.state.grade === '' || this.state.numPanelChoosen !== 4
 										 ? <center><button type="submit" className="btn btn-primary fonted" disabled>Add Student</button></center>
 										 : <center><button type="submit" className="btn btn-primary fonted" onClick={() => hashHistory.push(`/dashboard`)}>Add Student</button></center>
 									 	 }

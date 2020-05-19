@@ -19,6 +19,10 @@ Donna is named after Donna Paulsen, the omnipotent secretary from *Suits*.
 
 More documentation is coming soon - we plan to host it on our [documentation site (docs.world.ac)](https://docs.world.ac)
 
+## Live Production
+This system has been used for World Affairs Conference since 2018, handling registration from hundreds of conference attendees.
+You can check out the live deployed version of this system at [https://worldaffarisregistration.github.io/](https://worldaffarisregistration.github.io/).
+
 ## Getting Started:
 
 We're using Node version 8.4 - pick it up from the Node website or use nvm.

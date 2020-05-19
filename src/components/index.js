@@ -12,18 +12,18 @@ import { Year, Links } from "../config/config.json"
 import { logout } from '../helpers/auth'
 
 
-function PrivateRoute ({component: Component, authed, ...rest}) {
+function PrivateRoute({ component: Component, authed, ...rest }) {
   return (
     <Route
       {...rest}
       render={(props) => authed === true
         ? <Component {...props} />
-        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+        : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />}
     />
   )
 }
 
-function PublicRoute ({component: Component, authed, ...rest}) {
+function PublicRoute({ component: Component, authed, ...rest }) {
   return (
     <Route
       {...rest}
@@ -35,7 +35,7 @@ function PublicRoute ({component: Component, authed, ...rest}) {
 }
 
 export default class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.toggle = this.toggle.bind(this)
     this.state = {
@@ -44,7 +44,7 @@ export default class App extends Component {
       isOpen: false
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
@@ -59,10 +59,10 @@ export default class App extends Component {
       }
     })
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.removeListener()
   }
-  toggle(){
+  toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     })
@@ -73,7 +73,7 @@ export default class App extends Component {
       <BrowserRouter>
         <div>
           <Navbar color="faded" light toggleable>
-            <NavbarBrand href="/"><img src={Logo} alt="World Affairs Conference Logo" className="nav-image"/></NavbarBrand>
+            <NavbarBrand href="/"><img src={Logo} alt="World Affairs Conference Logo" className="nav-image" /></NavbarBrand>
             <NavbarToggler right onClick={this.toggle} />
 
             <Collapse isOpen={this.state.isOpen} navbar>
@@ -85,12 +85,12 @@ export default class App extends Component {
                   <NavLink href="/dashboard">Dashboard</NavLink>
                 </NavItem>
                 {this.state.authed
-                  ?<NavItem>
-                    <NavLink onClick={() => {logout()}} >Log Out</NavLink>
-                   </NavItem>
-                  :<NavItem>
+                  ? <NavItem>
+                    <NavLink onClick={() => { logout() }} >Log Out</NavLink>
+                  </NavItem>
+                  : <NavItem>
                     <NavLink href="/login">Log In</NavLink>
-                   </NavItem>
+                  </NavItem>
                 }
               </Nav>
             </Collapse>
@@ -107,7 +107,7 @@ export default class App extends Component {
               </Switch>
             </div>
           </div>
-          <Footer/>
+          <Footer />
         </div>
 
       </BrowserRouter>

@@ -14,7 +14,7 @@ export default class Register extends Component {
     auth(this.email.value, this.pw.value, this.school.value)
       .catch(e => this.setState(setErrorMsg(e)))
   }
-  render () {
+  render() {
     return (
       <div className="col-sm-6 col-sm-offset-3">
         <br />
@@ -22,7 +22,7 @@ export default class Register extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Email</label>
-            <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
+            <input className="form-control" ref={(email) => this.email = email} placeholder="Email" />
           </div>
           <div className="form-group">
             <label>Password</label>
@@ -42,7 +42,7 @@ export default class Register extends Component {
           }
           <button type="submit" className="btn btn-primary">Register</button>
         </form>
-        <br/>
+        <br />
         <p>If you're already registered, <a href="/login">log in</a>.</p>
       </div>
     )

@@ -13,15 +13,15 @@ export default class Login extends Component {
     e.preventDefault()
     login(this.email.value, this.pw.value)
       .catch((error) => {
-          this.setState(setErrorMsg('Invalid username/password.'))
-        })
+        this.setState(setErrorMsg('Invalid username/password.'))
+      })
   }
   resetPassword = () => {
     resetPassword(this.email.value)
       .then(() => this.setState(setErrorMsg(`Password reset email sent to ${this.email.value}.`)))
       .catch((error) => this.setState(setErrorMsg(`Email address not found.`)))
   }
-  render () {
+  render() {
     return (
       <div className="col-sm-6 col-sm-offset-3">
         <br />
@@ -29,7 +29,7 @@ export default class Login extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Email</label>
-            <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
+            <input className="form-control" ref={(email) => this.email = email} placeholder="Email" />
           </div>
           <div className="form-group">
             <label>Password</label>
@@ -44,9 +44,9 @@ export default class Login extends Component {
             </div>
           }
           {/* <Button onClick="submit" color="primary">Login</Button>{' '} */}
-          <button  className="btn btn-primary">Login</button>
+          <button className="btn btn-primary">Login</button>
         </form>
-        <br/>
+        <br />
         <p>If you're not registered, register <a href="/register">here</a>.</p>
       </div>
     )

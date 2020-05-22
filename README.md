@@ -65,9 +65,9 @@ The particular set up of this project allow module bundling with webpack, abstra
 
 **Design considerations**
 
-We use customized components to generate UI representing data response. For example, we add a `StudentRow` component for every student.
+We use customized components to generate UI representing data response. For example, we add a `StudentRow` component for every student, using data passed from parent component via `props`.
 
-We use internal states often for form data field validation. For example, see `AddStudent`.
+We use internal `states` often for form data field validation. For example, see `AddStudent`.
 
 We set up real-time listeners at references of the firebase database. Once there is an update on the data, we will re-render the portal. See `DashBoard`.
 
@@ -98,8 +98,38 @@ Donna was originally created by [Simon Guo](https://github.com/simonguozirui) an
 It is currently maintained by [Robert Knowles](https://github.com/rbrtknwls).
 
 ## TO-DO
+There are many part of this code that can be refactored into more functions and components.
+
+
+* Program logic fix
+  * Remove forced refresh when data is updated. 
+  * Move Firebase request to a async library function. Call it in `componentDidMount` rather than in constructor.
+  * Make sure all states are set up with initialed data and then updated using `setState`.
+  * Replace bind with arrow function/ES6 anonymous functions to ensure `this` keyword reference. 
 * Better modulization of components
-* Upgrade dependencies to newer versions, for example `hashHistory` --> `HashRouter`. 
-* ES-lint integration
-* Set up CI/CD, replacing ad-hoc manual testing with automatic testing
-* Manage API keys through `.env`
+  * Reduce redundancies of similar JSX elements in `render()` using `map` and `forEach`, identified through `prop`.
+  * Use `Redux` to contain states.
+* Upgrade React component & dependencies to newer versions.
+  * Upgrade router from `hashHistory` to `HashRouter`. 
+* Better program structure and folder organization.
+  * Common `Shared/` folder to add tests.
+  * Set up Component subfolder that is named by the main component it contains.
+* Automated Testing, Integration, Deployment
+  * Setup `ES-lint` and `Prettier`.
+  * Set up static test pipeline.
+    * Using `Jest` and `Enzyme` to mock a call to a function, returning static data that represents snapshot of supposed behavior.
+  * Set up proper CI pipeline.
+  * Set up CD in `Netlify` and manage API key credentials through `.env`.
+* UI/UX Improvements
+  * Accessibility tab select key operations.
+  * Card view table in mobile view.
+  * Color code icons to replace long texts.
+  * Make dashboard information viewable in one screen without scrolling horizontally in mobile view.
+  * Fix Navbar alignment.
+
+## Future Features
+* Email confirmation of registration, automate pre-deadline reminder
+* Fee calculation based on number of registered students
+* Payment integration (Stripe API)
+* Confirmation of payments, lock-in registrations
+* Batch upload from CSV

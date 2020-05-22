@@ -31,23 +31,45 @@ With the data stored in our database in `JSON` format, we can easily run algorit
 This system has been used for World Affairs Conference since 2018, handling registration from hundreds of conference attendees.
 You can check out the live deployed version of this system at [https://worldaffarisregistration.github.io/](https://worldaffarisregistration.github.io/).
 
+Currently, the deployment environment is GitHub pages.
+
 ## Tech Stack
 We made Donna using a few cool technologies!
 * React
 * Create-React-App
-* Firebase
+* Firebase Realtime Database
 * Reactstrap
 * Font Awesome
 
 The reason we chose `React + Firebase` is that we think the React's state management and Firebase's real-time synchronization makes this system very smooth to develop and reliable to deploy.
 
 ## Program Structure
-The particular set up allow module bundling with webpack. 
 
-We set up real-time listeners at references of the firebase database. Once there is an update on the data, we will re-render the portal.
+The particular set up of this project allow module bundling with webpack, abstracting of helper functions, and access control of authorized vs unauthorized users.
 
-TBA
+    - src/
+      - components/
+        - img/ -- resources for webpack bundling
+        - protected/ -- authorized components
+        - *.js -- public components
+      - config/
+        - config.json -- content configuration
+        - constants.js -- API credential (gitignored)
+      - helpers/
+        - auth.js -- firebase authentication methods
+      - index.js 
+      - index.css
+      - App.test.js -- Jasmine testing script (TO-DO)
+      - setup.sh -- set up API credentials
 
+
+**Design considerations**
+
+We use customized components to generate UI representing data response. For example, we add a `StudentRow` component for every student.
+
+We use internal states often for form data field validation. For example, see `AddStudent`.
+
+We set up real-time listeners at references of the firebase database. Once there is an update on the data, we will re-render the portal. See `DashBoard`.
 
 ## Getting Started
 
@@ -64,9 +86,11 @@ npm install # Install node packages
 npm start
 ```
 
-When it asks for your Firebase API Key, paste that in. You'll need access to a valid Firebase Plan to run a local instance of this server.
+When it asks for your Firebase API Key, paste that in. You'll need access to a valid Firebase set up. The spark (free) plan should work.
 
-The server will output to `http://127.0.0.1` on the port that you set.
+The server will output to `http://127.0.0.1` on the port that you set (default 3000). 
+
+To modify the system to fit your conference's needs, feel free modify the parameters in `config/config.json` and update the logic of protected components.
 
 ## Contributor and Maintainer
 Donna was originally created by [Simon Guo](https://github.com/simonguozirui) and [Nicholas O'Brien](https://github.com/obrien66), mentored by [Matthew Wang](https://github.com/malsf21). 
@@ -75,7 +99,7 @@ It is currently maintained by [Robert Knowles](https://github.com/rbrtknwls).
 
 ## TO-DO
 * Better modulization of components
-* Upgrade dependencies to newer versions
+* Upgrade dependencies to newer versions, for example `hashHistory` --> `HashRouter`. 
 * ES-lint integration
 * Set up CI/CD, replacing ad-hoc manual testing with automatic testing
 * Manage API keys through `.env`

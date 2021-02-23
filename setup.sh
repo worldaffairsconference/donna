@@ -19,7 +19,7 @@ if [ ! -f src/config/constants.js ]; then
 		FIREBASECONFIG=''
 	fi
   # Writes the constant statement to the constants.js file
-  echo 'import firebase from "firebase";const config = '"$FIREBASECONFIG"';firebase.initializeApp(config);export const ref = firebase.database().ref();export const firebaseAuth = firebase.auth' >> src/config/constants.js
+  echo -e 'import firebase from "firebase/app";\nimport "firebase/database";\nimport "firebase/auth";\nconst config = '"$FIREBASECONFIG"';\nfirebase.initializeApp(config);\nexport const ref = firebase.database().ref();\nexport const firebaseAuth = firebase.auth' >> src/config/constants.js
   echo "[done]"
 else
 	echo "Config file detected. None generated"

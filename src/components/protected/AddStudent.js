@@ -12,7 +12,9 @@ import {
   Button,
   Alert,
 } from 'reactstrap';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 import FontAwesome from 'react-fontawesome';
 import { Plenaries, RegOpen } from '../../config/config.json';
 

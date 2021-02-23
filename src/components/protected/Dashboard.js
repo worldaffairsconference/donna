@@ -12,7 +12,9 @@ import {
   ModalFooter,
 } from 'reactstrap';
 import { StudentRow } from './StudentRow';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 import AddStudent from './AddStudent';
 import {
   Plenaries,

@@ -1,4 +1,4 @@
-import { ref, firebaseAuth } from "../config/constants";
+import { ref, firebaseAuth } from '../config/constants';
 
 export function auth(email, pw, school) {
   return firebaseAuth()

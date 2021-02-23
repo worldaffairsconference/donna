@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Card,
   Badge,
@@ -11,19 +11,19 @@ import {
   Input,
   Button,
   Alert,
-} from "reactstrap";
-import firebase from "firebase";
-import FontAwesome from "react-fontawesome";
-import { Plenaries, RegOpen } from "../../config/config.json";
+} from 'reactstrap';
+import firebase from 'firebase';
+import FontAwesome from 'react-fontawesome';
+import { Plenaries, RegOpen } from '../../config/config.json';
 
 export default class AddStudent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      grade: "",
-      accessibility: "",
-      school: "",
+      name: '',
+      grade: '',
+      accessibility: '',
+      school: '',
       panel1: false,
       panel2: false,
       panel3: false,
@@ -38,8 +38,8 @@ export default class AddStudent extends Component {
     var userId = firebase.auth().currentUser.uid;
     firebase
       .database()
-      .ref("users/" + userId + "/info/")
-      .once("value", (snapshot) =>
+      .ref('users/' + userId + '/info/')
+      .once('value', (snapshot) =>
         this.setState({
           school: snapshot.val().school,
         })
@@ -203,7 +203,7 @@ export default class AddStudent extends Component {
     var userId = firebase.auth().currentUser.uid;
     await firebase
       .database()
-      .ref("users/" + userId + "/students/")
+      .ref('users/' + userId + '/students/')
       .push({
         name: name,
         school: school,
@@ -237,7 +237,7 @@ export default class AddStudent extends Component {
                         id="studentName"
                         placeholder="Student Name"
                       />
-                      {this.state.name === "" ? (
+                      {this.state.name === '' ? (
                         <Badge color="danger">
                           Please enter a student Name
                         </Badge>
@@ -254,8 +254,8 @@ export default class AddStudent extends Component {
                         <option>11</option>
                         <option>12</option>
                       </Input>
-                      {this.state.grade === "" ||
-                      this.state.grade === "Please Select Grade" ? (
+                      {this.state.grade === '' ||
+                      this.state.grade === 'Please Select Grade' ? (
                         <Badge color="danger">Please select a grade</Badge>
                       ) : null}
                     </FormGroup>
@@ -320,8 +320,8 @@ export default class AddStudent extends Component {
                     </FormGroup>
                   </Col>
                 </Row>
-                {this.state.name === "" ||
-                this.state.grade === "" ||
+                {this.state.name === '' ||
+                this.state.grade === '' ||
                 this.state.numPanelChoosen !== 4 ? (
                   <center>
                     <button
@@ -354,8 +354,8 @@ export default class AddStudent extends Component {
                 <FontAwesome
                   name="plus"
                   style={{
-                    textShadow: "0 1px 0 rgba(0, 0, 0, 0.1)",
-                    padding: "0px 10px 0px 0px",
+                    textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)',
+                    padding: '0px 10px 0px 0px',
                   }}
                 />
                 Click To Add a Student
@@ -365,8 +365,8 @@ export default class AddStudent extends Component {
                 <FontAwesome
                   name="exclamation"
                   style={{
-                    textShadow: "0 1px 0 rgba(0, 0, 0, 0.1)",
-                    padding: "0px 10px 0px 0px",
+                    textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)',
+                    padding: '0px 10px 0px 0px',
                   }}
                 />
                 Registration is now closed
@@ -378,7 +378,7 @@ export default class AddStudent extends Component {
         {this.state.addedAlert ? (
           <Alert color="success">
             <center>
-              {this.state.name} has been registered.{" "}
+              {this.state.name} has been registered.{' '}
               <a onClick={location.reload()}>Reload</a> to see changes
             </center>
           </Alert>

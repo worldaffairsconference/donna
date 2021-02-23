@@ -5,10 +5,9 @@ body {
 }
 
 .modal-dialog {
-   position: absolute;
-   top: 30%;
+  position: absolute;
+  top: 30%;
 }
-
 
 .ulStyle {
   list-style-type: none;

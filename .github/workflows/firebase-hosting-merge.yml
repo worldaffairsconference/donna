@@ -3,6 +3,11 @@
 
 name: Deploy to Firebase Hosting on merge/push
 'on':
+  workflow_dispatch:
+    inputs:
+      message:
+        description: message    
+        required: true
   push:
     branches:
       - master

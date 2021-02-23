@@ -89,7 +89,7 @@ export default class App extends Component {
     return this.state.loading === true ? (
       <p>Loading</p>
     ) : (
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <div>
           <Navbar color="faded" light toggleable>
             <NavbarBrand href="/">

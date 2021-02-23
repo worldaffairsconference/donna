@@ -1,7 +1,7 @@
 .DS_Store
 
 .env
-
+.vscode
 node_modules
 src/config/constants.js
 notes.txt

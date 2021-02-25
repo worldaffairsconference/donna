@@ -29,7 +29,7 @@ With the data stored in our database in `JSON` format, we can easily run algorit
 
 ## Production & Deployment
 This system has been used for World Affairs Conference since 2018, handling registration from hundreds of conference attendees.
-You can check out the live deployed version of this system at [https://worldaffarisregistration.github.io/](https://worldaffarisregistration.github.io/).
+You can check out the live deployed version of this system at [https://wac-donna.web.app/](https://wac-donna.web.app/).
 
 Currently, the deployment environment is GitHub pages.
 
@@ -80,10 +80,10 @@ Set up your node environment using default global node version or nvm.
 Run the following commands:
 
 ```bash
-npm run setup # Set up firebase API credentials 
-npm install # Install node packages
+yarn run setup # Set up firebase API credentials 
+yarn install # Install node packages
 ./port # if you want to change the port, defaulted at Port 3000
-npm start
+yarn start
 ```
 
 When it asks for your Firebase API Key, paste that in. You'll need access to a valid Firebase set up. The spark (free) plan should work.
@@ -95,7 +95,9 @@ To modify the system to fit your conference's needs, feel free modify the parame
 ## Contributor and Maintainer
 Donna was originally created by [Simon Guo](https://github.com/simonguozirui) and [Nicholas O'Brien](https://github.com/obrien66), mentored by [Matthew Wang](https://github.com/malsf21). 
 
-It is currently maintained by [Robert Knowles](https://github.com/rbrtknwls).
+Previously maintained by [Robert Knowles](https://github.com/rbrtknwls).
+
+Currently maintained and developmed by [Jefferson Ding](https://github.com/jeffersonucc)
 
 ## TO-DO
 There are many part of this code that can be refactored into more functions and components.
@@ -115,7 +117,6 @@ There are many part of this code that can be refactored into more functions and 
   * Common `Shared/` folder to add tests.
   * Set up Component subfolder that is named by the main component it contains.
 * Automated Testing, Integration, Deployment
-  * Setup `ES-lint` and `Prettier`.
   * Set up static test pipeline.
     * Using `Jest` and `Enzyme` to mock a call to a function, returning static data that represents snapshot of supposed behavior.
   * Set up proper CI pipeline.

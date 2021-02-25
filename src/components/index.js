@@ -5,7 +5,7 @@ import Register from './Register';
 import Home from './Home';
 import Dashboard from './protected/Dashboard';
 import Footer from './Footer';
-import { firebaseAuth } from '../config/constants';
+import { firebaseAuth } from '../helpers/firebase';
 import {
   Collapse,
   Navbar,
@@ -62,7 +62,7 @@ export default class App extends Component {
     };
   }
   componentDidMount() {
-    this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+    this.removeListener = firebaseAuth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({
           authed: true,

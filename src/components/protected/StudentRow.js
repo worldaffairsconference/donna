@@ -1,14 +1,12 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
-import { ref, firebaseAuth } from '../../config/constants';
+import { ref, firebaseAuth } from '../../helpers/firebase';
 import { RegOpen } from '../../config/config.json';
 
 export function StudentRow(props) {
   function deleteStudent(key) {
-    ref
-      .child(`users/${firebaseAuth().currentUser.uid}/students/${key}`)
-      .remove();
+    ref.child(`users/${firebaseAuth.currentUser.uid}/students/${key}`).remove();
   }
   let key;
   const action = props.studentKey;

@@ -12,9 +12,7 @@ import {
   ModalFooter,
 } from 'reactstrap';
 import { StudentRow } from './StudentRow';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
+import { ref, firebaseAuth } from '../../helpers/firebase';
 import AddStudent from './AddStudent';
 import {
   Plenaries,
@@ -28,13 +26,12 @@ import { deleteUserData, deleteAccount } from '../../helpers/auth';
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
-    var userId = firebase.auth().currentUser.uid;
+    var userId = firebaseAuth.currentUser.uid;
     var myStudentDataKey = [];
     var myStudentDataArr = [];
 
-    firebase
-      .database()
-      .ref('users/' + userId + '/students/')
+    ref
+      .child('users/' + userId + '/students/')
       .on('value', function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
           var childKey = childSnapshot.key;
@@ -57,14 +54,11 @@ export default class Dashboard extends Component {
     // console.log(this.state.myStudentDataKey);
     // console.log(this.state.myStudentDataArr);
 
-    firebase
-      .database()
-      .ref('users/' + userId + '/info/')
-      .once('value', (snapshot) =>
-        this.setState({
-          payment: snapshot.val().payment,
-        })
-      );
+    ref.child('users/' + userId + '/info/').once('value', (snapshot) =>
+      this.setState({
+        payment: snapshot.val().payment,
+      })
+    );
   }
   toggleModal() {
     this.setState({

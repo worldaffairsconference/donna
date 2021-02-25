@@ -12,9 +12,7 @@ import {
   Button,
   Alert,
 } from 'reactstrap';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
+import { ref, firebaseAuth } from '../../helpers/firebase';
 import FontAwesome from 'react-fontawesome';
 import { Plenaries, RegOpen } from '../../config/config.json';
 
@@ -37,15 +35,12 @@ export default class AddStudent extends Component {
       addedAlert: false,
     };
 
-    var userId = firebase.auth().currentUser.uid;
-    firebase
-      .database()
-      .ref('users/' + userId + '/info/')
-      .once('value', (snapshot) =>
-        this.setState({
-          school: snapshot.val().school,
-        })
-      );
+    var userId = firebaseAuth.currentUser.uid;
+    ref.child('users/' + userId + '/info/').once('value', (snapshot) =>
+      this.setState({
+        school: snapshot.val().school,
+      })
+    );
 
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeGrade = this.handleChangeGrade.bind(this);
@@ -202,22 +197,19 @@ export default class AddStudent extends Component {
     panel5,
     panel6
   ) {
-    var userId = firebase.auth().currentUser.uid;
-    await firebase
-      .database()
-      .ref('users/' + userId + '/students/')
-      .push({
-        name: name,
-        school: school,
-        grade: grade,
-        accessibility: accessibility,
-        panel1: panel1,
-        panel2: panel2,
-        panel3: panel3,
-        panel4: panel4,
-        panel5: panel5,
-        panel6: panel6,
-      });
+    var userId = firebaseAuth.currentUser.uid;
+    await ref.child('users/' + userId + '/students/').push({
+      name: name,
+      school: school,
+      grade: grade,
+      accessibility: accessibility,
+      panel1: panel1,
+      panel2: panel2,
+      panel3: panel3,
+      panel4: panel4,
+      panel5: panel5,
+      panel6: panel6,
+    });
   }
 
   render() {

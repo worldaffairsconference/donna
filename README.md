@@ -97,7 +97,7 @@ Donna was originally created by [Simon Guo](https://github.com/simonguozirui) an
 
 Previously maintained by [Robert Knowles](https://github.com/rbrtknwls).
 
-Currently maintained and developmed by [Jefferson Ding](https://github.com/jeffersonucc)
+Currently maintained and developed by [Jefferson Ding](https://github.com/jeffersonucc)
 
 ## TO-DO
 There are many part of this code that can be refactored into more functions and components.

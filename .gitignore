@@ -5,6 +5,8 @@
 .firebase
 node_modules
 src/config/constants.js
+functions/adminKey.json
 notes.txt
+ui-debug.log
 
 build/

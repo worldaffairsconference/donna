@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "//worldaffairsconference.github.io/donna/static/css/main.e2fc8493.chunk.css",
-    "main.js": "//worldaffairsconference.github.io/donna/static/js/main.09a647f1.chunk.js",
-    "main.js.map": "//worldaffairsconference.github.io/donna/static/js/main.09a647f1.chunk.js.map",
-    "runtime-main.js": "//worldaffairsconference.github.io/donna/static/js/runtime-main.4bd6bd76.js",
-    "runtime-main.js.map": "//worldaffairsconference.github.io/donna/static/js/runtime-main.4bd6bd76.js.map",
-    "static/css/2.658248ec.chunk.css": "//worldaffairsconference.github.io/donna/static/css/2.658248ec.chunk.css",
-    "static/js/2.cb8c64d0.chunk.js": "//worldaffairsconference.github.io/donna/static/js/2.cb8c64d0.chunk.js",
-    "static/js/2.cb8c64d0.chunk.js.map": "//worldaffairsconference.github.io/donna/static/js/2.cb8c64d0.chunk.js.map",
-    "index.html": "//worldaffairsconference.github.io/donna/index.html",
-    "static/css/2.658248ec.chunk.css.map": "//worldaffairsconference.github.io/donna/static/css/2.658248ec.chunk.css.map",
-    "static/css/main.e2fc8493.chunk.css.map": "//worldaffairsconference.github.io/donna/static/css/main.e2fc8493.chunk.css.map",
-    "static/js/2.cb8c64d0.chunk.js.LICENSE.txt": "//worldaffairsconference.github.io/donna/static/js/2.cb8c64d0.chunk.js.LICENSE.txt",
-    "static/media/wac_logo_full.f67408d7.png": "//worldaffairsconference.github.io/donna/static/media/wac_logo_full.f67408d7.png"
+    "main.css": "/static/css/main.e2fc8493.chunk.css",
+    "main.js": "/static/js/main.a72e8c44.chunk.js",
+    "main.js.map": "/static/js/main.a72e8c44.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.1fdd3b1c.js",
+    "runtime-main.js.map": "/static/js/runtime-main.1fdd3b1c.js.map",
+    "static/css/2.658248ec.chunk.css": "/static/css/2.658248ec.chunk.css",
+    "static/js/2.5ac6a52e.chunk.js": "/static/js/2.5ac6a52e.chunk.js",
+    "static/js/2.5ac6a52e.chunk.js.map": "/static/js/2.5ac6a52e.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.658248ec.chunk.css.map": "/static/css/2.658248ec.chunk.css.map",
+    "static/css/main.e2fc8493.chunk.css.map": "/static/css/main.e2fc8493.chunk.css.map",
+    "static/js/2.5ac6a52e.chunk.js.LICENSE.txt": "/static/js/2.5ac6a52e.chunk.js.LICENSE.txt",
+    "static/media/wac_logo_full.f67408d7.png": "/static/media/wac_logo_full.f67408d7.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.4bd6bd76.js",
+    "static/js/runtime-main.1fdd3b1c.js",
     "static/css/2.658248ec.chunk.css",
-    "static/js/2.cb8c64d0.chunk.js",
+    "static/js/2.5ac6a52e.chunk.js",
     "static/css/main.e2fc8493.chunk.css",
-    "static/js/main.09a647f1.chunk.js"
+    "static/js/main.a72e8c44.chunk.js"
   ]
 }

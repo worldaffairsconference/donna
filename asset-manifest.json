@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/donna/static/css/main.e2fc8493.chunk.css",
-    "main.js": "/donna/static/js/main.74987f4b.chunk.js",
-    "main.js.map": "/donna/static/js/main.74987f4b.chunk.js.map",
-    "runtime-main.js": "/donna/static/js/runtime-main.d54ecd20.js",
-    "runtime-main.js.map": "/donna/static/js/runtime-main.d54ecd20.js.map",
-    "static/css/2.658248ec.chunk.css": "/donna/static/css/2.658248ec.chunk.css",
-    "static/js/2.d2ac6c4e.chunk.js": "/donna/static/js/2.d2ac6c4e.chunk.js",
-    "static/js/2.d2ac6c4e.chunk.js.map": "/donna/static/js/2.d2ac6c4e.chunk.js.map",
-    "index.html": "/donna/index.html",
-    "static/css/2.658248ec.chunk.css.map": "/donna/static/css/2.658248ec.chunk.css.map",
-    "static/css/main.e2fc8493.chunk.css.map": "/donna/static/css/main.e2fc8493.chunk.css.map",
-    "static/js/2.d2ac6c4e.chunk.js.LICENSE.txt": "/donna/static/js/2.d2ac6c4e.chunk.js.LICENSE.txt",
-    "static/media/wac_logo_full.f67408d7.png": "/donna/static/media/wac_logo_full.f67408d7.png"
+    "main.css": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/css/main.e2fc8493.chunk.css",
+    "main.js": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/js/main.f190c57e.chunk.js",
+    "main.js.map": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/js/main.f190c57e.chunk.js.map",
+    "runtime-main.js": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/js/runtime-main.3e46fbab.js",
+    "runtime-main.js.map": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/js/runtime-main.3e46fbab.js.map",
+    "static/css/2.658248ec.chunk.css": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/css/2.658248ec.chunk.css",
+    "static/js/2.cf5a1b43.chunk.js": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/js/2.cf5a1b43.chunk.js",
+    "static/js/2.cf5a1b43.chunk.js.map": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/js/2.cf5a1b43.chunk.js.map",
+    "index.html": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/index.html",
+    "static/css/2.658248ec.chunk.css.map": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/css/2.658248ec.chunk.css.map",
+    "static/css/main.e2fc8493.chunk.css.map": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/css/main.e2fc8493.chunk.css.map",
+    "static/js/2.cf5a1b43.chunk.js.LICENSE.txt": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/js/2.cf5a1b43.chunk.js.LICENSE.txt",
+    "static/media/wac_logo_full.f67408d7.png": "/%7Bhttps://worldaffairsconference.github.io/donna/%7D/static/media/wac_logo_full.f67408d7.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.d54ecd20.js",
+    "static/js/runtime-main.3e46fbab.js",
     "static/css/2.658248ec.chunk.css",
-    "static/js/2.d2ac6c4e.chunk.js",
+    "static/js/2.cf5a1b43.chunk.js",
     "static/css/main.e2fc8493.chunk.css",
-    "static/js/main.74987f4b.chunk.js"
+    "static/js/main.f190c57e.chunk.js"
   ]
 }

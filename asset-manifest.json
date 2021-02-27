@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/donna/static/css/main.147f546a.chunk.css",
-    "main.js": "/donna/static/js/main.efba0ca4.chunk.js",
-    "main.js.map": "/donna/static/js/main.efba0ca4.chunk.js.map",
+    "main.js": "/donna/static/js/main.c66f362f.chunk.js",
+    "main.js.map": "/donna/static/js/main.c66f362f.chunk.js.map",
     "runtime-main.js": "/donna/static/js/runtime-main.d54ecd20.js",
     "runtime-main.js.map": "/donna/static/js/runtime-main.d54ecd20.js.map",
     "static/css/2.658248ec.chunk.css": "/donna/static/css/2.658248ec.chunk.css",
@@ -19,6 +19,6 @@
     "static/css/2.658248ec.chunk.css",
     "static/js/2.63e3ed88.chunk.js",
     "static/css/main.147f546a.chunk.css",
-    "static/js/main.efba0ca4.chunk.js"
+    "static/js/main.c66f362f.chunk.js"
   ]
 }

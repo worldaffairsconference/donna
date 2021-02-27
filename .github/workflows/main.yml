@@ -1,9 +1,5 @@
 name: Build and Deploy
 on:
-  workflow_dispatch:
-    inputs:
-      description: Message (Optional)
-      required: false
   push:
     branches:
       - master

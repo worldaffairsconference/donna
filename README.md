@@ -31,7 +31,7 @@ With the data stored in our database in `JSON` format, we can easily run algorit
 ## Production & Deployment
 
 This system has been used for World Affairs Conference since 2018, handling registration from hundreds of conference attendees.
-You can check out the live deployed version of this system at [https://wac-donna.web.app/](https://wac-donna.web.app/).
+You can check out the live deployed version of this system at [https://worldaffairsconference.github.io/donna/](https://worldaffairsconference.github.io/donna/).
 
 Currently, the deployment environment is GitHub pages.
 

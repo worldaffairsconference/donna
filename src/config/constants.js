@@ -4,7 +4,6 @@ import 'firebase/auth';
 var config;
 
 if (process.env.NODE_ENV == 'development') {
-  console.log(process.env);
   const API = require('./API').default;
   config = API;
 } else {

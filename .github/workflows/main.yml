@@ -16,7 +16,7 @@ jobs:
           yarn install
           yarn run build
         env:
-          REACT_APP_FIREBASE_APIKEY: ${{secrets.FIREBASE_APIKEY}}
+          REACT_APP_FIREBASE_APIKEY: ${{ secrets.FIREBASE_APIKEY }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0

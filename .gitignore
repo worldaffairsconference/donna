@@ -4,7 +4,7 @@
 .vscode
 .firebase
 node_modules
-src/config/constants.js
+src/config/API.js
 functions/adminKey.json
 notes.txt
 ui-debug.log

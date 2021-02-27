@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/donna/static/css/main.e2fc8493.chunk.css",
-    "main.js": "/donna/static/js/main.d06abf4e.chunk.js",
-    "main.js.map": "/donna/static/js/main.d06abf4e.chunk.js.map",
+    "main.js": "/donna/static/js/main.704759e0.chunk.js",
+    "main.js.map": "/donna/static/js/main.704759e0.chunk.js.map",
     "runtime-main.js": "/donna/static/js/runtime-main.d54ecd20.js",
     "runtime-main.js.map": "/donna/static/js/runtime-main.d54ecd20.js.map",
     "static/css/2.658248ec.chunk.css": "/donna/static/css/2.658248ec.chunk.css",
-    "static/js/2.5fb12449.chunk.js": "/donna/static/js/2.5fb12449.chunk.js",
-    "static/js/2.5fb12449.chunk.js.map": "/donna/static/js/2.5fb12449.chunk.js.map",
+    "static/js/2.bd0c905e.chunk.js": "/donna/static/js/2.bd0c905e.chunk.js",
+    "static/js/2.bd0c905e.chunk.js.map": "/donna/static/js/2.bd0c905e.chunk.js.map",
     "index.html": "/donna/index.html",
     "static/css/2.658248ec.chunk.css.map": "/donna/static/css/2.658248ec.chunk.css.map",
     "static/css/main.e2fc8493.chunk.css.map": "/donna/static/css/main.e2fc8493.chunk.css.map",
-    "static/js/2.5fb12449.chunk.js.LICENSE.txt": "/donna/static/js/2.5fb12449.chunk.js.LICENSE.txt",
+    "static/js/2.bd0c905e.chunk.js.LICENSE.txt": "/donna/static/js/2.bd0c905e.chunk.js.LICENSE.txt",
     "static/media/wac_logo_full.f67408d7.png": "/donna/static/media/wac_logo_full.f67408d7.png"
   },
   "entrypoints": [
     "static/js/runtime-main.d54ecd20.js",
     "static/css/2.658248ec.chunk.css",
-    "static/js/2.5fb12449.chunk.js",
+    "static/js/2.bd0c905e.chunk.js",
     "static/css/main.e2fc8493.chunk.css",
-    "static/js/main.d06abf4e.chunk.js"
+    "static/js/main.704759e0.chunk.js"
   ]
 }

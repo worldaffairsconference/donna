@@ -7,9 +7,8 @@ if (process.env.NODE_ENV == 'development') {
   const API = require('./API').default;
   config = API;
 } else {
-  config = process.env.REACT_APP_FIREBASE_APIKEY;
+  config = JSON.parse(process.env.REACT_APP_FIREBASE_APIKEY);
 }
-
 firebase.initializeApp(config);
 export const ref = firebase.database().ref();
 export const firebaseAuth = firebase.auth();

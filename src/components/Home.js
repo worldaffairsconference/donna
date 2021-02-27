@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Year, Links } from '../config/config.json';
 
 export default class Home extends Component {
@@ -11,7 +12,7 @@ export default class Home extends Component {
           <p className="lead">
             Welcome to the WAC {Year} online registration system, where faculty
             advisers can manage their attending delegation. To get started,{' '}
-            <a href="/register">sign up</a>.
+            <Link to="/register">sign up</Link>.
           </p>
           <p className="lead">
             Have any questions? <a href={Links['contact']}>Get in touch.</a>
@@ -19,18 +20,14 @@ export default class Home extends Component {
           <hr className="my-4" />
           <ul className="ulStyle">
             <li className="liStyle">
-              <a className="btn btn-primary btn-lg" href="/login" role="button">
+              <Link className="btn btn-primary btn-lg" to="/login">
                 Log in
-              </a>
+              </Link>
             </li>
             <li className="liStyle">
-              <a
-                className="btn btn-primary btn-lg"
-                href="/register"
-                role="button"
-              >
+              <Link className="btn btn-primary btn-lg" href="/register">
                 Register
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

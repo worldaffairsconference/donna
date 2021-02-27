@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom';
+import { Route, BrowserRouter, Redirect, Switch, Link } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import Home from './Home';
@@ -92,13 +92,13 @@ export default class App extends Component {
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <div>
           <Navbar color="faded" light toggleable>
-            <NavbarBrand href="/">
+            <Link component={NavbarBrand} to="/">
               <img
                 src={Logo}
                 alt="World Affairs Conference Logo"
                 className="nav-image"
               />
-            </NavbarBrand>
+            </Link>
             <NavbarToggler right onClick={this.toggle} />
 
             <Collapse isOpen={this.state.isOpen} navbar>
@@ -107,21 +107,26 @@ export default class App extends Component {
                   <NavLink href={Links['site']}>WAC {Year}</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="/dashboard">Dashboard</NavLink>
+                  <Link component={NavLink} to="/dashboard">
+                    Dashboard
+                  </Link>
                 </NavItem>
                 {this.state.authed ? (
                   <NavItem>
-                    <NavLink
+                    <Link
                       onClick={() => {
                         logout();
                       }}
+                      component={NavLink}
                     >
                       Log Out
-                    </NavLink>
+                    </Link>
                   </NavItem>
                 ) : (
                   <NavItem>
-                    <NavLink href="/login">Log In</NavLink>
+                    <Link component={NavLink} to="/login">
+                      Log In
+                    </Link>
                   </NavItem>
                 )}
               </Nav>

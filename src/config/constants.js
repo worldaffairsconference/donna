@@ -7,7 +7,6 @@ if (process.env.NODE_ENV == 'development') {
   const API = require('./API').default;
   config = API;
 } else {
-  console.log(process.env);
   config = JSON.parse(process.env.REACT_APP_FIREBASE_APIKEY);
 }
 firebase.initializeApp(config);

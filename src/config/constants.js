@@ -4,8 +4,7 @@ import 'firebase/auth';
 var config;
 
 if (process.env.NODE_ENV == 'development') {
-  const API = require('./API').default;
-  config = API;
+  config = require('./API').default;
 } else {
   config = JSON.parse(process.env.REACT_APP_FIREBASE_APIKEY);
 }

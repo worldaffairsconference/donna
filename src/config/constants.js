@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/auth';
+
 var config;
 
 if (process.env.NODE_ENV == 'development') {

@@ -1,6 +1,6 @@
 import { ref, firebaseAuth } from '../config/constants';
 
-export function auth(email, pw, school) {
+export function auth(email, pw, name, advisor) {
   return firebaseAuth.createUserWithEmailAndPassword(email, pw).then((data) => {
     console.log(data.user.uid);
     ref
@@ -8,8 +8,8 @@ export function auth(email, pw, school) {
       .set({
         email: email,
         uid: data.user.uid,
-        school: school,
-        payment: false,
+        name: name,
+        advisor: advisor,
       })
       .then(() => data.user);
   });

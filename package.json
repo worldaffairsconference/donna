@@ -1,6 +1,6 @@
 {
   "name": "Donna",
-  "homepage": "https://reg.worldaffairscon.org/",
+  "homepage": "https://reg.worldaffairscon.org",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {

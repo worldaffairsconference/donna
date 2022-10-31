@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, BrowserRouter, Redirect, Switch, Link } from 'react-router-dom';
+import { Route, BrowserRouter, Switch, Redirect, Link } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import Home from './Home';
@@ -16,7 +16,7 @@ import {
   NavLink,
 } from 'reactstrap';
 import Logo from './img/wac_logo_full.png';
-import { Year, Links } from '../config/config.json';
+import { Year, Links } from '../config/config.js';
 import { logout } from '../helpers/auth';
 
 function PrivateRoute({ component: Component, authed, ...rest }) {

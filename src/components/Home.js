@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Year, Links } from '../config/config.json';
+import { Year, Links } from '../config/config.js';
 
 export default class Home extends Component {
   render() {
@@ -25,7 +25,7 @@ export default class Home extends Component {
               </Link>
             </li>
             <li className="liStyle">
-              <Link className="btn btn-primary btn-lg" href="/register">
+              <Link className="btn btn-primary btn-lg" to="/register">
                 Register
               </Link>
             </li>

@@ -1,15 +1,18 @@
 import { ref, firebaseAuth } from '../config/constants';
 
-export function auth(email, pw, name, advisor) {
+export function auth(email, pw, name, access) {
+  if (access !== 'admin') {
+    return new Promise((resolve, reject) => {
+      reject(new Error('Invalid Access Code'));
+    });
+  }
   return firebaseAuth.createUserWithEmailAndPassword(email, pw).then((data) => {
     console.log(data.user.uid);
     ref
       .child(`users/${data.user.uid}/info`)
       .set({
         email: email,
-        uid: data.user.uid,
         name: name,
-        advisor: advisor,
       })
       .then(() => data.user);
   });

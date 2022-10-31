@@ -20,7 +20,7 @@ import {
   EarlyBirdDueDate,
   DueDate,
   Links,
-} from '../../config/config.json';
+} from '../../config/config.js';
 import { deleteUserData, deleteAccount } from '../../helpers/auth';
 
 export default class Dashboard extends Component {

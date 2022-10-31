@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import { ref, firebaseAuth } from '../../helpers/firebase';
-import { RegOpen } from '../../config/config.json';
+import { RegOpen } from '../../config/config.js';
 
 export function StudentRow(props) {
   function deleteStudent(key) {

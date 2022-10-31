@@ -11,9 +11,12 @@ export default class Register extends Component {
   state = { registerError: null };
   handleSubmit = (e) => {
     e.preventDefault();
-    auth(this.email.value, this.pw.value, this.school.value).catch((e) =>
-      this.setState(setErrorMsg(e))
-    );
+    auth(
+      this.email.value,
+      this.pw.value,
+      this.name.value,
+      this.access.value
+    ).catch((e) => this.setState(setErrorMsg(e)));
   };
   render() {
     return (
@@ -21,6 +24,24 @@ export default class Register extends Component {
         <br />
         <h1>Register</h1>
         <form onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Name"
+              ref={(name) => (this.name = name)}
+            />
+          </div>
+          <div className="form-group">
+            <label>Access Code</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Access Code"
+              ref={(access) => (this.access = access)}
+            />
+          </div>
           <div className="form-group">
             <label>Email</label>
             <input
@@ -38,15 +59,7 @@ export default class Register extends Component {
               ref={(pw) => (this.pw = pw)}
             />
           </div>
-          <div className="form-group">
-            <label>School</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="School Name"
-              ref={(school) => (this.school = school)}
-            />
-          </div>
+
           {this.state.registerError && (
             <div className="alert alert-danger" role="alert">
               <span

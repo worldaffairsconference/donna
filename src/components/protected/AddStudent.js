@@ -14,7 +14,7 @@ import {
 } from 'reactstrap';
 import { ref, firebaseAuth } from '../../helpers/firebase';
 import FontAwesome from 'react-fontawesome';
-import { Plenaries, RegOpen } from '../../config/config.json';
+import { Plenaries, RegOpen } from '../../config/config.js';
 
 export default class AddStudent extends Component {
   constructor(props) {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
 import { Row, Col } from 'reactstrap';
-import { Links } from '../config/config.json';
+import { Links } from '../config/config.js';
 
 var redHeart = {
   color: 'red',

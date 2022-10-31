@@ -57,7 +57,7 @@ The particular set up of this project allow module bundling with webpack, abstra
         - protected/ -- authorized components
         - *.js -- public components
       - config/
-        - config.json -- content configuration
+        - config.js -- content configuration
         - constants.js -- API credential (gitignored)
       - helpers/
         - auth.js -- firebase authentication methods
@@ -93,7 +93,7 @@ When it asks for your Firebase API Key, paste that in. You'll need access to a v
 
 The server will output to `http://127.0.0.1` on the port that you set (default 3000).
 
-To modify the system to fit your conference's needs, feel free modify the parameters in `config/config.json` and update the logic of protected components.
+To modify the system to fit your conference's needs, feel free modify the parameters in `config/config.js` and update the logic of protected components.
 
 ## Deployment
 

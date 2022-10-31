@@ -1,24 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.147f546a.chunk.css",
-    "main.js": "/static/js/main.6329e4e5.chunk.js",
-    "main.js.map": "/static/js/main.6329e4e5.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.06572880.js",
-    "runtime-main.js.map": "/static/js/runtime-main.06572880.js.map",
-    "static/css/2.e2642120.chunk.css": "/static/css/2.e2642120.chunk.css",
-    "static/js/2.90f437d9.chunk.js": "/static/js/2.90f437d9.chunk.js",
-    "static/js/2.90f437d9.chunk.js.map": "/static/js/2.90f437d9.chunk.js.map",
+    "main.css": "/static/css/main.6b2361fc.css",
+    "main.js": "/static/js/main.af3eaccc.js",
+    "static/media/wac_logo_full.png": "/static/media/wac_logo_full.f67408d72add69a513a7.png",
     "index.html": "/index.html",
-    "static/css/2.e2642120.chunk.css.map": "/static/css/2.e2642120.chunk.css.map",
-    "static/css/main.147f546a.chunk.css.map": "/static/css/main.147f546a.chunk.css.map",
-    "static/js/2.90f437d9.chunk.js.LICENSE.txt": "/static/js/2.90f437d9.chunk.js.LICENSE.txt",
-    "static/media/wac_logo_full.f67408d7.png": "/static/media/wac_logo_full.f67408d7.png"
+    "main.6b2361fc.css.map": "/static/css/main.6b2361fc.css.map",
+    "main.af3eaccc.js.map": "/static/js/main.af3eaccc.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.06572880.js",
-    "static/css/2.e2642120.chunk.css",
-    "static/js/2.90f437d9.chunk.js",
-    "static/css/main.147f546a.chunk.css",
-    "static/js/main.6329e4e5.chunk.js"
+    "static/css/main.6b2361fc.css",
+    "static/js/main.af3eaccc.js"
   ]
 }

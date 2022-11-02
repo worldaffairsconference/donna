@@ -5,6 +5,7 @@ import Register from './Register';
 import Home from './Home';
 import Dashboard from './protected/Dashboard';
 import Footer from './Footer';
+import TRegister from './TRegister'
 import { firebaseAuth } from '../helpers/firebase';
 import {
   Collapse,
@@ -146,6 +147,11 @@ export default class App extends Component {
                   authed={this.state.authed}
                   path="/register"
                   component={Register}
+                />
+                <PublicRoute
+                  authed={this.state.authed}
+                  path="/tregister"
+                  component={TRegister}
                 />
                 <PrivateRoute
                   authed={this.state.authed}

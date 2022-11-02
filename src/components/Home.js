@@ -15,6 +15,9 @@ export default class Home extends Component {
             <Link to="/register">sign up</Link>.
           </p>
           <p className="lead">
+            Are you a teacher? Register <a href={'/tregister'}>here</a>.
+          </p>
+          <p className="lead">
             Have any questions? <a href={Links['contact']}>Get in touch.</a>
           </p>
           <hr className="my-4" />

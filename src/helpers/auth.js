@@ -17,6 +17,21 @@ export function auth(email, pw, name, access) {
       .then(() => data.user);
   });
 }
+export function tauth(email, school, cnumber, pw, name) {
+  return firebaseAuth.createUserWithEmailAndPassword(email, pw).then((data) => {
+    console.log(data.user.uid);
+    ref
+      .child(`teachers/${data.user.uid}`)
+      .set({
+        email: email,
+        school:school,
+        cnumber:cnumber,
+        name: name,
+        waiver: false,
+      })
+      .then(() => data.user);
+  });
+}
 
 export function logout() {
   return firebaseAuth.signOut();

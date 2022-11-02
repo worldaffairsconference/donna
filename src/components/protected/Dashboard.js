@@ -21,7 +21,7 @@ import {
   DueDate,
   Links,
 } from '../../config/config.js';
-import { deleteUserData, deleteAccount } from '../../helpers/auth';
+import { deleteTeacherUserData } from '../../helpers/auth';
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -69,8 +69,7 @@ export default class Dashboard extends Component {
   }
 
   proceedDeleteAccount() {
-    deleteUserData();
-    deleteAccount();
+    deleteTeacherUserData();
   }
 
   render() {
@@ -80,6 +79,7 @@ export default class Dashboard extends Component {
         <Row>
           <Col md="10" sm="12" xs="12">
             <h1 className="fonted-h">Teacher Dashboard</h1>
+            <b>Teacher ID: {firebaseAuth.currentUser.uid}</b>
           </Col>
           <Col md="2" sm="12" xs="12">
             <Button

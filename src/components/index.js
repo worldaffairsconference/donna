@@ -4,9 +4,10 @@ import Login from './Login';
 import Register from './Register';
 import Home from './Home';
 import Dashboard from './protected/Dashboard';
+import StudentDashboard from './protected/StudentDashboard';
 import Footer from './Footer';
 import TRegister from './TRegister'
-import { firebaseAuth } from '../helpers/firebase';
+import { firebaseAuth, ref } from '../helpers/firebase';
 import {
   Collapse,
   Navbar,
@@ -58,17 +59,29 @@ export default class App extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       authed: false,
+      isStudent: false,
       loading: true,
       isOpen: false,
     };
   }
   componentDidMount() {
-    this.removeListener = firebaseAuth.onAuthStateChanged((user) => {
+    this.removeListener = firebaseAuth.onAuthStateChanged(async (user) => {
       if (user) {
-        this.setState({
-          authed: true,
-          loading: false,
-        });
+        const snapshot = await ref.child(`teachers/${user.uid}`).once('value');
+        if (snapshot.exists()) {
+          this.setState({
+            authed: true,
+            loading: false,
+            isStudent: false,
+          });
+        }
+        else {
+          this.setState({
+            authed: true,
+            loading: false,
+            isStudent: true,
+          });
+        }
       } else {
         this.setState({
           authed: false,
@@ -156,7 +169,14 @@ export default class App extends Component {
                 <PrivateRoute
                   authed={this.state.authed}
                   path="/dashboard"
-                  component={Dashboard}
+                  component={
+                    this.state.isStudent ? StudentDashboard : Dashboard
+                  }
+                />
+                <PrivateRoute
+                  authed={this.state.authed}
+                  path="/sdashboard"
+                  component={StudentDashboard}
                 />
                 <Route render={() => <h3>Not Found</h3>} />
               </Switch>

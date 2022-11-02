@@ -18,3 +18,7 @@ body {
   display: inline;
   padding-right: 1rem;
 }
+
+.btn-close {
+  display: none;
+}

@@ -10,8 +10,9 @@ export default class Home extends Component {
         <div className="jumbotron">
           <h1 className="display-5 fonted-h">WAC Online Registration</h1>
           <p className="lead">
-            Welcome to the WAC {Year} online registration system, where faculty
-            advisers can manage their attending delegation. To get started,{' '}
+            Welcome to the WAC {Year} online registration system, where you can
+            select your plenaries and activities throughout the day. You will
+            also be able to access your personalized schedule. To get started,{' '}
             <Link to="/register">sign up</Link>.
           </p>
           <p className="lead">

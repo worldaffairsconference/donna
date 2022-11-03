@@ -35,13 +35,6 @@ export default class AddStudent extends Component {
       addedAlert: false,
     };
 
-    var userId = firebaseAuth.currentUser.uid;
-    ref.child('users/' + userId + '/info/').once('value', (snapshot) =>
-      this.setState({
-        school: snapshot.val().school,
-      })
-    );
-
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeGrade = this.handleChangeGrade.bind(this);
     this.handleChangeAccessibility = this.handleChangeAccessibility.bind(this);

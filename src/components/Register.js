@@ -15,6 +15,7 @@ export default class Register extends Component {
       this.email.value,
       this.pw.value,
       this.name.value,
+      this.grade.value,
       this.access.value
     ).catch((e) => this.setState(setErrorMsg(e)));
   };
@@ -41,6 +42,17 @@ export default class Register extends Component {
               placeholder="Access Code"
               ref={(access) => (this.access = access)}
             />
+          </div>
+          <div className='form-group'>
+            <label>Grade</label>
+            <select className="form-control" ref={(grade) => (this.grade = grade)}>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+            </select>
           </div>
           <div className="form-group">
             <label>Email</label>

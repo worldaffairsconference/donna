@@ -7,17 +7,17 @@ export const Plenaries = [
   'Future of Feminism',
   'A Nuclear World',
 ];
-export const Year = '2018';
-export const Theme = 'Paradigm Shifts';
-export const EarlyBirdDueDate = 'Jan 9th, 2018';
-export const DueDate = 'Jan 26th, 2018';
+export const Year = '2023';
+export const Theme = 'Hybrid Thinking';
+export const EarlyBirdDueDate = 'February 9th, 2023';
+export const DueDate = 'Jan 9th, 2023';
 export const Links = {
-  site: 'http://worldaffairs.ucc.on.ca/',
-  contact: 'http://worldaffairs.ucc.on.ca/contact/',
+  site: 'https://worldaffairs.ucc.on.ca/',
+  contact: 'https://worldaffairs.ucc.on.ca/contact/',
   repo: 'https://github.com/worldaffairsconference/donna',
   email: 'mailto:wac@ucc.on.ca',
-  facebook: 'http://facebook.com/worldaffairsconference',
-  github: 'http://github.com/worldaffairsconference',
-  instagram: 'http://instagram.com/worldaffairscon',
-  twitter: 'http://twitter.com/worldaffairscon',
+  facebook: 'https://facebook.com/worldaffairsconference',
+  github: 'https://github.com/worldaffairsconference',
+  instagram: 'https://instagram.com/worldaffairscon',
+  twitter: 'https://twitter.com/worldaffairscon',
 };

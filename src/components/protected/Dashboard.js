@@ -91,7 +91,7 @@ export default class Dashboard extends Component {
           <Col md="2" sm="12" xs="12">
             <Button
               color="secondary"
-              className="float-right"
+              className="float-right mb-2"
               onClick={() => {
                 logout();
               }}
@@ -102,7 +102,7 @@ export default class Dashboard extends Component {
           <Col md="2" sm="12" xs="12">
             <Button
               color="danger"
-              className="fonted"
+              className="fonted float-right mb-2"
               onClick={this.toggleModal}
             >
               Delete Account
@@ -132,8 +132,8 @@ export default class Dashboard extends Component {
         </Row>
         <Row>
           <Col>
-            <h3>Supervisor Name: {this.state.name}</h3>
-            <h3>School: {this.state.school}</h3>
+            <h4>Supervisor: {this.state.name}</h4>
+            <h4>School: {this.state.school}</h4>
           </Col>
         </Row>
         <Row className="mt-3">

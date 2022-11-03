@@ -138,7 +138,7 @@ export default class StudentDashboard extends Component {
           <Col md="2" sm="12" xs="12">
             <Button
               color="secondary"
-              className="float-right"
+              className="float-right mb-2"
               onClick={() => {
                 logout();
               }}
@@ -149,7 +149,7 @@ export default class StudentDashboard extends Component {
           <Col md="2" sm="12" xs="12">
             <Button
               color="danger"
-              className="fonted mb-2"
+              className="fonted mb-2 float-right"
               onClick={this.toggleModal}
             >
               Delete Account

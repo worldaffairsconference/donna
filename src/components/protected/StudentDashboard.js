@@ -200,7 +200,7 @@ export default class StudentDashboard extends Component {
                 >
                   <Input
                     value={this.state.inputPlen1}
-                    className="form-select"
+                    className="form-control"
                     type="select"
                     name="select1"
                     id="select1"
@@ -223,7 +223,7 @@ export default class StudentDashboard extends Component {
                 >
                   <Input
                     value={this.state.inputPlen2}
-                    className="form-select"
+                    className="form-control"
                     type="select"
                     name="select2"
                     id="select2"
@@ -243,6 +243,7 @@ export default class StudentDashboard extends Component {
                   </Label>
                   <Input
                     onChange={this.handleNoteChange}
+                    className="form-control"
                     value={this.state.inputNotes}
                     type="textarea"
                     name="name"

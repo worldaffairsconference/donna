@@ -130,6 +130,12 @@ export default class Dashboard extends Component {
             </Modal>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <h3>Supervisor Name: {this.state.name}</h3>
+            <h3>School: {this.state.school}</h3>
+          </Col>
+        </Row>
         <Row className="mt-3">
           <Card body>
             <CardTitle tag="h5">Student Registration Instructions</CardTitle>
@@ -174,6 +180,13 @@ export default class Dashboard extends Component {
             <h2>
               <Badge color="danger">Not Received</Badge>
             </h2>
+            <Button
+              color="primary"
+              href="/resources/waiver.pdf"
+              target="_blank"
+            >
+              Download PDF
+            </Button>
           </div>
         )}
         <hr />
@@ -197,11 +210,6 @@ export default class Dashboard extends Component {
             />
           </Table>
         </div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
       </Container>
     );
   }

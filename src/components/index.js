@@ -6,7 +6,8 @@ import Home from './Home';
 import Dashboard from './protected/Dashboard';
 import StudentDashboard from './protected/StudentDashboard';
 import Footer from './Footer';
-import TRegister from './TRegister'
+import NotFound from './NotFound';
+import TRegister from './TRegister';
 import { firebaseAuth, ref } from '../helpers/firebase';
 import {
   Collapse,
@@ -74,8 +75,7 @@ export default class App extends Component {
             loading: false,
             isStudent: false,
           });
-        }
-        else {
+        } else {
           this.setState({
             authed: true,
             loading: false,
@@ -178,7 +178,7 @@ export default class App extends Component {
                   path="/sdashboard"
                   component={StudentDashboard}
                 />
-                <Route render={() => <h3>Not Found</h3>} />
+                <Route path="" component={NotFound} />
               </Switch>
             </div>
           </div>

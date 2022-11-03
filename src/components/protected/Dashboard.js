@@ -19,15 +19,7 @@ import {
 } from 'reactstrap';
 import { StudentRow } from './StudentRow';
 import { ref, firebaseAuth } from '../../helpers/firebase';
-import AddStudent from './AddStudent';
-import {
-  Plenaries,
-  Year,
-  EarlyBirdDueDate,
-  DueDate,
-  Links,
-} from '../../config/config.js';
-import { deleteTeacherUserData } from '../../helpers/auth';
+import { deleteTeacherUserData, logout } from '../../helpers/auth';
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -93,8 +85,19 @@ export default class Dashboard extends Component {
       <Container>
         <br />
         <Row>
-          <Col md="10" sm="12" xs="12">
+          <Col md="8" sm="12" xs="12">
             <h1 className="fonted-h">Teacher Dashboard</h1>
+          </Col>
+          <Col md="2" sm="12" xs="12">
+            <Button
+              color="secondary"
+              className="float-right"
+              onClick={() => {
+                logout();
+              }}
+            >
+              Log Out
+            </Button>
           </Col>
           <Col md="2" sm="12" xs="12">
             <Button

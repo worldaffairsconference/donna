@@ -10,6 +10,12 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardText,
+  CardTitle,
 } from 'reactstrap';
 import { StudentRow } from './StudentRow';
 import { ref, firebaseAuth } from '../../helpers/firebase';
@@ -58,7 +64,7 @@ export default class Dashboard extends Component {
         waiver: snapshot.val().waiver,
         name: snapshot.val().name,
         school: snapshot.val().school,
-        students : snapshot.val().students,
+        students: snapshot.val().students,
       })
     );
   }
@@ -72,6 +78,16 @@ export default class Dashboard extends Component {
     deleteTeacherUserData();
   }
 
+  handleCopy() {
+    var Text = `Access Code: ${firebaseAuth.currentUser.uid}`;
+    var dummy = document.createElement('textarea');
+    document.body.appendChild(dummy);
+    dummy.value = Text;
+    dummy.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummy);
+  }
+
   render() {
     return (
       <Container>
@@ -79,7 +95,6 @@ export default class Dashboard extends Component {
         <Row>
           <Col md="10" sm="12" xs="12">
             <h1 className="fonted-h">Teacher Dashboard</h1>
-            <b>Teacher ID: {firebaseAuth.currentUser.uid}</b>
           </Col>
           <Col md="2" sm="12" xs="12">
             <Button
@@ -112,18 +127,48 @@ export default class Dashboard extends Component {
             </Modal>
           </Col>
         </Row>
+        <Row className="mt-3">
+          <Card body>
+            <CardTitle tag="h5">Student Registration Instructions</CardTitle>
+            <CardText>
+              Please have your students register for the conference using this
+              website, you will be able to see them listed below once they have
+              registered. Copy the student access code below and provide it to
+              your student delegates. If you have any questions, please
+              <a href="mailto:wac@ucc.on.ca"> contact us</a>.
+              <br />
+              <hr />
+              <center>
+                <b>Access Code: </b>: {firebaseAuth.currentUser.uid}
+              </center>
+            </CardText>
+            <Button color="primary" onClick={this.handleCopy}>
+              Copy Access Code to Clipboard
+            </Button>
+          </Card>
+        </Row>
         <br />
+        <hr />
+        <h2>Waiver Status: </h2>
+        <p>
+          You will need to complete and sign a waiver before attending the
+          conference. Please download the document below and complete the form.
+          Send the completed form to{' '}
+          <a href="mailto:waiver@worldaffairscon.org">
+            waiver@worldaffairscon.org
+          </a>
+          . Once we have received and processed your waiver, the status below
+          will change to "Received".
+        </p>
         {this.state.waiver ? (
           <div>
             <h2>
-              Waiver Status: <br />
               <Badge color="success">Received</Badge>
             </h2>
           </div>
         ) : (
           <div>
             <h2>
-              Waiver Status: <br />
               <Badge color="danger">Not Received</Badge>
             </h2>
           </div>

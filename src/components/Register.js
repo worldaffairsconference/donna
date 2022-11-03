@@ -26,7 +26,7 @@ export default class Register extends Component {
         <h1>Register</h1>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label>Name</label>
+            <label>Full Name</label>
             <input
               type="text"
               className="form-control"
@@ -43,9 +43,12 @@ export default class Register extends Component {
               ref={(access) => (this.access = access)}
             />
           </div>
-          <div className='form-group'>
+          <div className="form-group">
             <label>Grade</label>
-            <select className="form-control" ref={(grade) => (this.grade = grade)}>
+            <select
+              className="form-control"
+              ref={(grade) => (this.grade = grade)}
+            >
               <option value="7">7</option>
               <option value="8">8</option>
               <option value="9">9</option>

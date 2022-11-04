@@ -91,7 +91,12 @@ export default class Register extends Component {
         </form>
         <br />
         <p>
-          If you're already registered, <a href="/login">log in</a>.
+          If you're already registered, <a href="/login">log in</a>.<br /> For
+          students attending online, please register using this{' '}
+          <a href="https://hopin.com/events/world-affairs-conference-2023-hybrid-thinking">
+            link{' '}
+          </a>
+          .
         </p>
       </div>
     );

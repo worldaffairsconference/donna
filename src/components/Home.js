@@ -16,7 +16,11 @@ export default class Home extends Component {
             <Link to="/register">sign up</Link>.
           </p>
           <p className="lead">
-            Are you a teacher? Register <a href={'/tregister'}>here</a>.
+            For students attending online, please register using this{' '}
+            <a href="https://hopin.com/events/world-affairs-conference-2023-hybrid-thinking">
+              link
+            </a>
+            .
           </p>
           <p className="lead">
             Have any questions? <a href={Links['contact']}>Get in touch.</a>

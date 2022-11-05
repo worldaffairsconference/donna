@@ -1,52 +1,96 @@
-import { ref, firebaseAuth } from '../config/constants';
+import { ref, firebaseAuth, firebaseAuthNoLogin } from '../config/constants';
 
-export function auth(email, pw, name, grade, access) {  
+export function auth(email, pw, name, grade, access) {
   // Check whether teachers/access exists in rtdb
   return new Promise(async (resolve, reject) => {
-
     const snapshot = await ref.child(`teachers/${access}`).once('value');
     if (!snapshot.exists()) {
-      reject(new Error("Access code does not exist"));
+      reject(new Error('Access code does not exist'));
       return;
     }
 
-    return firebaseAuth.createUserWithEmailAndPassword(email, pw).then((data) => {
-      console.log(data.user.uid);
-      ref.child(`teachers/${access}/students/${data.user.uid}`).set({
-        email: email,
-        name: name,
-        p1: "",
-        p2: "",
-        grade: grade,
-        note: "",
-      }).then(() => {
-        ref.child(`students/${data.user.uid}`).set({
-          teacherID: access,
-        }).then(() => {
-          console.log(data.user)
-          return data.user;
-        });
+    return firebaseAuth
+      .createUserWithEmailAndPassword(email, pw)
+      .then((data) => {
+        ref
+          .child(`teachers/${access}/students/${data.user.uid}`)
+          .set({
+            email: email,
+            name: name,
+            p1: '',
+            p2: '',
+            grade: grade,
+            note: '',
+          })
+          .then(() => {
+            ref
+              .child(`students/${data.user.uid}`)
+              .set({
+                teacherID: access,
+              })
+              .then(() => {
+                return data.user;
+              });
+          });
       });
-    });
-  })
+  });
 }
+
+export function addAttendee(email, pw, name, grade, access) {
+  // Check whether teachers/access exists in rtdb
+  return new Promise(async (resolve, reject) => {
+    const snapshot = await ref.child(`teachers/${access}`).once('value');
+    if (!snapshot.exists()) {
+      reject(new Error('Access code does not exist'));
+      return;
+    }
+
+    return firebaseAuthNoLogin
+      .createUserWithEmailAndPassword(email, pw)
+      .then((data) => {
+        ref
+          .child(`teachers/${access}/students/${data.user.uid}`)
+          .set({
+            email: email,
+            name: name,
+            p1: '',
+            p2: '',
+            grade: grade,
+            note: '',
+          })
+          .then(() => {
+            ref
+              .child(`students/${data.user.uid}`)
+              .set({
+                teacherID: access,
+              })
+              .then(() => {
+                resetPassword(email).then(() => {
+                  return data.user;
+                });
+              });
+          });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export function tauth(email, school, cnumber, pw, name) {
   return firebaseAuth.createUserWithEmailAndPassword(email, pw).then((data) => {
-    console.log(data.user.uid);
     ref
       .child(`teachers/${data.user.uid}`)
       .set({
         email: email,
-        school:school,
-        cnumber:cnumber,
+        school: school,
+        cnumber: cnumber,
         name: name,
         waiver: false,
       })
       .then(() => data.user);
   });
 }
-
-
 
 export function logout() {
   return firebaseAuth.signOut();
@@ -55,7 +99,9 @@ export function logout() {
 export async function deleteUserData(teacher) {
   return new Promise(async (resolve, reject) => {
     await ref.child(`students/${firebaseAuth.currentUser.uid}`).remove();
-    await ref.child(`teachers/${teacher}/students/${firebaseAuth.currentUser.uid}`).remove();
+    await ref
+      .child(`teachers/${teacher}/students/${firebaseAuth.currentUser.uid}`)
+      .remove();
     await deleteAccount();
     alert('Account deleted successfully.');
     resolve(true);
@@ -65,7 +111,6 @@ export async function deleteUserData(teacher) {
 
 export function deleteTeacherUserData() {
   return new Promise(async (resolve, reject) => {
-    console.log('I am here')
     await ref.child(`teachers/${firebaseAuth.currentUser.uid}`).remove();
     await deleteAccount();
     alert('Account deleted successfully.');

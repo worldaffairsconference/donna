@@ -162,12 +162,10 @@ export default class Dashboard extends Component {
         <p>
           You will need to complete and sign a waiver before attending the
           conference. Please download the document below and complete the form.
-          Send the completed form to{' '}
-          <a href="mailto:waiver@worldaffairscon.org">
-            waiver@worldaffairscon.org
-          </a>
-          . Once we have received and processed your waiver, the status below
-          will change to "Received".
+          Send the completed form via this{' '}
+          <a href="https://coda.io/form/Waiver_deuhNh1mvi4">link</a>. Once we
+          have received and processed your waiver, the status below will change
+          to "Received".
         </p>
         {this.state.waiver ? (
           <div>

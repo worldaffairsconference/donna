@@ -60,13 +60,10 @@ export default class StudentDashboard extends Component {
   }
 
   componentDidMount() {
-    console.log('hi');
     ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
-      console.log(snapshot.val());
       const teacher = snapshot.val().teacherID;
       // Get teachers/${user.uid}/students
       ref.child(`teachers/${teacher}`).once('value', (snapshot) => {
-        console.log(snapshot.val());
         this.setState({
           modal: false,
           name: snapshot.val().students[this.state.userid].name,

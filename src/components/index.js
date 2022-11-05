@@ -7,6 +7,7 @@ import Dashboard from './protected/Dashboard';
 import StudentDashboard from './protected/StudentDashboard';
 import Footer from './Footer';
 import NotFound from './NotFound';
+import AdminDashboard from './protected/AdminDashboard';
 import TRegister from './TRegister';
 import { firebaseAuth, ref } from '../helpers/firebase';
 import {
@@ -61,6 +62,7 @@ export default class App extends Component {
     this.state = {
       authed: false,
       isStudent: false,
+      isAdmin: false,
       loading: true,
       isOpen: false,
     };
@@ -80,6 +82,14 @@ export default class App extends Component {
             authed: true,
             loading: false,
             isStudent: true,
+          });
+        }
+        const snapshot2 = await ref.child(`admin/${user.uid}`).once('value');
+        if (snapshot2.exists()) {
+          this.setState({
+            authed: true,
+            loading: false,
+            isAdmin: true,
           });
         }
       } else {
@@ -172,6 +182,11 @@ export default class App extends Component {
                   component={
                     this.state.isStudent ? StudentDashboard : Dashboard
                   }
+                />
+                <PrivateRoute
+                  authed={this.state.authed}
+                  path="/admin"
+                  component={this.state.isAdmin ? AdminDashboard : NotFound}
                 />
                 <PrivateRoute
                   authed={this.state.authed}

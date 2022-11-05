@@ -30,20 +30,19 @@ export default class StudentDashboard extends Component {
 
     this.state = {
       modal: false,
-
       inputNotes: '',
       inputPlen1: '',
       inputPlen2: '',
       plenOptions: {
         open: false,
-        p1: { name: '', students: [], max: 0 },
-        p2: { name: '', students: [], max: 0 },
-        p3: { name: '', students: [], max: 0 },
-        p4: { name: '', students: [], max: 0 },
-        p5: { name: '', students: [], max: 0 },
-        p6: { name: '', students: [], max: 0 },
-        p7: { name: '', students: [], max: 0 },
-        p8: { name: '', students: [], max: 0 },
+        p1: { name: '', students: {}, max: 0 },
+        p2: { name: '', students: {}, max: 0 },
+        p3: { name: '', students: {}, max: 0 },
+        p4: { name: '', students: {}, max: 0 },
+        p5: { name: '', students: {}, max: 0 },
+        p6: { name: '', students: {}, max: 0 },
+        p7: { name: '', students: {}, max: 0 },
+        p8: { name: '', students: {}, max: 0 },
       },
       name: '',
       userid: userId,
@@ -224,15 +223,15 @@ export default class StudentDashboard extends Component {
         <hr />
         <Card className="pt-4">
           <Form onSubmit={this.handleSubmit}>
-            <Row>
-              <Col sm="4" lg="6">
+            <Row sm={1} md={1} lg={2}>
+              <Col sm="6" lg="6">
                 <FormGroup check>
                   <Label>Choose Plenary 1 </Label>
                 </FormGroup>
                 <FormGroup
                   onChange={this.handlePlen1Change}
                   check
-                  className="mr-2"
+                  className="mr-3"
                 >
                   <Input
                     value={this.state.inputPlen1}
@@ -255,7 +254,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup
                   onChange={this.handlePlen2Change}
                   check
-                  className="mr-2"
+                  className="mr-3"
                 >
                   <Input
                     value={this.state.inputPlen2}
@@ -272,9 +271,10 @@ export default class StudentDashboard extends Component {
                   </Input>
                 </FormGroup>
               </Col>
-              <Col className="mt-3" sm="4" lg="6">
-                <FormGroup check className="mr-2">
-                  <Label for="accessibility">
+              <br />
+              <Col sm="6" lg="6">
+                <FormGroup check className="mr-3">
+                  <Label for="accessibility" className="mt-2">
                     Accessibility/Dietary Restrictions/Other Notes
                   </Label>
                   <Input

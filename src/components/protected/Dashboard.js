@@ -46,6 +46,17 @@ export default class Dashboard extends Component {
       myStudentDataKey: myStudentDataKey,
       myStudentDataArr: myStudentDataArr,
       modal: false,
+      plenOptions: {
+        open: false,
+        p1: { name: '', students: {}, max: 0 },
+        p2: { name: '', students: {}, max: 0 },
+        p3: { name: '', students: {}, max: 0 },
+        p4: { name: '', students: {}, max: 0 },
+        p5: { name: '', students: {}, max: 0 },
+        p6: { name: '', students: {}, max: 0 },
+        p7: { name: '', students: {}, max: 0 },
+        p8: { name: '', students: {}, max: 0 },
+      },
     };
 
     // console.log(this.state.myStudentDataKey);
@@ -59,6 +70,10 @@ export default class Dashboard extends Component {
         students: snapshot.val().students,
       })
     );
+
+    ref.child('plenaries').once('value', (snapshot) => {
+      this.setState({ plenOptions: snapshot.val() });
+    });
   }
   toggleModal() {
     this.setState({
@@ -205,6 +220,7 @@ export default class Dashboard extends Component {
             <StudentRow
               studentData={this.state.myStudentDataArr}
               studentKey={this.state.myStudentDataKey}
+              plenOptions={this.state.plenOptions}
             />
           </Table>
         </div>

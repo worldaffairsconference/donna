@@ -17,6 +17,9 @@ import {
   Form,
   FormGroup,
   Input,
+  Badge,
+  Button,
+  Progress,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ref, firebaseAuth } from '../../helpers/firebase';
@@ -28,10 +31,23 @@ export default class AdminDashboard extends Component {
     var userId = firebaseAuth.currentUser.uid;
 
     this.state = {
+      userId: userId,
       schoolsList: [],
       teacherList: [],
       schoolNum: 0,
       attendeeList: {},
+      changedAttendeeList: {},
+      plenOptions: {
+        open: false,
+        p1: { name: '', students: {}, max: 0 },
+        p2: { name: '', students: {}, max: 0 },
+        p3: { name: '', students: {}, max: 0 },
+        p4: { name: '', students: {}, max: 0 },
+        p5: { name: '', students: {}, max: 0 },
+        p6: { name: '', students: {}, max: 0 },
+        p7: { name: '', students: {}, max: 0 },
+        p8: { name: '', students: {}, max: 0 },
+      },
     };
   }
 
@@ -49,17 +65,22 @@ export default class AdminDashboard extends Component {
           schoolsList.push([childSchool, childSnapshot.key]);
         }
         if (childSnapshot.val().students) {
-          attendeeList = { ...attendeeList, ...childSnapshot.val().students };
+          Object.entries(childSnapshot.val().students).forEach(([key, val]) => {
+            attendeeList[key] = { ...val, teacher: childSnapshot.key };
+          });
         }
       });
     });
+    var plenOptions = await ref.child('plenaries').once('value');
     this.setState({
       schoolsList: schoolsList,
       waiverSelectedSchool: schoolsList[0][1],
       attendeeSelectedTeacher: teacherList[0][1],
       schoolNum: schoolNum,
       attendeeList: attendeeList,
+      changedAttendeeList: attendeeList,
       teacherList: teacherList,
+      plenOptions: plenOptions.val(),
     });
 
     //bind
@@ -125,6 +146,157 @@ export default class AdminDashboard extends Component {
       });
   };
 
+  generateRows(list) {
+    var rows = [];
+    Object.entries(list).forEach((student, index) => {
+      rows.push(
+        <tr>
+          <td>
+            <Input
+              type="text"
+              value={student[1].name}
+              onChange={(event) => {
+                this.setState({
+                  changedAttendeeList: {
+                    ...this.state.changedAttendeeList,
+                    [student[0]]: { ...student[1], name: event.target.value },
+                  },
+                });
+              }}
+              name={`name${student[0]}`}
+            ></Input>
+          </td>
+          <td>{student[1].email}</td>
+          <td>
+            <Input
+              type="select"
+              value={student[1].p1}
+              className="form-control"
+              onChange={(event) => {
+                this.setState({
+                  changedAttendeeList: {
+                    ...this.state.changedAttendeeList,
+                    [student[0]]: { ...student[1], p1: event.target.value },
+                  },
+                });
+              }}
+            >
+              <option value="p1">{this.state.plenOptions.p1.name}</option>
+              <option value="p2">{this.state.plenOptions.p2.name}</option>
+              <option value="p3">{this.state.plenOptions.p3.name}</option>
+              <option value="p4">{this.state.plenOptions.p4.name}</option>
+            </Input>
+          </td>
+          <td>
+            <Input
+              type="select"
+              value={student[1].p2}
+              className="form-control"
+              onChange={(event) => {
+                this.setState({
+                  changedAttendeeList: {
+                    ...this.state.changedAttendeeList,
+                    [student[0]]: { ...student[1], p2: event.target.value },
+                  },
+                });
+              }}
+            >
+              <option value="p5">{this.state.plenOptions.p5.name}</option>
+              <option value="p6">{this.state.plenOptions.p6.name}</option>
+              <option value="p7">{this.state.plenOptions.p7.name}</option>
+              <option value="p8">{this.state.plenOptions.p8.name}</option>
+            </Input>
+          </td>
+          <td>
+            <Input
+              className="form-control"
+              value={student[1].note}
+              onChange={(event) => {
+                this.setState({
+                  changedAttendeeList: {
+                    ...this.state.changedAttendeeList,
+                    [student[0]]: { ...student[1], note: event.target.value },
+                  },
+                });
+              }}
+              type="textarea"
+              name="name"
+              id="accessibility"
+            />
+          </td>
+          <td>
+            <Button
+              color="primary"
+              disabled={
+                this.state.attendeeList[student[0]] ===
+                this.state.changedAttendeeList[student[0]]
+              }
+              onClick={async () => {
+                await ref
+                  .child(
+                    'teachers/' + student[1].teacher + '/students/' + student[0]
+                  )
+                  .update({
+                    ...this.state.changedAttendeeList[student[0]],
+                    teacher: null,
+                  });
+                if (
+                  this.state.changedAttendeeList[student[0]].p1 !==
+                    this.state.attendeeList[student[0]].p1 ||
+                  this.state.changedAttendeeList[student[0]].p2 !==
+                    this.state.attendeeList[student[0]].p2
+                ) {
+                  if (this.state.attendeeList[student[0]].p1 !== '') {
+                    await ref
+                      .child(
+                        `plenaries/${
+                          this.state.attendeeList[student[0]].p1
+                        }/students/${student[0]}`
+                      )
+                      .remove();
+                  }
+                  if (this.state.attendeeList[student[0]].p2 !== '') {
+                    await ref
+                      .child(
+                        `plenaries/${
+                          this.state.attendeeList[student[0]].p2
+                        }/students/${student[0]}`
+                      )
+                      .remove();
+                  }
+
+                  await ref
+                    .child(
+                      `plenaries/${
+                        this.state.changedAttendeeList[student[0]].p1
+                      }/students/${student[0]}`
+                    )
+                    .set(true);
+                  await ref
+                    .child(
+                      `plenaries/${
+                        this.state.changedAttendeeList[student[0]].p2
+                      }/students/${student[0]}`
+                    )
+                    .set(true);
+                }
+                this.setState({
+                  attendeeList: {
+                    ...this.state.attendeeList,
+                    [student[0]]: student[1],
+                  },
+                });
+              }}
+            >
+              Update
+            </Button>
+          </td>
+        </tr>
+      );
+    });
+    return rows;
+  }
+
   render() {
     return (
       <Container>
@@ -149,6 +321,140 @@ export default class AdminDashboard extends Component {
             <CardText>
               <h5>Schools: {this.state.schoolNum}</h5>
               <h5>Attendees: {Object.keys(this.state.attendeeList).length}</h5>
+              <hr />
+              {this.state.plenOptions.open ? (
+                <div>
+                  <h2>
+                    <Badge color="success">Open</Badge>
+                  </h2>
+                </div>
+              ) : (
+                <div>
+                  <h2>
+                    <Badge color="danger">Closed</Badge>
+                  </h2>
+                </div>
+              )}
+              <h5>
+                {this.state.plenOptions.p1.name}:
+                <Progress
+                  value={
+                    this.state.plenOptions.p1.students
+                      ? Object.keys(this.state.plenOptions.p1.students).length
+                      : 0
+                  }
+                  max={this.state.plenOptions.p1.max}
+                />
+                {this.state.plenOptions.p1.students
+                  ? Object.keys(this.state.plenOptions.p1.students).length
+                  : 0}
+                /{this.state.plenOptions.p1.max}
+              </h5>
+              <h5>
+                {this.state.plenOptions.p2.name}:
+                <Progress
+                  value={
+                    this.state.plenOptions.p2.students
+                      ? Object.keys(this.state.plenOptions.p2.students).length
+                      : 0
+                  }
+                  max={this.state.plenOptions.p2.max}
+                />
+                {this.state.plenOptions.p2.students
+                  ? Object.keys(this.state.plenOptions.p2.students).length
+                  : 0}
+                /{this.state.plenOptions.p2.max}
+              </h5>
+              <h5>
+                {this.state.plenOptions.p3.name}:
+                <Progress
+                  value={
+                    this.state.plenOptions.p3.students
+                      ? Object.keys(this.state.plenOptions.p3.students).length
+                      : 0
+                  }
+                  max={this.state.plenOptions.p3.max}
+                />
+                {this.state.plenOptions.p3.students
+                  ? Object.keys(this.state.plenOptions.p3.students).length
+                  : 0}
+                /{this.state.plenOptions.p3.max}
+              </h5>
+              <h5>
+                {this.state.plenOptions.p4.name}:{' '}
+                <Progress
+                  value={
+                    this.state.plenOptions.p4.students
+                      ? Object.keys(this.state.plenOptions.p4.students).length
+                      : 0
+                  }
+                  max={this.state.plenOptions.p4.max}
+                />
+                {this.state.plenOptions.p4.students
+                  ? Object.keys(this.state.plenOptions.p4.students).length
+                  : 0}
+                /{this.state.plenOptions.p4.max}
+              </h5>
+              <h5>
+                {this.state.plenOptions.p5.name}:
+                <Progress
+                  value={
+                    this.state.plenOptions.p5.students
+                      ? Object.keys(this.state.plenOptions.p5.students).length
+                      : 0
+                  }
+                  max={this.state.plenOptions.p5.max}
+                />
+                {this.state.plenOptions.p5.students
+                  ? Object.keys(this.state.plenOptions.p5.students).length
+                  : 0}
+                /{this.state.plenOptions.p5.max}
+              </h5>
+              <h5>
+                {this.state.plenOptions.p6.name}:
+                <Progress
+                  value={
+                    this.state.plenOptions.p6.students
+                      ? Object.keys(this.state.plenOptions.p6.students).length
+                      : 0
+                  }
+                  max={this.state.plenOptions.p6.max}
+                />
+                {this.state.plenOptions.p6.students
+                  ? Object.keys(this.state.plenOptions.p6.students).length
+                  : 0}
+                /{this.state.plenOptions.p6.max}
+              </h5>
+              <h5>
+                {this.state.plenOptions.p7.name}:
+                <Progress
+                  value={
+                    this.state.plenOptions.p7.students
+                      ? Object.keys(this.state.plenOptions.p7.students).length
+                      : 0
+                  }
+                  max={this.state.plenOptions.p7.max}
+                />
+                {this.state.plenOptions.p7.students
+                  ? Object.keys(this.state.plenOptions.p7.students).length
+                  : 0}
+                /{this.state.plenOptions.p7.max}
+              </h5>
+              <h5>
+                {this.state.plenOptions.p8.name}:{' '}
+                <Progress
+                  value={
+                    this.state.plenOptions.p8.students
+                      ? Object.keys(this.state.plenOptions.p8.students).length
+                      : 0
+                  }
+                  max={this.state.plenOptions.p8.max}
+                />
+                {this.state.plenOptions.p8.students
+                  ? Object.keys(this.state.plenOptions.p8.students).length
+                  : 0}
+                /{this.state.plenOptions.p8.max}
+              </h5>
             </CardText>
           </Card>
         </Row>
@@ -215,9 +521,11 @@ export default class AdminDashboard extends Component {
         </Form>
         <hr />
         <br />
+
         <h2>All Attendees</h2>
+
         <div id="table">
-          <Table className="table table-responsive">
+          <Table className="table">
             <thead>
               <tr>
                 <th>Name</th>
@@ -225,31 +533,10 @@ export default class AdminDashboard extends Component {
                 <th>Plenary #1</th>
                 <th>Plenary #2</th>
                 <th>Notes</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody>
-              {Object.entries(this.state.attendeeList).map((student) => (
-                <tr>
-                  <td>{student[1].name}</td>
-                  <td>{student[1].email}</td>
-                  <td>
-                    <Input
-                      type="select"
-                      value={student[1].p1}
-                      className="form-control"
-                    ></Input>
-                  </td>
-                  <td>
-                    <Input
-                      type="select"
-                      value={student[1].p2}
-                      className="form-control"
-                    ></Input>
-                  </td>
-                  <td>{student[1].note}</td>
-                </tr>
-              ))}
-            </tbody>
+            <tbody>{this.generateRows(this.state.changedAttendeeList)}</tbody>
           </Table>
         </div>
       </Container>

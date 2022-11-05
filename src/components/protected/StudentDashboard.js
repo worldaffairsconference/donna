@@ -34,7 +34,17 @@ export default class StudentDashboard extends Component {
       inputNotes: '',
       inputPlen1: '',
       inputPlen2: '',
-
+      plenOptions: {
+        open: false,
+        p1: { name: '', students: [], max: 0 },
+        p2: { name: '', students: [], max: 0 },
+        p3: { name: '', students: [], max: 0 },
+        p4: { name: '', students: [], max: 0 },
+        p5: { name: '', students: [], max: 0 },
+        p6: { name: '', students: [], max: 0 },
+        p7: { name: '', students: [], max: 0 },
+        p8: { name: '', students: [], max: 0 },
+      },
       name: '',
       userid: userId,
       school: '',
@@ -56,10 +66,6 @@ export default class StudentDashboard extends Component {
     this.handlePlen2Change = this.handlePlen2Change.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
-    // Get users/${user.uid}
-  }
-
-  componentDidMount() {
     ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
       const teacher = snapshot.val().teacherID;
       // Get teachers/${user.uid}/students
@@ -78,6 +84,11 @@ export default class StudentDashboard extends Component {
           notes: snapshot.val().students[this.state.userid].note,
         });
       });
+    });
+
+    // Get plenaries
+    ref.child('plenaries').once('value', (snapshot) => {
+      this.setState({ plenOptions: snapshot.val() });
     });
   }
 
@@ -99,16 +110,44 @@ export default class StudentDashboard extends Component {
     this.setState({ inputPlen2: event.target.value });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     // Update teachers/${user.uid}/students
-    ref
+    await ref
       .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
       .update({
         note: this.state.inputNotes,
         p1: this.state.inputPlen1,
         p2: this.state.inputPlen2,
       });
+
+    if (
+      this.state.inputPlen1 !== this.state.p1 ||
+      this.state.inputPlen2 !== this.state.p2
+    ) {
+      if (this.state.p1 !== '') {
+        await ref
+          .child(`plenaries/${this.state.p1}/students/${this.state.userid}`)
+          .remove();
+      }
+
+      if (this.state.p2 !== '') {
+        await ref
+          .child(`plenaries/${this.state.p2}/students/${this.state.userid}`)
+          .remove();
+      }
+
+      await ref
+        .child(
+          `plenaries/${this.state.inputPlen1}/students/${this.state.userid}`
+        )
+        .set(true);
+      await ref
+        .child(
+          `plenaries/${this.state.inputPlen2}/students/${this.state.userid}`
+        )
+        .set(true);
+    }
 
     this.setState({
       notes: this.state.inputNotes,
@@ -201,12 +240,12 @@ export default class StudentDashboard extends Component {
                     type="select"
                     name="select1"
                     id="select1"
-                    disabled
+                    disabled={!this.state.plenOptions.open}
                   >
-                    <option value="Plenary 1">Plenary 1</option>
-                    <option value="Plenary 2">Plenary 2</option>
-                    <option value="Plenary 3">Plenary 3</option>
-                    <option value="Plenary 4">Plenary 4</option>
+                    <option value="p1">{this.state.plenOptions.p1.name}</option>
+                    <option value="p2">{this.state.plenOptions.p2.name}</option>
+                    <option value="p3">{this.state.plenOptions.p3.name}</option>
+                    <option value="p4">{this.state.plenOptions.p4.name}</option>
                   </Input>
                 </FormGroup>
                 <br />
@@ -224,12 +263,12 @@ export default class StudentDashboard extends Component {
                     type="select"
                     name="select2"
                     id="select2"
-                    disabled
+                    disabled={!this.state.plenOptions.open}
                   >
-                    <option value="Plenary 1">Plenary 1</option>
-                    <option value="Plenary 2">Plenary 2</option>
-                    <option value="Plenary 3">Plenary 3</option>
-                    <option value="Plenary 4">Plenary 4</option>
+                    <option value="p5">{this.state.plenOptions.p5.name}</option>
+                    <option value="p6">{this.state.plenOptions.p6.name}</option>
+                    <option value="p7">{this.state.plenOptions.p7.name}</option>
+                    <option value="p8">{this.state.plenOptions.p8.name}</option>
                   </Input>
                 </FormGroup>
               </Col>
@@ -267,9 +306,11 @@ export default class StudentDashboard extends Component {
 
             <br />
           </Form>
-          <CardFooter>
-            Plenary selection not available yet. Please check back later.
-          </CardFooter>
+          {!this.state.plenOptions.open && (
+            <CardFooter>
+              Plenary selection not available yet. Please check back later.
+            </CardFooter>
+          )}
         </Card>
         <br />
       </Container>

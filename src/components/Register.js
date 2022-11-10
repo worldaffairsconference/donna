@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 import { auth } from '../helpers/auth';
 
 function setErrorMsg(error) {
@@ -8,7 +9,7 @@ function setErrorMsg(error) {
 }
 
 export default class Register extends Component {
-  state = { registerError: null };
+  state = { registerError: null, qs: false };
   handleSubmit = (e) => {
     e.preventDefault();
     auth(
@@ -19,11 +20,19 @@ export default class Register extends Component {
       this.access.value
     ).catch((e) => this.setState(setErrorMsg(e)));
   };
+  componentDidMount() {
+    const params = queryString.parse(this.props.location.search);
+    if (params.access) {
+      this.access.value = params.access;
+      this.setState({ qs: true });
+    }
+  }
   render() {
     return (
       <div className="col-sm-6 col-sm-offset-3">
         <br />
         <h1>Register</h1>
+        <p>{}</p>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Full Name</label>
@@ -41,6 +50,7 @@ export default class Register extends Component {
               className="form-control"
               placeholder="Access Code"
               ref={(access) => (this.access = access)}
+              disabled={this.state.qs}
             />
           </div>
           <div className="form-group">

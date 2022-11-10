@@ -52,7 +52,7 @@ export default class AdminDashboard extends Component {
   }
 
   async componentDidMount() {
-    var schoolsList = [];
+    var schoolsList = [['', '']];
     var teacherList = [];
     var schoolNum = 0;
     var attendeeList = {};

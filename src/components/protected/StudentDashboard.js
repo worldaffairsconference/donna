@@ -52,10 +52,10 @@ export default class StudentDashboard extends Component {
       p2: '',
       notes: '',
       greet: [
-        'What are you doing that early?',
-        ', Good Morning',
-        ', Good Afternoon',
-        ', Good Evening',
+        'What are you doing that early? ',
+        'Good Morning, ',
+        'Good Afternoon, ',
+        'Good Evening, ',
       ][parseInt((new Date().getHours() / 24) * 4)],
     };
 

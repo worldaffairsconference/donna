@@ -53,9 +53,9 @@ export default class StudentDashboard extends Component {
       notes: '',
       greet: [
         'What are you doing that early?',
-        'Good Morning',
-        'Good Afternoon',
-        'Good Evening',
+        ', Good Morning',
+        ', Good Afternoon',
+        ', Good Evening',
       ][parseInt((new Date().getHours() / 24) * 4)],
     };
 
@@ -167,7 +167,8 @@ export default class StudentDashboard extends Component {
           <Col md="8" sm="12" xs="12">
             <h1 className="fonted-h">
               {' '}
-              {this.state.greet}, {this.state.name}{' '}
+              {this.state.greet}
+              {this.state.name}{' '}
             </h1>
           </Col>
           <Col md="2" sm="12" xs="12">

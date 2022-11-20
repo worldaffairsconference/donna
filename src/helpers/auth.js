@@ -8,6 +8,12 @@ export function auth(email, pw, name, grade, access) {
       reject(new Error('Access code does not exist'));
       return;
     }
+    else {
+      if (snapshot.val().regstatus == false) {
+        reject(new Error(`Registration is currently unavailable for ${snapshot.val().school}. Please contact your faculty advisor.`));
+        return;
+      }
+    }
 
     return firebaseAuth
       .createUserWithEmailAndPassword(email, pw)
@@ -86,6 +92,7 @@ export function tauth(email, school, cnumber, pw, name) {
         school: school,
         cnumber: cnumber,
         name: name,
+        regstatus: true,
         waiver: false,
       })
       .then(() => data.user);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import { auth } from '../helpers/auth';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 function setErrorMsg(error) {
   return {
@@ -9,9 +10,23 @@ function setErrorMsg(error) {
 }
 
 export default class Register extends Component {
-  state = { registerError: null, qs: false };
+  state = { registerError: null, qs: false, modal: false };
+
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
+    if (!this.access.value) {
+      this.setState({
+        registerError:
+          'No access code provided. Please contact us for more information.',
+      });
+      return;
+    }
     auth(
       this.email.value,
       this.pw.value,
@@ -30,6 +45,40 @@ export default class Register extends Component {
   render() {
     return (
       <div className="col-sm-6 col-sm-offset-3">
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle}>
+            What is an Access Code?
+          </ModalHeader>
+          <ModalBody>
+            The access code is our way of ensuring all in-person attendees are
+            associated with an organization. <br />
+            If you are interested in attending in-person, please reach out to
+            us. If you would like to register as a virtual delegate, please use
+            this{' '}
+            <a href="https://hopin.com/events/world-affairs-conference-2023-hybrid-thinking">
+              link
+            </a>
+            . <br />
+            If you are a teacher and would like to bring your school, please
+            fill out this{' '}
+            <a href="https://coda.io/form/WAC-Interest-Form_dHaDOjXdHJT">
+              form
+            </a>
+            . <br />
+            If you are associated with Upper Canada College, Branksome Hall or
+            the World Affairs Conference and would like a special invite, please
+            complete this{' '}
+            <a href="https://coda.io/form/Access-Code-Request_ddUfef9uoEU">
+              form
+            </a>
+            .
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" onClick={this.toggle}>
+              Close
+            </Button>{' '}
+          </ModalFooter>
+        </Modal>
         <br />
         <h1>Register</h1>
         <p>{}</p>
@@ -44,7 +93,10 @@ export default class Register extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Access Code</label>
+            <label>Access Code </label>
+            <span onClick={this.toggle} className="ml-1">
+              <i className="fa fa-info-circle"></i>
+            </span>
             <input
               type="text"
               className="form-control"
@@ -88,10 +140,7 @@ export default class Register extends Component {
 
           {this.state.registerError && (
             <div className="alert alert-danger" role="alert">
-              <span
-                className="glyphicon glyphicon-exclamation-sign"
-                aria-hidden="true"
-              ></span>
+              <i className="fa fa-exclamation-triangle" aria-hidden="true"></i>
               <span className="sr-only">Error:</span>
               &nbsp;{this.state.registerError}
             </div>
@@ -108,6 +157,10 @@ export default class Register extends Component {
             link{' '}
           </a>
           .
+        </p>
+        <p>
+          <a href="https://worldaffairscon.org/contact">Contact us</a> for more
+          information
         </p>
       </div>
     );

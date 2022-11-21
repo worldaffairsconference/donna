@@ -11,9 +11,7 @@ import {
   ModalBody,
   ModalFooter,
   Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
+  Alert,
   CardText,
   CardTitle,
 } from 'reactstrap';
@@ -42,6 +40,7 @@ export default class Dashboard extends Component {
 
     this.toggleModal = this.toggleModal.bind(this);
     this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this);
+    this.handleCopy = this.handleCopy.bind(this);
 
     this.state = {
       myStudentDataKey: myStudentDataKey,
@@ -58,6 +57,7 @@ export default class Dashboard extends Component {
         p7: { name: '', students: {}, max: 0 },
         p8: { name: '', students: {}, max: 0 },
       },
+      alert: true,
     };
 
     // console.log(this.state.myStudentDataKey);
@@ -87,13 +87,18 @@ export default class Dashboard extends Component {
   }
 
   handleCopy() {
-    var Text = `Access Code: ${firebaseAuth.currentUser.uid}`;
+    var Text = `Register: https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`;
     var dummy = document.createElement('textarea');
     document.body.appendChild(dummy);
     dummy.value = Text;
     dummy.select();
     document.execCommand('copy');
     document.body.removeChild(dummy);
+    // alert then dissapear after 3 seconds
+    this.setState({ alert: false });
+    setTimeout(() => {
+      this.setState({ alert: true });
+    }, 3000);
   }
 
   render() {
@@ -169,6 +174,10 @@ export default class Dashboard extends Component {
               <hr />
               <Row>
                 <Col lg={9} md={9} sm={12} xs={12} className="mt-2">
+                  <Alert color="success" hidden={this.state.alert}>
+                    {' '}
+                    Copied to clipboard!{' '}
+                  </Alert>
                   <center>
                     <h5>
                       <b>Access Code: </b>
@@ -180,7 +189,7 @@ export default class Dashboard extends Component {
                       onClick={this.handleCopy}
                       className="mt-2"
                     >
-                      Copy Access Code to Clipboard
+                      Copy Registration Info to Clipboard
                     </Button>
                   </center>
                 </Col>

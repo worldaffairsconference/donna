@@ -503,6 +503,7 @@ export default class AdminDashboard extends Component {
             <option value="10">10</option>
             <option value="11">11</option>
             <option value="12">12</option>
+            <option value="other">Other</option>
           </Input>
           <label>Supervisor:</label>
           <Input

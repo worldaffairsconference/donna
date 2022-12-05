@@ -9,8 +9,8 @@ export function auth(email, pw, name, grade, access) {
       return;
     }
     else {
-      if (snapshot.val().regstatus == false) {
-        reject(new Error(`Registration is currently unavailable for ${snapshot.val().school}. Please contact your faculty advisor.`));
+      if (snapshot.val().students.length > snapshot.val().regcountmax) {
+        reject(new Error(`Registration is currently unavailable for ${snapshot.val().school}. Maximum sign up quota is reached. Please contact your faculty advisor to contact the WAC team for further information.`));
         return;
       }
     }
@@ -93,6 +93,7 @@ export function tauth(email, school, cnumber, pw, name) {
         cnumber: cnumber,
         name: name,
         regstatus: true,
+        regcountmax: 25,
         waiver: false,
       })
       .then(() => data.user);

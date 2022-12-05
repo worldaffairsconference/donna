@@ -7,15 +7,23 @@ export function auth(email, pw, name, grade, access) {
     if (!snapshot.exists()) {
       reject(new Error('Access code does not exist'));
       return;
-    }
-    else {
-      if (snapshot.val().students.length > snapshot.val().regcountmax) {
-        reject(new Error(`Registration is currently unavailable for ${snapshot.val().school}. Maximum sign up quota is reached. Please contact your faculty advisor to contact the WAC team for further information.`));
+    } else {
+      if (
+        Object.keys(snapshot.val().students).length + 1 >
+        snapshot.val().regcountmax
+      ) {
+        reject(
+          new Error(
+            `Registration is currently unavailable for ${
+              snapshot.val().school
+            }. Maximum sign up quota is reached. Please ask your faculty advisor to contact the WAC team for further information.`
+          )
+        );
         return;
       }
     }
 
-    return firebaseAuth
+    firebaseAuth
       .createUserWithEmailAndPassword(email, pw)
       .then((data) => {
         ref
@@ -35,9 +43,12 @@ export function auth(email, pw, name, grade, access) {
                 teacherID: access,
               })
               .then(() => {
-                return data.user;
+                resolve(data.user);
               });
           });
+      })
+      .catch((error) => {
+        reject(error);
       });
   });
 }

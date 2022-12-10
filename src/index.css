@@ -21,3 +21,7 @@ body {
 .btn-close {
   display: none;
 }
+
+.passwdresetclick{
+    cursor: pointer;
+}

@@ -111,6 +111,9 @@ export default class StudentDashboard extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
+    await ref.child('plenaries').once('value', (snapshot) => {
+      this.setState({ plenOptions: snapshot.val() });
+    });
     // Check for plenary maximum capacity
     if (
       this.state.inputPlen1 != '' &&

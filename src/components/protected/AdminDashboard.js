@@ -23,7 +23,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ref, firebaseAuth } from '../../helpers/firebase';
-import { addAttendee, resetPassword } from '../../helpers/auth';
+import { addAttendee, adminResetPassword } from '../../helpers/auth';
 
 export default class AdminDashboard extends Component {
   constructor(props) {
@@ -31,6 +31,7 @@ export default class AdminDashboard extends Component {
     var userId = firebaseAuth.currentUser.uid;
 
     this.state = {
+      modal: [false, ''],
       userId: userId,
       schoolsList: [],
       fullSchoolList: [],
@@ -51,6 +52,12 @@ export default class AdminDashboard extends Component {
       },
     };
   }
+
+  toggle = (email) => {
+    this.setState({
+      modal: [!this.state.modal[0], email ? email : ''],
+    });
+  };
 
   async componentDidMount() {
     var schoolsList = [['', '']];
@@ -118,7 +125,6 @@ export default class AdminDashboard extends Component {
 
   generateTeacherOptions() {
     var options = [];
-    console.log(this.state.teacherList);
     for (var i = 0; i < this.state.teacherList.length; i++) {
       options.push(
         <option
@@ -159,6 +165,12 @@ export default class AdminDashboard extends Component {
       });
   };
 
+  resetPassword = () => {
+    console.log('resetting password for ' + this.state.modal[1]);
+    adminResetPassword(this.state.modal[1]);
+    this.toggle();
+  };
+
   generateRows(list) {
     var rows = [];
     Object.entries(list).forEach((student, index) => {
@@ -179,7 +191,16 @@ export default class AdminDashboard extends Component {
               name={`name${student[0]}`}
             ></Input>
           </td>
-          <td>{student[1].email}</td>
+          <td>
+            <a
+              className="passwdresetclick"
+              onClick={() => {
+                this.toggle(student[1].email);
+              }}
+            >
+              {student[1].email}
+            </a>
+          </td>
           <td>
             <Input
               type="select"
@@ -319,6 +340,20 @@ export default class AdminDashboard extends Component {
   render() {
     return (
       <Container>
+        <Modal isOpen={this.state.modal[0]} toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle}>
+            What is an Access Code?
+          </ModalHeader>
+          <ModalBody>Confirm you want to send password reset email?</ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.resetPassword}>
+              Confirm!
+            </Button>{' '}
+            <Button color="danger" onClick={this.toggle}>
+              Close
+            </Button>{' '}
+          </ModalFooter>
+        </Modal>
         <br />
         <Row>
           <Col md="10" sm="12" xs="12">

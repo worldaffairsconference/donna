@@ -33,6 +33,7 @@ export default class AdminDashboard extends Component {
     this.state = {
       userId: userId,
       schoolsList: [],
+      fullSchoolList: [],
       teacherList: [],
       schoolNum: 0,
       attendeeList: {},
@@ -53,20 +54,30 @@ export default class AdminDashboard extends Component {
 
   async componentDidMount() {
     var schoolsList = [['', '']];
+    var fullSchoolList = [''];
     var teacherList = [];
     var schoolNum = 0;
     var attendeeList = {};
     await ref.child('teachers/').once('value', function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         schoolNum += 1;
-        teacherList.push([childSnapshot.val().name, childSnapshot.key]);
+        var childSchool = childSnapshot.val().school;
+        teacherList.push([
+          childSnapshot.val().name,
+          childSnapshot.key,
+          childSchool,
+        ]);
+        fullSchoolList.push(childSchool);
         if (!childSnapshot.val().waiver) {
-          var childSchool = childSnapshot.val().school;
           schoolsList.push([childSchool, childSnapshot.key]);
         }
         if (childSnapshot.val().students) {
           Object.entries(childSnapshot.val().students).forEach(([key, val]) => {
-            attendeeList[key] = { ...val, teacher: childSnapshot.key };
+            attendeeList[key] = {
+              ...val,
+              teacher: childSnapshot.key,
+              school: childSchool,
+            };
           });
         }
       });
@@ -74,6 +85,7 @@ export default class AdminDashboard extends Component {
     var plenOptions = await ref.child('plenaries').once('value');
     this.setState({
       schoolsList: schoolsList,
+      fullSchoolList: fullSchoolList,
       waiverSelectedSchool: schoolsList[0][1],
       attendeeSelectedTeacher: teacherList[0][1],
       schoolNum: schoolNum,
@@ -106,13 +118,14 @@ export default class AdminDashboard extends Component {
 
   generateTeacherOptions() {
     var options = [];
+    console.log(this.state.teacherList);
     for (var i = 0; i < this.state.teacherList.length; i++) {
       options.push(
         <option
           key={this.state.teacherList[i][1]}
           value={this.state.teacherList[i][1]}
         >
-          {this.state.teacherList[i][0]}
+          {this.state.teacherList[i][0]}, {this.state.teacherList[i][2]}
         </option>
       );
     }
@@ -539,6 +552,14 @@ export default class AdminDashboard extends Component {
             </thead>
             <tbody>{this.generateRows(this.state.changedAttendeeList)}</tbody>
           </Table>
+        </div>
+        <div>
+          <br />
+          <hr />
+          <h2>School List:</h2>
+          {this.state.fullSchoolList.map((school, index) => {
+            return <p>{school}</p>;
+          })}
         </div>
       </Container>
     );

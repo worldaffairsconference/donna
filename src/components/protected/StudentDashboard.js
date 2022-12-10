@@ -111,6 +111,38 @@ export default class StudentDashboard extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
+    // Check for plenary maximum capacity
+    if (
+      this.state.inputPlen1 != '' &&
+      this.state.plenOptions[this.state.inputPlen1].students
+    ) {
+      console.log('here1');
+      if (
+        Object.keys(this.state.plenOptions[this.state.inputPlen1].students)
+          .length >= this.state.plenOptions[this.state.inputPlen2].max
+      ) {
+        alert(
+          'Selected Plenary 1 is full! Please select another plenary or try again later.'
+        );
+        return;
+      }
+    }
+
+    if (
+      this.state.inputPlen1 != '' &&
+      this.state.plenOptions[this.state.inputPlen2].students
+    ) {
+      if (
+        Object.keys(this.state.plenOptions[this.state.inputPlen2].students)
+          .length >= this.state.plenOptions[this.state.inputPlen2].max
+      ) {
+        alert(
+          'Selected Plenary 2 is full! Please select another plenary or try again later.'
+        );
+        return;
+      }
+    }
+
     // Update teachers/${user.uid}/students
     await ref
       .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
@@ -136,16 +168,20 @@ export default class StudentDashboard extends Component {
           .remove();
       }
 
-      await ref
-        .child(
-          `plenaries/${this.state.inputPlen1}/students/${this.state.userid}`
-        )
-        .set(true);
-      await ref
-        .child(
-          `plenaries/${this.state.inputPlen2}/students/${this.state.userid}`
-        )
-        .set(true);
+      if (this.state.inputPlen1 !== '') {
+        await ref
+          .child(
+            `plenaries/${this.state.inputPlen1}/students/${this.state.userid}`
+          )
+          .set(true);
+      }
+      if (this.state.inputPlen1 !== '') {
+        await ref
+          .child(
+            `plenaries/${this.state.inputPlen2}/students/${this.state.userid}`
+          )
+          .set(true);
+      }
     }
 
     this.setState({
@@ -242,6 +278,7 @@ export default class StudentDashboard extends Component {
                     id="select1"
                     disabled={!this.state.plenOptions.open}
                   >
+                    <option value="">None</option>
                     <option value="p1">{this.state.plenOptions.p1.name}</option>
                     <option value="p2">{this.state.plenOptions.p2.name}</option>
                     <option value="p3">{this.state.plenOptions.p3.name}</option>
@@ -265,6 +302,7 @@ export default class StudentDashboard extends Component {
                     id="select2"
                     disabled={!this.state.plenOptions.open}
                   >
+                    <option value="">None</option>
                     <option value="p5">{this.state.plenOptions.p5.name}</option>
                     <option value="p6">{this.state.plenOptions.p6.name}</option>
                     <option value="p7">{this.state.plenOptions.p7.name}</option>

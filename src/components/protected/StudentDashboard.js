@@ -29,6 +29,7 @@ export default class StudentDashboard extends Component {
     this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this);
 
     this.state = {
+      buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
       modal: false,
       inputNotes: '',
       inputPlen1: '',
@@ -117,9 +118,9 @@ export default class StudentDashboard extends Component {
     // Check for plenary maximum capacity
     if (
       this.state.inputPlen1 != '' &&
-      this.state.plenOptions[this.state.inputPlen1].students
+      this.state.plenOptions[this.state.inputPlen1].students &&
+      this.state.inputPlen1 !== this.state.p1
     ) {
-      console.log('here1');
       if (
         Object.keys(this.state.plenOptions[this.state.inputPlen1].students)
           .length >= this.state.plenOptions[this.state.inputPlen2].max
@@ -133,7 +134,8 @@ export default class StudentDashboard extends Component {
 
     if (
       this.state.inputPlen1 != '' &&
-      this.state.plenOptions[this.state.inputPlen2].students
+      this.state.plenOptions[this.state.inputPlen2].students &&
+      this.state.inputPlen2 !== this.state.p2
     ) {
       if (
         Object.keys(this.state.plenOptions[this.state.inputPlen2].students)
@@ -191,7 +193,14 @@ export default class StudentDashboard extends Component {
       notes: this.state.inputNotes,
       p1: this.state.inputPlen1,
       p2: this.state.inputPlen2,
+      buttonStatus: ['Success!', 'btn btn-success fonted'],
     });
+
+    setTimeout(() => {
+      this.setState({
+        buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
+      });
+    }, 1200);
   }
 
   proceedDeleteAccount() {
@@ -335,14 +344,14 @@ export default class StudentDashboard extends Component {
             <center className="mt-4">
               <button
                 type="submit"
-                className="btn btn-primary fonted"
+                className={this.state.buttonStatus[1]}
                 disabled={
                   this.state.inputPlen1 === this.state.p1 &&
                   this.state.inputPlen2 === this.state.p2 &&
                   this.state.inputNotes === this.state.notes
                 }
               >
-                Confirm!
+                {this.state.buttonStatus[0]}
               </button>
             </center>
 

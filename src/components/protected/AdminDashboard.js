@@ -194,6 +194,7 @@ export default class AdminDashboard extends Component {
                 });
               }}
             >
+              <option value="">None</option>
               <option value="p1">{this.state.plenOptions.p1.name}</option>
               <option value="p2">{this.state.plenOptions.p2.name}</option>
               <option value="p3">{this.state.plenOptions.p3.name}</option>
@@ -214,6 +215,7 @@ export default class AdminDashboard extends Component {
                 });
               }}
             >
+              <option value="">None</option>
               <option value="p5">{this.state.plenOptions.p5.name}</option>
               <option value="p6">{this.state.plenOptions.p6.name}</option>
               <option value="p7">{this.state.plenOptions.p7.name}</option>
@@ -278,20 +280,24 @@ export default class AdminDashboard extends Component {
                       .remove();
                   }
 
-                  await ref
-                    .child(
-                      `plenaries/${
-                        this.state.changedAttendeeList[student[0]].p1
-                      }/students/${student[0]}`
-                    )
-                    .set(true);
-                  await ref
-                    .child(
-                      `plenaries/${
-                        this.state.changedAttendeeList[student[0]].p2
-                      }/students/${student[0]}`
-                    )
-                    .set(true);
+                  if (this.state.changedAttendeeList[student[0]].p1 !== '') {
+                    await ref
+                      .child(
+                        `plenaries/${
+                          this.state.changedAttendeeList[student[0]].p1
+                        }/students/${student[0]}`
+                      )
+                      .set(true);
+                  }
+                  if (this.state.changedAttendeeList[student[0]].p2 !== '') {
+                    await ref
+                      .child(
+                        `plenaries/${
+                          this.state.changedAttendeeList[student[0]].p2
+                        }/students/${student[0]}`
+                      )
+                      .set(true);
+                  }
                 }
                 this.setState({
                   attendeeList: {

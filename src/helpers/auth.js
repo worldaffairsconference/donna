@@ -8,18 +8,20 @@ export function auth(email, pw, name, grade, access) {
       reject(new Error('Access code does not exist'));
       return;
     } else {
-      if (
-        Object.keys(snapshot.val().students).length + 1 >
-        snapshot.val().regcountmax
-      ) {
-        reject(
-          new Error(
-            `Registration is currently unavailable for ${
-              snapshot.val().school
-            }. Maximum sign up quota is reached. Please ask your faculty advisor to contact the WAC team for further information.`
-          )
-        );
-        return;
+      if (snapshot.val().students) {
+        if (
+          Object.keys(snapshot.val().students).length + 1 >
+          snapshot.val().regcountmax
+        ) {
+          reject(
+            new Error(
+              `Registration is currently unavailable for ${
+                snapshot.val().school
+              }. Maximum sign up quota is reached. Please ask your faculty advisor to contact the WAC team for further information.`
+            )
+          );
+          return;
+        }
       }
     }
 

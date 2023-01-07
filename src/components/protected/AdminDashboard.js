@@ -187,7 +187,7 @@ export default class AdminDashboard extends Component {
         rows.push(
           <tr>
             <td colSpan="6" className="table-secondary">
-              {student[1].school} - {this.state.teacherList.filter(teacher => teacher[1] === student[1].teacher)[0][0]} ({Object.keys(this.state.teacherList.filter(teacher => teacher[1] === student[1].teacher)[0][2]).length})
+              {student[1].school} - {this.state.teacherList.filter(teacher => teacher[1] === student[1].teacher)[0][0]}
             </td>
           </tr>
         );
@@ -396,7 +396,8 @@ export default class AdminDashboard extends Component {
             <CardTitle tag="h3">Conference Statistics</CardTitle>
             <CardText>
               <h5>Schools: {this.state.schoolNum}</h5>
-              <h5>Attendees: {(Object.keys(this.state.attendeeList).length - this.state.teamAttendeeCount)}</h5>
+              {/* <h5>Attendees: {(Object.keys(this.state.attendeeList).length - this.state.teamAttendeeCount)}</h5> */}
+              <h5>Attendees: {Object.keys(this.state.attendeeList).length}</h5>
               <hr />
               {this.state.plenOptions.open ? (
                 <div>

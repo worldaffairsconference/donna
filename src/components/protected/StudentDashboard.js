@@ -29,6 +29,7 @@ export default class StudentDashboard extends Component {
     this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this);
 
     this.state = {
+      ucc_student: false,
       buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
       modal: false,
       inputNotes: '',
@@ -68,13 +69,22 @@ export default class StudentDashboard extends Component {
 
     ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
       const teacher = snapshot.val().teacherID;
+      var teacher_name;
+      var ucc_student = false;
       // Get teachers/${user.uid}/students
       ref.child(`teachers/${teacher}`).once('value', (snapshot) => {
+        if (snapshot.val().students[this.state.userid].ucc_advisor) {
+          teacher_name = snapshot.val().students[this.state.userid].ucc_advisor;
+          ucc_student = true;
+        } else {
+          teacher_name = snapshot.val().name;
+        }
         this.setState({
           modal: false,
+          ucc_student: ucc_student,
           name: snapshot.val().students[this.state.userid].name,
           school: snapshot.val().school,
-          teacher: snapshot.val().name,
+          teacher: teacher_name,
           teacherID: teacher,
           p1: snapshot.val().students[this.state.userid].p1,
           inputPlen1: snapshot.val().students[this.state.userid].p1,
@@ -214,52 +224,67 @@ export default class StudentDashboard extends Component {
         <Row>
           <Col md="8" sm="12" xs="12">
             <h1 className="fonted-h">
-              {' '}
               {this.state.greet}
-              {this.state.name}{' '}
+              {this.state.name}
             </h1>
           </Col>
-          <Col md="2" sm="12" xs="12">
-            <Button
-              color="secondary"
-              className="float-right mb-2"
-              onClick={() => {
-                logout();
-              }}
-            >
-              Log Out
-            </Button>
-          </Col>
-          <Col md="2" sm="12" xs="12">
-            <Button
-              color="danger"
-              className="fonted mb-2 float-right"
-              onClick={this.toggleModal}
-            >
-              Delete Account
-            </Button>
-            <Modal
-              isOpen={this.state.modal}
-              toggle={this.toggleModal}
-              className="modal-dialog"
-            >
-              <ModalHeader toggle={this.toggleModal}>
+          {this.state.ucc_student ? (
+            <Col md="4" sm="12" xs="12">
+              <Button
+                color="secondary"
+                className="float-right mb-2"
+                onClick={() => {
+                  logout();
+                }}
+              >
+                Log Out
+              </Button>
+            </Col>
+          ) : (
+            <Col md="2" sm="12" xs="12">
+              <Button
+                color="secondary"
+                className="float-right mb-2"
+                onClick={() => {
+                  logout();
+                }}
+              >
+                Log Out
+              </Button>
+            </Col>
+          )}
+          {!this.state.ucc_student && (
+            <Col md="2" sm="12" xs="12">
+              <Button
+                color="danger"
+                className="fonted mb-2 float-right"
+                onClick={this.toggleModal}
+              >
                 Delete Account
-              </ModalHeader>
-              <ModalBody>
-                Your information and will be deleted from our database. Do you
-                want to proceed?
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" onClick={this.proceedDeleteAccount}>
-                  Delete
-                </Button>{' '}
-                <Button color="secondary" onClick={this.toggleModal}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </Col>
+              </Button>
+              <Modal
+                isOpen={this.state.modal}
+                toggle={this.toggleModal}
+                className="modal-dialog"
+              >
+                <ModalHeader toggle={this.toggleModal}>
+                  Delete Account
+                </ModalHeader>
+                <ModalBody>
+                  Your information and will be deleted from our database. Do you
+                  want to proceed?
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" onClick={this.proceedDeleteAccount}>
+                    Delete
+                  </Button>{' '}
+                  <Button color="secondary" onClick={this.toggleModal}>
+                    Cancel
+                  </Button>
+                </ModalFooter>
+              </Modal>
+            </Col>
+          )}
         </Row>
         <Row>
           <Col md="10" sm="12" xs="12">
@@ -359,7 +384,8 @@ export default class StudentDashboard extends Component {
           </Form>
           {!this.state.plenOptions.open && (
             <CardFooter>
-              Plenary selection not available yet. Please check back later.
+              Plenary selection will be available on <b>January 18th</b>. Please
+              check back later.
             </CardFooter>
           )}
         </Card>

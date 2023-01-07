@@ -65,6 +65,7 @@ export default class AdminDashboard extends Component {
     var teacherList = [];
     var schoolNum = 0;
     var attendeeList = {};
+    var teamAttendeeCount = 0;
     await ref.child('teachers/').once('value', function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         schoolNum += 1;
@@ -87,6 +88,9 @@ export default class AdminDashboard extends Component {
             };
           });
         }
+        if (childSnapshot.key === "pgZud1mNSaZLDbRxLuA4NRoH4Qk2") {
+          teamAttendeeCount = Object.keys(childSnapshot.val().students).length;
+        }
       });
     });
     var plenOptions = await ref.child('plenaries').once('value');
@@ -100,6 +104,7 @@ export default class AdminDashboard extends Component {
       changedAttendeeList: attendeeList,
       teacherList: teacherList,
       plenOptions: plenOptions.val(),
+      teamAttendeeCount: teamAttendeeCount,
     });
 
     //bind
@@ -173,7 +178,24 @@ export default class AdminDashboard extends Component {
 
   generateRows(list) {
     var rows = [];
+    let previousSchool = '';
     Object.entries(list).forEach((student, index) => {
+      console.log(student)
+
+      if (student[1].school !== previousSchool) {
+        // Add devider row
+        rows.push(
+          <tr>
+            <td colSpan="6" className="table-secondary">
+              {student[1].school} - {this.state.teacherList.filter(teacher => teacher[1] === student[1].teacher)[0][0]}
+            </td>
+          </tr>
+        );
+        previousSchool = student[1].school;
+      }
+
+
+
       rows.push(
         <tr>
           <td>
@@ -374,6 +396,7 @@ export default class AdminDashboard extends Component {
             <CardTitle tag="h3">Conference Statistics</CardTitle>
             <CardText>
               <h5>Schools: {this.state.schoolNum}</h5>
+              {/* <h5>Attendees: {(Object.keys(this.state.attendeeList).length - this.state.teamAttendeeCount)}</h5> */}
               <h5>Attendees: {Object.keys(this.state.attendeeList).length}</h5>
               <hr />
               {this.state.plenOptions.open ? (

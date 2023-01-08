@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useCallback, useEffect } from 'react';
 import {
   Button,
   Badge,
@@ -26,12 +26,17 @@ export default class StudentDashboard extends Component {
     var userId = firebaseAuth.currentUser.uid;
 
     this.toggleModal = this.toggleModal.bind(this);
+    this.toggleModal2 = this.toggleModal2.bind(this);
     this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this);
+    this.handleMagicCode = this.handleMagicCode.bind(this);
 
     this.state = {
+      plenholder: 'None',
+      magic: '',
       ucc_student: false,
       buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
       modal: false,
+      modal2: false,
       inputNotes: '',
       inputPlen1: '',
       inputPlen2: '',
@@ -79,6 +84,17 @@ export default class StudentDashboard extends Component {
         } else {
           teacher_name = snapshot.val().name;
         }
+        if (snapshot.val().students[this.state.userid].p1) {
+          this.setState({
+            plenholder: snapshot.val().students[this.state.userid].p1,
+          });
+        }
+
+        if (snapshot.val().students[this.state.userid].p2) {
+          this.setState({
+            plenholder: snapshot.val().students[this.state.userid].p2,
+          });
+        }
         this.setState({
           modal: false,
           ucc_student: ucc_student,
@@ -100,11 +116,24 @@ export default class StudentDashboard extends Component {
     ref.child('plenaries').once('value', (snapshot) => {
       this.setState({ plenOptions: snapshot.val() });
     });
+
+    //console log when command+shift+m is pressed
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode == 77 && e.shiftKey && e.metaKey) {
+        this.toggleModal2();
+      }
+    });
   }
 
   toggleModal() {
     this.setState({
       modal: !this.state.modal,
+    });
+  }
+
+  toggleModal2() {
+    this.setState({
+      modal2: !this.state.modal2,
     });
   }
 
@@ -213,6 +242,33 @@ export default class StudentDashboard extends Component {
     }, 1200);
   }
 
+  async handleMagicCode(event) {
+    const magicCode = this.state.magic;
+    const tid = this.state.teacherID;
+    const uid = this.state.userid;
+    //post request to server
+    const response = await fetch(
+      'https://us-central1-worldaffairscon-8fdc5.cloudfunctions.net/magic',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify({ code: magicCode, tid, uid }),
+      }
+    );
+    const data = await response.text();
+    // console.log(data);
+    if (data !== 'Invalid Code') {
+      this.setState({ modal2: false });
+      this.toggleModal2();
+      location.reload();
+    } else {
+      this.toggleModal2();
+      alert('Invalid Code');
+    }
+  }
+
   proceedDeleteAccount() {
     deleteUserData(this.state.teacherID);
   }
@@ -220,6 +276,31 @@ export default class StudentDashboard extends Component {
   render() {
     return (
       <Container>
+        <Modal
+          isOpen={this.state.modal2}
+          toggle={this.toggleModal2}
+          className="modal-dialog"
+        >
+          <ModalHeader toggle={this.toggleModal2}>Magic Code Entry</ModalHeader>
+          <ModalBody>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.magic}
+              onChange={(e) => {
+                this.setState({ magic: e.target.value });
+              }}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.handleMagicCode}>
+              Submit
+            </Button>
+            <Button color="secondary" onClick={this.toggleModal2}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
         <br />
         <Row>
           <Col md="8" sm="12" xs="12">
@@ -315,7 +396,7 @@ export default class StudentDashboard extends Component {
                     id="select1"
                     disabled={!this.state.plenOptions.open}
                   >
-                    <option value="">None</option>
+                    <option value="">{this.state.plenholder}</option>
                     <option value="p1">{this.state.plenOptions.p1.name}</option>
                     <option value="p2">{this.state.plenOptions.p2.name}</option>
                     <option value="p3">{this.state.plenOptions.p3.name}</option>
@@ -339,7 +420,7 @@ export default class StudentDashboard extends Component {
                     id="select2"
                     disabled={!this.state.plenOptions.open}
                   >
-                    <option value="">None</option>
+                    <option value="">{this.state.plenholder}</option>
                     <option value="p5">{this.state.plenOptions.p5.name}</option>
                     <option value="p6">{this.state.plenOptions.p6.name}</option>
                     <option value="p7">{this.state.plenOptions.p7.name}</option>

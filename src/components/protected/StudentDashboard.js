@@ -31,8 +31,8 @@ export default class StudentDashboard extends Component {
     this.handleMagicCode = this.handleMagicCode.bind(this);
 
     this.state = {
-      plenholder: 'None',
       magic: '',
+      special: '',
       ucc_student: false,
       buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
       modal: false,
@@ -76,24 +76,16 @@ export default class StudentDashboard extends Component {
       const teacher = snapshot.val().teacherID;
       var teacher_name;
       var ucc_student = false;
+
       // Get teachers/${user.uid}/students
       ref.child(`teachers/${teacher}`).once('value', (snapshot) => {
+        var p1 = snapshot.val().students[this.state.userid].p1;
+        var p2 = snapshot.val().students[this.state.userid].p2;
         if (snapshot.val().students[this.state.userid].ucc_advisor) {
           teacher_name = snapshot.val().students[this.state.userid].ucc_advisor;
           ucc_student = true;
         } else {
           teacher_name = snapshot.val().name;
-        }
-        if (snapshot.val().students[this.state.userid].p1) {
-          this.setState({
-            plenholder: snapshot.val().students[this.state.userid].p1,
-          });
-        }
-
-        if (snapshot.val().students[this.state.userid].p2) {
-          this.setState({
-            plenholder: snapshot.val().students[this.state.userid].p2,
-          });
         }
         this.setState({
           modal: false,
@@ -109,6 +101,24 @@ export default class StudentDashboard extends Component {
           inputNotes: snapshot.val().students[this.state.userid].note,
           notes: snapshot.val().students[this.state.userid].note,
         });
+        if (
+          p1 == 'SPRINT' ||
+          p1 == 'SECURITY' ||
+          p1 == 'EXECUTIVE' ||
+          p1 == 'VOLUNTEER' ||
+          p1 == 'OTHER'
+        ) {
+          this.setState({ special: p1, inputPlen1: '' });
+        }
+        if (
+          p2 == 'SPRINT' ||
+          p2 == 'SECURITY' ||
+          p2 == 'EXECUTIVE' ||
+          p2 == 'VOLUNTEER' ||
+          p2 == 'OTHER'
+        ) {
+          this.setState({ special: p2, inputPlen2: '' });
+        }
       });
     });
 
@@ -155,6 +165,7 @@ export default class StudentDashboard extends Component {
       this.setState({ plenOptions: snapshot.val() });
     });
     // Check for plenary maximum capacity
+
     if (
       this.state.inputPlen1 != '' &&
       this.state.plenOptions[this.state.inputPlen1].students &&
@@ -246,7 +257,7 @@ export default class StudentDashboard extends Component {
     const magicCode = this.state.magic;
     const tid = this.state.teacherID;
     const uid = this.state.userid;
-    //post request to server
+    console.log(magicCode, tid, uid);
     const response = await fetch(
       'https://us-central1-worldaffairscon-8fdc5.cloudfunctions.net/magic',
       {
@@ -258,7 +269,7 @@ export default class StudentDashboard extends Component {
       }
     );
     const data = await response.text();
-    // console.log(data);
+    console.log(data);
     if (data !== 'Invalid Code') {
       this.setState({ modal2: false });
       this.toggleModal2();
@@ -396,7 +407,10 @@ export default class StudentDashboard extends Component {
                     id="select1"
                     disabled={!this.state.plenOptions.open}
                   >
-                    <option value="">{this.state.plenholder}</option>
+                    {this.state.special && (
+                      <option value="">{this.state.special}</option>
+                    )}
+                    <option value="">None</option>
                     <option value="p1">{this.state.plenOptions.p1.name}</option>
                     <option value="p2">{this.state.plenOptions.p2.name}</option>
                     <option value="p3">{this.state.plenOptions.p3.name}</option>
@@ -420,7 +434,10 @@ export default class StudentDashboard extends Component {
                     id="select2"
                     disabled={!this.state.plenOptions.open}
                   >
-                    <option value="">{this.state.plenholder}</option>
+                    {this.state.special && (
+                      <option value="">{this.state.special}</option>
+                    )}
+                    <option value="">None</option>
                     <option value="p5">{this.state.plenOptions.p5.name}</option>
                     <option value="p6">{this.state.plenOptions.p6.name}</option>
                     <option value="p7">{this.state.plenOptions.p7.name}</option>

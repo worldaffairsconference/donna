@@ -40,6 +40,7 @@ export default class StudentDashboard extends Component {
       inputNotes: '',
       inputPlen1: '',
       inputPlen2: '',
+      inputPlen3: '',
       plenOptions: {
         open: false,
         p1: { name: '', students: {}, max: 0 },
@@ -50,6 +51,7 @@ export default class StudentDashboard extends Component {
         p6: { name: '', students: {}, max: 0 },
         p7: { name: '', students: {}, max: 0 },
         p8: { name: '', students: {}, max: 0 },
+        p9: { name: '', students: {}, max: 0 },
       },
       name: '',
       userid: userId,
@@ -57,6 +59,7 @@ export default class StudentDashboard extends Component {
       teacher: '',
       p1: '',
       p2: '',
+      p3: '',
       notes: '',
       greet: [
         'What are you doing that early? ',
@@ -70,6 +73,7 @@ export default class StudentDashboard extends Component {
     this.handleNoteChange = this.handleNoteChange.bind(this);
     this.handlePlen1Change = this.handlePlen1Change.bind(this);
     this.handlePlen2Change = this.handlePlen2Change.bind(this);
+    this.handlePlen3Change = this.handlePlen3Change.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
     ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
@@ -95,6 +99,13 @@ export default class StudentDashboard extends Component {
             plenholder: snapshot.val().students[this.state.userid].p2,
           });
         }
+
+        if (snapshot.val().students[this.state.userid].p3) {
+          this.setState({
+            plenholder: snapshot.val().students[this.state.userid].p3,
+          });
+        }
+
         this.setState({
           modal: false,
           ucc_student: ucc_student,
@@ -106,9 +117,17 @@ export default class StudentDashboard extends Component {
           inputPlen1: snapshot.val().students[this.state.userid].p1,
           p2: snapshot.val().students[this.state.userid].p2,
           inputPlen2: snapshot.val().students[this.state.userid].p2,
+          p3: snapshot.val().students[this.state.userid].p3,
+          inputPlen3: snapshot.val().students[this.state.userid].p3,
           inputNotes: snapshot.val().students[this.state.userid].note,
           notes: snapshot.val().students[this.state.userid].note,
         });
+        if (!('p3' in snapshot.val().students[this.state.userid])) {
+          this.setState({
+            p3: '',
+            inputPlen3: '',
+          });
+        }
       });
     });
 
@@ -149,6 +168,10 @@ export default class StudentDashboard extends Component {
     this.setState({ inputPlen2: event.target.value });
   }
 
+  handlePlen3Change(event) {
+    this.setState({ inputPlen3: event.target.value });
+  }
+
   async handleSubmit(event) {
     event.preventDefault();
     await ref.child('plenaries').once('value', (snapshot) => {
@@ -187,6 +210,22 @@ export default class StudentDashboard extends Component {
       }
     }
 
+    if (
+      this.state.inputPlen3 != '' &&
+      this.state.plenOptions[this.state.inputPlen3].students &&
+      this.state.inputPlen3 !== this.state.p3
+    ) {
+      if (
+        Object.keys(this.state.plenOptions[this.state.inputPlen3].students)
+          .length >= this.state.plenOptions[this.state.inputPlen3].max
+      ) {
+        alert(
+          'Selected Plenary 3 is full! Please select another plenary or try again later.'
+        );
+        return;
+      }
+    }
+
     // Update teachers/${user.uid}/students
     await ref
       .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
@@ -194,11 +233,13 @@ export default class StudentDashboard extends Component {
         note: this.state.inputNotes,
         p1: this.state.inputPlen1,
         p2: this.state.inputPlen2,
+        p3: this.state.inputPlen3,
       });
 
     if (
       this.state.inputPlen1 !== this.state.p1 ||
-      this.state.inputPlen2 !== this.state.p2
+      this.state.inputPlen2 !== this.state.p2 ||
+      this.state.inputPlen3 !== this.state.p3
     ) {
       if (this.state.p1 !== '') {
         await ref
@@ -212,6 +253,12 @@ export default class StudentDashboard extends Component {
           .remove();
       }
 
+      if (this.state.p3 !== '') {
+        await ref
+          .child(`plenaries/${this.state.p3}/students/${this.state.userid}`)
+          .remove();
+      }
+
       if (this.state.inputPlen1 !== '') {
         await ref
           .child(
@@ -219,10 +266,19 @@ export default class StudentDashboard extends Component {
           )
           .set(true);
       }
-      if (this.state.inputPlen1 !== '') {
+
+      if (this.state.inputPlen2 !== '') {
         await ref
           .child(
             `plenaries/${this.state.inputPlen2}/students/${this.state.userid}`
+          )
+          .set(true);
+      }
+
+      if (this.state.inputPlen3 !== '') {
+        await ref
+          .child(
+            `plenaries/${this.state.inputPlen3}/students/${this.state.userid}`
           )
           .set(true);
       }
@@ -232,6 +288,7 @@ export default class StudentDashboard extends Component {
       notes: this.state.inputNotes,
       p1: this.state.inputPlen1,
       p2: this.state.inputPlen2,
+      p3: this.state.inputPlen3,
       buttonStatus: ['Success!', 'btn btn-success fonted'],
     });
 
@@ -400,7 +457,6 @@ export default class StudentDashboard extends Component {
                     <option value="p1">{this.state.plenOptions.p1.name}</option>
                     <option value="p2">{this.state.plenOptions.p2.name}</option>
                     <option value="p3">{this.state.plenOptions.p3.name}</option>
-                    <option value="p4">{this.state.plenOptions.p4.name}</option>
                   </Input>
                 </FormGroup>
                 <br />
@@ -421,10 +477,32 @@ export default class StudentDashboard extends Component {
                     disabled={!this.state.plenOptions.open}
                   >
                     <option value="">{this.state.plenholder}</option>
+                    <option value="p4">{this.state.plenOptions.p4.name}</option>
                     <option value="p5">{this.state.plenOptions.p5.name}</option>
                     <option value="p6">{this.state.plenOptions.p6.name}</option>
+                  </Input>
+                </FormGroup>
+                <br />
+                <FormGroup check>
+                  <Label>Choose Plenary 3 </Label>
+                </FormGroup>{' '}
+                <FormGroup
+                  onChange={this.handlePlen3Change}
+                  check
+                  className="mr-3"
+                >
+                  <Input
+                    value={this.state.inputPlen3}
+                    className="form-control"
+                    type="select"
+                    name="select3"
+                    id="select3"
+                    disabled={!this.state.plenOptions.open}
+                  >
+                    <option value="">{this.state.plenholder}</option>
                     <option value="p7">{this.state.plenOptions.p7.name}</option>
                     <option value="p8">{this.state.plenOptions.p8.name}</option>
+                    <option value="p9">{this.state.plenOptions.p9.name}</option>
                   </Input>
                 </FormGroup>
               </Col>
@@ -454,6 +532,7 @@ export default class StudentDashboard extends Component {
                 disabled={
                   this.state.inputPlen1 === this.state.p1 &&
                   this.state.inputPlen2 === this.state.p2 &&
+                  this.state.inputPlen3 === this.state.p3 &&
                   this.state.inputNotes === this.state.notes
                 }
               >

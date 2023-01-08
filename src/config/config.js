@@ -12,8 +12,8 @@ export const Theme = 'Hybrid Thinking';
 export const EarlyBirdDueDate = 'February 9th, 2023';
 export const DueDate = 'Jan 9th, 2023';
 export const Links = {
-  site: 'https://worldaffairs.ucc.on.ca/',
-  contact: 'https://worldaffairs.ucc.on.ca/contact/',
+  site: 'https://worldaffairscon.org/',
+  contact: 'https://worldaffairscon.org/contact/',
   repo: 'https://github.com/worldaffairsconference/donna',
   email: 'mailto:wac@ucc.on.ca',
   facebook: 'https://facebook.com/worldaffairsconference',

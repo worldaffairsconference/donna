@@ -49,6 +49,7 @@ export default class AdminDashboard extends Component {
         p6: { name: '', students: {}, max: 0 },
         p7: { name: '', students: {}, max: 0 },
         p8: { name: '', students: {}, max: 0 },
+        p9: { name: '', students: {}, max: 0 },
       },
     };
   }
@@ -242,7 +243,6 @@ export default class AdminDashboard extends Component {
               <option value="p1">{this.state.plenOptions.p1.name}</option>
               <option value="p2">{this.state.plenOptions.p2.name}</option>
               <option value="p3">{this.state.plenOptions.p3.name}</option>
-              <option value="p4">{this.state.plenOptions.p4.name}</option>
             </Input>
           </td>
           <td>
@@ -260,10 +260,29 @@ export default class AdminDashboard extends Component {
               }}
             >
               <option value="">None</option>
+              <option value="p4">{this.state.plenOptions.p4.name}</option>
               <option value="p5">{this.state.plenOptions.p5.name}</option>
               <option value="p6">{this.state.plenOptions.p6.name}</option>
+            </Input>
+          </td>
+          <td>
+            <Input
+              type="select"
+              value={student[1].p3}
+              className="form-control"
+              onChange={(event) => {
+                this.setState({
+                  changedAttendeeList: {
+                    ...this.state.changedAttendeeList,
+                    [student[0]]: { ...student[1], p3: event.target.value },
+                  },
+                });
+              }}
+            >
+              <option value="">None</option>
               <option value="p7">{this.state.plenOptions.p7.name}</option>
               <option value="p8">{this.state.plenOptions.p8.name}</option>
+              <option value="p9">{this.state.plenOptions.p9.name}</option>
             </Input>
           </td>
           <td>
@@ -303,7 +322,9 @@ export default class AdminDashboard extends Component {
                   this.state.changedAttendeeList[student[0]].p1 !==
                     this.state.attendeeList[student[0]].p1 ||
                   this.state.changedAttendeeList[student[0]].p2 !==
-                    this.state.attendeeList[student[0]].p2
+                    this.state.attendeeList[student[0]].p2 ||
+                  this.state.changedAttendeeList[student[0]].p3 !==
+                    this.state.attendeeList[student[0]].p3
                 ) {
                   if (this.state.attendeeList[student[0]].p1 !== '') {
                     await ref
@@ -323,6 +344,15 @@ export default class AdminDashboard extends Component {
                       )
                       .remove();
                   }
+                  if (this.state.attendeeList[student[0]].p3 !== '') {
+                    await ref
+                      .child(
+                        `plenaries/${
+                          this.state.attendeeList[student[0]].p3
+                        }/students/${student[0]}`
+                      )
+                      .remove();
+                  }
 
                   if (this.state.changedAttendeeList[student[0]].p1 !== '') {
                     await ref
@@ -338,6 +368,15 @@ export default class AdminDashboard extends Component {
                       .child(
                         `plenaries/${
                           this.state.changedAttendeeList[student[0]].p2
+                        }/students/${student[0]}`
+                      )
+                      .set(true);
+                  }
+                  if (this.state.changedAttendeeList[student[0]].p3 !== '') {
+                    await ref
+                      .child(
+                        `plenaries/${
+                          this.state.changedAttendeeList[student[0]].p3
                         }/students/${student[0]}`
                       )
                       .set(true);
@@ -611,6 +650,7 @@ export default class AdminDashboard extends Component {
                 <th>Email</th>
                 <th>Plenary #1</th>
                 <th>Plenary #2</th>
+                <th>Plenary #3</th>
                 <th>Notes</th>
                 <th>Action</th>
               </tr>

@@ -88,7 +88,7 @@ export default class AdminDashboard extends Component {
             };
           });
         }
-        if (childSnapshot.key === "pgZud1mNSaZLDbRxLuA4NRoH4Qk2") {
+        if (childSnapshot.key === 'pgZud1mNSaZLDbRxLuA4NRoH4Qk2') {
           teamAttendeeCount = Object.keys(childSnapshot.val().students).length;
         }
       });
@@ -180,21 +180,22 @@ export default class AdminDashboard extends Component {
     var rows = [];
     let previousSchool = '';
     Object.entries(list).forEach((student, index) => {
-      console.log(student)
-
       if (student[1].school !== previousSchool) {
         // Add devider row
         rows.push(
           <tr>
             <td colSpan="6" className="table-secondary">
-              {student[1].school} - {this.state.teacherList.filter(teacher => teacher[1] === student[1].teacher)[0][0]}
+              {student[1].school} -{' '}
+              {
+                this.state.teacherList.filter(
+                  (teacher) => teacher[1] === student[1].teacher
+                )[0][0]
+              }
             </td>
           </tr>
         );
         previousSchool = student[1].school;
       }
-
-
 
       rows.push(
         <tr>

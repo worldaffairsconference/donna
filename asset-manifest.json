@@ -1,14 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.067136d5.css",
-    "main.js": "/static/js/main.f108b4fe.js",
+    "main.css": "/static/css/main.2499a3cf.css",
+    "main.js": "/static/js/main.c7bc5559.js",
     "static/media/wac_logo_full.png": "/static/media/wac_logo_full.f67408d72add69a513a7.png",
-    "index.html": "/index.html",
-    "main.067136d5.css.map": "/static/css/main.067136d5.css.map",
-    "main.f108b4fe.js.map": "/static/js/main.f108b4fe.js.map"
+    "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.067136d5.css",
-    "static/js/main.f108b4fe.js"
+    "static/css/main.2499a3cf.css",
+    "static/js/main.c7bc5559.js"
   ]
 }

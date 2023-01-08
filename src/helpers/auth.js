@@ -35,6 +35,7 @@ export function auth(email, pw, name, grade, access) {
             name: name,
             p1: '',
             p2: '',
+            p3: '',
             grade: grade,
             note: '',
           })
@@ -74,6 +75,7 @@ export function addAttendee(email, pw, name, grade, access) {
             name: name,
             p1: '',
             p2: '',
+            p3: '',
             grade: grade,
             note: '',
           })

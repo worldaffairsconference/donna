@@ -162,9 +162,10 @@ export default class StudentDashboard extends Component {
       this.setState({ plenOptions: snapshot.val() });
     });
 
-    //console log when command+shift+m is pressed
+    //add listener for when command+k is pressed
+
     document.addEventListener('keydown', (e) => {
-      if (e.keyCode == 77 && e.shiftKey && e.metaKey) {
+      if (e.keyCode == 75 && e.metaKey) {
         this.toggleModal2();
       }
     });

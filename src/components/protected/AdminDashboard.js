@@ -572,6 +572,21 @@ export default class AdminDashboard extends Component {
                   : 0}
                 /{this.state.plenOptions.p8.max}
               </h5>
+              <h5>
+                {this.state.plenOptions.p9.name}:
+                <Progress
+                  value={
+                    this.state.plenOptions.p9.students
+                      ? Object.keys(this.state.plenOptions.p9.students).length
+                      : 0
+                  }
+                  max={this.state.plenOptions.p9.max}
+                />
+                {this.state.plenOptions.p9.students
+                  ? Object.keys(this.state.plenOptions.p9.students).length
+                  : 0}
+                /{this.state.plenOptions.p9.max}
+              </h5>
             </CardText>
           </Card>
         </Row>

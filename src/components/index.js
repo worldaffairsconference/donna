@@ -9,6 +9,7 @@ import Footer from './Footer';
 import NotFound from './NotFound';
 import AdminDashboard from './protected/AdminDashboard';
 import TRegister from './TRegister';
+import QRReg from './protected/QRReg';
 import { firebaseAuth, ref } from '../helpers/firebase';
 import {
   Collapse,
@@ -65,6 +66,7 @@ export default class App extends Component {
       isAdmin: false,
       loading: true,
       isOpen: false,
+      isVolunteer: false,
     };
   }
   componentDidMount() {
@@ -90,6 +92,17 @@ export default class App extends Component {
             authed: true,
             loading: false,
             isAdmin: true,
+          });
+        }
+
+        const snapshot3 = await ref
+          .child(`volunteer/${user.uid}`)
+          .once('value');
+        if (snapshot3.exists()) {
+          this.setState({
+            authed: true,
+            loading: false,
+            isVolunteer: true,
           });
         }
       } else {
@@ -187,6 +200,11 @@ export default class App extends Component {
                   authed={this.state.authed}
                   path="/admin"
                   component={this.state.isAdmin ? AdminDashboard : NotFound}
+                />
+                <PrivateRoute
+                  authed={this.state.authed}
+                  path="/volunteer"
+                  component={this.state.isVolunteer ? QRReg : NotFound}
                 />
                 <PrivateRoute
                   authed={this.state.authed}

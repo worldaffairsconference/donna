@@ -22,6 +22,21 @@ body {
   display: none;
 }
 
-.passwdresetclick{
-    cursor: pointer;
+.passwdresetclick {
+  cursor: pointer;
+}
+
+.qr-reader video{
+  overflow: hidden !important;
+  width:auto !important;
+  height:100% !important;
+}
+
+.display-iblock{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.display-iblock svg {
+  margin:0;
 }

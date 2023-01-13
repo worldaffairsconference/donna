@@ -34,7 +34,7 @@ export default class QRReg extends Component {
   handleResult = () => {
     const { plen, data } = this.state;
     console.log(plen, data);
-    if (plen == null) {
+    if (plen == null || plen == "no") {
       this.setState({ data: null });
       return;
     }
@@ -84,6 +84,7 @@ export default class QRReg extends Component {
             className="form-control"
             onChange={(e) => this.setState({ plen: e.target.value })}
           >
+            <option value="no">None Selected</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>

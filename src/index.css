@@ -26,7 +26,7 @@ body {
   cursor: pointer;
 }
 
-.qr-reader video{
+.qr-reader video {
   overflow: hidden !important;
   width:auto !important;
   height:100% !important;

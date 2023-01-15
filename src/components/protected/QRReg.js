@@ -122,6 +122,9 @@ export default class QRReg extends Component {
         <>
           <QrReader
             className="qr-reader"
+            constraints={{
+              facingMode: 'environment',
+            }}
             onResult={(result, error) => {
               if (!!result) {
                 if (result?.text != this.state.data) {

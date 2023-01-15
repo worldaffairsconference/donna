@@ -56,6 +56,7 @@ export default class Dashboard extends Component {
         p6: { name: '', students: {}, max: 0 },
         p7: { name: '', students: {}, max: 0 },
         p8: { name: '', students: {}, max: 0 },
+        p9: { name: '', students: {}, max: 0 },
       },
       alert: true,
     };
@@ -254,6 +255,7 @@ export default class Dashboard extends Component {
                 <th>Grade</th>
                 <th>Plenary #1</th>
                 <th>Plenary #2</th>
+                <th>Plenary #3</th>
                 <th>Notes</th>
               </tr>
             </thead>

@@ -26,8 +26,19 @@ export default class QRReg extends Component {
     this.state = {
       data: null,
       plen: null,
-      name: '',
-      status: false,
+      name: 'Scan QR',
+      status: '',
+      plenaries: {
+        p1: { name: '', students: {}, max: 0 },
+        p2: { name: '', students: {}, max: 0 },
+        p3: { name: '', students: {}, max: 0 },
+        p4: { name: '', students: {}, max: 0 },
+        p5: { name: '', students: {}, max: 0 },
+        p6: { name: '', students: {}, max: 0 },
+        p7: { name: '', students: {}, max: 0 },
+        p8: { name: '', students: {}, max: 0 },
+        p9: { name: '', students: {}, max: 0 },
+      },
     };
   }
 
@@ -42,12 +53,11 @@ export default class QRReg extends Component {
     //get teacher id
     ref.child(`students/${data}`).once('value', (snapshot) => {
       const teacher = snapshot.val().teacherID;
-      var teacher_name;
       // Get teachers/${user.uid}/students
       ref
         .child(`teachers/${teacher}/students/${data}`)
         .once('value', (snapshot) => {
-          this.setState({ name: snapshot.val().name, status: true });
+          this.setState({ name: snapshot.val().name });
 
           // record attendance to selected plenary
           ref.child(`plenaries/p${plen}/attendance/${data}`).set({
@@ -56,14 +66,27 @@ export default class QRReg extends Component {
           });
         });
     });
+    this.setState({ status: 'slide-up checkmarkready' });
     setTimeout(() => {
-      this.setState({ status: false });
-    }, 1400);
+      this.setState({ status: '' });
+    }, 1600);
   };
+
+  componentDidMount() {
+    ref.child('plenaries/').once('value', (snapshot) => {
+      this.setState({ plenaries: snapshot.val() });
+    });
+  }
 
   render() {
     return (
       <Container>
+        <div id="checkmark-container">
+          {this.state.status == 'slide-up checkmarkready' && (
+            <Checkmark color="green" />
+          )}
+        </div>
+        <div className={'full-screen-container ' + this.state.status}></div>
         <br />
         <Row>
           <Col md="8" sm="12" xs="12">
@@ -84,15 +107,15 @@ export default class QRReg extends Component {
             className="form-control"
             onChange={(e) => this.setState({ plen: e.target.value })}
           >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
+            <option value="1">{this.state.plenaries.p1.name}</option>
+            <option value="2">{this.state.plenaries.p2.name}</option>
+            <option value="3">{this.state.plenaries.p3.name}</option>
+            <option value="4">{this.state.plenaries.p4.name}</option>
+            <option value="5">{this.state.plenaries.p5.name}</option>
+            <option value="6">{this.state.plenaries.p6.name}</option>
+            <option value="7">{this.state.plenaries.p7.name}</option>
+            <option value="8">{this.state.plenaries.p8.name}</option>
+            <option value="9">{this.state.plenaries.p9.name}</option>
           </select>
         </div>
         <>
@@ -114,13 +137,6 @@ export default class QRReg extends Component {
           />
         </>
         <div className="mt-3 display-iblock">
-          {this.state.status && (
-            <Checkmark
-              size="45px"
-              color={this.state.status ? 'green' : 'red'}
-            />
-          )}
-
           <h1>{this.state.name}</h1>
         </div>
       </Container>

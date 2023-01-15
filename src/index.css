@@ -40,3 +40,45 @@ body {
 .display-iblock svg {
   margin:0;
 }
+
+.full-screen-container{
+	opacity:    0.3; 
+	background: green; 
+	width:      100%;
+	height:     0; 
+	z-index:    10;
+	bottom:        0; 
+	left:       0; 
+	position:   fixed;
+	pointer-events: none;
+	transition: 0.3s ease;
+}
+
+.slide-up{
+	height: 100%;
+	transition: 0.3s ease;
+}
+
+
+.checkmark{
+	position: absolute;
+	width: 80vw !important;
+	height: auto !important;
+	opacity: 1 !important;
+	z-index: 20 !important;
+	pointer-events: none;
+	transition: 0.3s ease;
+}
+
+#checkmark-container{
+	width:      100%;
+	height:     100%; 
+	top:        0; 
+	left:       0; 
+	position:   fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 20;
+	pointer-events: none;
+}

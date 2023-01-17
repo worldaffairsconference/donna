@@ -62,7 +62,8 @@ export default class AdminDashboard extends Component {
 
   generateOptions() {
     var options = [];
-    for (var i = 1; i <= 9; i++) {
+    var length = Object.keys(this.state.plenOptions).length;
+    for (var i = 1; i < length; i++) {
       if (this.state.plenOptions['p' + i].name != '') {
         options.push(
           <option value={'p' + i}>
@@ -141,6 +142,46 @@ export default class AdminDashboard extends Component {
     }
 
     return options;
+  }
+
+  generateStatusBars() {
+    var length = Object.keys(this.state.plenOptions).length;
+    var bars = [];
+    //<h5>
+    //{this.state.plenOptions.p1.name}:
+    //<Progress
+    //value={
+    //this.state.plenOptions.p1.students
+    //? Object.keys(this.state.plenOptions.p1.students).length
+    //: 0
+    //}
+    //max={this.state.plenOptions.p1.max}
+    ///>
+    //{this.state.plenOptions.p1.students
+    //? Object.keys(this.state.plenOptions.p1.students).length
+    //: 0}
+    ///{this.state.plenOptions.p1.max}
+    //</h5>
+
+    for (var i = 1; i < length; i++) {
+      var plen = this.state.plenOptions['p' + i];
+      bars.push(
+        <Row>
+          <Col>
+            <h5>
+              {plen.name}:
+              <Progress
+                value={plen.students ? Object.keys(plen.students).length : 0}
+                max={plen.max}
+              />
+              {plen.students ? Object.keys(plen.students).length : 0}/{plen.max}
+            </h5>
+          </Col>
+        </Row>
+      );
+    }
+
+    return bars;
   }
 
   generateTeacherOptions() {
@@ -461,141 +502,8 @@ export default class AdminDashboard extends Component {
                   </h2>
                 </div>
               )}
-              <h5>
-                {this.state.plenOptions.p1.name}:
-                <Progress
-                  value={
-                    this.state.plenOptions.p1.students
-                      ? Object.keys(this.state.plenOptions.p1.students).length
-                      : 0
-                  }
-                  max={this.state.plenOptions.p1.max}
-                />
-                {this.state.plenOptions.p1.students
-                  ? Object.keys(this.state.plenOptions.p1.students).length
-                  : 0}
-                /{this.state.plenOptions.p1.max}
-              </h5>
-              <h5>
-                {this.state.plenOptions.p2.name}:
-                <Progress
-                  value={
-                    this.state.plenOptions.p2.students
-                      ? Object.keys(this.state.plenOptions.p2.students).length
-                      : 0
-                  }
-                  max={this.state.plenOptions.p2.max}
-                />
-                {this.state.plenOptions.p2.students
-                  ? Object.keys(this.state.plenOptions.p2.students).length
-                  : 0}
-                /{this.state.plenOptions.p2.max}
-              </h5>
-              <h5>
-                {this.state.plenOptions.p3.name}:
-                <Progress
-                  value={
-                    this.state.plenOptions.p3.students
-                      ? Object.keys(this.state.plenOptions.p3.students).length
-                      : 0
-                  }
-                  max={this.state.plenOptions.p3.max}
-                />
-                {this.state.plenOptions.p3.students
-                  ? Object.keys(this.state.plenOptions.p3.students).length
-                  : 0}
-                /{this.state.plenOptions.p3.max}
-              </h5>
-              <h5>
-                {this.state.plenOptions.p4.name}:{' '}
-                <Progress
-                  value={
-                    this.state.plenOptions.p4.students
-                      ? Object.keys(this.state.plenOptions.p4.students).length
-                      : 0
-                  }
-                  max={this.state.plenOptions.p4.max}
-                />
-                {this.state.plenOptions.p4.students
-                  ? Object.keys(this.state.plenOptions.p4.students).length
-                  : 0}
-                /{this.state.plenOptions.p4.max}
-              </h5>
-              <h5>
-                {this.state.plenOptions.p5.name}:
-                <Progress
-                  value={
-                    this.state.plenOptions.p5.students
-                      ? Object.keys(this.state.plenOptions.p5.students).length
-                      : 0
-                  }
-                  max={this.state.plenOptions.p5.max}
-                />
-                {this.state.plenOptions.p5.students
-                  ? Object.keys(this.state.plenOptions.p5.students).length
-                  : 0}
-                /{this.state.plenOptions.p5.max}
-              </h5>
-              <h5>
-                {this.state.plenOptions.p6.name}:
-                <Progress
-                  value={
-                    this.state.plenOptions.p6.students
-                      ? Object.keys(this.state.plenOptions.p6.students).length
-                      : 0
-                  }
-                  max={this.state.plenOptions.p6.max}
-                />
-                {this.state.plenOptions.p6.students
-                  ? Object.keys(this.state.plenOptions.p6.students).length
-                  : 0}
-                /{this.state.plenOptions.p6.max}
-              </h5>
-              <h5>
-                {this.state.plenOptions.p7.name}:
-                <Progress
-                  value={
-                    this.state.plenOptions.p7.students
-                      ? Object.keys(this.state.plenOptions.p7.students).length
-                      : 0
-                  }
-                  max={this.state.plenOptions.p7.max}
-                />
-                {this.state.plenOptions.p7.students
-                  ? Object.keys(this.state.plenOptions.p7.students).length
-                  : 0}
-                /{this.state.plenOptions.p7.max}
-              </h5>
-              <h5>
-                {this.state.plenOptions.p8.name}:{' '}
-                <Progress
-                  value={
-                    this.state.plenOptions.p8.students
-                      ? Object.keys(this.state.plenOptions.p8.students).length
-                      : 0
-                  }
-                  max={this.state.plenOptions.p8.max}
-                />
-                {this.state.plenOptions.p8.students
-                  ? Object.keys(this.state.plenOptions.p8.students).length
-                  : 0}
-                /{this.state.plenOptions.p8.max}
-              </h5>
-              <h5>
-                {this.state.plenOptions.p9.name}:
-                <Progress
-                  value={
-                    this.state.plenOptions.p9.students
-                      ? Object.keys(this.state.plenOptions.p9.students).length
-                      : 0
-                  }
-                  max={this.state.plenOptions.p9.max}
-                />
-                {this.state.plenOptions.p9.students
-                  ? Object.keys(this.state.plenOptions.p9.students).length
-                  : 0}
-                /{this.state.plenOptions.p9.max}
-              </h5>
+              <hr />
+              {this.generateStatusBars()}
             </CardText>
           </Card>
         </Row>

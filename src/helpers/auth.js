@@ -8,6 +8,18 @@ export function auth(email, pw, name, grade, access) {
       reject(new Error('Access code does not exist'));
       return;
     } else {
+      if (snapshot.val().regstatus === false) {
+        reject(
+          new Error(
+            `Registration is currently unavailable for ${
+              snapshot.val().name
+            }, ${
+              snapshot.val().school
+            }. Please ask your faculty advisor to contact the WAC team for further information.`
+          )
+        );
+        return;
+      }
       if (snapshot.val().students) {
         if (
           Object.keys(snapshot.val().students).length + 1 >

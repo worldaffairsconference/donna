@@ -175,7 +175,8 @@ export default class StudentDashboard extends Component {
 
   generateOptions() {
     var options = [];
-    for (var i = 1; i <= 9; i++) {
+    var length = Object.keys(this.state.plenOptions).length;
+    for (var i = 1; i < length; i++) {
       if (this.state.plenOptions['p' + i].name != '') {
         options.push(
           <option value={'p' + i}>

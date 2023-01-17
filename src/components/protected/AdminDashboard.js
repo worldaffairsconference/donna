@@ -60,6 +60,20 @@ export default class AdminDashboard extends Component {
     });
   };
 
+  generateOptions() {
+    var options = [];
+    for (var i = 1; i <= 9; i++) {
+      if (this.state.plenOptions['p' + i].name != '') {
+        options.push(
+          <option value={'p' + i}>
+            {this.state.plenOptions['p' + i].name}
+          </option>
+        );
+      }
+    }
+    return options;
+  }
+
   async componentDidMount() {
     var schoolsList = [['', '']];
     var fullSchoolList = [''];
@@ -240,9 +254,7 @@ export default class AdminDashboard extends Component {
               }}
             >
               <option value="">None</option>
-              <option value="p1">{this.state.plenOptions.p1.name}</option>
-              <option value="p2">{this.state.plenOptions.p2.name}</option>
-              <option value="p3">{this.state.plenOptions.p3.name}</option>
+              {this.generateOptions()}
             </Input>
           </td>
           <td>
@@ -260,9 +272,8 @@ export default class AdminDashboard extends Component {
               }}
             >
               <option value="">None</option>
-              <option value="p4">{this.state.plenOptions.p4.name}</option>
-              <option value="p5">{this.state.plenOptions.p5.name}</option>
-              <option value="p6">{this.state.plenOptions.p6.name}</option>
+
+              {this.generateOptions()}
             </Input>
           </td>
           <td>
@@ -280,9 +291,7 @@ export default class AdminDashboard extends Component {
               }}
             >
               <option value="">None</option>
-              <option value="p7">{this.state.plenOptions.p7.name}</option>
-              <option value="p8">{this.state.plenOptions.p8.name}</option>
-              <option value="p9">{this.state.plenOptions.p9.name}</option>
+              {this.generateOptions()}
             </Input>
           </td>
           <td>

@@ -162,6 +162,8 @@ export default class StudentDashboard extends Component {
       this.setState({ plenOptions: snapshot.val() });
     });
 
+    //generate options
+
     //add listener for when command+k is pressed
 
     document.addEventListener('keydown', (e) => {
@@ -169,6 +171,20 @@ export default class StudentDashboard extends Component {
         this.toggleModal2();
       }
     });
+  }
+
+  generateOptions() {
+    var options = [];
+    for (var i = 1; i <= 9; i++) {
+      if (this.state.plenOptions['p' + i].name != '') {
+        options.push(
+          <option value={'p' + i}>
+            {this.state.plenOptions['p' + i].name}
+          </option>
+        );
+      }
+    }
+    return options;
   }
 
   toggleModal() {
@@ -201,6 +217,21 @@ export default class StudentDashboard extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
+
+    if (
+      (this.state.inputPlen1 == this.state.inputPlen2 &&
+        this.state.inputPlen1 != '' &&
+        this.state.inputPlen2 != '') ||
+      (this.state.inputPlen1 == this.state.inputPlen3 &&
+        this.state.inputPlen1 != '' &&
+        this.state.inputPlen2 != '') ||
+      (this.state.inputPlen2 == this.state.inputPlen3 &&
+        this.state.inputPlen2 != '' &&
+        this.state.inputPlen3 != '')
+    ) {
+      alert("You can't select the same plenary twice!");
+      return;
+    }
     await ref.child('plenaries').once('value', (snapshot) => {
       this.setState({ plenOptions: snapshot.val() });
     });
@@ -471,6 +502,15 @@ export default class StudentDashboard extends Component {
           </Col>
         </Row>
         <hr />
+
+        <Row>
+          <Col md="12" sm="12" xs="12">
+            <p>
+              Please select the three plenaries that you would like to attend
+              the most, in order of preference.
+            </p>
+          </Col>
+        </Row>
         <Card className="pt-4">
           <Form onSubmit={this.handleSubmit}>
             <Row sm={1} md={1} lg={2}>
@@ -489,15 +529,15 @@ export default class StudentDashboard extends Component {
                     type="select"
                     name="select1"
                     id="select1"
-                    disabled={!this.state.plenOptions.open}
+                    disabled={
+                      !this.state.plenOptions.open || this.state.special != ''
+                    }
                   >
                     {this.state.special && (
                       <option value="">{this.state.special}</option>
                     )}
                     <option value="">None</option>
-                    <option value="p1">{this.state.plenOptions.p1.name}</option>
-                    <option value="p2">{this.state.plenOptions.p2.name}</option>
-                    <option value="p3">{this.state.plenOptions.p3.name}</option>
+                    {this.generateOptions()}
                   </Input>
                 </FormGroup>
                 <br />
@@ -515,15 +555,15 @@ export default class StudentDashboard extends Component {
                     type="select"
                     name="select2"
                     id="select2"
-                    disabled={!this.state.plenOptions.open}
+                    disabled={
+                      !this.state.plenOptions.open || this.state.special != ''
+                    }
                   >
                     {this.state.special && (
                       <option value="">{this.state.special}</option>
                     )}
                     <option value="">None</option>
-                    <option value="p4">{this.state.plenOptions.p4.name}</option>
-                    <option value="p5">{this.state.plenOptions.p5.name}</option>
-                    <option value="p6">{this.state.plenOptions.p6.name}</option>
+                    {this.generateOptions()}
                   </Input>
                 </FormGroup>
                 <br />
@@ -541,15 +581,15 @@ export default class StudentDashboard extends Component {
                     type="select"
                     name="select3"
                     id="select3"
-                    disabled={!this.state.plenOptions.open}
+                    disabled={
+                      !this.state.plenOptions.open || this.state.special != ''
+                    }
                   >
                     {this.state.special && (
                       <option value="">{this.state.special}</option>
                     )}
                     <option value="">None</option>
-                    <option value="p7">{this.state.plenOptions.p7.name}</option>
-                    <option value="p8">{this.state.plenOptions.p8.name}</option>
-                    <option value="p9">{this.state.plenOptions.p9.name}</option>
+                    {this.generateOptions()}
                   </Input>
                 </FormGroup>
               </Col>

@@ -514,7 +514,12 @@ export default class StudentDashboard extends Component {
           <Col md="12" sm="12" xs="12">
             <p>
               Please select the three plenaries that you would like to attend
-              the most, in order of preference.
+              the most, in order of preference. For detailed information about
+              each plenary, please visit the{' '}
+              <a href="https://worldaffairscon.org/plenaries">
+                WAC website plenaries page
+              </a>
+              .
             </p>
           </Col>
         </Row>

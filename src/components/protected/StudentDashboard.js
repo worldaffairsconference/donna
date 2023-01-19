@@ -174,15 +174,21 @@ export default class StudentDashboard extends Component {
   }
 
   generateOptions() {
+    // check if plenary is full
     var options = [];
     var length = Object.keys(this.state.plenOptions).length;
     for (var i = 1; i < length; i++) {
+      var dispname = this.state.plenOptions['p' + i].name;
+      if (this.state.plenOptions['p' + i].students) {
+        if (
+          Object.keys(this.state.plenOptions['p' + i].students).length >=
+          this.state.plenOptions['p' + i].max
+        ) {
+          dispname = '(FULL) ' + dispname;
+        }
+      }
       if (this.state.plenOptions['p' + i].name != '') {
-        options.push(
-          <option value={'p' + i}>
-            {this.state.plenOptions['p' + i].name}
-          </option>
-        );
+        options.push(<option value={'p' + i}>{dispname}</option>);
       }
     }
     return options;

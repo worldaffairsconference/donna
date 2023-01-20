@@ -62,13 +62,13 @@ export default class QRReg extends Component {
     return options;
   }
   handleResult = () => {
-    const { plen, data } = this.state;
+    let { plen, data } = this.state;
     console.log(plen, data);
     if (plen == null || plen == 'no') {
       this.setState({ data: null });
       return;
     }
-
+    data = data.replace('https://reg.worldaffairscon.org/myschedule?uid=', '');
     //get teacher id
     ref.child(`students/${data}`).once('value', (snapshot) => {
       const teacher = snapshot.val().teacherID;

@@ -24,7 +24,6 @@ import {
 import Logo from './img/wac_logo_full.png';
 import { Year, Links } from '../config/config.js';
 import { logout } from '../helpers/auth';
-import MySchedule from './protected/MySchedule';
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
   return (
@@ -181,11 +180,7 @@ export default class App extends Component {
                   path="/login"
                   component={Login}
                 />
-                <PublicRoute
-                  authed={false}
-                  path="/myschedule"
-                  component={MySchedule}
-                />
+
                 <PublicRoute
                   authed={this.state.authed}
                   path="/register"

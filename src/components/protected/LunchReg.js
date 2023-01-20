@@ -30,7 +30,8 @@ export default class LunchReg extends Component {
     };
   }
   handleResult = () => {
-    const { data } = this.state;
+    let { data } = this.state;
+    data = data.replace('https://reg.worldaffairscon.org/myschedule?uid=', '');
     //get teacher id
     ref.child(`students/${data}`).once('value', (snapshot) => {
       const teacher = snapshot.val().teacherID;

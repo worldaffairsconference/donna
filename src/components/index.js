@@ -182,7 +182,7 @@ export default class App extends Component {
                   component={Login}
                 />
                 <PublicRoute
-                  authed={!this.state.authed}
+                  authed={false}
                   path="/myschedule"
                   component={MySchedule}
                 />

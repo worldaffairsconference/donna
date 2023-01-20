@@ -82,3 +82,7 @@ body {
 	z-index: 20;
 	pointer-events: none;
 }
+
+.center-div{
+	margin-top: 2rem;
+}

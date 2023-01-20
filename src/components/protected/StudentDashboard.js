@@ -519,7 +519,9 @@ export default class StudentDashboard extends Component {
               <a href="https://worldaffairscon.org/plenaries">
                 WAC website plenaries page
               </a>
-              .
+              . Please note that plenary selection is not guaranteed. Plenaries
+              are first-come, first-serve, and you will be placed according to
+              availability.
             </p>
           </Col>
         </Row>

@@ -442,63 +442,18 @@ export default class StudentDashboard extends Component {
               {this.state.name}
             </h1>
           </Col>
-          {this.state.ucc_student ? (
-            <Col md="4" sm="12" xs="12">
-              <Button
-                color="secondary"
-                className="float-right mb-2"
-                onClick={() => {
-                  logout();
-                }}
-              >
-                Log Out
-              </Button>
-            </Col>
-          ) : (
-            <Col md="2" sm="12" xs="12">
-              <Button
-                color="secondary"
-                className="float-right mb-2"
-                onClick={() => {
-                  logout();
-                }}
-              >
-                Log Out
-              </Button>
-            </Col>
-          )}
-          {!this.state.ucc_student && (
-            <Col md="2" sm="12" xs="12">
-              <Button
-                color="danger"
-                className="fonted mb-2 float-right"
-                onClick={this.toggleModal}
-              >
-                Delete Account
-              </Button>
-              <Modal
-                isOpen={this.state.modal}
-                toggle={this.toggleModal}
-                className="modal-dialog"
-              >
-                <ModalHeader toggle={this.toggleModal}>
-                  Delete Account
-                </ModalHeader>
-                <ModalBody>
-                  Your information and will be deleted from our database. Do you
-                  want to proceed?
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="danger" onClick={this.proceedDeleteAccount}>
-                    Delete
-                  </Button>{' '}
-                  <Button color="secondary" onClick={this.toggleModal}>
-                    Cancel
-                  </Button>
-                </ModalFooter>
-              </Modal>
-            </Col>
-          )}
+
+          <Col md="4" sm="12" xs="12">
+            <Button
+              color="secondary"
+              className="float-right mb-2"
+              onClick={() => {
+                logout();
+              }}
+            >
+              Log Out
+            </Button>
+          </Col>
         </Row>
         <Row>
           <Col md="10" sm="12" xs="12">

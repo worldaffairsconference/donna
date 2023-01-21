@@ -107,7 +107,7 @@ export default class Dashboard extends Component {
       <Container>
         <br />
         <Row>
-          <Col md="8" sm="12" xs="12">
+          <Col md="10" sm="12" xs="12">
             <h1 className="fonted-h">Teacher Dashboard</h1>
           </Col>
           <Col md="2" sm="12" xs="12">
@@ -120,36 +120,6 @@ export default class Dashboard extends Component {
             >
               Log Out
             </Button>
-          </Col>
-          <Col md="2" sm="12" xs="12">
-            <Button
-              color="danger"
-              className="fonted float-right mb-2"
-              onClick={this.toggleModal}
-            >
-              Delete Account
-            </Button>
-            <Modal
-              isOpen={this.state.modal}
-              toggle={this.toggleModal}
-              className="modal-dialog"
-            >
-              <ModalHeader toggle={this.toggleModal}>
-                Delete Account
-              </ModalHeader>
-              <ModalBody>
-                Your information and registered students will be deleted from
-                our database. Do you want to proceed?
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" onClick={this.proceedDeleteAccount}>
-                  Delete
-                </Button>{' '}
-                <Button color="secondary" onClick={this.toggleModal}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </Modal>
           </Col>
         </Row>
         <Row>

@@ -23,7 +23,11 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ref, firebaseAuth } from '../../helpers/firebase';
-import { addAttendee, adminResetPassword } from '../../helpers/auth';
+import {
+  addAttendee,
+  adminResetPassword,
+  deleteUserData,
+} from '../../helpers/auth';
 
 export default class AdminDashboard extends Component {
   constructor(props) {
@@ -31,7 +35,7 @@ export default class AdminDashboard extends Component {
     var userId = firebaseAuth.currentUser.uid;
 
     this.state = {
-      modal: [false, ''],
+      modal: [false, '', '', ''],
       userId: userId,
       schoolsList: [],
       fullSchoolList: [],
@@ -54,9 +58,14 @@ export default class AdminDashboard extends Component {
     };
   }
 
-  toggle = (email) => {
+  toggle = (email, teacherid, uid) => {
     this.setState({
-      modal: [!this.state.modal[0], email ? email : ''],
+      modal: [
+        !this.state.modal[0],
+        email ? email : '',
+        teacherid ? teacherid : '',
+        uid ? uid : '',
+      ],
     });
   };
 
@@ -232,6 +241,19 @@ export default class AdminDashboard extends Component {
     this.toggle();
   };
 
+  deleteAccount = () => {
+    console.log(
+      'deleting account for ' +
+        this.state.modal[1] +
+        'uid: ' +
+        this.state.modal[3] +
+        'tid' +
+        this.state.modal[2]
+    );
+    deleteUserData(this.state.modal[3], this.state.modal[2]);
+    this.toggle();
+  };
+
   generateRows(list) {
     var rows = [];
     let previousSchool = '';
@@ -274,7 +296,7 @@ export default class AdminDashboard extends Component {
             <a
               className="passwdresetclick"
               onClick={() => {
-                this.toggle(student[1].email);
+                this.toggle(student[1].email, student[1].teacher, student[0]);
               }}
             >
               {student[1].email}
@@ -453,13 +475,14 @@ export default class AdminDashboard extends Component {
     return (
       <Container>
         <Modal isOpen={this.state.modal[0]} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>
-            What is an Access Code?
-          </ModalHeader>
-          <ModalBody>Confirm you want to send password reset email?</ModalBody>
+          <ModalHeader toggle={this.toggle}>Account Actions</ModalHeader>
+          <ModalBody>Select actions to perform on account</ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this.resetPassword}>
-              Confirm!
+              Reset Password
+            </Button>{' '}
+            <Button color="warning" onClick={this.deleteAccount}>
+              Delete Account
             </Button>{' '}
             <Button color="danger" onClick={this.toggle}>
               Close

@@ -131,14 +131,27 @@ export function logout() {
   return firebaseAuth.signOut();
 }
 
-export async function deleteUserData(teacher) {
+export async function deleteUserData(uid, teacherid) {
   return new Promise(async (resolve, reject) => {
-    await ref.child(`students/${firebaseAuth.currentUser.uid}`).remove();
+    await ref.child(`students/${uid}`).remove();
+    await ref.child(`teachers/${teacherid}/students/${uid}`).remove();
+    console.log(teacherid);
+    console.log(uid);
     await ref
-      .child(`teachers/${teacher}/students/${firebaseAuth.currentUser.uid}`)
-      .remove();
-    await deleteAccount();
-    alert('Account deleted successfully.');
+      .child(`teachers/${teacherid}/students/${uid}`)
+      .once('value', (snapshot) => {
+        let data = snapshot.val();
+        if (data.p1) {
+          ref.child(`plenaries/${data.p1}/students/${uid}`).remove();
+        }
+        if (data.p2) {
+          ref.child(`plenaries/${data.p2}/students/${uid}`).remove();
+        }
+        if (data.p3) {
+          ref.child(`plenaries/${data.p3}/students/${uid}`).remove();
+        }
+      });
+    alert('Data deleted successfully. Please delete account in firebase.');
     resolve(true);
     return;
   });

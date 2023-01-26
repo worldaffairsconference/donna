@@ -132,7 +132,7 @@ export default class StudentDashboard extends Component {
           p1 == 'SECURITY' ||
           p1 == 'EXECUTIVE' ||
           p1 == 'VOLUNTEER' ||
-          p1 == 'OTHER'
+          p1 == 'FACILITIES'
         ) {
           this.setState({ special: p1, inputPlen1: '' });
         }
@@ -141,7 +141,7 @@ export default class StudentDashboard extends Component {
           p2 == 'SECURITY' ||
           p2 == 'EXECUTIVE' ||
           p2 == 'VOLUNTEER' ||
-          p2 == 'OTHER'
+          p2 == 'FACILITIES'
         ) {
           this.setState({ special: p2, inputPlen2: '' });
         }
@@ -150,7 +150,7 @@ export default class StudentDashboard extends Component {
           p3 == 'SECURITY' ||
           p3 == 'EXECUTIVE' ||
           p3 == 'VOLUNTEER' ||
-          p3 == 'OTHER'
+          p3 == 'FACILITIES'
         ) {
           this.setState({ special: p3, inputPlen3: '' });
         }

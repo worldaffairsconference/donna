@@ -56,6 +56,9 @@ export default class AdminDashboard extends Component {
         p9: { name: '', students: {}, max: 0 },
       },
     };
+    //bind
+    this.handleWaiver = this.handleWaiver.bind(this);
+    this.handleWaiverSubmit = this.handleWaiverSubmit.bind(this);
   }
 
   toggle = (email, teacherid, uid) => {
@@ -85,56 +88,71 @@ export default class AdminDashboard extends Component {
   }
 
   async componentDidMount() {
-    var schoolsList = [['', '']];
     var fullSchoolList = [''];
     var teacherList = [];
     var schoolNum = 0;
     var attendeeList = {};
-    var teamAttendeeCount = 0;
-    await ref.child('teachers/').once('value', function (snapshot) {
-      snapshot.forEach(function (childSnapshot) {
-        schoolNum += 1;
-        var childSchool = childSnapshot.val().school;
-        teacherList.push([
-          childSnapshot.val().name,
-          childSnapshot.key,
-          childSchool,
-        ]);
-        fullSchoolList.push(childSchool);
-        if (!childSnapshot.val().waiver) {
-          schoolsList.push([childSchool, childSnapshot.key]);
-        }
-        if (childSnapshot.val().students) {
-          Object.entries(childSnapshot.val().students).forEach(([key, val]) => {
-            attendeeList[key] = {
-              ...val,
-              teacher: childSnapshot.key,
-              school: childSchool,
-            };
-          });
-        }
-        if (childSnapshot.key === 'pgZud1mNSaZLDbRxLuA4NRoH4Qk2') {
-          teamAttendeeCount = Object.keys(childSnapshot.val().students).length;
-        }
-      });
-    });
-    var plenOptions = await ref.child('plenaries').once('value');
-    this.setState({
-      schoolsList: schoolsList,
-      fullSchoolList: fullSchoolList,
-      waiverSelectedSchool: schoolsList[0][1],
-      attendeeSelectedTeacher: teacherList[0][1],
-      schoolNum: schoolNum,
-      attendeeList: attendeeList,
-      changedAttendeeList: attendeeList,
-      teacherList: teacherList,
-      plenOptions: plenOptions.val(),
-      teamAttendeeCount: teamAttendeeCount,
-    });
+    var schoolsList = [['', '']];
+    var plenOptions = {
+      open: false,
+      p1: { name: '', students: {}, max: 0 },
+      p2: { name: '', students: {}, max: 0 },
+      p3: { name: '', students: {}, max: 0 },
+      p4: { name: '', students: {}, max: 0 },
+      p5: { name: '', students: {}, max: 0 },
+      p6: { name: '', students: {}, max: 0 },
+      p7: { name: '', students: {}, max: 0 },
+      p8: { name: '', students: {}, max: 0 },
+      p9: { name: '', students: {}, max: 0 },
+    };
+    await ref.child('teachers/').on(
+      'value',
+      function (snapshot) {
+        schoolNum = 0;
+        snapshot.forEach(function (childSnapshot) {
+          schoolNum += 1;
+          var childSchool = childSnapshot.val().school;
+          teacherList.push([
+            childSnapshot.val().name,
+            childSnapshot.key,
+            childSchool,
+          ]);
+          fullSchoolList.push(childSchool);
+          if (!childSnapshot.val().waiver) {
+            schoolsList.push([childSchool, childSnapshot.key]);
+          }
+          if (childSnapshot.val().students) {
+            Object.entries(childSnapshot.val().students).forEach(
+              ([key, val]) => {
+                attendeeList[key] = {
+                  ...val,
+                  teacher: childSnapshot.key,
+                  school: childSchool,
+                };
+              }
+            );
+          }
+        });
+        this.setState({
+          fullSchoolList: fullSchoolList,
+          schoolsList: schoolsList,
+          teacherList: teacherList,
+          attendeeList: attendeeList,
+          changedAttendeeList: attendeeList,
+          schoolNum: schoolNum,
+          waiverSelectedSchool: schoolsList[0][1],
+          attendeeSelectedTeacher: teacherList[0][1],
+        });
+      }.bind(this)
+    );
 
-    //bind
-    this.handleWaiver = this.handleWaiver.bind(this);
-    this.handleWaiverSubmit = this.handleWaiverSubmit.bind(this);
+    ref.child('plenaries').on(
+      'value',
+      function (snapshot) {
+        plenOptions = snapshot.val();
+        this.setState({ plenOptions: plenOptions });
+      }.bind(this)
+    );
   }
 
   generateSchoolOptions() {

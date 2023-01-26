@@ -109,6 +109,10 @@ export default class AdminDashboard extends Component {
       'value',
       function (snapshot) {
         schoolNum = 0;
+        fullSchoolList = [''];
+        teacherList = [];
+        attendeeList = {};
+        schoolsList = [['', '']];
         snapshot.forEach(function (childSnapshot) {
           schoolNum += 1;
           var childSchool = childSnapshot.val().school;

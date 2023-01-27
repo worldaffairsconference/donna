@@ -88,6 +88,7 @@ export default class AdminDashboard extends Component {
   }
 
   async componentDidMount() {
+    console.log('Mounted');
     var fullSchoolList = [''];
     var teacherList = [];
     var schoolNum = 0;
@@ -105,7 +106,7 @@ export default class AdminDashboard extends Component {
       p8: { name: '', students: {}, max: 0 },
       p9: { name: '', students: {}, max: 0 },
     };
-    await ref.child('teachers/').on(
+    await ref.child('teachers/').once(
       'value',
       function (snapshot) {
         schoolNum = 0;

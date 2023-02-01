@@ -80,9 +80,9 @@ export default class Register extends Component {
           </ModalFooter>
         </Modal>
         <br />
-        <h1>Register</h1>
+        <h1>Registration is closed.</h1>
         <p>{}</p>
-        <form onSubmit={this.handleSubmit}>
+        {/* <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Full Name</label>
             <input
@@ -148,19 +148,11 @@ export default class Register extends Component {
           <button type="submit" className="btn btn-primary">
             Register
           </button>
-        </form>
-        <br />
+        </form> */}
         <p>
-          If you're already registered, <a href="/login">log in</a>.<br /> For
-          students attending online, please register using this{' '}
-          <a href="https://hopin.com/events/world-affairs-conference-2023-hybrid-thinking">
-            link{' '}
-          </a>
-          .
-        </p>
-        <p>
-          <a href="https://worldaffairscon.org/contact">Contact us</a> for more
-          information
+          Please <a href="/login">log in</a> to your account or{' '}
+          <a href="https://worldaffairscon.org/contact">contact us</a> for more
+          information.
         </p>
       </div>
     );

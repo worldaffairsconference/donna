@@ -25,69 +25,36 @@ export default class QRReg extends Component {
     super(props);
     this.state = {
       data: null,
-      plen: null,
       name: 'Scan QR',
       status: '',
-      plenaries: {
-        p1: { name: '', students: {}, max: 0 },
-        p2: { name: '', students: {}, max: 0 },
-        p3: { name: '', students: {}, max: 0 },
-        p4: { name: '', students: {}, max: 0 },
-        p5: { name: '', students: {}, max: 0 },
-        p6: { name: '', students: {}, max: 0 },
-        p7: { name: '', students: {}, max: 0 },
-        p8: { name: '', students: {}, max: 0 },
-        p9: { name: '', students: {}, max: 0 },
-      },
     };
   }
-  generateOptions() {
-    // check if plenary is full
-    var options = [];
-    var length = Object.keys(this.state.plenaries).length;
-    for (var i = 1; i < length; i++) {
-      var dispname = this.state.plenaries['p' + i].name;
-      if (this.state.plenaries['p' + i].students) {
-        if (
-          Object.keys(this.state.plenaries['p' + i].students).length >=
-          this.state.plenaries['p' + i].max
-        ) {
-          dispname = '(FULL) ' + dispname;
-        }
-      }
-      if (this.state.plenaries['p' + i].name != '') {
-        options.push(<option value={'p' + i}>{dispname}</option>);
-      }
-    }
-    return options;
-  }
-  handleResult = () => {
-    const { plen, data } = this.state;
-    console.log(plen, data);
-    if (plen == null || plen == 'no') {
-      this.setState({ data: null });
-      return;
-    }
-    //get teacher id
-    ref.child(`students/${data}`).once('value', (snapshot) => {
-      const teacher = snapshot.val().teacherID;
-      // Get teachers/${user.uid}/students
-      ref
-        .child(`teachers/${teacher}/students/${data}`)
-        .once('value', (snapshot) => {
-          this.setState({ name: snapshot.val().name });
 
-          // record attendance to selected plenary
-          ref.child(`plenaries/p${plen}/attendance/${data}`).set({
-            uid: data,
-            name: snapshot.val().name,
+  handleResult = () => {
+    const { data } = this.state;
+    //get teacher id
+    try {
+      ref.child(`students/${data}`).once('value', (snapshot) => {
+        const teacher = snapshot.val().teacherID;
+        // Get teachers/${user.uid}/students
+        ref
+          .child(`teachers/${teacher}/students/${data}`)
+          .once('value', (snapshot) => {
+            this.setState({ name: snapshot.val().name });
+
+            // record attendance to selected plenary
+            ref.child(`attendance/${data}`).set({
+              name: snapshot.val().name,
+            });
           });
-        });
-    });
-    this.setState({ status: 'slide-up checkmarkready' });
-    setTimeout(() => {
-      this.setState({ status: '' });
-    }, 1600);
+      });
+      this.setState({ status: 'slide-up checkmarkready' });
+      setTimeout(() => {
+        this.setState({ status: '' });
+      }, 1600);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   componentDidMount() {
@@ -119,7 +86,7 @@ export default class QRReg extends Component {
             </Link>
           </Col>
         </Row>
-        <h5>Select Plenary</h5>
+        {/*        <h5>Select Plenary</h5>
         <div className="mt-3 mb-3">
           <select
             className="form-control"
@@ -129,6 +96,7 @@ export default class QRReg extends Component {
             {this.generateOptions()}
           </select>
         </div>
+				*/}
         <>
           <QrReader
             className="qr-reader"

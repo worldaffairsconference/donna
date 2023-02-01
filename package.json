@@ -25,6 +25,7 @@
   "scripts": {
     "setup": "./setup.sh",
     "start": "react-scripts start",
+    "ssl": "export HTTPS=true&&SSL_CRT_FILE=cert.pem&&SSL_KEY_FILE=key.pem react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

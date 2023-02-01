@@ -600,8 +600,9 @@ export default class StudentDashboard extends Component {
           </Form>
           {!this.state.plenOptions.open && (
             <CardFooter>
-              Plenary selection will be available on <b>January 18th</b>. Please
-              check back later.
+              Plenary selection is <b>closed</b>. You can still update your
+              personal note. Please contact the WAC team if you have any
+              questions.
             </CardFooter>
           )}
         </Card>

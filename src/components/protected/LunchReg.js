@@ -33,6 +33,15 @@ export default class LunchReg extends Component {
     const { data } = this.state;
     //get teacher id
     ref.child(`students/${data}`).once('value', (snapshot) => {
+      if (!snapshot.exists()) {
+        ref.child(`lunch/${data}`).set({
+          faculty: true,
+          teacher: data,
+        });
+        this.setState({ name: 'Faculty Advisor' });
+        return;
+      }
+
       const teacher = snapshot.val().teacherID;
       // Get teachers/${user.uid}/students
       ref

@@ -83,31 +83,14 @@ export default class StudentDashboard extends Component {
 
       // Get teachers/${user.uid}/students
       ref.child(`teachers/${teacher}`).once('value', (snapshot) => {
-        var p1 = snapshot.val().students[this.state.userid].p1;
-        var p2 = snapshot.val().students[this.state.userid].p2;
-        var p3 = snapshot.val().students[this.state.userid].p3;
+        var p1 = snapshot.val().students[this.state.userid].plen1;
+        var p2 = snapshot.val().students[this.state.userid].plen2;
+        var p3 = snapshot.val().students[this.state.userid].plen3;
         if (snapshot.val().students[this.state.userid].ucc_advisor) {
           teacher_name = snapshot.val().students[this.state.userid].ucc_advisor;
           ucc_student = true;
         } else {
           teacher_name = snapshot.val().name;
-        }
-        if (snapshot.val().students[this.state.userid].p1) {
-          this.setState({
-            plenholder: snapshot.val().students[this.state.userid].p1,
-          });
-        }
-
-        if (snapshot.val().students[this.state.userid].p2) {
-          this.setState({
-            plenholder: snapshot.val().students[this.state.userid].p2,
-          });
-        }
-
-        if (snapshot.val().students[this.state.userid].p3) {
-          this.setState({
-            plenholder: snapshot.val().students[this.state.userid].p3,
-          });
         }
 
         this.setState({
@@ -117,81 +100,20 @@ export default class StudentDashboard extends Component {
           school: snapshot.val().school,
           teacher: teacher_name,
           teacherID: teacher,
-          p1: snapshot.val().students[this.state.userid].p1,
-          inputPlen1: snapshot.val().students[this.state.userid].p1,
-          p2: snapshot.val().students[this.state.userid].p2,
-          inputPlen2: snapshot.val().students[this.state.userid].p2,
-          p3: snapshot.val().students[this.state.userid].p3,
-          inputPlen3: snapshot.val().students[this.state.userid].p3,
+          p1: p1 ? p1 : 'Not Available',
+          p2: p2 ? p2 : 'Not Available',
+          p3: p3 ? p3 : 'Not Available',
           inputNotes: snapshot.val().students[this.state.userid].note,
           notes: snapshot.val().students[this.state.userid].note,
         });
-
-        if (
-          p1 == 'SPRINT' ||
-          p1 == 'SECURITY' ||
-          p1 == 'EXECUTIVE' ||
-          p1 == 'VOLUNTEER' ||
-          p1 == 'FACILITIES'
-        ) {
-          this.setState({ special: p1, inputPlen1: '' });
-        }
-        if (
-          p2 == 'SPRINT' ||
-          p2 == 'SECURITY' ||
-          p2 == 'EXECUTIVE' ||
-          p2 == 'VOLUNTEER' ||
-          p2 == 'FACILITIES'
-        ) {
-          this.setState({ special: p2, inputPlen2: '' });
-        }
-        if (
-          p3 == 'SPRINT' ||
-          p3 == 'SECURITY' ||
-          p3 == 'EXECUTIVE' ||
-          p3 == 'VOLUNTEER' ||
-          p3 == 'FACILITIES'
-        ) {
-          this.setState({ special: p3, inputPlen3: '' });
-        }
       });
     });
-
-    // Get plenaries
-    ref.child('plenaries').once('value', (snapshot) => {
-      this.setState({ plenOptions: snapshot.val() });
-    });
-
-    //generate options
-
-    //add listener for when command+k is pressed
 
     document.addEventListener('keydown', (e) => {
       if (e.keyCode == 75 && e.metaKey) {
         this.toggleModal2();
       }
     });
-  }
-
-  generateOptions() {
-    // check if plenary is full
-    var options = [];
-    var length = Object.keys(this.state.plenOptions).length;
-    for (var i = 1; i < length; i++) {
-      var dispname = this.state.plenOptions['p' + i].name;
-      if (this.state.plenOptions['p' + i].students) {
-        if (
-          Object.keys(this.state.plenOptions['p' + i].students).length >=
-          this.state.plenOptions['p' + i].max
-        ) {
-          dispname = '(FULL) ' + dispname;
-        }
-      }
-      if (this.state.plenOptions['p' + i].name != '') {
-        options.push(<option value={'p' + i}>{dispname}</option>);
-      }
-    }
-    return options;
   }
 
   toggleModal() {
@@ -224,147 +146,14 @@ export default class StudentDashboard extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-
-    if (
-      (this.state.inputPlen1 == this.state.inputPlen2 &&
-        this.state.inputPlen1 != '' &&
-        this.state.inputPlen2 != '') ||
-      (this.state.inputPlen1 == this.state.inputPlen3 &&
-        this.state.inputPlen1 != '' &&
-        this.state.inputPlen2 != '') ||
-      (this.state.inputPlen2 == this.state.inputPlen3 &&
-        this.state.inputPlen2 != '' &&
-        this.state.inputPlen3 != '')
-    ) {
-      alert("You can't select the same plenary twice!");
-      return;
-    }
-    await ref.child('plenaries').once('value', (snapshot) => {
-      this.setState({ plenOptions: snapshot.val() });
-    });
-    // Check for plenary maximum capacity
-
-    if (
-      this.state.inputPlen1 != '' &&
-      this.state.plenOptions[this.state.inputPlen1].students &&
-      this.state.inputPlen1 !== this.state.p1
-    ) {
-      if (
-        Object.keys(this.state.plenOptions[this.state.inputPlen1].students)
-          .length >= this.state.plenOptions[this.state.inputPlen1].max
-      ) {
-        alert(
-          'Selected Plenary 1 is full! Please select another plenary or try again later.'
-        );
-        return;
-      }
-    }
-
-    if (
-      this.state.inputPlen2 != '' &&
-      this.state.plenOptions[this.state.inputPlen2].students &&
-      this.state.inputPlen2 !== this.state.p2
-    ) {
-      if (
-        Object.keys(this.state.plenOptions[this.state.inputPlen2].students)
-          .length >= this.state.plenOptions[this.state.inputPlen2].max
-      ) {
-        alert(
-          'Selected Plenary 2 is full! Please select another plenary or try again later.'
-        );
-        return;
-      }
-    }
-
-    if (
-      this.state.inputPlen3 != '' &&
-      this.state.plenOptions[this.state.inputPlen3].students &&
-      this.state.inputPlen3 !== this.state.p3
-    ) {
-      if (
-        Object.keys(this.state.plenOptions[this.state.inputPlen3].students)
-          .length >= this.state.plenOptions[this.state.inputPlen3].max
-      ) {
-        alert(
-          'Selected Plenary 3 is full! Please select another plenary or try again later.'
-        );
-        return;
-      }
-    }
     await ref
       .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
       .update({
         note: this.state.inputNotes,
       });
     // Update teachers/${user.uid}/students
-    if (this.state.special) {
-      alert(
-        'Plenary selection is locked for your account as you have been assigned a special event. However, your notes will be updated.'
-      );
-
-      return;
-    }
-    await ref
-      .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
-      .update({
-        p1: this.state.inputPlen1,
-        p2: this.state.inputPlen2,
-        p3: this.state.inputPlen3,
-      });
-
-    if (
-      this.state.inputPlen1 !== this.state.p1 ||
-      this.state.inputPlen2 !== this.state.p2 ||
-      this.state.inputPlen3 !== this.state.p3
-    ) {
-      if (this.state.p1 !== '') {
-        await ref
-          .child(`plenaries/${this.state.p1}/students/${this.state.userid}`)
-          .remove();
-      }
-
-      if (this.state.p2 !== '') {
-        await ref
-          .child(`plenaries/${this.state.p2}/students/${this.state.userid}`)
-          .remove();
-      }
-
-      if (this.state.p3 !== '') {
-        await ref
-          .child(`plenaries/${this.state.p3}/students/${this.state.userid}`)
-          .remove();
-      }
-
-      if (this.state.inputPlen1 !== '') {
-        await ref
-          .child(
-            `plenaries/${this.state.inputPlen1}/students/${this.state.userid}`
-          )
-          .set(true);
-      }
-
-      if (this.state.inputPlen2 !== '') {
-        await ref
-          .child(
-            `plenaries/${this.state.inputPlen2}/students/${this.state.userid}`
-          )
-          .set(true);
-      }
-
-      if (this.state.inputPlen3 !== '') {
-        await ref
-          .child(
-            `plenaries/${this.state.inputPlen3}/students/${this.state.userid}`
-          )
-          .set(true);
-      }
-    }
-
     this.setState({
       notes: this.state.inputNotes,
-      p1: this.state.inputPlen1,
-      p2: this.state.inputPlen2,
-      p3: this.state.inputPlen3,
       buttonStatus: ['Success!', 'btn btn-success fonted'],
     });
 
@@ -466,101 +255,27 @@ export default class StudentDashboard extends Component {
         <hr />
 
         <Row>
-          <Col md="12" sm="12" xs="12">
-            <p>
-              Please select the three plenaries that you would like to attend
-              the most, in order of preference. For detailed information about
-              each plenary, please visit the{' '}
-              <a href="https://worldaffairscon.org/plenaries">
-                WAC website plenaries page
-              </a>
-              . Please note that plenary selection is not guaranteed. Plenaries
-              are first-come, first-serve, and you will be placed according to
-              availability.
-            </p>
-          </Col>
+          <Col md="12" sm="12" xs="12"></Col>
         </Row>
         <Card className="pt-4">
           <Form onSubmit={this.handleSubmit}>
             <Row sm={1} md={1} lg={2}>
-              <Col sm="6" lg="6">
+              <Col sm="6" lg="6" className="mt-2">
                 <FormGroup check>
-                  <Label>Choose Plenary 1 </Label>
-                </FormGroup>
-                <FormGroup
-                  onChange={this.handlePlen1Change}
-                  check
-                  className="mr-3"
-                >
-                  <Input
-                    value={this.state.inputPlen1}
-                    className="form-control"
-                    type="select"
-                    name="select1"
-                    id="select1"
-                    disabled={
-                      !this.state.plenOptions.open || this.state.special != ''
-                    }
-                  >
-                    {this.state.special && (
-                      <option value="">{this.state.special}</option>
-                    )}
-                    <option value="">None</option>
-                    {this.generateOptions()}
-                  </Input>
+                  <Label>Plenary Session 1 - 10:40 AM </Label>
+                  <h4>{this.state.p1}</h4>
                 </FormGroup>
                 <br />
                 <FormGroup check>
-                  <Label>Choose Plenary 2 </Label>
-                </FormGroup>
-                <FormGroup
-                  onChange={this.handlePlen2Change}
-                  check
-                  className="mr-3"
-                >
-                  <Input
-                    value={this.state.inputPlen2}
-                    className="form-control"
-                    type="select"
-                    name="select2"
-                    id="select2"
-                    disabled={
-                      !this.state.plenOptions.open || this.state.special != ''
-                    }
-                  >
-                    {this.state.special && (
-                      <option value="">{this.state.special}</option>
-                    )}
-                    <option value="">None</option>
-                    {this.generateOptions()}
-                  </Input>
+                  <Label>Plenary Session 2 - 11:35 AM </Label>
+                  <h4>{this.state.p2}</h4>
                 </FormGroup>
                 <br />
                 <FormGroup check>
-                  <Label>Choose Plenary 3 </Label>
+                  <Label>Plenary Session 3 - 01:35 PM </Label>
+                  <h4>{this.state.p3}</h4>
                 </FormGroup>
-                <FormGroup
-                  onChange={this.handlePlen3Change}
-                  check
-                  className="mr-3"
-                >
-                  <Input
-                    value={this.state.inputPlen3}
-                    className="form-control"
-                    type="select"
-                    name="select3"
-                    id="select3"
-                    disabled={
-                      !this.state.plenOptions.open || this.state.special != ''
-                    }
-                  >
-                    {this.state.special && (
-                      <option value="">{this.state.special}</option>
-                    )}
-                    <option value="">None</option>
-                    {this.generateOptions()}
-                  </Input>
-                </FormGroup>
+                <br />
               </Col>
               <br />
               <Col sm="6" lg="6">
@@ -598,13 +313,6 @@ export default class StudentDashboard extends Component {
 
             <br />
           </Form>
-          {!this.state.plenOptions.open && (
-            <CardFooter>
-              Plenary selection is <b>closed</b>. You can still update your
-              personal note. Please contact the WAC team if you have any
-              questions.
-            </CardFooter>
-          )}
         </Card>
         <br />
       </Container>

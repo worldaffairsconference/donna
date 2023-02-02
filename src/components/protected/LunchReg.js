@@ -74,7 +74,7 @@ export default class LunchReg extends Component {
             <h1 className="fonted-h">WAC Lunch Kiosk</h1>
           </Col>
         </Row>
-        <>
+        <div clasName="qr-container">
           <QrReader
             className="qr-reader"
             constraints={{
@@ -94,7 +94,7 @@ export default class LunchReg extends Component {
             }}
             style={{ width: '100%' }}
           />
-        </>
+        </div>
         <div className="mt-3 display-iblock">
           <h1>{this.state.name}</h1>
         </div>

@@ -25,11 +25,17 @@ body {
 .passwdresetclick {
   cursor: pointer;
 }
+/*.qr-container{*/
+	/*display: flex;*/
+	/*justify-content: center;*/
+	/*align-items: center;*/
+
+/*}*/
 
 .qr-reader video {
-  overflow: hidden !important;
-  width:auto !important;
-  height:100% !important;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .display-iblock{

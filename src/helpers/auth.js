@@ -77,7 +77,7 @@ export function addAttendee(email, pw, name, grade, access) {
       return;
     }
 
-    return firebaseAuthNoLogin
+    firebaseAuthNoLogin
       .createUserWithEmailAndPassword(email, pw)
       .then((data) => {
         ref
@@ -99,7 +99,7 @@ export function addAttendee(email, pw, name, grade, access) {
               })
               .then(() => {
                 resetPassword(email).then(() => {
-                  return data.user;
+                  resolve(data.user);
                 });
               });
           });

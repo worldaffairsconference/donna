@@ -59,7 +59,17 @@ export default class AdminDashboard extends Component {
     //bind
     this.handleWaiver = this.handleWaiver.bind(this);
     this.handleWaiverSubmit = this.handleWaiverSubmit.bind(this);
+    this.copytoClipboard = this.copytoClipboard.bind(this);
   }
+
+  copytoClipboard = (text) => {
+    var textField = document.createElement('textarea');
+    textField.innerText = text;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
+  };
 
   toggle = (email, teacherid, uid) => {
     this.setState({
@@ -70,6 +80,7 @@ export default class AdminDashboard extends Component {
         uid ? uid : '',
       ],
     });
+    this.copytoClipboard(uid);
   };
 
   generateOptions() {
@@ -245,17 +256,26 @@ export default class AdminDashboard extends Component {
     });
   };
 
-  handleAddAttendee = (event) => {
+  handleAddAttendee = async (event) => {
     event.preventDefault();
     var name = event.target.name.value;
     var email = event.target.email.value;
     var school = event.target.access.value;
     var grade = event.target.grade.value;
-    addAttendee(email, (Math.random() + 1).toString(36), name, grade, school)
-      .then(alert('Added attendee'))
-      .catch((error) => {
-        alert(error);
-      });
+    try {
+      var uid = await addAttendee(
+        email,
+        (Math.random() + 1).toString(36),
+        name,
+        grade,
+        school
+      );
+      console.log(uid.uid);
+      this.copytoClipboard(uid.uid);
+      alert('Added attendee with UID:' + uid.uid);
+    } catch (e) {
+      alert(e);
+    }
   };
 
   resetPassword = () => {

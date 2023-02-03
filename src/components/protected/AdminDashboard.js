@@ -80,7 +80,9 @@ export default class AdminDashboard extends Component {
         uid ? uid : '',
       ],
     });
-    this.copytoClipboard(uid);
+    if (!this.state.modal[0]) {
+      this.copytoClipboard(uid);
+    }
   };
 
   generateOptions() {

@@ -133,53 +133,7 @@ export default class Dashboard extends Component {
             <CardTitle tag="h5">
               <b> Student Registration Instructions</b>
             </CardTitle>
-            <CardText>
-              Please have your students register for the conference using this
-              website, you will be able to see them listed below once they have
-              registered. Copy the student access code below and provide it to
-              your student delegates. Alternatively, students can scan the QR
-              code which contains the access code information. If you have any
-              questions, please
-              <a href="mailto:wac@ucc.on.ca"> contact us</a>.
-              <br />
-              <hr />
-              <Row>
-                <Col lg={9} md={9} sm={12} xs={12} className="mt-2">
-                  <Alert color="success" hidden={this.state.alert}>
-                    {' '}
-                    Copied to clipboard!{' '}
-                  </Alert>
-                  <center>
-                    <h5>
-                      <b>Access Code: </b>
-                      {firebaseAuth.currentUser.uid}
-                    </h5>
-                    <br />
-                    <Button
-                      color="primary"
-                      onClick={this.handleCopy}
-                      className="mt-2"
-                    >
-                      Copy Registration Info to Clipboard
-                    </Button>
-                  </center>
-                </Col>
-                <Col lg={3} md={3} sm={12} xs={12} className="mt-2">
-                  <center>
-                    {' '}
-                    <QRCode
-                      value={`https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`}
-                      style={{
-                        height: 'auto',
-                        width: '100%',
-                        maxWidth: '200px',
-                      }}
-                      viewBox={`0 0 256 256`}
-                    />
-                  </center>
-                </Col>
-              </Row>
-            </CardText>
+            <CardText>Registration is now closed.</CardText>
           </Card>
         </Row>
         <br />

@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.1f40635d.css",
-    "main.js": "/static/js/main.3fee1ad9.js",
+    "main.css": "/static/css/main.5f06c681.css",
+    "main.js": "/static/js/main.2dcbabb9.js",
     "static/media/wac_logo_full.png": "/static/media/wac_logo_full.f67408d72add69a513a7.png",
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.1f40635d.css",
-    "static/js/main.3fee1ad9.js"
+    "static/css/main.5f06c681.css",
+    "static/js/main.2dcbabb9.js"
   ]
 }

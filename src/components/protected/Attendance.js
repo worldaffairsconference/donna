@@ -1,95 +1,81 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import {
+  Button,
+  Badge,
+  Table,
+  Container,
+  Row,
+  Col,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Card,
+  Alert,
+  CardText,
+  CardTitle,
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ref } from '../../helpers/firebase';
 import { QrReader } from 'react-qr-reader';
 import { Checkmark } from 'react-checkmark';
 
-export default class QRReg extends Component {
+export default class Attendance extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: null,
       name: 'Scan QR',
       status: '',
-      ucc_students: [],
     };
-  }
-
-  mapping = {
-    'Philip Roberts': 1,
-    'Erann Zlotnik': 2,
-    'Patrice Callegaro': 3,
-    'Bina Evans': 4,
-    'Zulay Rodriguez': 5,
-    'Ben Tan': 6,
-    'Maryam Pashali': 7,
-    'Paul Miskew': 8,
-    'Andrew McCubbin': 9,
-    'Brendon Allen': 10,
-    'Calvin Yu': 11,
-    'Colleen Ferguson': 12,
-    'Catherine McRoy-Mendell': 13,
-    'Sophia Berezowsky': 14,
-    'Gregory McDonald': 15,
-    'Felipe Nilo': 16,
-    'Tony Gomes': 17,
-    'Huw Tranter': 18,
-    'Joseph Bush': 19,
-    'Terence Dick': 20,
-    'John Sweetman': 21,
-    'Chris Cigolea': 22,
-    'Keiran Higgins/Joe Smith': 23,
-    'Oumarou Niagate': 24,
-    'Josh Rapps': 25,
-    'Ian Cole': 26,
-    'Suzanne Monir': 27,
-    'Mari Roughneen': 28,
-    'Christin Mohammed-King': 29,
-    'Anthony De Giorgio': 30,
-    'Jordan Small': 31,
-    'Andrew Turner': 32,
-    'Mario Sturino': 33,
-    'Spice Maybee': 34,
-    'David Holt': 35,
-    'Edward Moon': 36,
-    'Chandra Boon': 37,
-    'Melanie Snow': 38,
-  };
-
-  componentDidMount() {
-    ref
-      .child('teachers/THOZYirJHLYj9UXKnypCs9vbeTw1/students')
-      .once('value', (snapshot) => {
-        const students = snapshot.val();
-        this.setState({ ucc_students: students });
-      });
   }
 
   handleResult = () => {
     const { data } = this.state;
     //get teacher id
     try {
-      this.setState({
-        name: this.mapping[this.state.ucc_students[data].ucc_advisor],
+      ref.child(`students/${data}`).once('value', (snapshot) => {
+        const teacher = snapshot.val().teacherID;
+        // Get teachers/${user.uid}/students
+        ref
+          .child(`teachers/${teacher}/students/${data}`)
+          .once('value', (snapshot) => {
+            this.setState({ name: snapshot.val().name });
+
+            // record attendance to selected plenary
+            ref.child(`attendance/${data}`).set({
+              name: snapshot.val().name,
+            });
+          });
       });
-      this.setState({ status: 'slide-up-2 checkmarkready' });
+      this.setState({ status: 'slide-up checkmarkready' });
       setTimeout(() => {
         this.setState({ status: '' });
-      }, 1000);
+      }, 1600);
     } catch (e) {
       console.log(e);
     }
   };
 
+  componentDidMount() {
+    ref.child('plenaries/').once('value', (snapshot) => {
+      this.setState({ plenaries: snapshot.val() });
+    });
+  }
+
   render() {
     return (
       <Container>
-        <div className={'full-screen-container-2 ' + this.state.status}></div>
+        <div id="checkmark-container">
+          {this.state.status == 'slide-up checkmarkready' && (
+            <Checkmark color="green" />
+          )}
+        </div>
+        <div className={'full-screen-container ' + this.state.status}></div>
         <br />
         <Row>
           <Col md="8" sm="12" xs="12">
-            <h1 className="fonted-h">Volunteer Tools</h1>
+            <h1 className="fonted-h">QR Code Scanner</h1>
           </Col>
           <Col md="4" sm="12" xs="12">
             <Link

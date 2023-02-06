@@ -66,6 +66,26 @@ body {
 }
 
 
+.full-screen-container-2{
+	opacity:    0.3; 
+	background: green; 
+	width:      100%;
+	height:     0; 
+	z-index:    10;
+	bottom:        0; 
+	left:       0; 
+	position:   fixed;
+	pointer-events: none;
+	transition: 0.1s ease;
+}
+
+.slide-up-2{
+	height: 100%;
+	transition: 0.1s ease;
+}
+
+
+
 .checkmark{
 	position: absolute;
 	width: 80vw !important;

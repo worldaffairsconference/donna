@@ -10,6 +10,7 @@ import NotFound from './NotFound';
 import AdminDashboard from './protected/AdminDashboard';
 import TRegister from './TRegister';
 import QRReg from './protected/QRReg';
+import Attendance from './protected/Attendance';
 import LunchReg from './protected/LunchReg';
 import { firebaseAuth, ref } from '../helpers/firebase';
 import {
@@ -207,6 +208,11 @@ export default class App extends Component {
                   authed={this.state.authed}
                   path="/volunteer"
                   component={this.state.isVolunteer ? QRReg : NotFound}
+                />
+                <PrivateRoute
+                  authed={this.state.authed}
+                  path="/attendance"
+                  component={this.state.isVolunteer ? Attendance : NotFound}
                 />
                 <PrivateRoute
                   authed={this.state.authed}

@@ -37,9 +37,9 @@ export function StudentRow(props) {
       <tr>
         <td>{student.name}</td>
         <td>{student.grade}</td>
-        <td>{p1status && plenInfo[student.p1].name}</td>
-        <td>{p2status && plenInfo[student.p2].name}</td>
-        <td>{p3status && plenInfo[student.p3].name}</td>
+        <td>{p1status && student.plen1}</td>
+        <td>{p2status && student.plen2}</td>
+        <td>{p3status && student.plen3}</td>
         <td>{student.note}</td>
       </tr>
     );

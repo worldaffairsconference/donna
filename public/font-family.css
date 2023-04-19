@@ -1,7 +1,4 @@
-@font-face{font-family: "Nexa";src: url("./corefonts/nexa/nexa_light.otf");}
-@font-face{font-family: "Nexa";src: url("./corefonts/nexa/nexa_bold.otf");font-weight: bold;}
-@font-face{font-family: "Nexa Slab";src: url("./corefonts/nexaslab/nexa_slab_regular.otf");}
-@font-face{font-family: "Nexa Slab";src: url("./corefonts/nexaslab/nexa_slab_bold.otf");font-weight: bold;}
+
 
 html {
   position: relative;
@@ -20,11 +17,11 @@ body {
 
 
 body, .fonted {
-	font-family: "Nexa";
+	font-family: "GillSans";
 }
 
 .fonted-h {
-	font-family: "Nexa Slab";
+	font-family: "GillSans";
 }
 
 #table {

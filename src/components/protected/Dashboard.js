@@ -14,6 +14,7 @@ import {
   Alert,
   CardText,
   CardTitle,
+  Input,
 } from 'reactstrap';
 import { StudentRow } from './StudentRow';
 import { ref, firebaseAuth } from '../../helpers/firebase';
@@ -41,10 +42,12 @@ export default class Dashboard extends Component {
     this.toggleModal = this.toggleModal.bind(this);
     this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this);
     this.handleCopy = this.handleCopy.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
 
     this.state = {
       myStudentDataKey: myStudentDataKey,
       myStudentDataArr: myStudentDataArr,
+      searchQuery: '',
       modal: false,
       plenOptions: {
         open: false,
@@ -102,7 +105,16 @@ export default class Dashboard extends Component {
     }, 3000);
   }
 
+  handleSearch(event) {
+    this.setState({ searchQuery: event.target.value });
+  }
+
   render() {
+    const { myStudentDataArr, searchQuery } = this.state;
+    const filteredStudents = myStudentDataArr.filter((student) =>
+      student.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
       <Container>
         <br />
@@ -171,6 +183,15 @@ export default class Dashboard extends Component {
         <br />
         <h2>My Students</h2>
         <br />
+        <Col md="3" sm="5" xs="10">
+        <Input
+          type="text"
+          placeholder="Search by name"
+          value={this.state.searchQuery}
+          onChange={this.handleSearch}
+        />
+        </Col>
+        <br />
         <div id="table">
           <Table>
             <thead>
@@ -184,7 +205,7 @@ export default class Dashboard extends Component {
               </tr>
             </thead>
             <StudentRow
-              studentData={this.state.myStudentDataArr}
+              studentData={filteredStudents}
               studentKey={this.state.myStudentDataKey}
               plenOptions={this.state.plenOptions}
             />

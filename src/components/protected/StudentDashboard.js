@@ -110,7 +110,7 @@ export default class StudentDashboard extends Component {
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.keyCode == 75 && e.metaKey) {
+      if ((e.keyCode === 75 && e.metaKey) || (e.keyCode === 75 && e.ctrlKey)) {
         this.toggleModal2();
       }
     });
@@ -182,7 +182,7 @@ export default class StudentDashboard extends Component {
     const data = await response.text();
     console.log(data);
     if (data !== 'Invalid Code') {
-      this.setState({ modal2: false });
+      this.setState({ modal2: true });
       this.toggleModal2();
       location.reload();
     } else {

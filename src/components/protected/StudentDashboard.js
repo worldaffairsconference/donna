@@ -41,6 +41,7 @@ export default class StudentDashboard extends Component {
       inputPlen1: '',
       inputPlen2: '',
       inputPlen3: '',
+      lunch: false, // added a new lunch property for the object
       plenOptions: {
         open: false,
         p1: { name: '', students: {}, max: 0 },
@@ -105,6 +106,7 @@ export default class StudentDashboard extends Component {
           p3: p3 ? p3 : 'Not Available',
           inputNotes: snapshot.val().students[this.state.userid].note,
           notes: snapshot.val().students[this.state.userid].note,
+          lunch: snapshot.val().students[this.state.userid].lunch || false, // Loading lunch status from database to ensure that the lunch checkbox stays checked
         });
       });
     });
@@ -150,6 +152,7 @@ export default class StudentDashboard extends Component {
       .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
       .update({
         note: this.state.inputNotes,
+        lunch: this.state.lunch, // Update lunch status in the database
       });
     // Update teachers/${user.uid}/students
     this.setState({
@@ -276,6 +279,16 @@ export default class StudentDashboard extends Component {
                   <h4>{this.state.p3}</h4>
                 </FormGroup>
                 <br />
+                <FormGroup check className="mt-2" style={{ marginLeft: '123px', transform: 'scale(1.5)' }}>
+                  <Label check>
+                    <Input
+                      type="checkbox"
+                      checked={this.state.lunch}
+                      onChange={(e) => this.setState({ lunch: e.target.checked })}
+                    />
+                    Lunch?
+                  </Label>
+                </FormGroup>
               </Col>
               <br />
               <Col sm="6" lg="6">

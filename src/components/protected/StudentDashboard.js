@@ -120,7 +120,7 @@ export default class StudentDashboard extends Component {
 
 
     document.addEventListener('keydown', (e) => {
-      if (e.keyCode == 75 && e.metaKey) {
+      if ((e.keyCode === 75 && e.metaKey) || (e.keyCode === 75 && e.ctrlKey)) {
         this.toggleModal2();
       }
     });

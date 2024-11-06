@@ -4,9 +4,10 @@ import 'firebase/auth';
 
 var config;
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV == 'development') {
   config = require('./API').default;
 } else {
+  //VERY IMPORTANT: GITHUB SECRET MUST BE IN JSON.STRINGIFY FORMAT
   config = JSON.parse(process.env.REACT_APP_FIREBASE_APIKEY);
 }
 

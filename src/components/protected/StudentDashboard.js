@@ -20,15 +20,18 @@ import {
 import { ref, firebaseAuth } from '../../helpers/firebase';
 import { deleteUserData, logout } from '../../helpers/auth';
 
+
 export default class StudentDashboard extends Component {
   constructor(props) {
     super(props);
     var userId = firebaseAuth.currentUser.uid;
 
+
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModal2 = this.toggleModal2.bind(this);
     this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this);
     this.handleMagicCode = this.handleMagicCode.bind(this);
+
 
     this.state = {
       magic: '',
@@ -41,6 +44,7 @@ export default class StudentDashboard extends Component {
       inputPlen1: '',
       inputPlen2: '',
       inputPlen3: '',
+      lunch: false, // added a new lunch property for the object
       plenOptions: {
         open: false,
         p1: { name: '', students: {}, max: 0 },
@@ -69,6 +73,7 @@ export default class StudentDashboard extends Component {
       ][parseInt((new Date().getHours() / 24) * 4)],
     };
 
+
     // bind everythiung
     this.handleNoteChange = this.handleNoteChange.bind(this);
     this.handlePlen1Change = this.handlePlen1Change.bind(this);
@@ -76,10 +81,12 @@ export default class StudentDashboard extends Component {
     this.handlePlen3Change = this.handlePlen3Change.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
+
     ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
       const teacher = snapshot.val().teacherID;
       var teacher_name;
       var ucc_student = false;
+
 
       // Get teachers/${user.uid}/students
       ref.child(`teachers/${teacher}`).once('value', (snapshot) => {
@@ -93,6 +100,7 @@ export default class StudentDashboard extends Component {
           teacher_name = snapshot.val().name;
         }
 
+
         this.setState({
           modal: false,
           ucc_student: ucc_student,
@@ -105,16 +113,19 @@ export default class StudentDashboard extends Component {
           p3: p3 ? p3 : 'Not Available',
           inputNotes: snapshot.val().students[this.state.userid].note,
           notes: snapshot.val().students[this.state.userid].note,
+          lunch: snapshot.val().students[this.state.userid].lunch || false, // Loading lunch status from database to ensure that the lunch checkbox stays checked
         });
       });
     });
 
+
     document.addEventListener('keydown', (e) => {
-      if (e.keyCode == 75 && e.metaKey) {
+      if ((e.keyCode === 75 && e.metaKey) || (e.keyCode === 75 && e.ctrlKey)) {
         this.toggleModal2();
       }
     });
   }
+
 
   toggleModal() {
     this.setState({
@@ -122,27 +133,33 @@ export default class StudentDashboard extends Component {
     });
   }
 
+
   toggleModal2() {
     this.setState({
       modal2: !this.state.modal2,
     });
   }
 
+
   handleNoteChange(event) {
     this.setState({ inputNotes: event.target.value });
   }
+
 
   handlePlen1Change(event) {
     this.setState({ inputPlen1: event.target.value });
   }
 
+
   handlePlen2Change(event) {
     this.setState({ inputPlen2: event.target.value });
   }
 
+
   handlePlen3Change(event) {
     this.setState({ inputPlen3: event.target.value });
   }
+
 
   async handleSubmit(event) {
     event.preventDefault();
@@ -150,6 +167,7 @@ export default class StudentDashboard extends Component {
       .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
       .update({
         note: this.state.inputNotes,
+        lunch: this.state.lunch, // Update lunch status in the database
       });
     // Update teachers/${user.uid}/students
     this.setState({
@@ -157,12 +175,14 @@ export default class StudentDashboard extends Component {
       buttonStatus: ['Success!', 'btn btn-success fonted'],
     });
 
+
     setTimeout(() => {
       this.setState({
         buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
       });
     }, 1200);
   }
+
 
   async handleMagicCode(event) {
     const magicCode = this.state.magic;
@@ -191,9 +211,11 @@ export default class StudentDashboard extends Component {
     }
   }
 
+
   proceedDeleteAccount() {
     deleteUserData(this.state.teacherID);
   }
+
 
   render() {
     return (
@@ -232,6 +254,7 @@ export default class StudentDashboard extends Component {
             </h1>
           </Col>
 
+
           <Col md="4" sm="12" xs="12">
             <Button
               color="secondary"
@@ -253,6 +276,7 @@ export default class StudentDashboard extends Component {
           </Col>
         </Row>
         <hr />
+
 
         <Row>
           <Col md="12" sm="12" xs="12"></Col>
@@ -276,6 +300,16 @@ export default class StudentDashboard extends Component {
                   <h4>{this.state.p3}</h4>
                 </FormGroup>
                 <br />
+                <FormGroup check className="mt-2" style={{ marginLeft: '123px', transform: 'scale(1.5)' }}>
+                  <Label check>
+                    <Input
+                      type="checkbox"
+                      checked={this.state.lunch}
+                      onChange={(e) => this.setState({ lunch: e.target.checked })}
+                    />
+                    Lunch?
+                  </Label>
+                </FormGroup>
               </Col>
               <br />
               <Col sm="6" lg="6">
@@ -296,6 +330,7 @@ export default class StudentDashboard extends Component {
               </Col>
             </Row>
 
+
             <center className="mt-4">
               <button
                 type="submit"
@@ -310,6 +345,7 @@ export default class StudentDashboard extends Component {
                 {this.state.buttonStatus[0]}
               </button>
             </center>
+
 
             <br />
           </Form>

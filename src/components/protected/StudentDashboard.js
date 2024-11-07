@@ -60,6 +60,15 @@ export default class StudentDashboard extends Component {
       p1: '',
       p2: '',
       p3: '',
+      p1o1: 'Plenary 1 op1',
+      p1o2: 'Plenary 1 op2',
+      p1o3: 'Plenary 1 op3',
+      p2o1: 'Plenary 2 op1',
+      p2o2: 'Plenary 2 op2',
+      p2o3: 'Plenary 2 op3',
+      p3o1: 'Plenary 3 op1',
+      p3o2: 'Plenary 3 op2',
+      p3o3: 'Plenary 3 op3',
       notes: '',
       greet: [
         'What are you doing that early? ',
@@ -105,6 +114,9 @@ export default class StudentDashboard extends Component {
           p3: p3 ? p3 : 'Not Available',
           inputNotes: snapshot.val().students[this.state.userid].note,
           notes: snapshot.val().students[this.state.userid].note,
+          inputPlen1: snapshot.val().students[this.state.userid] .p1,
+          inputPlen2: snapshot.val().students[this.state.userid] .p2,
+          inputPlen3: snapshot.val().students[this.state.userid] .p3,
         });
       });
     });
@@ -127,6 +139,18 @@ export default class StudentDashboard extends Component {
       modal2: !this.state.modal2,
     });
   }
+  componentDidMount() {
+    // Fetch saved values from the database
+    ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
+      const data = snapshot.val();
+      this.setState({
+        p1: data.plen1 || '',
+        p2: data.plen2 || '',
+        p3: data.plen3 || '',
+        // other state variables
+      });
+    });
+  }
 
   handleNoteChange(event) {
     this.setState({ inputNotes: event.target.value });
@@ -144,12 +168,17 @@ export default class StudentDashboard extends Component {
     this.setState({ inputPlen3: event.target.value });
   }
 
+
+
   async handleSubmit(event) {
     event.preventDefault();
     await ref
       .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
       .update({
         note: this.state.inputNotes,
+        plen1: this.state.inputPlen1,
+        plen2: this.state.inputPlen2,
+        plen3: this.state.inputPlen3,
       });
     // Update teachers/${user.uid}/students
     this.setState({
@@ -163,6 +192,7 @@ export default class StudentDashboard extends Component {
       });
     }, 1200);
   }
+
 
   async handleMagicCode(event) {
     const magicCode = this.state.magic;
@@ -196,6 +226,7 @@ export default class StudentDashboard extends Component {
   }
 
   render() {
+    
     return (
       <Container>
         <Modal
@@ -260,20 +291,55 @@ export default class StudentDashboard extends Component {
         <Card className="pt-4">
           <Form onSubmit={this.handleSubmit}>
             <Row sm={1} md={1} lg={2}>
+              
               <Col sm="6" lg="6" className="mt-2">
                 <FormGroup check>
+                  
+                  
                   <Label>Plenary Session 1 - 10:40 AM </Label>
-                  <h4>{this.state.p1}</h4>
+                  <div>
+                  <select value={this.state.plen1} onChange={this.handlePlen1Change} className='form-control' name='name' form='dropdown' id='p1'>
+                  <option value={this.state.p1}>{this.state.p1 || 'Select an option'}</option>
+                  <option value={this.state.p1o1}>Plenary 1 op1</option>
+                  <option value={this.state.p1o2}>Plenary 1 op2</option>
+                  <option value={this.state.p1o3}>Plenary 1 op3</option>
+</select>
+                 
+                  </div>
+                  
+
+
+            
+                 
+                  {/* <h4>{this.state.p1}</h4> */}
                 </FormGroup>
                 <br />
                 <FormGroup check>
                   <Label>Plenary Session 2 - 11:35 AM </Label>
-                  <h4>{this.state.p2}</h4>
+                  <div>
+                  <select value={this.state.plen2} onChange={this.handlePlen2Change} className='form-control' name='name' form='dropdown' id='p2'>
+                  <option value={this.state.p2o1}>Plenary 2 op1</option>
+                  <option value={this.state.p2o2}>Plenary 2 op2</option>
+                  <option value={this.state.p2o3}>Plenary 2 op3</option>
+                  
+                 
+                  </select>
+                  </div>
                 </FormGroup>
                 <br />
                 <FormGroup check>
                   <Label>Plenary Session 3 - 01:35 PM </Label>
-                  <h4>{this.state.p3}</h4>
+                  
+                  <div>
+                  <select value={this.state.plen3} onChange={this.handlePlen3Change} className='form-control' name='name' form='dropdown' id='p3'>
+                  <option value={this.state.p3o1}>Plenary 3 op1</option>
+                  <option value={this.state.p3o2}>Plenary 3 op2</option>
+                  <option value={this.state.p3o3}>Plenary 3 op3</option>
+</select>
+                 
+
+                  </div>
+                  
                 </FormGroup>
                 <br />
               </Col>
@@ -295,6 +361,7 @@ export default class StudentDashboard extends Component {
                 </FormGroup>
               </Col>
             </Row>
+            
 
             <center className="mt-4">
               <button

@@ -20,6 +20,10 @@ import {
   Badge,
   Button,
   Progress,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  Label,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ref, firebaseAuth } from '../../helpers/firebase';
@@ -56,12 +60,20 @@ export default class AdminDashboard extends Component {
         p8: { name: '', students: {}, max: 0 },
         p9: { name: '', students: {}, max: 0 },
       },
+      gradeDropdownOpen: false,
+      plenaryDropdownOpen: false,
+      selectedGrades: [],
+      selectedPlenaries: [],
     };
     //bind
     this.handleWaiver = this.handleWaiver.bind(this);
     this.handleWaiverSubmit = this.handleWaiverSubmit.bind(this);
     this.copytoClipboard = this.copytoClipboard.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.toggleGradeDropdown = this.toggleGradeDropdown.bind(this);
+    this.togglePlenaryDropdown = this.togglePlenaryDropdown.bind(this);
+    this.handleGradeFilter = this.handleGradeFilter.bind(this);
+    this.handlePlenaryFilter = this.handlePlenaryFilter.bind(this);
   }
 
   copytoClipboard = (text) => {
@@ -521,12 +533,62 @@ export default class AdminDashboard extends Component {
     this.setState({ searchQuery: event.target.value });
   }
 
+  toggleGradeDropdown() {
+    this.setState({ gradeDropdownOpen: !this.state.gradeDropdownOpen });
+  }
+
+  togglePlenaryDropdown() {
+    this.setState({ plenaryDropdownOpen: !this.state.plenaryDropdownOpen });
+  }
+
+  handleGradeFilter(grade) {
+    const selectedGrades = [...this.state.selectedGrades];
+    const index = selectedGrades.indexOf(grade);
+    if (index > -1) {
+      selectedGrades.splice(index, 1);
+    } else {
+      selectedGrades.push(grade);
+    }
+    this.setState({ selectedGrades });
+  }
+
+  handlePlenaryFilter(plenary) {
+    const selectedPlenaries = [...this.state.selectedPlenaries];
+    const index = selectedPlenaries.indexOf(plenary);
+    if (index > -1) {
+      selectedPlenaries.splice(index, 1);
+    } else {
+      selectedPlenaries.push(plenary);
+    }
+    this.setState({ selectedPlenaries });
+  }
+
   render() {
-    const { attendeeList, searchQuery } = this.state;
-    const filteredStudents = Object.values(attendeeList).filter((student) =>
-      student.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  
+    const { attendeeList, searchQuery, selectedGrades, selectedPlenaries } = this.state;
+    
+    // Add safety check for attendeeList
+    const filteredStudents = Object.entries(attendeeList || {}).filter(([_, student]) => {
+      if (!student || !student.name) return false;  // Safety check for student object
+      
+      const nameMatch = student.name.toLowerCase().includes((searchQuery || '').toLowerCase());
+      const gradeMatch = selectedGrades.length === 0 || selectedGrades.includes(student.grade);
+      const plenaryMatch = selectedPlenaries.length === 0 || 
+        selectedPlenaries.some(p => student.p1 === p || student.p2 === p || student.p3 === p);
+      
+      return nameMatch && gradeMatch && plenaryMatch;
+    });
+
+    // Use filteredStudents.length as a safety check before generating rows
+    const tableContent = filteredStudents.length > 0 
+      ? this.generateRows(Object.fromEntries(filteredStudents))
+      : (
+        <tr>
+          <td colSpan="7" className="text-center">
+            No attendees found.
+          </td>
+        </tr>
+      );
+
     return (
       <Container>
         <Modal isOpen={this.state.modal[0]} toggle={this.toggle}>
@@ -646,16 +708,86 @@ export default class AdminDashboard extends Component {
         <hr />
         <br />
         <h2>All Attendees</h2>
-        <br />
-        <Col md="3" sm="5" xs="10">
-          <Input
-            type="text"
-            placeholder="Search by name"
-            value={this.state.searchQuery}
-            onChange={this.handleSearch}
-          />
-        </Col>
-        <br />
+        <Row className="mb-4">
+          <Col md="3" sm="5" xs="10">
+            <Input
+              type="text"
+              placeholder="Search by name"
+              value={this.state.searchQuery}
+              onChange={this.handleSearch}
+            />
+          </Col>
+          <Col md="9" sm="7" xs="12" className="d-flex align-items-center">
+            <Label className="mr-2 mb-0">Filters:</Label>
+            <Dropdown isOpen={this.state.gradeDropdownOpen} toggle={this.toggleGradeDropdown} className="mr-2">
+              <DropdownToggle caret>
+                Grade
+              </DropdownToggle>
+              <DropdownMenu style={{ minWidth: '190px' }}>
+                {['7', '8', '9', '10', '11', '12', 'other'].map(grade => (
+                  <div key={grade} className="px-5 py-1 d-flex align-items-center">
+                    <Input
+                      type="checkbox"
+                      checked={this.state.selectedGrades.includes(grade)}
+                      onChange={() => this.handleGradeFilter(grade)}
+                      className="mr-2"
+                    />
+                    <span>Grade {grade}</span>
+                  </div>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown isOpen={this.state.plenaryDropdownOpen} toggle={this.togglePlenaryDropdown}>
+              <DropdownToggle caret>
+                Plenary
+              </DropdownToggle>
+              <DropdownMenu style={{ minWidth: '500px', columns: '2' }}>
+                {Object.entries(this.state.plenOptions)
+                  .filter(([key, val]) => key.startsWith('p') && val.name)
+                  .map(([key, val]) => (
+                    <div key={key} className="px-5 py-1 d-flex align-items-top" style={{ breakInside: 'avoid' }}>
+                      <Input
+                        type="checkbox"
+                        checked={this.state.selectedPlenaries.includes(key)}
+                        onChange={() => this.handlePlenaryFilter(key)}
+                        className="mr-2"
+                      />
+                      <span style={{ whiteSpace: 'normal' }}>{val.name}</span>
+                    </div>
+                  ))}
+              </DropdownMenu>
+            </Dropdown>
+          </Col>
+        </Row>
+        
+        {(selectedGrades.length > 0 || selectedPlenaries.length > 0) && (
+          <Row className="mb-3">
+            <Col>
+              <h5>Active Filters:</h5>
+              {selectedGrades.map(grade => (
+                <Badge key={grade} color="info" className="mr-2 p-2">
+                  Grade {grade}
+                  <span 
+                    className="ml-2" 
+                    style={{cursor: 'pointer'}} 
+                    onClick={() => this.handleGradeFilter(grade)}
+                  >×</span>
+                </Badge>
+              ))}
+              {selectedPlenaries.map(plenary => (
+                <Badge key={plenary} color="info" className="mr-2 p-2">
+                  {this.state.plenOptions[plenary].name}
+                  <span 
+                    className="ml-2" 
+                    style={{cursor: 'pointer'}} 
+                    onClick={() => this.handlePlenaryFilter(plenary)}
+                  >×</span>
+                </Badge>
+              ))}
+            </Col>
+          </Row>
+        )}
+
         <div id="table">
           <Table className="table">
             <thead>
@@ -670,15 +802,7 @@ export default class AdminDashboard extends Component {
               </tr>
             </thead>
             <tbody>
-              {filteredStudents.length > 0 ? (
-                this.generateRows(filteredStudents)
-              ) : (
-                <tr>
-                  <td colSpan="7" className="text-center">
-                    No attendees found.
-                  </td>
-                </tr>
-              )}
+              {tableContent}
             </tbody>
           </Table>
         </div>

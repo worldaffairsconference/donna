@@ -45,34 +45,61 @@ export default class StudentDashboard extends Component {
       inputPlen2: '',
       inputPlen3: '',
       lunch: false, // added a new lunch property for the object
+      // plenOptions: {
+      //   open: false,
+      //   p1: { name: '', students: {}, max: 0 },
+      //   p2: { name: '', students: {}, max: 0 },
+      //   p3: { name: '', students: {}, max: 0 },
+      //   p4: { name: '', students: {}, max: 0 },
+      //   p5: { name: '', students: {}, max: 0 },
+      //   p6: { name: '', students: {}, max: 0 },
+      //   p7: { name: '', students: {}, max: 0 },
+      //   p8: { name: '', students: {}, max: 0 },
+      //   p9: { name: '', students: {}, max: 0 },
+      // },
       plenOptions: {
         open: false,
-        p1: { name: '', students: {}, max: 0 },
-        p2: { name: '', students: {}, max: 0 },
-        p3: { name: '', students: {}, max: 0 },
-        p4: { name: '', students: {}, max: 0 },
-        p5: { name: '', students: {}, max: 0 },
-        p6: { name: '', students: {}, max: 0 },
-        p7: { name: '', students: {}, max: 0 },
-        p8: { name: '', students: {}, max: 0 },
-        p9: { name: '', students: {}, max: 0 },
+        p1: {
+          name: 'Plenary 1',
+          options: [
+            { id: 'p1o1', name: 'Plenary 1 op1', max: 0 },
+            { id: 'p1o2', name: 'Plenary 1 op2', max: 0 },
+            { id: 'p1o3', name: 'Plenary 1 op3', max: 0 },
+          ],
+        },
+        p2: {
+          name: 'Plenary 2',
+          options: [
+            { id: 'p2o1', name: 'Plenary 2 op1', max: 0 },
+            { id: 'p2o2', name: 'Plenary 2 op2', max: 0 },
+            { id: 'p2o3', name: 'Plenary 2 op3', max: 0 },
+          ],
+        },
+        p3: {
+          name: 'Plenary 3',
+          options: [
+            { id: 'p3o1', name: 'Plenary 3 op1', max: 0 },
+            { id: 'p3o2', name: 'Plenary 3 op2', max: 0 },
+            { id: 'p3o3', name: 'Plenary 3 op3', max: 0 },
+          ],
+        },
       },
       name: '',
       userid: userId,
       school: '',
       teacher: '',
-      p1: '',
-      p2: '',
-      p3: '',
-      p1o1: 'Plenary 1 op1',
-      p1o2: 'Plenary 1 op2',
-      p1o3: 'Plenary 1 op3',
-      p2o1: 'Plenary 2 op1',
-      p2o2: 'Plenary 2 op2',
-      p2o3: 'Plenary 2 op3',
-      p3o1: 'Plenary 3 op1',
-      p3o2: 'Plenary 3 op2',
-      p3o3: 'Plenary 3 op3',
+      // p1: '',
+      // p2: '',
+      // p3: '',
+      // p1o1: 'Plenary 1 op1',
+      // p1o2: 'Plenary 1 op2',
+      // p1o3: 'Plenary 1 op3',
+      // p2o1: 'Plenary 2 op1',
+      // p2o2: 'Plenary 2 op2',
+      // p2o3: 'Plenary 2 op3',
+      // p3o1: 'Plenary 3 op1',
+      // p3o2: 'Plenary 3 op2',
+      // p3o3: 'Plenary 3 op3',
       notes: '',
       greet: [
         'What are you doing that early? ',
@@ -96,12 +123,15 @@ export default class StudentDashboard extends Component {
       var teacher_name;
       var ucc_student = false;
 
-
       // Get teachers/${user.uid}/students
       ref.child(`teachers/${teacher}`).once('value', (snapshot) => {
-        var p1 = snapshot.val().students[this.state.userid].plen1;
-        var p2 = snapshot.val().students[this.state.userid].plen2;
-        var p3 = snapshot.val().students[this.state.userid].plen3;
+        const studentData = snapshot.val().students[this.state.userid];
+        const validPlenOptions = Object.values(this.state.plenOptions).map((plen) => plen.name);
+
+        // var p1 = snapshot.val().students[this.state.userid].plen1;
+        // var p2 = snapshot.val().students[this.state.userid].plen2;
+        // var p3 = snapshot.val().students[this.state.userid].plen3;
+
         if (snapshot.val().students[this.state.userid].ucc_advisor) {
           teacher_name = snapshot.val().students[this.state.userid].ucc_advisor;
           ucc_student = true;
@@ -109,23 +139,22 @@ export default class StudentDashboard extends Component {
           teacher_name = snapshot.val().name;
         }
 
-
         this.setState({
           modal: false,
           ucc_student: ucc_student,
-          name: snapshot.val().students[this.state.userid].name,
+          name: studentData.name || '',
           school: snapshot.val().school,
           teacher: teacher_name,
           teacherID: teacher,
-          p1: p1 ? p1 : 'Not Available',
-          p2: p2 ? p2 : 'Not Available',
-          p3: p3 ? p3 : 'Not Available',
-          inputNotes: snapshot.val().students[this.state.userid].note,
-          notes: snapshot.val().students[this.state.userid].note,
-          inputPlen1: snapshot.val().students[this.state.userid] .p1,
-          inputPlen2: snapshot.val().students[this.state.userid] .p2,
-          inputPlen3: snapshot.val().students[this.state.userid] .p3,
-          lunch: snapshot.val().students[this.state.userid].lunch || false, // Loading lunch status from database to ensure that the lunch checkbox stays checked
+          p1: validPlenOptions.includes(studentData.plen1) ? studentData.plen1 : '',
+          p2: validPlenOptions.includes(studentData.plen2) ? studentData.plen2 : '',
+          p3: validPlenOptions.includes(studentData.plen3) ? studentData.plen3 : '',
+          inputNotes: studentData.note || '',
+          notes: studentData.note || '',
+          inputPlen1: studentData.plen1 || '',
+          inputPlen2: studentData.plen2 || '',
+          inputPlen3: studentData.plen3 || '',
+          lunch: studentData.lunch || false,
         });
       });
     });
@@ -138,6 +167,19 @@ export default class StudentDashboard extends Component {
     });
   }
 
+  generateDropdownOptions = (plenKey) => {
+    const plenOptions = this.state.plenOptions[plenKey].options;
+    return (
+      <>
+        <option value="">Select an option</option>
+        {plenOptions.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.name}
+          </option>
+        ))}
+      </>
+    );
+  };
 
   toggleModal() {
     this.setState({
@@ -151,18 +193,19 @@ export default class StudentDashboard extends Component {
       modal2: !this.state.modal2,
     });
   }
-  componentDidMount() {
-    // Fetch saved values from the database
-    ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
-      const data = snapshot.val();
-      this.setState({
-        p1: data.plen1 || '',
-        p2: data.plen2 || '',
-        p3: data.plen3 || '',
-        // other state variables
-      });
-    });
-  }
+
+  // componentDidMount() {
+  //   // Fetch saved values from the database
+  //   ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
+  //     const data = snapshot.val();
+  //     this.setState({
+  //       p1: data.plen1 || '',
+  //       p2: data.plen2 || '',
+  //       p3: data.plen3 || '',
+  //       // other state variables
+  //     });
+  //   });
+  // }
 
 
   handleNoteChange(event) {
@@ -314,56 +357,43 @@ export default class StudentDashboard extends Component {
               
               <Col sm="6" lg="6" className="mt-2">
                 <FormGroup check>
-                  <Label>Plenary Session 1 - 10:40 AM </Label>
+                  <Label>Plenary Session 1 - 10:40 AM</Label>
                   <div>
                     <select
                       value={this.state.inputPlen1 || ""}
                       onChange={this.handlePlen1Change}
                       className="form-control"
-                      name="name"
                       id="p1"
                     >
-                      <option value="">Select an option</option>
-                      <option value={this.state.p1o1}>{this.state.p1o1}</option>
-                      <option value={this.state.p1o2}>{this.state.p1o2}</option>
-                      <option value={this.state.p1o3}>{this.state.p1o3}</option>
+                      {this.generateDropdownOptions('p1')}
                     </select>
                   </div>
-                  {/* <h4>{this.state.p1}</h4> */}
                 </FormGroup>
-                <br />
+
                 <FormGroup check>
-                  <Label>Plenary Session 2 - 11:35 AM </Label>
+                  <Label>Plenary Session 2 - 11:35 AM</Label>
                   <div>
                     <select
-                        value={this.state.inputPlen2 || ""}
-                        onChange={this.handlePlen2Change}
-                        className="form-control"
-                        name="name"
-                        id="p2"
-                      >
-                        <option value="">Select an option</option>
-                        <option value={this.state.p2o1}>{this.state.p2o1}</option>
-                        <option value={this.state.p2o2}>{this.state.p2o2}</option>
-                        <option value={this.state.p2o3}>{this.state.p2o3}</option>
-                      </select>
+                      value={this.state.inputPlen2 || ""}
+                      onChange={this.handlePlen2Change}
+                      className="form-control"
+                      id="p2"
+                    >
+                      {this.generateDropdownOptions('p2')}
+                    </select>
                   </div>
                 </FormGroup>
-                <br />
+
                 <FormGroup check>
-                  <Label>Plenary Session 3 - 01:35 PM </Label>
+                  <Label>Plenary Session 3 - 01:35 PM</Label>
                   <div>
                     <select
                       value={this.state.inputPlen3 || ""}
                       onChange={this.handlePlen3Change}
                       className="form-control"
-                      name="name"
                       id="p3"
                     >
-                      <option value="">Select an option</option>
-                      <option value={this.state.p3o1}>{this.state.p3o1}</option>
-                      <option value={this.state.p3o2}>{this.state.p3o2}</option>
-                      <option value={this.state.p3o3}>{this.state.p3o3}</option>
+                      {this.generateDropdownOptions('p3')}
                     </select>
                   </div>
                 </FormGroup>

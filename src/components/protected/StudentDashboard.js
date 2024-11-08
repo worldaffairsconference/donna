@@ -314,52 +314,58 @@ export default class StudentDashboard extends Component {
               
               <Col sm="6" lg="6" className="mt-2">
                 <FormGroup check>
-                  
-                  
                   <Label>Plenary Session 1 - 10:40 AM </Label>
                   <div>
-                  <select value={this.state.plen1} onChange={this.handlePlen1Change} className='form-control' name='name' form='dropdown' id='p1'>
-                  <option value={this.state.p1}>{this.state.p1 || 'Select an option'}</option>
-                  <option value={this.state.p1o1}>Plenary 1 op1</option>
-                  <option value={this.state.p1o2}>Plenary 1 op2</option>
-                  <option value={this.state.p1o3}>Plenary 1 op3</option>
-</select>
-                 
+                    <select
+                      value={this.state.inputPlen1 || ""}
+                      onChange={this.handlePlen1Change}
+                      className="form-control"
+                      name="name"
+                      id="p1"
+                    >
+                      <option value="">Select an option</option>
+                      <option value={this.state.p1o1}>{this.state.p1o1}</option>
+                      <option value={this.state.p1o2}>{this.state.p1o2}</option>
+                      <option value={this.state.p1o3}>{this.state.p1o3}</option>
+                    </select>
                   </div>
-                  
-
-
-            
-                 
                   {/* <h4>{this.state.p1}</h4> */}
                 </FormGroup>
                 <br />
                 <FormGroup check>
                   <Label>Plenary Session 2 - 11:35 AM </Label>
                   <div>
-                  <select value={this.state.plen2} onChange={this.handlePlen2Change} className='form-control' name='name' form='dropdown' id='p2'>
-                  <option value={this.state.p2o1}>Plenary 2 op1</option>
-                  <option value={this.state.p2o2}>Plenary 2 op2</option>
-                  <option value={this.state.p2o3}>Plenary 2 op3</option>
-                  
-                 
-                  </select>
+                    <select
+                        value={this.state.inputPlen2 || ""}
+                        onChange={this.handlePlen2Change}
+                        className="form-control"
+                        name="name"
+                        id="p2"
+                      >
+                        <option value="">Select an option</option>
+                        <option value={this.state.p2o1}>{this.state.p2o1}</option>
+                        <option value={this.state.p2o2}>{this.state.p2o2}</option>
+                        <option value={this.state.p2o3}>{this.state.p2o3}</option>
+                      </select>
                   </div>
                 </FormGroup>
                 <br />
                 <FormGroup check>
                   <Label>Plenary Session 3 - 01:35 PM </Label>
-                  
                   <div>
-                  <select value={this.state.plen3} onChange={this.handlePlen3Change} className='form-control' name='name' form='dropdown' id='p3'>
-                  <option value={this.state.p3o1}>Plenary 3 op1</option>
-                  <option value={this.state.p3o2}>Plenary 3 op2</option>
-                  <option value={this.state.p3o3}>Plenary 3 op3</option>
-</select>
-                 
-
+                    <select
+                      value={this.state.inputPlen3 || ""}
+                      onChange={this.handlePlen3Change}
+                      className="form-control"
+                      name="name"
+                      id="p3"
+                    >
+                      <option value="">Select an option</option>
+                      <option value={this.state.p3o1}>{this.state.p3o1}</option>
+                      <option value={this.state.p3o2}>{this.state.p3o2}</option>
+                      <option value={this.state.p3o3}>{this.state.p3o3}</option>
+                    </select>
                   </div>
-                  
                 </FormGroup>
                 <br />
                 <FormGroup check className="mt-2" style={{ marginLeft: '123px', transform: 'scale(1.5)' }}>

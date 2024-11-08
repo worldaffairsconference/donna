@@ -28,6 +28,7 @@ import {
   adminResetPassword,
   deleteUserData,
 } from '../../helpers/auth';
+import Papa from 'papaparse';
 
 export default class AdminDashboard extends Component {
   constructor(props) {
@@ -56,12 +57,15 @@ export default class AdminDashboard extends Component {
         p8: { name: '', students: {}, max: 0 },
         p9: { name: '', students: {}, max: 0 },
       },
+      exportButtonStatus: 'Export Data',
     };
+    
     //bind
     this.handleWaiver = this.handleWaiver.bind(this);
     this.handleWaiverSubmit = this.handleWaiverSubmit.bind(this);
     this.copytoClipboard = this.copytoClipboard.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.exportData = this.exportData.bind(this);
   }
 
   copytoClipboard = (text) => {
@@ -86,6 +90,70 @@ export default class AdminDashboard extends Component {
       this.copytoClipboard(uid);
     }
   };
+
+  exportData() {
+    const { teacherList, attendeeList, plenOptions } = this.state;
+  
+    if (!teacherList.length) {
+      alert('No data available to export.');
+      return;
+    }
+  
+    const flattenedData = [];
+  
+    teacherList.forEach(([teacherName, teacherId, teacherSchool]) => {
+      const students = Object.entries(attendeeList).filter(
+        ([, student]) => student.teacher === teacherId
+      );
+  
+      students.forEach(([studentId, student]) => {
+        const plenary1 = plenOptions.p1 && plenOptions.p1.options
+          ? plenOptions.p1.options.find((opt) => opt.id === student.p1)?.name || 'None'
+          : 'None';
+        const plenary2 = plenOptions.p2 && plenOptions.p2.options
+        ? plenOptions.p2.options.find((opt) => opt.id === student.p2)?.name || 'None'
+        : 'None';
+        const plenary3 = plenOptions.p1 && plenOptions.p1.options
+        ? plenOptions.p3.options.find((opt) => opt.id === student.p3)?.name || 'None'
+        : 'None';
+
+        flattenedData.push({
+          TeacherID: teacherId,
+          TeacherName: teacherName,
+          TeacherSchool: teacherSchool,
+          StudentID: studentId,
+          Name: student.name,
+          Email: student.email,
+          Grade: student.grade || '',
+          Plenary1: plenary1,
+          Plenary2: plenary2,
+          Plenary3: plenary3,
+          Notes: student.note || '',
+        });
+      });
+    });
+  
+    if (!flattenedData.length) {
+      alert('No student data available to export.');
+      return;
+    }
+  
+    const csv = Papa.unparse(flattenedData);
+  
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'teachers_students_data.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  
+    this.setState({ exportButtonStatus: 'Exported!' });
+    setTimeout(() => {
+      this.setState({ exportButtonStatus: 'Export Data' });
+    }, 2000);
+  }  
 
   generateOptions() {
     var options = [];
@@ -555,7 +623,13 @@ export default class AdminDashboard extends Component {
             </Link>
           </Col>
         </Row>
-  
+        <Row className="mb-3">
+          <Col>
+            <Button color="info" onClick={() => this.exportData()}>
+              {this.state.exportButtonStatus}
+            </Button>
+          </Col>
+        </Row>
         <Row className="mt-3">
           <Card body>
             <CardTitle tag="h3">Conference Statistics</CardTitle>

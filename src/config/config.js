@@ -7,10 +7,10 @@ export const Plenaries = [
   'Future of Feminism',
   'A Nuclear World',
 ];
-export const Year = '2023';
-export const Theme = 'Hybrid Thinking';
-export const EarlyBirdDueDate = 'February 9th, 2023';
-export const DueDate = 'Jan 9th, 2023';
+export const Year = '2025';
+export const Theme = 'WAC to the Future';
+export const EarlyBirdDueDate = 'TBD';
+export const DueDate = 'TBD';
 export const Links = {
   site: 'https://worldaffairscon.org/',
   contact: 'https://worldaffairscon.org/contact/',

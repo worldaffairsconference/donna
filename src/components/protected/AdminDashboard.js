@@ -20,6 +20,10 @@ import {
   Badge,
   Button,
   Progress,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  Label,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ref, firebaseAuth } from '../../helpers/firebase';
@@ -28,6 +32,7 @@ import {
   adminResetPassword,
   deleteUserData,
 } from '../../helpers/auth';
+import Papa from 'papaparse';
 
 export default class AdminDashboard extends Component {
   constructor(props) {
@@ -41,6 +46,7 @@ export default class AdminDashboard extends Component {
       fullSchoolList: [],
       teacherList: [],
       schoolNum: 0,
+      searchQuery: '',
       attendeeList: {},
       changedAttendeeList: {},
       plenOptions: {
@@ -55,11 +61,23 @@ export default class AdminDashboard extends Component {
         p8: { name: '', students: {}, max: 0 },
         p9: { name: '', students: {}, max: 0 },
       },
+      gradeDropdownOpen: false,
+      plenaryDropdownOpen: false,
+      selectedGrades: [],
+      selectedPlenaries: [],
+      exportButtonStatus: 'Export Data',
     };
+    
     //bind
     this.handleWaiver = this.handleWaiver.bind(this);
     this.handleWaiverSubmit = this.handleWaiverSubmit.bind(this);
     this.copytoClipboard = this.copytoClipboard.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.toggleGradeDropdown = this.toggleGradeDropdown.bind(this);
+    this.togglePlenaryDropdown = this.togglePlenaryDropdown.bind(this);
+    this.handleGradeFilter = this.handleGradeFilter.bind(this);
+    this.handlePlenaryFilter = this.handlePlenaryFilter.bind(this);
+    this.exportData = this.exportData.bind(this);
   }
 
   copytoClipboard = (text) => {
@@ -84,6 +102,70 @@ export default class AdminDashboard extends Component {
       this.copytoClipboard(uid);
     }
   };
+
+  exportData() {
+    const { teacherList, attendeeList, plenOptions } = this.state;
+  
+    if (!teacherList.length) {
+      alert('No data available to export.');
+      return;
+    }
+  
+    const flattenedData = [];
+  
+    teacherList.forEach(([teacherName, teacherId, teacherSchool]) => {
+      const students = Object.entries(attendeeList).filter(
+        ([, student]) => student.teacher === teacherId
+      );
+  
+      students.forEach(([studentId, student]) => {
+        const plenary1 = plenOptions.p1 && plenOptions.p1.options
+          ? plenOptions.p1.options.find((opt) => opt.id === student.p1)?.name || 'None'
+          : 'None';
+        const plenary2 = plenOptions.p2 && plenOptions.p2.options
+        ? plenOptions.p2.options.find((opt) => opt.id === student.p2)?.name || 'None'
+        : 'None';
+        const plenary3 = plenOptions.p1 && plenOptions.p1.options
+        ? plenOptions.p3.options.find((opt) => opt.id === student.p3)?.name || 'None'
+        : 'None';
+
+        flattenedData.push({
+          TeacherID: teacherId,
+          TeacherName: teacherName,
+          TeacherSchool: teacherSchool,
+          StudentID: studentId,
+          Name: student.name,
+          Email: student.email,
+          Grade: student.grade || '',
+          Plenary1: plenary1,
+          Plenary2: plenary2,
+          Plenary3: plenary3,
+          Notes: student.note || '',
+        });
+      });
+    });
+  
+    if (!flattenedData.length) {
+      alert('No student data available to export.');
+      return;
+    }
+  
+    const csv = Papa.unparse(flattenedData);
+  
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'teachers_students_data.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  
+    this.setState({ exportButtonStatus: 'Exported!' });
+    setTimeout(() => {
+      this.setState({ exportButtonStatus: 'Export Data' });
+    }, 2000);
+  }  
 
   generateOptions() {
     var options = [];
@@ -304,9 +386,9 @@ export default class AdminDashboard extends Component {
     let previousSchool = '';
     Object.entries(list).forEach((student, index) => {
       if (student[1].school !== previousSchool) {
-        // Add devider row
+        // Add divider row
         rows.push(
-          <tr>
+          <tr key={`school-divider-${index}`}>
             <td colSpan="6" className="table-secondary">
               {student[1].school} -{' '}
               {
@@ -319,9 +401,9 @@ export default class AdminDashboard extends Component {
         );
         previousSchool = student[1].school;
       }
-
+  
       rows.push(
-        <tr>
+        <tr key={`student-row-${student[0]}`}>
           <td>
             <Input
               type="text"
@@ -380,7 +462,6 @@ export default class AdminDashboard extends Component {
               }}
             >
               <option value="">None</option>
-
               {this.generateOptions()}
             </Input>
           </td>
@@ -415,7 +496,7 @@ export default class AdminDashboard extends Component {
                 });
               }}
               type="textarea"
-              name="name"
+              name="note"
               id="accessibility"
             />
           </td>
@@ -470,7 +551,7 @@ export default class AdminDashboard extends Component {
                       )
                       .remove();
                   }
-
+  
                   if (this.state.changedAttendeeList[student[0]].p1 !== '') {
                     await ref
                       .child(
@@ -516,7 +597,66 @@ export default class AdminDashboard extends Component {
     return rows;
   }
 
+  handleSearch(event) {
+    this.setState({ searchQuery: event.target.value });
+  }
+
+  toggleGradeDropdown() {
+    this.setState({ gradeDropdownOpen: !this.state.gradeDropdownOpen });
+  }
+
+  togglePlenaryDropdown() {
+    this.setState({ plenaryDropdownOpen: !this.state.plenaryDropdownOpen });
+  }
+
+  handleGradeFilter(grade) {
+    const selectedGrades = [...this.state.selectedGrades];
+    const index = selectedGrades.indexOf(grade);
+    if (index > -1) {
+      selectedGrades.splice(index, 1);
+    } else {
+      selectedGrades.push(grade);
+    }
+    this.setState({ selectedGrades });
+  }
+
+  handlePlenaryFilter(plenary) {
+    const selectedPlenaries = [...this.state.selectedPlenaries];
+    const index = selectedPlenaries.indexOf(plenary);
+    if (index > -1) {
+      selectedPlenaries.splice(index, 1);
+    } else {
+      selectedPlenaries.push(plenary);
+    }
+    this.setState({ selectedPlenaries });
+  }
+
   render() {
+    const { attendeeList, searchQuery, selectedGrades, selectedPlenaries } = this.state;
+    
+    // Add safety check for attendeeList
+    const filteredStudents = Object.entries(attendeeList || {}).filter(([_, student]) => {
+      if (!student || !student.name) return false;  // Safety check for student object
+      
+      const nameMatch = student.name.toLowerCase().includes((searchQuery || '').toLowerCase());
+      const gradeMatch = selectedGrades.length === 0 || selectedGrades.includes(student.grade);
+      const plenaryMatch = selectedPlenaries.length === 0 || 
+        selectedPlenaries.some(p => student.p1 === p || student.p2 === p || student.p3 === p);
+      
+      return nameMatch && gradeMatch && plenaryMatch;
+    });
+
+    // Use filteredStudents.length as a safety check before generating rows
+    const tableContent = filteredStudents.length > 0 
+      ? this.generateRows(Object.fromEntries(filteredStudents))
+      : (
+        <tr>
+          <td colSpan="7" className="text-center">
+            No attendees found.
+          </td>
+        </tr>
+      );
+
     return (
       <Container>
         <Modal isOpen={this.state.modal[0]} toggle={this.toggle}>
@@ -540,21 +680,23 @@ export default class AdminDashboard extends Component {
             <h1 className="fonted-h">Admin Dashboard</h1>
           </Col>
           <Col md="2" sm="12" xs="12">
-            <Link
-              className="btn btn-secondary float-right mb-2"
-              to="/dashboard"
-            >
+            <Link className="btn btn-secondary float-right mb-2" to="/dashboard">
               Return
             </Link>
           </Col>
         </Row>
-
+        <Row className="mb-3">
+          <Col>
+            <Button color="info" onClick={() => this.exportData()}>
+              {this.state.exportButtonStatus}
+            </Button>
+          </Col>
+        </Row>
         <Row className="mt-3">
           <Card body>
             <CardTitle tag="h3">Conference Statistics</CardTitle>
             <CardText>
               <h5>Schools: {this.state.schoolNum}</h5>
-              {/* <h5>Attendees: {(Object.keys(this.state.attendeeList).length - this.state.teamAttendeeCount)}</h5> */}
               <h5>Attendees: {Object.keys(this.state.attendeeList).length}</h5>
               <hr />
               {this.state.plenOptions.open ? (
@@ -639,8 +781,86 @@ export default class AdminDashboard extends Component {
         </Form>
         <hr />
         <br />
-
         <h2>All Attendees</h2>
+        <Row className="mb-4">
+          <Col md="3" sm="5" xs="10">
+            <Input
+              type="text"
+              placeholder="Search by name"
+              value={this.state.searchQuery}
+              onChange={this.handleSearch}
+            />
+          </Col>
+          <Col md="9" sm="7" xs="12" className="d-flex align-items-center">
+            <Label className="mr-2 mb-0">Filters:</Label>
+            <Dropdown isOpen={this.state.gradeDropdownOpen} toggle={this.toggleGradeDropdown} className="mr-2">
+              <DropdownToggle caret>
+                Grade
+              </DropdownToggle>
+              <DropdownMenu style={{ minWidth: '190px' }}>
+                {['7', '8', '9', '10', '11', '12', 'other'].map(grade => (
+                  <div key={grade} className="px-5 py-1 d-flex align-items-center">
+                    <Input
+                      type="checkbox"
+                      checked={this.state.selectedGrades.includes(grade)}
+                      onChange={() => this.handleGradeFilter(grade)}
+                      className="mr-2"
+                    />
+                    <span>Grade {grade}</span>
+                  </div>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown isOpen={this.state.plenaryDropdownOpen} toggle={this.togglePlenaryDropdown}>
+              <DropdownToggle caret>
+                Plenary
+              </DropdownToggle>
+              <DropdownMenu style={{ minWidth: '500px', columns: '2' }}>
+                {Object.entries(this.state.plenOptions)
+                  .filter(([key, val]) => key.startsWith('p') && val.name)
+                  .map(([key, val]) => (
+                    <div key={key} className="px-5 py-1 d-flex align-items-top" style={{ breakInside: 'avoid' }}>
+                      <Input
+                        type="checkbox"
+                        checked={this.state.selectedPlenaries.includes(key)}
+                        onChange={() => this.handlePlenaryFilter(key)}
+                        className="mr-2"
+                      />
+                      <span style={{ whiteSpace: 'normal' }}>{val.name}</span>
+                    </div>
+                  ))}
+              </DropdownMenu>
+            </Dropdown>
+          </Col>
+        </Row>
+        
+        {(selectedGrades.length > 0 || selectedPlenaries.length > 0) && (
+          <Row className="mb-3">
+            <Col>
+              <h5>Active Filters:</h5>
+              {selectedGrades.map(grade => (
+                <Badge key={grade} color="info" className="mr-2 p-2">
+                  Grade {grade}
+                  <span 
+                    className="ml-2" 
+                    style={{cursor: 'pointer'}} 
+                    onClick={() => this.handleGradeFilter(grade)}
+                  >×</span>
+                </Badge>
+              ))}
+              {selectedPlenaries.map(plenary => (
+                <Badge key={plenary} color="info" className="mr-2 p-2">
+                  {this.state.plenOptions[plenary].name}
+                  <span 
+                    className="ml-2" 
+                    style={{cursor: 'pointer'}} 
+                    onClick={() => this.handlePlenaryFilter(plenary)}
+                  >×</span>
+                </Badge>
+              ))}
+            </Col>
+          </Row>
+        )}
 
         <div id="table">
           <Table className="table">
@@ -655,7 +875,9 @@ export default class AdminDashboard extends Component {
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>{this.generateRows(this.state.changedAttendeeList)}</tbody>
+            <tbody>
+              {tableContent}
+            </tbody>
           </Table>
         </div>
         <div>
@@ -663,7 +885,7 @@ export default class AdminDashboard extends Component {
           <hr />
           <h2>School List:</h2>
           {this.state.fullSchoolList.map((school, index) => {
-            return <p>{school}</p>;
+            return <p key={index}>{school}</p>;
           })}
         </div>
       </Container>

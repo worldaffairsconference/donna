@@ -44,6 +44,9 @@ export default class StudentDashboard extends Component {
       inputPlen1: '',
       inputPlen2: '',
       inputPlen3: '',
+      plen1: '',
+      plen2: '',
+      plen3: '',
       lunch: false, // added a new lunch property for the object
       // plenOptions: {
       //   open: false,
@@ -149,6 +152,7 @@ export default class StudentDashboard extends Component {
           p1: validPlenOptions.includes(studentData.plen1) ? studentData.plen1 : '',
           p2: validPlenOptions.includes(studentData.plen2) ? studentData.plen2 : '',
           p3: validPlenOptions.includes(studentData.plen3) ? studentData.plen3 : '',
+          
           inputNotes: studentData.note || '',
           notes: studentData.note || '',
           inputPlen1: studentData.plen1 || '',
@@ -233,9 +237,10 @@ export default class StudentDashboard extends Component {
       .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
       .update({
         note: this.state.inputNotes,
-        plen1: this.state.inputPlen1,
-        plen2: this.state.inputPlen2,
-        plen3: this.state.inputPlen3,
+        p1: this.state.inputPlen1,
+        p2: this.state.inputPlen2,
+        p3: this.state.inputPlen3,
+        
         lunch: this.state.lunch, // Update lunch status in the database
       });
     // Update teachers/${user.uid}/students
@@ -438,6 +443,9 @@ export default class StudentDashboard extends Component {
                   this.state.inputPlen1 === this.state.p1 &&
                   this.state.inputPlen2 === this.state.p2 &&
                   this.state.inputPlen3 === this.state.p3 &&
+                  this.state.inputPlen1 ===this.state.plen1 &&
+                  this.state.inputPlen2 ===this.state.plen2 &&
+                  this.state.inputPlen3 ===this.state.plen3 &&
                   this.state.inputNotes === this.state.notes
                 }
               >

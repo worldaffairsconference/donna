@@ -47,7 +47,6 @@ export default class AdminDashboard extends Component {
       teacherList: [],
       schoolNum: 0,
       searchQuery: '',
-      searchSchool: '',
       attendeeList: {},
       changedAttendeeList: {},
       plenOptions: {
@@ -74,7 +73,6 @@ export default class AdminDashboard extends Component {
     this.handleWaiverSubmit = this.handleWaiverSubmit.bind(this);
     this.copytoClipboard = this.copytoClipboard.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleSchoolSearch = this.handleSchoolSearch.bind(this);
     this.toggleGradeDropdown = this.toggleGradeDropdown.bind(this);
     this.togglePlenaryDropdown = this.togglePlenaryDropdown.bind(this);
     this.handleGradeFilter = this.handleGradeFilter.bind(this);
@@ -603,10 +601,6 @@ export default class AdminDashboard extends Component {
     this.setState({ searchQuery: event.target.value });
   }
 
-  handleSchoolSearch(event) {
-    this.setState({ searchSchool: event.target.value });
-  }
-
   toggleGradeDropdown() {
     this.setState({ gradeDropdownOpen: !this.state.gradeDropdownOpen });
   }
@@ -638,19 +632,18 @@ export default class AdminDashboard extends Component {
   }
 
   render() {
-    const { attendeeList, searchQuery, searchSchool, selectedGrades, selectedPlenaries } = this.state;
+    const { attendeeList, searchQuery, selectedGrades, selectedPlenaries } = this.state;
     
     // Add safety check for attendeeList
     const filteredStudents = Object.entries(attendeeList || {}).filter(([_, student]) => {
       if (!student || !student.name) return false;  // Safety check for student object
       
       const nameMatch = student.name.toLowerCase().includes((searchQuery || '').toLowerCase());
-      const schoolMatch = student.school.toLowerCase().includes((searchSchool || '').toLowerCase());
       const gradeMatch = selectedGrades.length === 0 || selectedGrades.includes(student.grade);
       const plenaryMatch = selectedPlenaries.length === 0 || 
         selectedPlenaries.some(p => student.p1 === p || student.p2 === p || student.p3 === p);
       
-      return nameMatch && schoolMatch && gradeMatch && plenaryMatch;
+      return nameMatch && gradeMatch && plenaryMatch;
     });
 
     // Use filteredStudents.length as a safety check before generating rows
@@ -798,14 +791,6 @@ export default class AdminDashboard extends Component {
               onChange={this.handleSearch}
             />
           </Col>
-          <Col md="3" sm="5" xs="12">
-          <Input
-            type="text"
-            placeholder="Search by school"
-            value={this.state.searchSchool}
-            onChange={this.handleSchoolSearch}
-          />
-        </Col>
           <Col md="9" sm="7" xs="12" className="d-flex align-items-center">
             <Label className="mr-2 mb-0">Filters:</Label>
             <Dropdown isOpen={this.state.gradeDropdownOpen} toggle={this.toggleGradeDropdown} className="mr-2">

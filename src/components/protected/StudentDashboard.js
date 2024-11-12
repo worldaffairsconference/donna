@@ -149,15 +149,15 @@ export default class StudentDashboard extends Component {
           school: snapshot.val().school,
           teacher: teacher_name,
           teacherID: teacher,
-          p1: validPlenOptions.includes(studentData.plen1) ? studentData.plen1 : '',
-          p2: validPlenOptions.includes(studentData.plen2) ? studentData.plen2 : '',
-          p3: validPlenOptions.includes(studentData.plen3) ? studentData.plen3 : '',
+          // p1: validPlenOptions.includes(studentData.plen1) ? studentData.plen1 : '',
+          // p2: validPlenOptions.includes(studentData.plen2) ? studentData.plen2 : '',
+          // p3: validPlenOptions.includes(studentData.plen3) ? studentData.plen3 : '',
           
           inputNotes: studentData.note || '',
           notes: studentData.note || '',
-          inputPlen1: studentData.plen1 || '',
-          inputPlen2: studentData.plen2 || '',
-          inputPlen3: studentData.plen3 || '',
+          inputPlen1: studentData.p1 || '',
+          inputPlen2: studentData.p2 || '',
+          inputPlen3: studentData.p3 || '',
           lunch: studentData.lunch || false,
         });
       });
@@ -197,20 +197,6 @@ export default class StudentDashboard extends Component {
       modal2: !this.state.modal2,
     });
   }
-
-  // componentDidMount() {
-  //   // Fetch saved values from the database
-  //   ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
-  //     const data = snapshot.val();
-  //     this.setState({
-  //       p1: data.plen1 || '',
-  //       p2: data.plen2 || '',
-  //       p3: data.plen3 || '',
-  //       // other state variables
-  //     });
-  //   });
-  // }
-
 
   handleNoteChange(event) {
     this.setState({ inputNotes: event.target.value });
@@ -443,9 +429,9 @@ export default class StudentDashboard extends Component {
                   this.state.inputPlen1 === this.state.p1 &&
                   this.state.inputPlen2 === this.state.p2 &&
                   this.state.inputPlen3 === this.state.p3 &&
-                  this.state.inputPlen1 ===this.state.plen1 &&
-                  this.state.inputPlen2 ===this.state.plen2 &&
-                  this.state.inputPlen3 ===this.state.plen3 &&
+                  this.state.inputPlen1 === this.state.plen1 &&
+                  this.state.inputPlen2 === this.state.plen2 &&
+                  this.state.inputPlen3 === this.state.plen3 &&
                   this.state.inputNotes === this.state.notes
                 }
               >

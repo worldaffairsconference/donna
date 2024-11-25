@@ -2,10 +2,20 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: #18181B;
 }
 
 .modal-dialog {
   top: 30%;
+}
+
+.inner-container {
+	background-color: #18181B;
+	color:white;
+}
+
+.nav-link-color {
+	color: white;
 }
 
 .ulStyle {

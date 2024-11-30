@@ -80,9 +80,9 @@ export default class Register extends Component {
           </ModalFooter>
         </Modal>
         <br />
-        <h1>Registration is closed.</h1>
+        {/* <h1>Registration is closed.</h1> */}
         <p>{}</p>
-        {/* <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Full Name</label>
             <input
@@ -148,7 +148,7 @@ export default class Register extends Component {
           <button type="submit" className="btn btn-primary">
             Register
           </button>
-        </form> */}
+        </form>
         <p>
           Please <a href="/login">log in</a> to your account or{' '}
           <a href="https://worldaffairscon.org/contact">contact us</a> for more

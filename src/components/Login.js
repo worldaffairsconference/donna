@@ -28,10 +28,10 @@ export default class Login extends Component {
     return (
       <div className="col-sm-6 col-sm-offset-3">
         <br />
-        <h1> Login </h1>
+        <h1 class="text-white"> Login </h1>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label>Email</label>
+            <label class="text-white">Email</label>
             <input
               className="form-control"
               ref={(email) => (this.email = email)}
@@ -39,7 +39,7 @@ export default class Login extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Password</label>
+            <label class="text-white">Password</label>
             <input
               type="password"
               className="form-control"
@@ -55,7 +55,7 @@ export default class Login extends Component {
               ></span>
               <span className="sr-only">Error:</span>
               &nbsp;{this.state.loginMessage}{' '}
-              <a href="#" onClick={this.resetPassword} className="alert-link">
+              <a href="#" onClick={this.resetPassword} className="alert-link" class="text-white">
                 Forgot Password?
               </a>
             </div>
@@ -64,7 +64,7 @@ export default class Login extends Component {
           <button className="btn btn-primary">Login</button>
         </form>
         <br />
-        <p>
+        <p class="text-white">
           If you're not registered, register <a href="/register">here</a>.
         </p>
       </div>

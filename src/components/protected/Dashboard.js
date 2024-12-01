@@ -91,7 +91,7 @@ export default class Dashboard extends Component {
   }
 
   handleCopy() {
-    var Text = `Register: https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`;
+    var Text = `https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`;
     var dummy = document.createElement('textarea');
     document.body.appendChild(dummy);
     dummy.value = Text;

@@ -44,12 +44,12 @@ export default class Register extends Component {
   }
   render() {
     return (
-      <div className="col-sm-6 col-sm-offset-3">
+      <div className="col-sm-6 col-sm-offset-3" class="inner-container">
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle} className="inner-container">
             What is an Access Code?
           </ModalHeader>
-          <ModalBody class="text-white">
+          <ModalBody className="text-white inner-container">
             The access code is our way of ensuring all in-person attendees are
             associated with an organization. <br />
             If you are interested in attending in-person, please reach out to
@@ -73,7 +73,7 @@ export default class Register extends Component {
             </a>
             .
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter className="inner-container">
             <Button class="text-white" color="danger" onClick={this.toggle}>
               Close
             </Button>{' '}
@@ -83,32 +83,32 @@ export default class Register extends Component {
         {/* <h1>Registration is closed.</h1> */}
         <p>{}</p>
         <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label>Full Name</label>
+          <div className="form-group" class="text-white">
+            <label >Full Name</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="Name"
               ref={(name) => (this.name = name)}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group" class="text-white">
             <label>Access Code </label>
             <span onClick={this.toggle} className="ml-1">
               <i className="fa fa-info-circle"></i>
             </span>
             <input
               type="text"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="Access Code"
               ref={(access) => (this.access = access)}
               disabled={this.state.qs}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group" class="text-white">
             <label>Grade</label>
             <select
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               ref={(grade) => (this.grade = grade)}
             >
               <option value="7">7</option>
@@ -120,19 +120,19 @@ export default class Register extends Component {
               <option value="other">Other</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="form-group" class="text-white">
             <label>Email</label>
             <input
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               ref={(email) => (this.email = email)}
               placeholder="Email"
             />
           </div>
-          <div className="form-group">
+          <div className="form-group" class="text-white">
             <label>Password</label>
             <input
               type="password"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="Password"
               ref={(pw) => (this.pw = pw)}
             />

@@ -280,7 +280,7 @@ export default class StudentDashboard extends Component {
   render() {
     
     return (
-      <Container>
+      <Container className="inner-container">
         <Modal
           isOpen={this.state.modal2}
           toggle={this.toggleModal2}
@@ -353,7 +353,7 @@ export default class StudentDashboard extends Component {
                     <select
                       value={this.state.inputPlen1 || ""}
                       onChange={this.handlePlen1Change}
-                      className="form-control"
+                      className="form-control inner-container input-border-grey"
                       id="p1"
                     >
                       {this.generateDropdownOptions('p1')}
@@ -367,7 +367,7 @@ export default class StudentDashboard extends Component {
                     <select
                       value={this.state.inputPlen2 || ""}
                       onChange={this.handlePlen2Change}
-                      className="form-control"
+                      className="form-control inner-container input-border-grey"
                       id="p2"
                     >
                       {this.generateDropdownOptions('p2')}
@@ -381,7 +381,7 @@ export default class StudentDashboard extends Component {
                     <select
                       value={this.state.inputPlen3 || ""}
                       onChange={this.handlePlen3Change}
-                      className="form-control"
+                      className="form-control inner-container input-border-grey"
                       id="p3"
                     >
                       {this.generateDropdownOptions('p3')}
@@ -408,7 +408,7 @@ export default class StudentDashboard extends Component {
                   </Label>
                   <Input
                     onChange={this.handleNoteChange}
-                    className="form-control"
+                    className="form-control inner-container input-border-grey"
                     value={this.state.inputNotes}
                     type="textarea"
                     name="name"

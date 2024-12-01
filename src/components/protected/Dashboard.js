@@ -200,6 +200,7 @@ export default class Dashboard extends Component {
         <Col md="3" sm="5" xs="10">
         <Input
           type="text"
+          className="form-control inner-container input-border-grey"
           placeholder="Search by name"
           value={this.state.searchQuery}
           onChange={this.handleSearch}

@@ -33,7 +33,7 @@ export default class Login extends Component {
           <div className="form-group">
             <label class="text-white">Email</label>
             <input
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               ref={(email) => (this.email = email)}
               placeholder="Email"
             />
@@ -42,7 +42,7 @@ export default class Login extends Component {
             <label class="text-white">Password</label>
             <input
               type="password"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="Password"
               ref={(pw) => (this.pw = pw)}
             />

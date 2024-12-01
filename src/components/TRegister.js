@@ -29,7 +29,7 @@ export default class TRegister extends Component {
             <label class="text-white">Name</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="Name"
               ref={(name) => (this.name = name)}
             />
@@ -38,7 +38,7 @@ export default class TRegister extends Component {
             <label class="text-white">School</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="School"
               ref={(school) => (this.school = school)}
             />
@@ -47,7 +47,7 @@ export default class TRegister extends Component {
             <label class="text-white">Cell Phone Number</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="Cell Phone Number"
               ref={(cnumber) => (this.cnumber = cnumber)}
             />
@@ -55,7 +55,7 @@ export default class TRegister extends Component {
           <div className="form-group">
             <label class="text-white">Email</label>
             <input
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               ref={(email) => (this.email = email)}
               placeholder="Email"
             />
@@ -64,7 +64,7 @@ export default class TRegister extends Component {
             <label class="text-white">Password</label>
             <input
               type="password"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="Password"
               ref={(pw) => (this.pw = pw)}
             />
@@ -80,7 +80,7 @@ export default class TRegister extends Component {
               &nbsp;{this.state.tregisterError}
             </div>
           )}
-          <button type="submit" className="btn btn-primary" class="text-white">
+          <button type="submit" className="btn btn-primary">
             Register
           </button>
         </form>

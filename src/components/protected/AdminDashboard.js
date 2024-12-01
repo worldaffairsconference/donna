@@ -700,8 +700,8 @@ export default class AdminDashboard extends Component {
           </Col>
         </Row>
         <Row className="mt-3">
-          <Card body>
-            <CardTitle tag="h3">Conference Statistics</CardTitle>
+          <Card body className="inner-container">
+            <CardTitle tag="h3" className="text-white">Conference Statistics</CardTitle>
             <CardText>
               <h5>Schools: {this.state.schoolNum}</h5>
               <h5>Attendees: {Object.keys(this.state.attendeeList).length}</h5>
@@ -726,16 +726,16 @@ export default class AdminDashboard extends Component {
         </Row>
         <br />
         <hr />
-        <h2>Update Waiver Status: </h2>
+        <h2 class="text-white">Update Waiver Status: </h2>
         <Form>
           <FormGroup>
-            <h5>School:</h5>
+            <h5 class="text-white">School:</h5>
             <Row>
               <Col md="10" sm="12" xs="12" className="mt-2">
                 <Input
                   type="select"
                   name="school"
-                  className="form-control"
+                  className="form-control inner-container input-border-grey"
                   id="school"
                   onChange={this.handleWaiver}
                 >
@@ -755,14 +755,14 @@ export default class AdminDashboard extends Component {
         </Form>
         <hr />
         <br />
-        <h2>Add Attendee:</h2>
+        <h2 class="text-white">Add Attendee:</h2>
         <Form onSubmit={this.handleAddAttendee}>
-          <label>Name:</label>
-          <Input type="text" name="name" id="name" />
-          <label>Email:</label>
-          <Input type="email" name="email" id="email" />
-          <label>Grade:</label>
-          <Input type="select" name="grade" id="grade" className="form-control">
+          <label class="text-white">Name:</label>
+          <Input className="form-control inner-container input-border-grey" type="text" name="name" id="name" />
+          <label class="text-white">Email:</label>
+          <Input className="form-control inner-container input-border-grey" type="email" name="email" id="email" />
+          <label class="text-white">Grade:</label>
+          <Input className="form-control inner-container input-border-grey" type="select" name="grade" id="grade">
             <option value="7">7</option>
             <option value="8">8</option>
             <option value="9">9</option>
@@ -771,12 +771,12 @@ export default class AdminDashboard extends Component {
             <option value="12">12</option>
             <option value="other">Other</option>
           </Input>
-          <label>Supervisor:</label>
+          <label class="text-white">Supervisor:</label>
           <Input
+            className="form-control inner-container input-border-grey"
             type="select"
             name="access"
             id="access"
-            className="form-control"
           >
             {this.generateTeacherOptions()}
           </Input>
@@ -788,10 +788,11 @@ export default class AdminDashboard extends Component {
         </Form>
         <hr />
         <br />
-        <h2>All Attendees</h2>
+        <h2 class="text-white">All Attendees</h2>
         <Row className="mb-4">
           <Col md="3" sm="5" xs="10">
             <Input
+              className="form-control inner-container input-border-grey"
               type="text"
               placeholder="Search by name"
               value={this.state.searchQuery}
@@ -800,6 +801,7 @@ export default class AdminDashboard extends Component {
           </Col>
           <Col md="3" sm="5" xs="12">
           <Input
+            className="form-control inner-container input-border-grey"
             type="text"
             placeholder="Search by school"
             value={this.state.searchSchool}
@@ -807,7 +809,7 @@ export default class AdminDashboard extends Component {
           />
         </Col>
           <Col md="9" sm="7" xs="12" className="d-flex align-items-center">
-            <Label className="mr-2 mb-0">Filters:</Label>
+            <Label className="mr-2 mb-0 text-white">Filters:</Label>
             <Dropdown isOpen={this.state.gradeDropdownOpen} toggle={this.toggleGradeDropdown} className="mr-2">
               <DropdownToggle caret>
                 Grade
@@ -852,7 +854,7 @@ export default class AdminDashboard extends Component {
         {(selectedGrades.length > 0 || selectedPlenaries.length > 0) && (
           <Row className="mb-3">
             <Col>
-              <h5>Active Filters:</h5>
+              <h5 class="text-white">Active Filters:</h5>
               {selectedGrades.map(grade => (
                 <Badge key={grade} color="info" className="mr-2 p-2">
                   Grade {grade}
@@ -879,7 +881,7 @@ export default class AdminDashboard extends Component {
 
         <div id="table">
           <Table className="table">
-            <thead>
+            <thead class="text-white">
               <tr>
                 <th>Name</th>
                 <th>Email</th>
@@ -898,9 +900,9 @@ export default class AdminDashboard extends Component {
         <div>
           <br />
           <hr />
-          <h2>School List:</h2>
+          <h2 class="text-white">School List:</h2>
           {this.state.fullSchoolList.map((school, index) => {
-            return <p key={index}>{school}</p>;
+            return <p class="text-white" key={index}>{school}</p>;
           })}
         </div>
       </Container>

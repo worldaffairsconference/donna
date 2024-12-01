@@ -309,7 +309,7 @@ export default class StudentDashboard extends Component {
         <br />
         <Row>
           <Col md="8" sm="12" xs="12">
-            <h1 className="fonted-h">
+            <h1 className="fonted-h text-white" >
               {this.state.greet}
               {this.state.name}
             </h1>
@@ -330,9 +330,9 @@ export default class StudentDashboard extends Component {
         </Row>
         <Row>
           <Col md="10" sm="12" xs="12">
-            <b>School</b>: {this.state.school}
+            <b class="text-white">School: {this.state.school}</b>: 
             <br />
-            <b>Teacher</b>: {this.state.teacher}
+            <b class="text-white">Teacher: {this.state.teacher}</b>
             <br />
           </Col>
         </Row>
@@ -342,13 +342,13 @@ export default class StudentDashboard extends Component {
         <Row>
           <Col md="12" sm="12" xs="12"></Col>
         </Row>
-        <Card className="pt-4">
+        <Card className="pt-4 inner-container">
           <Form onSubmit={this.handleSubmit}>
             <Row sm={1} md={1} lg={2}>
               
               <Col sm="6" lg="6" className="mt-2">
                 <FormGroup check>
-                  <Label>Plenary Session 1 - 10:40 AM</Label>
+                  <Label className="text-white">Plenary Session 1 - 10:40 AM</Label>
                   <div>
                     <select
                       value={this.state.inputPlen1 || ""}
@@ -362,7 +362,7 @@ export default class StudentDashboard extends Component {
                 </FormGroup>
 
                 <FormGroup check>
-                  <Label>Plenary Session 2 - 11:35 AM</Label>
+                  <Label className="text-white">Plenary Session 2 - 11:35 AM</Label>
                   <div>
                     <select
                       value={this.state.inputPlen2 || ""}
@@ -376,7 +376,7 @@ export default class StudentDashboard extends Component {
                 </FormGroup>
 
                 <FormGroup check>
-                  <Label>Plenary Session 3 - 01:35 PM</Label>
+                  <Label className="text-white">Plenary Session 3 - 01:35 PM</Label>
                   <div>
                     <select
                       value={this.state.inputPlen3 || ""}

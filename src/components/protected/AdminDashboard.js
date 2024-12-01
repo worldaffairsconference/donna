@@ -684,7 +684,7 @@ export default class AdminDashboard extends Component {
         <br />
         <Row>
           <Col md="10" sm="12" xs="12">
-            <h1 className="fonted-h">Admin Dashboard</h1>
+            <h1 className="fonted-h" class="text-white">Admin Dashboard</h1>
           </Col>
           <Col md="2" sm="12" xs="12">
             <Link className="btn btn-secondary float-right mb-2" to="/dashboard">

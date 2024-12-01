@@ -23,10 +23,10 @@ export default class TRegister extends Component {
     return (
       <div className="col-sm-6 col-sm-offset-3">
         <br />
-        <h1>Teacher Register</h1>
+        <h1 class="text-white">Teacher Register</h1>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label>Name</label>
+            <label class="text-white">Name</label>
             <input
               type="text"
               className="form-control"
@@ -35,7 +35,7 @@ export default class TRegister extends Component {
             />
           </div>
           <div className="form-group">
-            <label>School</label>
+            <label class="text-white">School</label>
             <input
               type="text"
               className="form-control"
@@ -44,7 +44,7 @@ export default class TRegister extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Cell Phone Number</label>
+            <label class="text-white">Cell Phone Number</label>
             <input
               type="text"
               className="form-control"
@@ -53,7 +53,7 @@ export default class TRegister extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Email</label>
+            <label class="text-white">Email</label>
             <input
               className="form-control"
               ref={(email) => (this.email = email)}
@@ -61,7 +61,7 @@ export default class TRegister extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Password</label>
+            <label class="text-white">Password</label>
             <input
               type="password"
               className="form-control"
@@ -80,12 +80,12 @@ export default class TRegister extends Component {
               &nbsp;{this.state.tregisterError}
             </div>
           )}
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" class="text-white">
             Register
           </button>
         </form>
         <br />
-        <p>
+        <p class="text-white">
           If you're already registered, <a href="/login">log in</a>.
         </p>
       </div>

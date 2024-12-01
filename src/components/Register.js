@@ -49,13 +49,13 @@ export default class Register extends Component {
           <ModalHeader toggle={this.toggle}>
             What is an Access Code?
           </ModalHeader>
-          <ModalBody>
+          <ModalBody class="text-white">
             The access code is our way of ensuring all in-person attendees are
             associated with an organization. <br />
             If you are interested in attending in-person, please reach out to
             us. If you would like to register as a virtual delegate, please use
             this{' '}
-            <a href="https://hopin.com/events/world-affairs-conference-2023-hybrid-thinking">
+            <a href="https://hopin.com/events/world-affairs-conference-2023-hybrid-thinking" class="text-white">
               link
             </a>
             . <br />
@@ -74,7 +74,7 @@ export default class Register extends Component {
             .
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" onClick={this.toggle}>
+            <Button class="text-white" color="danger" onClick={this.toggle}>
               Close
             </Button>{' '}
           </ModalFooter>
@@ -149,7 +149,7 @@ export default class Register extends Component {
             Register
           </button>
         </form>
-        <p>
+        <p class="text-white">
           Please <a href="/login">log in</a> to your account or{' '}
           <a href="https://worldaffairscon.org/contact">contact us</a> for more
           information.

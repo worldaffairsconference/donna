@@ -143,9 +143,23 @@ export default class Dashboard extends Component {
         <Row className="mt-3">
           <Card body className="inner-container">
             <CardTitle tag="h5">
-              <b class="text-white"> Student Registration Instructions</b>
+              <b>Student Registration Instructions</b>
             </CardTitle>
-            <CardText><p class="text-white">Registration is now closed.</p></CardText>
+            <CardText>
+              Share the following registration link with your students to register:
+            </CardText>
+            <CardText>
+              <b>
+                <a
+                  href={`https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`}
+                >
+                </a>
+              </b>
+            </CardText>
+            <Button color="primary" onClick={this.handleCopy}>
+              Copy Registration Link
+            </Button>
+            {!this.state.alert && <Alert color="success">Registration link copied!</Alert>}
           </Card>
         </Row>
         <br />

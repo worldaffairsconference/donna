@@ -208,7 +208,7 @@ export default class Dashboard extends Component {
         </Col>
         <br />
         <div id="table">
-          <Table>
+          <Table className="text-white">
             <thead class="text-white">
               <tr>
                 <th>Name</th>

@@ -1,240 +1,168 @@
 import React, { Component } from 'react';
 import {
   Button,
-  Badge,
-  Table,
+  FormGroup,
+  Label,
+  Input,
   Container,
   Row,
   Col,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input,
-  Label,
-  FormGroup,
   Card,
   Form,
-  CardFooter,
 } from 'reactstrap';
 import { ref, firebaseAuth } from '../../helpers/firebase';
-import { deleteUserData, logout } from '../../helpers/auth';
-
 
 export default class StudentDashboard extends Component {
   constructor(props) {
     super(props);
-    var userId = firebaseAuth.currentUser.uid;
-
-
-    this.toggleModal = this.toggleModal.bind(this);
-    this.toggleModal2 = this.toggleModal2.bind(this);
-    this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this);
-    this.handleMagicCode = this.handleMagicCode.bind(this);
-
+    const userId = firebaseAuth.currentUser.uid;
 
     this.state = {
-      magic: '',
-      special: '',
-      ucc_student: false,
-      buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
-      modal: false,
-      modal2: false,
+      p1_first: '', // First choice for Plenary 1
+      p1_second: '', // Second choice for Plenary 1
+      p1_third: '', // Third choice for Plenary 1
+      p2_first: '', // First choice for Plenary 2
+      p2_second: '', // Second choice for Plenary 2
+      p2_third: '', // Third choice for Plenary 2
+      p3_first: '', // First choice for Plenary 3
+      p3_second: '', // Second choice for Plenary 3
+      p3_third: '', // Third choice for Plenary 3
       inputNotes: '',
-      inputPlen1: '',
-      inputPlen2: '',
-      inputPlen3: '',
-      plen1: '',
-      plen2: '',
-      plen3: '',
-      lunch: false, // added a new lunch property for the object
-      // plenOptions: {
-      //   open: false,
-      //   p1: { name: '', students: {}, max: 0 },
-      //   p2: { name: '', students: {}, max: 0 },
-      //   p3: { name: '', students: {}, max: 0 },
-      //   p4: { name: '', students: {}, max: 0 },
-      //   p5: { name: '', students: {}, max: 0 },
-      //   p6: { name: '', students: {}, max: 0 },
-      //   p7: { name: '', students: {}, max: 0 },
-      //   p8: { name: '', students: {}, max: 0 },
-      //   p9: { name: '', students: {}, max: 0 },
-      // },
+      lunch: false,
       plenOptions: {
-        open: false,
-        p1: {
-          name: 'Plenary 1',
-          options: [
-            { id: 'p1o1', name: 'Plenary 1 op1', max: 0 },
-            { id: 'p1o2', name: 'Plenary 1 op2', max: 0 },
-            { id: 'p1o3', name: 'Plenary 1 op3', max: 0 },
-          ],
-        },
-        p2: {
-          name: 'Plenary 2',
-          options: [
-            { id: 'p2o1', name: 'Plenary 2 op1', max: 0 },
-            { id: 'p2o2', name: 'Plenary 2 op2', max: 0 },
-            { id: 'p2o3', name: 'Plenary 2 op3', max: 0 },
-          ],
-        },
-        p3: {
-          name: 'Plenary 3',
-          options: [
-            { id: 'p3o1', name: 'Plenary 3 op1', max: 0 },
-            { id: 'p3o2', name: 'Plenary 3 op2', max: 0 },
-            { id: 'p3o3', name: 'Plenary 3 op3', max: 0 },
-          ],
-        },
+        p1: [
+          { id: 'p1o1', name: 'Plenary 1 Option 1' },
+          { id: 'p1o2', name: 'Plenary 1 Option 2' },
+          { id: 'p1o3', name: 'Plenary 1 Option 3' },
+        ],
+        p2: [
+          { id: 'p2o1', name: 'Plenary 2 Option 1' },
+          { id: 'p2o2', name: 'Plenary 2 Option 2' },
+          { id: 'p2o3', name: 'Plenary 2 Option 3' },
+        ],
+        p3: [
+          { id: 'p3o1', name: 'Plenary 3 Option 1' },
+          { id: 'p3o2', name: 'Plenary 3 Option 2' },
+          { id: 'p3o3', name: 'Plenary 3 Option 3' },
+        ],
       },
-      name: '',
+      buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
       userid: userId,
-      school: '',
-      teacher: '',
-      // p1: '',
-      // p2: '',
-      // p3: '',
-      // p1o1: 'Plenary 1 op1',
-      // p1o2: 'Plenary 1 op2',
-      // p1o3: 'Plenary 1 op3',
-      // p2o1: 'Plenary 2 op1',
-      // p2o2: 'Plenary 2 op2',
-      // p2o3: 'Plenary 2 op3',
-      // p3o1: 'Plenary 3 op1',
-      // p3o2: 'Plenary 3 op2',
-      // p3o3: 'Plenary 3 op3',
-      notes: '',
-      greet: [
-        'What are you doing that early? ',
-        'Good Morning, ',
-        'Good Afternoon, ',
-        'Good Evening, ',
-      ][parseInt((new Date().getHours() / 24) * 4)],
+      teacherID: '', // Will be fetched dynamically
     };
 
-
-    // bind everythiung
-    this.handleNoteChange = this.handleNoteChange.bind(this);
-    this.handlePlen1Change = this.handlePlen1Change.bind(this);
-    this.handlePlen2Change = this.handlePlen2Change.bind(this);
-    this.handlePlen3Change = this.handlePlen3Change.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
-
+    // Fetch data from Firebase
     ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
-      const teacher = snapshot.val().teacherID;
-      var teacher_name;
-      var ucc_student = false;
-
-      // Get teachers/${user.uid}/students
-      ref.child(`teachers/${teacher}`).once('value', (snapshot) => {
-        const studentData = snapshot.val().students[this.state.userid];
-        const validPlenOptions = Object.values(this.state.plenOptions).map((plen) => plen.name);
-
-        // var p1 = snapshot.val().students[this.state.userid].plen1;
-        // var p2 = snapshot.val().students[this.state.userid].plen2;
-        // var p3 = snapshot.val().students[this.state.userid].plen3;
-
-        if (snapshot.val().students[this.state.userid].ucc_advisor) {
-          teacher_name = snapshot.val().students[this.state.userid].ucc_advisor;
-          ucc_student = true;
-        } else {
-          teacher_name = snapshot.val().name;
-        }
-
-        this.setState({
-          modal: false,
-          ucc_student: ucc_student,
-          name: studentData.name || '',
-          school: snapshot.val().school,
-          teacher: teacher_name,
-          teacherID: teacher,
-          // p1: validPlenOptions.includes(studentData.plen1) ? studentData.plen1 : '',
-          // p2: validPlenOptions.includes(studentData.plen2) ? studentData.plen2 : '',
-          // p3: validPlenOptions.includes(studentData.plen3) ? studentData.plen3 : '',
-          
-          inputNotes: studentData.note || '',
-          notes: studentData.note || '',
-          inputPlen1: studentData.p1 || '',
-          inputPlen2: studentData.p2 || '',
-          inputPlen3: studentData.p3 || '',
-          lunch: studentData.lunch || false,
-        });
+      const studentData = snapshot.val();
+      this.setState({
+        inputNotes: studentData.note || '',
+        lunch: studentData.lunch || false,
+        teacherID: studentData.teacherID || '',
+        // p1_first: studentData.p1 || '',
+        // p1_second: studentData.p2 || '',
+        // p1_third: studentData.p3 || '',
+        // p2_first: studentData. || '',
+        // p2_second: studentData.plen2 || '',
+        // p2_third: studentData.plen3 || '',
+        // p3_first: studentData.plen4 || '',
+        // p3_second: studentData.plen5 || '',
+        // p3_third: studentData.plen6 || '',
+      });
+      
+      // Save plenary rankings to local storage
+      localStorage.setItem('studentPlenaryRankings', JSON.stringify({
+        p1_first: studentData.p1 || '',
+        p1_second: studentData.p2 || '',
+        p1_third: studentData.p3 || '',
+        p2_first: studentData.plen1 || '',
+        p2_second: studentData.plen2 || '',
+        p2_third: studentData.plen3 || '',
+        p3_first: studentData.plen4 || '',
+        p3_second: studentData.plen5 || '',
+        p3_third: studentData.plen6 || '',
+      }));
+      
+      // Load plenary rankings from local storage if available
+      const savedRankings = JSON.parse(localStorage.getItem('studentPlenaryRankings') || '{}');
+      this.setState({
+        p1_first: savedRankings.p1_first || studentData.p1 || '',
+        p1_second: savedRankings.p1_second || studentData.p2 || '',
+        p1_third: savedRankings.p1_third || studentData.p3 || '',
+        p2_first: savedRankings.p2_first || studentData.plen1 || '',
+        p2_second: savedRankings.p2_second || studentData.plen2 || '',
+        p2_third: savedRankings.p2_third || studentData.plen3 || '',
+        p3_first: savedRankings.p3_first || studentData.plen4 || '',
+        p3_second: savedRankings.p3_second || studentData.plen5 || '',
+        p3_third: savedRankings.p3_third || studentData.plen6 || '',
       });
     });
-
-
-    document.addEventListener('keydown', (e) => {
-      if ((e.keyCode === 75 && e.metaKey) || (e.keyCode === 75 && e.ctrlKey)) {
-        this.toggleModal2();
-      }
-    });
   }
 
-  generateDropdownOptions = (plenKey) => {
-    const plenOptions = this.state.plenOptions[plenKey].options;
-    return (
-      <>
-        <option value="">Select an option</option>
-        {plenOptions.map((option) => (
-          <option key={option.id} value={option.id}>
-            {option.name}
-          </option>
-        ))}
-      </>
-    );
-  };
-
-  toggleModal() {
-    this.setState({
-      modal: !this.state.modal,
-    });
+  // Handle dropdown value changes
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
 
-
-  toggleModal2() {
-    this.setState({
-      modal2: !this.state.modal2,
-    });
-  }
-
-  handleNoteChange(event) {
-    this.setState({ inputNotes: event.target.value });
-  }
-
-
-  handlePlen1Change(event) {
-    this.setState({ inputPlen1: event.target.value });
-  }
-
-
-  handlePlen2Change(event) {
-    this.setState({ inputPlen2: event.target.value });
-  }
-
-
-  handlePlen3Change(event) {
-    this.setState({ inputPlen3: event.target.value });
-  }
-
+  // Submit form and update Firebase
   async handleSubmit(event) {
     event.preventDefault();
-    await ref
-      .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
-      .update({
-        note: this.state.inputNotes,
-        p1: this.state.inputPlen1,
-        p2: this.state.inputPlen2,
-        p3: this.state.inputPlen3,
-        
-        lunch: this.state.lunch, // Update lunch status in the database
-      });
-    // Update teachers/${user.uid}/students
+
+    const {
+      p1_first,
+      p1_second,
+      p1_third,
+      p2_first,
+      p2_second,
+      p2_third,
+      p3_first,
+      p3_second,
+      p3_third,
+      inputNotes,
+      lunch,
+      teacherID,
+      userid,
+    } = this.state;
+
+    // Validate rankings (no duplicates within a session)
+    const validateRankings = (...choices) =>
+      new Set(choices.filter(Boolean)).size === choices.length;
+
+    if (
+      !validateRankings(p1_first, p1_second, p1_third) ||
+      !validateRankings(p2_first, p2_second, p2_third) ||
+      !validateRankings(p3_first, p3_second, p3_third)
+    ) {
+      alert('Please ensure no duplicate rankings within a single plenary session.');
+      return;
+    }
+
+    // Clear out plen1, plen2, and plen3 for now
+    const cleanData = { // This is where we update Firebase
+      p1: [p1_first, p1_second, p1_third].filter(Boolean),
+      p2: [p2_first, p2_second, p2_third].filter(Boolean),
+      p3: [p3_first, p3_second, p3_third].filter(Boolean),
+      plen1: '', // Clear final assignment
+      plen2: '', // Clear final assignment
+      plen3: '', // Clear final assignment
+      note: inputNotes || '',
+      lunch: !!lunch,
+      // rank1: null,
+      // rank2: null,
+      // rank3: null,
+    };
+
+    console.log('Submitting data to Firebase:', cleanData);
+
+    // Update Firebase
+    await ref.child(`teachers/${teacherID}/students/${userid}`).update(cleanData);
+
     this.setState({
-      notes: this.state.inputNotes,
       buttonStatus: ['Success!', 'btn btn-success fonted'],
     });
-
 
     setTimeout(() => {
       this.setState({
@@ -243,207 +171,173 @@ export default class StudentDashboard extends Component {
     }, 1200);
   }
 
-
-  async handleMagicCode(event) {
-    const magicCode = this.state.magic;
-    const tid = this.state.teacherID;
-    const uid = this.state.userid;
-    console.log(magicCode, tid, uid);
-    const response = await fetch(
-      'https://us-central1-worldaffairscon-8fdc5.cloudfunctions.net/magic',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain',
-        },
-        body: JSON.stringify({ code: magicCode, tid, uid }),
-      }
-    );
-    const data = await response.text();
-    console.log(data);
-    if (data !== 'Invalid Code') {
-      this.setState({ modal2: false });
-      this.toggleModal2();
-      location.reload();
-    } else {
-      this.toggleModal2();
-      alert('Invalid Code');
-    }
+  // Generate dropdown options dynamically for each plenary
+  generateDropdownOptions(plenKey) {
+    return this.state.plenOptions[plenKey].map((option) => (
+      <option key={option.id} value={option.id}>
+        {option.name}
+      </option>
+    ));
   }
-
-
-  proceedDeleteAccount() {
-    deleteUserData(this.state.teacherID);
-  }
-
 
   render() {
-    
     return (
-      <Container className="inner-container">
-        <Modal
-          isOpen={this.state.modal2}
-          toggle={this.toggleModal2}
-          className="modal-dialog"
-        >
-          <ModalHeader toggle={this.toggleModal2}>Magic Code Entry</ModalHeader>
-          <ModalBody>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.magic}
-              onChange={(e) => {
-                this.setState({ magic: e.target.value });
-              }}
-            />
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.handleMagicCode}>
-              Submit
-            </Button>
-            <Button color="secondary" onClick={this.toggleModal2}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
-        <br />
+      <Container>
         <Row>
-          <Col md="8" sm="12" xs="12">
-            <h1 className="fonted-h text-white" >
-              {this.state.greet}
-              {this.state.name}
-            </h1>
-          </Col>
-
-
-          <Col md="4" sm="12" xs="12">
-            <Button
-              color="secondary"
-              className="float-right mb-2"
-              onClick={() => {
-                logout();
-              }}
-            >
-              Log Out
-            </Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col md="10" sm="12" xs="12">
-            <b class="text-white">School: {this.state.school}</b>: 
-            <br />
-            <b class="text-white">Teacher: {this.state.teacher}</b>
-            <br />
-          </Col>
-        </Row>
-        <hr />
-
-
-        <Row>
-          <Col md="12" sm="12" xs="12"></Col>
-        </Row>
-        <Card className="pt-4 inner-container">
-          <Form onSubmit={this.handleSubmit}>
-            <Row sm={1} md={1} lg={2}>
-              
-              <Col sm="6" lg="6" className="mt-2">
-                <FormGroup check>
-                  <Label className="text-white">Plenary Session 1 - 10:40 AM</Label>
-                  <div>
-                    <select
-                      value={this.state.inputPlen1 || ""}
-                      onChange={this.handlePlen1Change}
-                      className="form-control inner-container input-border-grey"
-                      id="p1"
-                    >
-                      {this.generateDropdownOptions('p1')}
-                    </select>
-                  </div>
+          <Col md="12">
+            <Card className="pt-4">
+              <Form onSubmit={this.handleSubmit}>
+                {/* Plenary 1 Rankings */}
+                <h5>Plenary 1 Rankings</h5>
+                <FormGroup>
+                  <Label>First Choice</Label>
+                  <Input
+                    type="select"
+                    name="p1_first"
+                    value={this.state.p1_first}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Select</option>
+                    {this.generateDropdownOptions('p1')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label>Second Choice</Label>
+                  <Input
+                    type="select"
+                    name="p1_second"
+                    value={this.state.p1_second}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Select</option>
+                    {this.generateDropdownOptions('p1')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label>Third Choice</Label>
+                  <Input
+                    type="select"
+                    name="p1_third"
+                    value={this.state.p1_third}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Select</option>
+                    {this.generateDropdownOptions('p1')}
+                  </Input>
                 </FormGroup>
 
-                <FormGroup check>
-                  <Label className="text-white">Plenary Session 2 - 11:35 AM</Label>
-                  <div>
-                    <select
-                      value={this.state.inputPlen2 || ""}
-                      onChange={this.handlePlen2Change}
-                      className="form-control inner-container input-border-grey"
-                      id="p2"
-                    >
-                      {this.generateDropdownOptions('p2')}
-                    </select>
-                  </div>
+                {/* Plenary 2 Rankings */}
+                <h5>Plenary 2 Rankings</h5>
+                <FormGroup>
+                  <Label>First Choice</Label>
+                  <Input
+                    type="select"
+                    name="p2_first"
+                    value={this.state.p2_first}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Select</option>
+                    {this.generateDropdownOptions('p2')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label>Second Choice</Label>
+                  <Input
+                    type="select"
+                    name="p2_second"
+                    value={this.state.p2_second}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Select</option>
+                    {this.generateDropdownOptions('p2')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label>Third Choice</Label>
+                  <Input
+                    type="select"
+                    name="p2_third"
+                    value={this.state.p2_third}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Select</option>
+                    {this.generateDropdownOptions('p2')}
+                  </Input>
                 </FormGroup>
 
-                <FormGroup check>
-                  <Label className="text-white">Plenary Session 3 - 01:35 PM</Label>
-                  <div>
-                    <select
-                      value={this.state.inputPlen3 || ""}
-                      onChange={this.handlePlen3Change}
-                      className="form-control inner-container input-border-grey"
-                      id="p3"
-                    >
-                      {this.generateDropdownOptions('p3')}
-                    </select>
-                  </div>
+                {/* Plenary 3 Rankings */}
+                <h5>Plenary 3 Rankings</h5>
+                <FormGroup>
+                  <Label>First Choice</Label>
+                  <Input
+                    type="select"
+                    name="p3_first"
+                    value={this.state.p3_first}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Select</option>
+                    {this.generateDropdownOptions('p3')}
+                  </Input>
                 </FormGroup>
-                <br />
-                <FormGroup check className="mt-2" style={{ marginLeft: '123px', transform: 'scale(1.5)' }}>
+                <FormGroup>
+                  <Label>Second Choice</Label>
+                  <Input
+                    type="select"
+                    name="p3_second"
+                    value={this.state.p3_second}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Select</option>
+                    {this.generateDropdownOptions('p3')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label>Third Choice</Label>
+                  <Input
+                    type="select"
+                    name="p3_third"
+                    value={this.state.p3_third}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Select</option>
+                    {this.generateDropdownOptions('p3')}
+                  </Input>
+                </FormGroup>
+
+                {/* Notes */}
+                <FormGroup>
+                  <Label>Notes</Label>
+                  <Input
+                    type="textarea"
+                    name="inputNotes"
+                    value={this.state.inputNotes}
+                    onChange={this.handleChange}
+                  />
+                </FormGroup>
+
+                {/* Lunch Checkbox */}
+                <FormGroup check>
                   <Label check>
                     <Input
                       type="checkbox"
+                      name="lunch"
                       checked={this.state.lunch}
                       onChange={(e) => this.setState({ lunch: e.target.checked })}
                     />
                     Lunch?
                   </Label>
                 </FormGroup>
-              </Col>
-              <br />
-              <Col sm="6" lg="6">
-                <FormGroup check className="mr-3">
-                  <Label for="accessibility" className="mt-2">
-                    Accessibility/Dietary Restrictions/Other Notes
-                  </Label>
-                  <Input
-                    onChange={this.handleNoteChange}
-                    className="form-control inner-container input-border-grey"
-                    value={this.state.inputNotes}
-                    type="textarea"
-                    name="name"
-                    id="accessibility"
-                    placeholder="This input is optional."
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-            
 
-
-            <center className="mt-4">
-              <button
-                type="submit"
-                className={this.state.buttonStatus[1]}
-                disabled={
-                  this.state.inputPlen1 === this.state.p1 &&
-                  this.state.inputPlen2 === this.state.p2 &&
-                  this.state.inputPlen3 === this.state.p3 &&
-                  this.state.inputPlen1 === this.state.plen1 &&
-                  this.state.inputPlen2 === this.state.plen2 &&
-                  this.state.inputPlen3 === this.state.plen3 &&
-                  this.state.inputNotes === this.state.notes
-                }
-              >
-                {this.state.buttonStatus[0]}
-              </button>
-            </center>
-
-
-            <br />
-          </Form>
-        </Card>
-        <br />
+                {/* Submit Button */}
+                <center>
+                  <Button type="submit" className={this.state.buttonStatus[1]}>
+                    {this.state.buttonStatus[0]}
+                  </Button>
+                </center>
+              </Form>
+            </Card>
+          </Col>
+        </Row>
       </Container>
     );
   }

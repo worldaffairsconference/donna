@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
   font-family: GillSans;
   background-color: #18181B;
 }
@@ -133,6 +134,25 @@ p {
 
 .center-div{
 	margin-top: 2rem;
+}
+
+.container {
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  overflow-x: hidden;
+}
+
+.table-responsive {
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
 }
 
 ::-webkit-scrollbar {

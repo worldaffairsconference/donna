@@ -9,6 +9,10 @@ import {
   Col,
   Card,
   Form,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from 'reactstrap';
 import { ref, firebaseAuth } from '../../helpers/firebase';
 import { logout } from '../../helpers/auth';
@@ -58,6 +62,8 @@ export default class StudentDashboard extends Component {
           ],
         },
       },
+      magic: '', // Add this
+      modal2: false, // Ensure modal2 is also initialized
       buttonStatus: ['Save Changes', 'btn btn-primary'],
     };
 
@@ -65,6 +71,9 @@ export default class StudentDashboard extends Component {
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.handleNoteChange = this.handleNoteChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.toggleModal2 = this.toggleModal2.bind(this);
+    this.handleMagicCode = this.handleMagicCode.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
 
     // Initialize data retrieval
     this.initializeData(userId);
@@ -124,6 +133,57 @@ export default class StudentDashboard extends Component {
 
   handleCheckboxChange(event) {
     this.setState({ lunch: event.target.checked });
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown(event) {
+    // Check for Meta key (Command on Mac) + K
+    if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+      event.preventDefault();
+      this.toggleModal2();
+    }
+  }
+
+  toggleModal2() {
+    this.setState((prevState) => ({
+      modal2: !prevState.modal2,
+    }));
+  }
+
+  async handleMagicCode() {
+    const magicCode = this.state.magic;
+    const tid = this.state.teacherID;
+    const uid = this.state.userid;
+    // console.log(magicCode, tid, uid);
+
+    const response = await fetch(
+      'https://us-central1-worldaffairscon-8fdc5.cloudfunctions.net/magic',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify({ code: magicCode, tid, uid }),
+      }
+    );
+    const data = await response.text();
+    // console.log(data);
+
+    if (data !== 'Invalid Code') {
+      this.setState({ modal2: false });
+      alert('Magic Code Accepted!');
+      location.reload();
+    } else {
+      this.toggleModal2();
+      alert('Invalid Code');
+    }
   }
 
   async handleSubmit(event) {
@@ -201,7 +261,7 @@ export default class StudentDashboard extends Component {
       lunch,
     };
   
-    console.log('Submitting data:', updateData);
+    // console.log('Submitting data:', updateData);
   
     await ref.child(`teachers/${teacherID}/students/${userid}`).update(updateData);
   
@@ -417,6 +477,26 @@ export default class StudentDashboard extends Component {
             </Row>
           </Form>
         </Card>
+         {/* Magic Modal */}
+        <Modal isOpen={this.state.modal2} toggle={this.toggleModal2}>
+          <ModalHeader toggle={this.toggleModal2}>Magic Code Entry</ModalHeader>
+          <ModalBody>
+            <Input
+              type="text"
+              placeholder="Enter Magic Code"
+              value={this.state.magic}
+              onChange={(e) => this.setState({ magic: e.target.value })}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.handleMagicCode}>
+              Submit
+            </Button>
+            <Button color="secondary" onClick={this.toggleModal2}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
       </Container>
     );
   }

@@ -128,9 +128,8 @@ export default class StudentDashboard extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
+  
     const {
-      userid,
-      teacherID,
       p1_rank1,
       p1_rank2,
       p1_rank3,
@@ -140,11 +139,48 @@ export default class StudentDashboard extends Component {
       p3_rank1,
       p3_rank2,
       p3_rank3,
+    } = this.state;
+  
+    // Validation for duplicates and blanks
+    const checkForDuplicatesOrBlanks = (values) => {
+      const filteredValues = values.filter((value) => value !== ''); // Ignore blank entries
+      const uniqueValues = new Set(filteredValues);
+      return {
+        hasBlanks: values.includes(''),
+        hasDuplicates: uniqueValues.size !== filteredValues.length,
+      };
+    };
+  
+    const p1Validation = checkForDuplicatesOrBlanks([p1_rank1, p1_rank2, p1_rank3]);
+    const p2Validation = checkForDuplicatesOrBlanks([p2_rank1, p2_rank2, p2_rank3]);
+    const p3Validation = checkForDuplicatesOrBlanks([p3_rank1, p3_rank2, p3_rank3]);
+  
+    if (
+      p1Validation.hasBlanks ||
+      p2Validation.hasBlanks ||
+      p3Validation.hasBlanks
+    ) {
+      alert('Please make sure all ranks are selected for each plenary.');
+      return;
+    }
+  
+    if (
+      p1Validation.hasDuplicates ||
+      p2Validation.hasDuplicates ||
+      p3Validation.hasDuplicates
+    ) {
+      alert('Duplicate selections detected. Please ensure all ranks are unique within each plenary.');
+      return;
+    }
+  
+    // If no errors, proceed with Firebase update
+    const {
+      userid,
+      teacherID,
       inputNotes,
       lunch,
     } = this.state;
-
-    // Construct data object to update
+  
     const updateData = {
       p1: {
         rank1: p1_rank1,
@@ -164,22 +200,21 @@ export default class StudentDashboard extends Component {
       note: inputNotes,
       lunch,
     };
-
-    // console.log('Submitting data:', updateData);
-
-    // Update Firebase
+  
+    console.log('Submitting data:', updateData);
+  
     await ref.child(`teachers/${teacherID}/students/${userid}`).update(updateData);
-
+  
     this.setState({
       buttonStatus: ['Success!', 'btn btn-success'],
     });
-
+  
     setTimeout(() => {
       this.setState({
         buttonStatus: ['Save Changes', 'btn btn-primary'],
       });
     }, 1200);
-  }
+  }  
 
   generateDropdownOptions(plenKey) {
     const plenOptions = this.state.plenOptions[plenKey]?.options || [];

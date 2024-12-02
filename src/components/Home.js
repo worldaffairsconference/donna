@@ -7,8 +7,8 @@ export default class Home extends Component {
     return (
       <div className="container">
         <br />
-        <div className="jumbotron">
-          <h1 className="display-5 fonted-h">WAC Online Registration</h1>
+        <div className="jumbotron inner-container">
+          <h1 className="display-5 fonted-h" class="text-[3rem] leading-none sm:text-6xl lg:text-[5.5rem] text-white font-bold mb-5 lg:mb-6 tracking-[-0.03em]">WAC Online Registration</h1>
           <p className="lead">
             Welcome to the WAC {Year} online registration system, where you can
             select your plenaries and activities throughout the day. You will

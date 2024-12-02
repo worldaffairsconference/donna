@@ -91,7 +91,7 @@ export default class Dashboard extends Component {
   }
 
   handleCopy() {
-    var Text = `Register: https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`;
+    var Text = `https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`;
     var dummy = document.createElement('textarea');
     document.body.appendChild(dummy);
     dummy.value = Text;
@@ -120,7 +120,7 @@ export default class Dashboard extends Component {
         <br />
         <Row>
           <Col md="10" sm="12" xs="12">
-            <h1 className="fonted-h">Teacher Dashboard</h1>
+            <h1 className="fonted-h" class="text-white">Teacher Dashboard</h1>
           </Col>
           <Col md="2" sm="12" xs="12">
             <Button
@@ -136,22 +136,36 @@ export default class Dashboard extends Component {
         </Row>
         <Row>
           <Col>
-            <h4>Supervisor: {this.state.name}</h4>
-            <h4>School: {this.state.school}</h4>
+            <h4 class="text-white">Supervisor: {this.state.name}</h4>
+            <h4 class="text-white">School: {this.state.school}</h4>
           </Col>
         </Row>
         <Row className="mt-3">
-          <Card body>
+          <Card body className="inner-container">
             <CardTitle tag="h5">
-              <b> Student Registration Instructions</b>
+              <b>Student Registration Instructions</b>
             </CardTitle>
-            <CardText>Registration is now closed.</CardText>
+            <CardText>
+              Share the following registration link with your students to register:
+            </CardText>
+            <CardText>
+              <b>
+                <a
+                  href={`https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`}
+                >
+                </a>
+              </b>
+            </CardText>
+            <Button color="primary" onClick={this.handleCopy}>
+              Copy Registration Link
+            </Button>
+            {!this.state.alert && <Alert color="success">Registration link copied!</Alert>}
           </Card>
         </Row>
         <br />
         <hr />
-        <h2>Waiver Status: </h2>
-        <p>
+        <h2 class="text-white">Waiver Status: </h2>
+        <p class="text-white">
           You will need to complete and sign a waiver before attending the
           conference. Please download the document below and complete the form.
           Send the completed form via this{' '}
@@ -181,11 +195,12 @@ export default class Dashboard extends Component {
         )}
         <hr />
         <br />
-        <h2>My Students</h2>
+        <h2 class="text-white">My Students</h2>
         <br />
         <Col md="3" sm="5" xs="10">
         <Input
           type="text"
+          className="form-control inner-container input-border-grey"
           placeholder="Search by name"
           value={this.state.searchQuery}
           onChange={this.handleSearch}
@@ -193,8 +208,8 @@ export default class Dashboard extends Component {
         </Col>
         <br />
         <div id="table">
-          <Table>
-            <thead>
+          <Table className="text-white">
+            <thead class="text-white">
               <tr>
                 <th>Name</th>
                 <th>Grade</th>
@@ -205,6 +220,7 @@ export default class Dashboard extends Component {
               </tr>
             </thead>
             <StudentRow
+              class="text-white"
               studentData={filteredStudents}
               studentKey={this.state.myStudentDataKey}
               plenOptions={this.state.plenOptions}

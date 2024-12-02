@@ -45,11 +45,12 @@ export function auth(email, pw, name, grade, access) {
           .set({
             email: email,
             name: name,
-            p1: '',
-            p2: '',
-            p3: '',
             grade: grade,
+            p1: { rank1: '', rank2: '', rank3: '' },
+            p2: { rank1: '', rank2: '', rank3: '' },
+            p3: { rank1: '', rank2: '', rank3: '' },
             note: '',
+            lunch: false,
           })
           .then(() => {
             ref
@@ -85,11 +86,12 @@ export function addAttendee(email, pw, name, grade, access) {
           .set({
             email: email,
             name: name,
-            p1: '',
-            p2: '',
-            p3: '',
             grade: grade,
+            p1: { rank1: '', rank2: '', rank3: '' },
+            p2: { rank1: '', rank2: '', rank3: '' },
+            p3: { rank1: '', rank2: '', rank3: '' },
             note: '',
+            lunch: false,
           })
           .then(() => {
             ref

@@ -1,194 +1,168 @@
 import React, { Component } from 'react';
 import {
   Button,
-  Badge,
-  Table,
+  FormGroup,
+  Label,
+  Input,
   Container,
   Row,
   Col,
+  Card,
+  Form,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
-  Label,
-  FormGroup,
-  Card,
-  Form,
-  CardFooter,
 } from 'reactstrap';
 import { ref, firebaseAuth } from '../../helpers/firebase';
-import { deleteUserData, logout } from '../../helpers/auth';
-
+import { logout } from '../../helpers/auth';
 
 export default class StudentDashboard extends Component {
   constructor(props) {
     super(props);
-    var userId = firebaseAuth.currentUser.uid;
-
-
-    this.toggleModal = this.toggleModal.bind(this);
-    this.toggleModal2 = this.toggleModal2.bind(this);
-    this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this);
-    this.handleMagicCode = this.handleMagicCode.bind(this);
-
+    const userId = firebaseAuth.currentUser.uid;
 
     this.state = {
-      magic: '',
-      special: '',
-      ucc_student: false,
-      buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
-      modal: false,
-      modal2: false,
-      inputNotes: '',
-      inputPlen1: '',
-      inputPlen2: '',
-      inputPlen3: '',
-      lunch: false, // added a new lunch property for the object
-      plenOptions: {
-        open: false,
-        p1: { name: '', students: {}, max: 0 },
-        p2: { name: '', students: {}, max: 0 },
-        p3: { name: '', students: {}, max: 0 },
-        p4: { name: '', students: {}, max: 0 },
-        p5: { name: '', students: {}, max: 0 },
-        p6: { name: '', students: {}, max: 0 },
-        p7: { name: '', students: {}, max: 0 },
-        p8: { name: '', students: {}, max: 0 },
-        p9: { name: '', students: {}, max: 0 },
-      },
-      name: '',
       userid: userId,
-      school: '',
-      teacher: '',
-      p1: '',
-      p2: '',
-      p3: '',
-      notes: '',
-      greet: [
-        'What are you doing that early? ',
-        'Good Morning, ',
-        'Good Afternoon, ',
-        'Good Evening, ',
-      ][parseInt((new Date().getHours() / 24) * 4)],
+      teacherID: '',
+      p1_rank1: '',
+      p1_rank2: '',
+      p1_rank3: '',
+      p2_rank1: '',
+      p2_rank2: '',
+      p2_rank3: '',
+      p3_rank1: '',
+      p3_rank2: '',
+      p3_rank3: '',
+      inputNotes: '',
+      lunch: false,
+      plenOptions: {
+        p1: {
+          name: 'Plenary 1',
+          options: [
+            { id: 'p1o1', name: 'Plenary 1 Option 1' },
+            { id: 'p1o2', name: 'Plenary 1 Option 2' },
+            { id: 'p1o3', name: 'Plenary 1 Option 3' },
+          ],
+        },
+        p2: {
+          name: 'Plenary 2',
+          options: [
+            { id: 'p2o1', name: 'Plenary 2 Option 1' },
+            { id: 'p2o2', name: 'Plenary 2 Option 2' },
+            { id: 'p2o3', name: 'Plenary 2 Option 3' },
+          ],
+        },
+        p3: {
+          name: 'Plenary 3',
+          options: [
+            { id: 'p3o1', name: 'Plenary 3 Option 1' },
+            { id: 'p3o2', name: 'Plenary 3 Option 2' },
+            { id: 'p3o3', name: 'Plenary 3 Option 3' },
+          ],
+        },
+      },
+      magic: '', // Add this
+      modal2: false, // Ensure modal2 is also initialized
+      buttonStatus: ['Save Changes', 'btn btn-primary'],
     };
 
-
-    // bind everythiung
-    this.handleNoteChange = this.handleNoteChange.bind(this);
-    this.handlePlen1Change = this.handlePlen1Change.bind(this);
-    this.handlePlen2Change = this.handlePlen2Change.bind(this);
-    this.handlePlen3Change = this.handlePlen3Change.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.handleNoteChange = this.handleNoteChange.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.toggleModal2 = this.toggleModal2.bind(this);
+    this.handleMagicCode = this.handleMagicCode.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
 
+    // Initialize data retrieval
+    this.initializeData(userId);
 
-    ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
-      const teacher = snapshot.val().teacherID;
-      var teacher_name;
-      var ucc_student = false;
+    // console.log('Initial state:', this.state);
+  }
 
+  // Fetch the teacherID and then student data
+  initializeData(userId) {
+    // Fetch the teacherID from the `students` node
+    ref.child(`students/${userId}`).once('value', (snapshot) => {
+      const studentData = snapshot.val();
+      if (studentData && studentData.teacherID) {
+        // console.log('Fetched teacherID:', studentData.teacherID);
 
-      // Get teachers/${user.uid}/students
-      ref.child(`teachers/${teacher}`).once('value', (snapshot) => {
-        var p1 = snapshot.val().students[this.state.userid].plen1;
-        var p2 = snapshot.val().students[this.state.userid].plen2;
-        var p3 = snapshot.val().students[this.state.userid].plen3;
-        if (snapshot.val().students[this.state.userid].ucc_advisor) {
-          teacher_name = snapshot.val().students[this.state.userid].ucc_advisor;
-          ucc_student = true;
-        } else {
-          teacher_name = snapshot.val().name;
-        }
+        // Set the teacherID in the state
+        this.setState({ teacherID: studentData.teacherID }, () => {
+          // Now fetch the student's data under the teacher node
+          ref.child(`teachers/${studentData.teacherID}/students/${userId}`).once('value', (snapshot) => {
+            const studentDetails = snapshot.val();
+            if (studentDetails) {
+              // console.log('Student details retrieved:', studentDetails);
 
-
-        this.setState({
-          modal: false,
-          ucc_student: ucc_student,
-          name: snapshot.val().students[this.state.userid].name,
-          school: snapshot.val().school,
-          teacher: teacher_name,
-          teacherID: teacher,
-          p1: p1 ? p1 : 'Not Available',
-          p2: p2 ? p2 : 'Not Available',
-          p3: p3 ? p3 : 'Not Available',
-          inputNotes: snapshot.val().students[this.state.userid].note,
-          notes: snapshot.val().students[this.state.userid].note,
-          lunch: snapshot.val().students[this.state.userid].lunch || false, // Loading lunch status from database to ensure that the lunch checkbox stays checked
+              // Map the retrieved data to the state
+              this.setState({
+                p1_rank1: studentDetails.p1?.rank1 || '',
+                p1_rank2: studentDetails.p1?.rank2 || '',
+                p1_rank3: studentDetails.p1?.rank3 || '',
+                p2_rank1: studentDetails.p2?.rank1 || '',
+                p2_rank2: studentDetails.p2?.rank2 || '',
+                p2_rank3: studentDetails.p2?.rank3 || '',
+                p3_rank1: studentDetails.p3?.rank1 || '',
+                p3_rank2: studentDetails.p3?.rank2 || '',
+                p3_rank3: studentDetails.p3?.rank3 || '',
+                inputNotes: studentDetails.note || '',
+                lunch: studentDetails.lunch || false,
+              });
+            } else {
+              // console.error('Student data not found under teacher node!');
+            }
+          });
         });
-      });
-    });
-
-
-    document.addEventListener('keydown', (e) => {
-      if ((e.keyCode === 75 && e.metaKey) || (e.keyCode === 75 && e.ctrlKey)) {
-        this.toggleModal2();
+      } else {
+        // console.error('TeacherID not found for the student!');
       }
     });
   }
-
-
-  toggleModal() {
-    this.setState({
-      modal: !this.state.modal,
-    });
+  
+  handleDropdownChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
-
-
-  toggleModal2() {
-    this.setState({
-      modal2: !this.state.modal2,
-    });
-  }
-
 
   handleNoteChange(event) {
     this.setState({ inputNotes: event.target.value });
   }
 
-
-  handlePlen1Change(event) {
-    this.setState({ inputPlen1: event.target.value });
+  handleCheckboxChange(event) {
+    this.setState({ lunch: event.target.checked });
   }
 
-
-  handlePlen2Change(event) {
-    this.setState({ inputPlen2: event.target.value });
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
   }
 
-
-  handlePlen3Change(event) {
-    this.setState({ inputPlen3: event.target.value });
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
   }
 
-
-  async handleSubmit(event) {
-    event.preventDefault();
-    await ref
-      .child(`teachers/${this.state.teacherID}/students/${this.state.userid}`)
-      .update({
-        note: this.state.inputNotes,
-        lunch: this.state.lunch, // Update lunch status in the database
-      });
-    // Update teachers/${user.uid}/students
-    this.setState({
-      notes: this.state.inputNotes,
-      buttonStatus: ['Success!', 'btn btn-success fonted'],
-    });
-
-
-    setTimeout(() => {
-      this.setState({
-        buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
-      });
-    }, 1200);
+  handleKeyDown(event) {
+    // Check for Meta key (Command on Mac) + K
+    if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+      event.preventDefault();
+      this.toggleModal2();
+    }
   }
 
+  toggleModal2() {
+    this.setState((prevState) => ({
+      modal2: !prevState.modal2,
+    }));
+  }
 
-  async handleMagicCode(event) {
+  async handleMagicCode() {
     const magicCode = this.state.magic;
     const tid = this.state.teacherID;
     const uid = this.state.userid;
-    console.log(magicCode, tid, uid);
+    // console.log(magicCode, tid, uid);
+
     const response = await fetch(
       'https://us-central1-worldaffairscon-8fdc5.cloudfunctions.net/magic',
       {
@@ -200,40 +174,324 @@ export default class StudentDashboard extends Component {
       }
     );
     const data = await response.text();
-    console.log(data);
+    // console.log(data);
+
     if (data !== 'Invalid Code') {
-      this.setState({ modal2: false });
-      this.toggleModal2();
-      location.reload();
+      try {
+        await ref.root.child(`admin/${uid}`).set(true); // Adding admin entry under "admin" folder
+        this.setState({ modal2: false });
+        alert('Magic Code Accepted! You are now an admin.');
+        location.reload();
+      } catch (error) {
+        // console.error('Error updating database:', error);
+        alert('Magic Code Accepted, but an error occurred while updating the database.');
+      }
     } else {
       this.toggleModal2();
       alert('Invalid Code');
     }
   }
 
+  async handleSubmit(event) {
+    event.preventDefault();
+  
+    const {
+      p1_rank1,
+      p1_rank2,
+      p1_rank3,
+      p2_rank1,
+      p2_rank2,
+      p2_rank3,
+      p3_rank1,
+      p3_rank2,
+      p3_rank3,
+    } = this.state;
+  
+    // Validation for duplicates and blanks
+    const checkForDuplicatesOrBlanks = (values) => {
+      const filteredValues = values.filter((value) => value !== ''); // Ignore blank entries
+      const uniqueValues = new Set(filteredValues);
+      return {
+        hasBlanks: values.includes(''),
+        hasDuplicates: uniqueValues.size !== filteredValues.length,
+      };
+    };
+  
+    const p1Validation = checkForDuplicatesOrBlanks([p1_rank1, p1_rank2, p1_rank3]);
+    const p2Validation = checkForDuplicatesOrBlanks([p2_rank1, p2_rank2, p2_rank3]);
+    const p3Validation = checkForDuplicatesOrBlanks([p3_rank1, p3_rank2, p3_rank3]);
+  
+    if (
+      p1Validation.hasBlanks ||
+      p2Validation.hasBlanks ||
+      p3Validation.hasBlanks
+    ) {
+      alert('Please make sure all ranks are selected for each plenary.');
+      return;
+    }
+  
+    if (
+      p1Validation.hasDuplicates ||
+      p2Validation.hasDuplicates ||
+      p3Validation.hasDuplicates
+    ) {
+      alert('Duplicate selections detected. Please ensure all ranks are unique within each plenary.');
+      return;
+    }
+  
+    // If no errors, proceed with Firebase update
+    const {
+      userid,
+      teacherID,
+      inputNotes,
+      lunch,
+    } = this.state;
+  
+    const updateData = {
+      p1: {
+        rank1: p1_rank1,
+        rank2: p1_rank2,
+        rank3: p1_rank3,
+      },
+      p2: {
+        rank1: p2_rank1,
+        rank2: p2_rank2,
+        rank3: p2_rank3,
+      },
+      p3: {
+        rank1: p3_rank1,
+        rank2: p3_rank2,
+        rank3: p3_rank3,
+      },
+      note: inputNotes,
+      lunch,
+    };
+  
+    // console.log('Submitting data:', updateData);
+  
+    await ref.child(`teachers/${teacherID}/students/${userid}`).update(updateData);
+  
+    this.setState({
+      buttonStatus: ['Success!', 'btn btn-success'],
+    });
+  
+    setTimeout(() => {
+      this.setState({
+        buttonStatus: ['Save Changes', 'btn btn-primary'],
+      });
+    }, 1200);
+  }  
 
-  proceedDeleteAccount() {
-    deleteUserData(this.state.teacherID);
+  generateDropdownOptions(plenKey) {
+    const plenOptions = this.state.plenOptions[plenKey]?.options || [];
+    return (
+      <>
+        <option value="">Select an option</option>
+        {plenOptions.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.name}
+          </option>
+        ))}
+      </>
+    );
   }
-
 
   render() {
     return (
       <Container>
-        <Modal
-          isOpen={this.state.modal2}
-          toggle={this.toggleModal2}
-          className="modal-dialog"
-        >
+        <Row>
+          <Col md="10">
+            <h1>Student Dashboard</h1>
+          </Col>
+          <Col md="2">
+            <Button color="secondary" className="float-right" onClick={logout}>
+              Log Out
+            </Button>
+          </Col>
+        </Row>
+
+        <Card className="mt-4">
+          <Form onSubmit={this.handleSubmit}>
+            <Row>
+              {/* Plenary 1 Section */}
+              <Col md="4">
+                <h5>Plenary 1</h5>
+                <FormGroup>
+                  <Label for="p1_rank1">Rank 1</Label>
+                  <Input
+                    type="select"
+                    name="p1_rank1"
+                    id="p1_rank1"
+                    value={this.state.p1_rank1}
+                    onChange={this.handleDropdownChange}
+                  >
+                    {this.generateDropdownOptions('p1')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="p1_rank2">Rank 2</Label>
+                  <Input
+                    type="select"
+                    name="p1_rank2"
+                    id="p1_rank2"
+                    value={this.state.p1_rank2}
+                    onChange={this.handleDropdownChange}
+                  >
+                    {this.generateDropdownOptions('p1')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="p1_rank3">Rank 3</Label>
+                  <Input
+                    type="select"
+                    name="p1_rank3"
+                    id="p1_rank3"
+                    value={this.state.p1_rank3}
+                    onChange={this.handleDropdownChange}
+                  >
+                    {this.generateDropdownOptions('p1')}
+                  </Input>
+                </FormGroup>
+              </Col>
+
+              {/* Plenary 2 Section */}
+              <Col md="4">
+                <h5>Plenary 2</h5>
+                <FormGroup>
+                  <Label for="p2_rank1">Rank 1</Label>
+                  <Input
+                    type="select"
+                    name="p2_rank1"
+                    id="p2_rank1"
+                    value={this.state.p2_rank1}
+                    onChange={this.handleDropdownChange}
+                  >
+                    {this.generateDropdownOptions('p2')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="p2_rank2">Rank 2</Label>
+                  <Input
+                    type="select"
+                    name="p2_rank2"
+                    id="p2_rank2"
+                    value={this.state.p2_rank2}
+                    onChange={this.handleDropdownChange}
+                  >
+                    {this.generateDropdownOptions('p2')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="p2_rank3">Rank 3</Label>
+                  <Input
+                    type="select"
+                    name="p2_rank3"
+                    id="p2_rank3"
+                    value={this.state.p2_rank3}
+                    onChange={this.handleDropdownChange}
+                  >
+                    {this.generateDropdownOptions('p2')}
+                  </Input>
+                </FormGroup>
+              </Col>
+
+              {/* Plenary 3 Section */}
+              <Col md="4">
+                <h5>Plenary 3</h5>
+                <FormGroup>
+                  <Label for="p3_rank1">Rank 1</Label>
+                  <Input
+                    type="select"
+                    name="p3_rank1"
+                    id="p3_rank1"
+                    value={this.state.p3_rank1}
+                    onChange={this.handleDropdownChange}
+                  >
+                    {this.generateDropdownOptions('p3')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="p3_rank2">Rank 2</Label>
+                  <Input
+                    type="select"
+                    name="p3_rank2"
+                    id="p3_rank2"
+                    value={this.state.p3_rank2}
+                    onChange={this.handleDropdownChange}
+                  >
+                    {this.generateDropdownOptions('p3')}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="p3_rank3">Rank 3</Label>
+                  <Input
+                    type="select"
+                    name="p3_rank3"
+                    id="p3_rank3"
+                    value={this.state.p3_rank3}
+                    onChange={this.handleDropdownChange}
+                  >
+                    {this.generateDropdownOptions('p3')}
+                  </Input>
+                </FormGroup>
+              </Col>
+            </Row>
+
+            {/* Notes and Lunch Section */}
+            <Row className="mt-4">
+              {/* Notes */}
+              <Col md="6">
+                <FormGroup>
+                  <Label for="notes">Accessibility/Dietary Restrictions/Other Notes</Label>
+                  <Input
+                    type="textarea"
+                    name="notes"
+                    id="notes"
+                    placeholder="This input is optional."
+                    value={this.state.inputNotes}
+                    onChange={(e) => this.setState({ inputNotes: e.target.value })}
+                  />
+                </FormGroup>
+              </Col>
+
+              {/* Lunch Checkbox */}
+              <Col md="6" className="d-flex align-items-center justify-content-start">
+                <FormGroup check>
+                  <Label check>
+                    <Input
+                      type="checkbox"
+                      checked={this.state.lunch}
+                      onChange={(e) => this.setState({ lunch: e.target.checked })}
+                    />
+                    Lunch?
+                  </Label>
+                </FormGroup>
+              </Col>
+            </Row>
+
+            {/* Submit Button */}
+            <Row>
+              <Col className="text-center mt-4">
+                <Button
+                  color="primary"
+                  type="submit"
+                  className={this.state.buttonStatus[1]}
+                >
+                  {this.state.buttonStatus[0]}
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
+         {/* Magic Modal */}
+        <Modal isOpen={this.state.modal2} toggle={this.toggleModal2}>
           <ModalHeader toggle={this.toggleModal2}>Magic Code Entry</ModalHeader>
           <ModalBody>
-            <input
+            <Input
               type="text"
-              className="form-control"
+              placeholder="Enter Magic Code"
               value={this.state.magic}
-              onChange={(e) => {
-                this.setState({ magic: e.target.value });
-              }}
+              onChange={(e) => this.setState({ magic: e.target.value })}
             />
           </ModalBody>
           <ModalFooter>
@@ -245,112 +503,6 @@ export default class StudentDashboard extends Component {
             </Button>
           </ModalFooter>
         </Modal>
-        <br />
-        <Row>
-          <Col md="8" sm="12" xs="12">
-            <h1 className="fonted-h">
-              {this.state.greet}
-              {this.state.name}
-            </h1>
-          </Col>
-
-
-          <Col md="4" sm="12" xs="12">
-            <Button
-              color="secondary"
-              className="float-right mb-2"
-              onClick={() => {
-                logout();
-              }}
-            >
-              Log Out
-            </Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col md="10" sm="12" xs="12">
-            <b>School</b>: {this.state.school}
-            <br />
-            <b>Teacher</b>: {this.state.teacher}
-            <br />
-          </Col>
-        </Row>
-        <hr />
-
-
-        <Row>
-          <Col md="12" sm="12" xs="12"></Col>
-        </Row>
-        <Card className="pt-4">
-          <Form onSubmit={this.handleSubmit}>
-            <Row sm={1} md={1} lg={2}>
-              <Col sm="6" lg="6" className="mt-2">
-                <FormGroup check>
-                  <Label>Plenary Session 1 - 10:40 AM </Label>
-                  <h4>{this.state.p1}</h4>
-                </FormGroup>
-                <br />
-                <FormGroup check>
-                  <Label>Plenary Session 2 - 11:35 AM </Label>
-                  <h4>{this.state.p2}</h4>
-                </FormGroup>
-                <br />
-                <FormGroup check>
-                  <Label>Plenary Session 3 - 01:35 PM </Label>
-                  <h4>{this.state.p3}</h4>
-                </FormGroup>
-                <br />
-                <FormGroup check className="mt-2" style={{ marginLeft: '123px', transform: 'scale(1.5)' }}>
-                  <Label check>
-                    <Input
-                      type="checkbox"
-                      checked={this.state.lunch}
-                      onChange={(e) => this.setState({ lunch: e.target.checked })}
-                    />
-                    Lunch?
-                  </Label>
-                </FormGroup>
-              </Col>
-              <br />
-              <Col sm="6" lg="6">
-                <FormGroup check className="mr-3">
-                  <Label for="accessibility" className="mt-2">
-                    Accessibility/Dietary Restrictions/Other Notes
-                  </Label>
-                  <Input
-                    onChange={this.handleNoteChange}
-                    className="form-control"
-                    value={this.state.inputNotes}
-                    type="textarea"
-                    name="name"
-                    id="accessibility"
-                    placeholder="This input is optional."
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-
-
-            <center className="mt-4">
-              <button
-                type="submit"
-                className={this.state.buttonStatus[1]}
-                disabled={
-                  this.state.inputPlen1 === this.state.p1 &&
-                  this.state.inputPlen2 === this.state.p2 &&
-                  this.state.inputPlen3 === this.state.p3 &&
-                  this.state.inputNotes === this.state.notes
-                }
-              >
-                {this.state.buttonStatus[0]}
-              </button>
-            </center>
-
-
-            <br />
-          </Form>
-        </Card>
-        <br />
       </Container>
     );
   }

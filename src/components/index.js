@@ -143,16 +143,17 @@ export default class App extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href={Links['site']}>WAC {Year}</NavLink>
+                  <NavLink href={Links['site']} style={{ color: 'white' }}>WAC {Year}</NavLink>
                 </NavItem>
                 <NavItem>
-                  <Link component={NavLink} to="/dashboard">
+                  <Link style={{ color: 'white' }} component={NavLink} to="/dashboard">
                     Dashboard
                   </Link>
                 </NavItem>
                 {this.state.authed ? (
                   <NavItem>
                     <Link
+                      style={{ color: 'white' }}
                       onClick={() => {
                         logout();
                       }}
@@ -163,7 +164,7 @@ export default class App extends Component {
                   </NavItem>
                 ) : (
                   <NavItem>
-                    <Link component={NavLink} to="/login">
+                    <Link style={{ color: 'white' }} component={NavLink} to="/login">
                       Log In
                     </Link>
                   </NavItem>

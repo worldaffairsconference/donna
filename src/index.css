@@ -1,11 +1,33 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: GillSans;
+  background-color: #18181B;
+}
+
+h{
+	font-family: GillSans;
+}
+
+p {
+	font-family: GillSans;
 }
 
 .modal-dialog {
   top: 30%;
+}
+
+.inner-container {
+	background-color: #18181B;
+	color:white;
+}
+
+.input-border-grey {
+	border:2px solid #808080;
+}
+
+.nav-link-color {
+	color: white;
 }
 
 .ulStyle {
@@ -111,4 +133,21 @@ body {
 
 .center-div{
 	margin-top: 2rem;
+}
+
+::-webkit-scrollbar {
+  background-color: #18181B; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #333; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #444; 
+}
+
+::-webkit-scrollbar-track {
+  background-color: #18181B; 
 }

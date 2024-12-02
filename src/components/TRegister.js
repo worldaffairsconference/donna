@@ -23,48 +23,48 @@ export default class TRegister extends Component {
     return (
       <div className="col-sm-6 col-sm-offset-3">
         <br />
-        <h1>Teacher Register</h1>
+        <h1 class="text-white">Teacher Register</h1>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label>Name</label>
+            <label class="text-white">Name</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="Name"
               ref={(name) => (this.name = name)}
             />
           </div>
           <div className="form-group">
-            <label>School</label>
+            <label class="text-white">School</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="School"
               ref={(school) => (this.school = school)}
             />
           </div>
           <div className="form-group">
-            <label>Cell Phone Number</label>
+            <label class="text-white">Cell Phone Number</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="Cell Phone Number"
               ref={(cnumber) => (this.cnumber = cnumber)}
             />
           </div>
           <div className="form-group">
-            <label>Email</label>
+            <label class="text-white">Email</label>
             <input
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               ref={(email) => (this.email = email)}
               placeholder="Email"
             />
           </div>
           <div className="form-group">
-            <label>Password</label>
+            <label class="text-white">Password</label>
             <input
               type="password"
-              className="form-control"
+              className="form-control inner-container input-border-grey"
               placeholder="Password"
               ref={(pw) => (this.pw = pw)}
             />
@@ -85,7 +85,7 @@ export default class TRegister extends Component {
           </button>
         </form>
         <br />
-        <p>
+        <p class="text-white">
           If you're already registered, <a href="/login">log in</a>.
         </p>
       </div>

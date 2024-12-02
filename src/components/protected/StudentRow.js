@@ -40,7 +40,15 @@ export function StudentRow(props) {
         <td>{p1status && student.plen1}</td>
         <td>{p2status && student.plen2}</td>
         <td>{p3status && student.plen3}</td>
-        <td>{student.note}</td>
+        <td>
+          <div style={{
+            width: '200px',
+            overflow: 'auto',
+            whitepace:'nowrap'
+          }}>
+            {student.note}
+          </div>
+        </td>
       </tr>
     );
   });

@@ -301,7 +301,7 @@ export default class StudentDashboard extends Component {
       <Container>
         <Row>
           <Col md="10">
-            <h1>Student Dashboard</h1>
+            <h1 class="text-white">Student Dashboard</h1>
           </Col>
           <Col md="2">
             <Button color="secondary" className="float-right" onClick={logout}>
@@ -310,7 +310,7 @@ export default class StudentDashboard extends Component {
           </Col>
         </Row>
 
-        <Card className="mt-4">
+        <Card className="mt-4 inner-container">
           <Form onSubmit={this.handleSubmit}>
             <Row>
               {/* Plenary 1 Section */}
@@ -319,6 +319,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup>
                   <Label for="p1_rank1">Rank 1</Label>
                   <Input
+                    className="form-control inner-container border-color-grey"
                     type="select"
                     name="p1_rank1"
                     id="p1_rank1"
@@ -331,6 +332,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup>
                   <Label for="p1_rank2">Rank 2</Label>
                   <Input
+                    className="form-control inner-container border-color-grey"
                     type="select"
                     name="p1_rank2"
                     id="p1_rank2"
@@ -343,6 +345,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup>
                   <Label for="p1_rank3">Rank 3</Label>
                   <Input
+                    className="form-control inner-container border-color-grey"
                     type="select"
                     name="p1_rank3"
                     id="p1_rank3"
@@ -360,6 +363,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup>
                   <Label for="p2_rank1">Rank 1</Label>
                   <Input
+                    className="form-control inner-container border-color-grey"
                     type="select"
                     name="p2_rank1"
                     id="p2_rank1"
@@ -372,6 +376,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup>
                   <Label for="p2_rank2">Rank 2</Label>
                   <Input
+                    className="form-control inner-container border-color-grey"
                     type="select"
                     name="p2_rank2"
                     id="p2_rank2"
@@ -384,6 +389,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup>
                   <Label for="p2_rank3">Rank 3</Label>
                   <Input
+                    className="form-control inner-container border-color-grey"
                     type="select"
                     name="p2_rank3"
                     id="p2_rank3"
@@ -401,6 +407,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup>
                   <Label for="p3_rank1">Rank 1</Label>
                   <Input
+                    className="form-control inner-container border-color-grey"
                     type="select"
                     name="p3_rank1"
                     id="p3_rank1"
@@ -413,6 +420,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup>
                   <Label for="p3_rank2">Rank 2</Label>
                   <Input
+                    className="form-control inner-container border-color-grey"
                     type="select"
                     name="p3_rank2"
                     id="p3_rank2"
@@ -425,6 +433,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup>
                   <Label for="p3_rank3">Rank 3</Label>
                   <Input
+                    className="form-control inner-container border-color-grey"
                     type="select"
                     name="p3_rank3"
                     id="p3_rank3"
@@ -444,6 +453,7 @@ export default class StudentDashboard extends Component {
                 <FormGroup>
                   <Label for="notes">Accessibility/Dietary Restrictions/Other Notes</Label>
                   <Input
+                    className="form-control inner-container border-color-grey"
                     type="textarea"
                     name="notes"
                     id="notes"

@@ -112,12 +112,12 @@ export default class StudentDashboard extends Component {
                 lunch: studentDetails.lunch || false,
               });
             } else {
-              console.error('Student data not found under teacher node!');
+              // console.error('Student data not found under teacher node!');
             }
           });
         });
       } else {
-        console.error('TeacherID not found for the student!');
+        // console.error('TeacherID not found for the student!');
       }
     });
   }
@@ -183,7 +183,7 @@ export default class StudentDashboard extends Component {
         alert('Magic Code Accepted! You are now an admin.');
         location.reload();
       } catch (error) {
-        console.error('Error updating database:', error);
+        // console.error('Error updating database:', error);
         alert('Magic Code Accepted, but an error occurred while updating the database.');
       }
     } else {

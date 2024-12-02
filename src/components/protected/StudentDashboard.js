@@ -177,9 +177,15 @@ export default class StudentDashboard extends Component {
     // console.log(data);
 
     if (data !== 'Invalid Code') {
-      this.setState({ modal2: false });
-      alert('Magic Code Accepted!');
-      location.reload();
+      try {
+        await ref.root.child(`admin/${uid}`).set(true); // Adding admin entry under "admin" folder
+        this.setState({ modal2: false });
+        alert('Magic Code Accepted! You are now an admin.');
+        location.reload();
+      } catch (error) {
+        console.error('Error updating database:', error);
+        alert('Magic Code Accepted, but an error occurred while updating the database.');
+      }
     } else {
       this.toggleModal2();
       alert('Invalid Code');

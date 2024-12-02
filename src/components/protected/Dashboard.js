@@ -201,7 +201,7 @@ export default class Dashboard extends Component {
                 <th>Plenary #1</th>
                 <th>Plenary #2</th>
                 <th>Plenary #3</th>
-                <th>Notes</th>
+                <th style={{width: '200px'}}>Notes</th>
               </tr>
             </thead>
             <StudentRow

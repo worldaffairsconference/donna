@@ -11,6 +11,7 @@ import {
   Form,
 } from 'reactstrap';
 import { ref, firebaseAuth } from '../../helpers/firebase';
+import { logout } from '../../helpers/auth';
 
 export default class StudentDashboard extends Component {
   constructor(props) {
@@ -18,326 +19,369 @@ export default class StudentDashboard extends Component {
     const userId = firebaseAuth.currentUser.uid;
 
     this.state = {
-      p1_first: '', // First choice for Plenary 1
-      p1_second: '', // Second choice for Plenary 1
-      p1_third: '', // Third choice for Plenary 1
-      p2_first: '', // First choice for Plenary 2
-      p2_second: '', // Second choice for Plenary 2
-      p2_third: '', // Third choice for Plenary 2
-      p3_first: '', // First choice for Plenary 3
-      p3_second: '', // Second choice for Plenary 3
-      p3_third: '', // Third choice for Plenary 3
+      userid: userId,
+      teacherID: '',
+      p1_rank1: '',
+      p1_rank2: '',
+      p1_rank3: '',
+      p2_rank1: '',
+      p2_rank2: '',
+      p2_rank3: '',
+      p3_rank1: '',
+      p3_rank2: '',
+      p3_rank3: '',
       inputNotes: '',
       lunch: false,
       plenOptions: {
-        p1: [
-          { id: 'p1o1', name: 'Plenary 1 Option 1' },
-          { id: 'p1o2', name: 'Plenary 1 Option 2' },
-          { id: 'p1o3', name: 'Plenary 1 Option 3' },
-        ],
-        p2: [
-          { id: 'p2o1', name: 'Plenary 2 Option 1' },
-          { id: 'p2o2', name: 'Plenary 2 Option 2' },
-          { id: 'p2o3', name: 'Plenary 2 Option 3' },
-        ],
-        p3: [
-          { id: 'p3o1', name: 'Plenary 3 Option 1' },
-          { id: 'p3o2', name: 'Plenary 3 Option 2' },
-          { id: 'p3o3', name: 'Plenary 3 Option 3' },
-        ],
+        p1: {
+          name: 'Plenary 1',
+          options: [
+            { id: 'p1o1', name: 'Plenary 1 Option 1' },
+            { id: 'p1o2', name: 'Plenary 1 Option 2' },
+            { id: 'p1o3', name: 'Plenary 1 Option 3' },
+          ],
+        },
+        p2: {
+          name: 'Plenary 2',
+          options: [
+            { id: 'p2o1', name: 'Plenary 2 Option 1' },
+            { id: 'p2o2', name: 'Plenary 2 Option 2' },
+            { id: 'p2o3', name: 'Plenary 2 Option 3' },
+          ],
+        },
+        p3: {
+          name: 'Plenary 3',
+          options: [
+            { id: 'p3o1', name: 'Plenary 3 Option 1' },
+            { id: 'p3o2', name: 'Plenary 3 Option 2' },
+            { id: 'p3o3', name: 'Plenary 3 Option 3' },
+          ],
+        },
       },
-      buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
-      userid: userId,
-      teacherID: '', // Will be fetched dynamically
+      buttonStatus: ['Save Changes', 'btn btn-primary'],
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.handleNoteChange = this.handleNoteChange.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
 
-    // Fetch data from Firebase
-    ref.child(`students/${this.state.userid}`).once('value', (snapshot) => {
-      const studentData = snapshot.val();
-      this.setState({
-        inputNotes: studentData.note || '',
-        lunch: studentData.lunch || false,
-        teacherID: studentData.teacherID || '',
-        // p1_first: studentData.p1 || '',
-        // p1_second: studentData.p2 || '',
-        // p1_third: studentData.p3 || '',
-        // p2_first: studentData. || '',
-        // p2_second: studentData.plen2 || '',
-        // p2_third: studentData.plen3 || '',
-        // p3_first: studentData.plen4 || '',
-        // p3_second: studentData.plen5 || '',
-        // p3_third: studentData.plen6 || '',
-      });
-      
-      // Save plenary rankings to local storage
-      localStorage.setItem('studentPlenaryRankings', JSON.stringify({
-        p1_first: studentData.p1 || '',
-        p1_second: studentData.p2 || '',
-        p1_third: studentData.p3 || '',
-        p2_first: studentData.plen1 || '',
-        p2_second: studentData.plen2 || '',
-        p2_third: studentData.plen3 || '',
-        p3_first: studentData.plen4 || '',
-        p3_second: studentData.plen5 || '',
-        p3_third: studentData.plen6 || '',
-      }));
-      
-      // Load plenary rankings from local storage if available
-      const savedRankings = JSON.parse(localStorage.getItem('studentPlenaryRankings') || '{}');
-      this.setState({
-        p1_first: savedRankings.p1_first || studentData.p1 || '',
-        p1_second: savedRankings.p1_second || studentData.p2 || '',
-        p1_third: savedRankings.p1_third || studentData.p3 || '',
-        p2_first: savedRankings.p2_first || studentData.plen1 || '',
-        p2_second: savedRankings.p2_second || studentData.plen2 || '',
-        p2_third: savedRankings.p2_third || studentData.plen3 || '',
-        p3_first: savedRankings.p3_first || studentData.plen4 || '',
-        p3_second: savedRankings.p3_second || studentData.plen5 || '',
-        p3_third: savedRankings.p3_third || studentData.plen6 || '',
-      });
-    });
+    // Initialize data retrieval
+    this.initializeData(userId);
+
+    // console.log('Initial state:', this.state);
   }
 
-  // Handle dropdown value changes
-  handleChange(event) {
+  // Fetch the teacherID and then student data
+  initializeData(userId) {
+    // Fetch the teacherID from the `students` node
+    ref.child(`students/${userId}`).once('value', (snapshot) => {
+      const studentData = snapshot.val();
+      if (studentData && studentData.teacherID) {
+        // console.log('Fetched teacherID:', studentData.teacherID);
+
+        // Set the teacherID in the state
+        this.setState({ teacherID: studentData.teacherID }, () => {
+          // Now fetch the student's data under the teacher node
+          ref.child(`teachers/${studentData.teacherID}/students/${userId}`).once('value', (snapshot) => {
+            const studentDetails = snapshot.val();
+            if (studentDetails) {
+              // console.log('Student details retrieved:', studentDetails);
+
+              // Map the retrieved data to the state
+              this.setState({
+                p1_rank1: studentDetails.p1?.rank1 || '',
+                p1_rank2: studentDetails.p1?.rank2 || '',
+                p1_rank3: studentDetails.p1?.rank3 || '',
+                p2_rank1: studentDetails.p2?.rank1 || '',
+                p2_rank2: studentDetails.p2?.rank2 || '',
+                p2_rank3: studentDetails.p2?.rank3 || '',
+                p3_rank1: studentDetails.p3?.rank1 || '',
+                p3_rank2: studentDetails.p3?.rank2 || '',
+                p3_rank3: studentDetails.p3?.rank3 || '',
+                inputNotes: studentDetails.note || '',
+                lunch: studentDetails.lunch || false,
+              });
+            } else {
+              console.error('Student data not found under teacher node!');
+            }
+          });
+        });
+      } else {
+        console.error('TeacherID not found for the student!');
+      }
+    });
+  }
+  
+  handleDropdownChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
 
-  // Submit form and update Firebase
+  handleNoteChange(event) {
+    this.setState({ inputNotes: event.target.value });
+  }
+
+  handleCheckboxChange(event) {
+    this.setState({ lunch: event.target.checked });
+  }
+
   async handleSubmit(event) {
     event.preventDefault();
-
     const {
-      p1_first,
-      p1_second,
-      p1_third,
-      p2_first,
-      p2_second,
-      p2_third,
-      p3_first,
-      p3_second,
-      p3_third,
+      userid,
+      teacherID,
+      p1_rank1,
+      p1_rank2,
+      p1_rank3,
+      p2_rank1,
+      p2_rank2,
+      p2_rank3,
+      p3_rank1,
+      p3_rank2,
+      p3_rank3,
       inputNotes,
       lunch,
-      teacherID,
-      userid,
     } = this.state;
 
-    // Validate rankings (no duplicates within a session)
-    const validateRankings = (...choices) =>
-      new Set(choices.filter(Boolean)).size === choices.length;
-
-    if (
-      !validateRankings(p1_first, p1_second, p1_third) ||
-      !validateRankings(p2_first, p2_second, p2_third) ||
-      !validateRankings(p3_first, p3_second, p3_third)
-    ) {
-      alert('Please ensure no duplicate rankings within a single plenary session.');
-      return;
-    }
-
-    // Clear out plen1, plen2, and plen3 for now
-    const cleanData = { // This is where we update Firebase
-      p1: [p1_first, p1_second, p1_third].filter(Boolean),
-      p2: [p2_first, p2_second, p2_third].filter(Boolean),
-      p3: [p3_first, p3_second, p3_third].filter(Boolean),
-      plen1: '', // Clear final assignment
-      plen2: '', // Clear final assignment
-      plen3: '', // Clear final assignment
-      note: inputNotes || '',
-      lunch: !!lunch,
-      // rank1: null,
-      // rank2: null,
-      // rank3: null,
+    // Construct data object to update
+    const updateData = {
+      p1: {
+        rank1: p1_rank1,
+        rank2: p1_rank2,
+        rank3: p1_rank3,
+      },
+      p2: {
+        rank1: p2_rank1,
+        rank2: p2_rank2,
+        rank3: p2_rank3,
+      },
+      p3: {
+        rank1: p3_rank1,
+        rank2: p3_rank2,
+        rank3: p3_rank3,
+      },
+      note: inputNotes,
+      lunch,
     };
 
-    console.log('Submitting data to Firebase:', cleanData);
+    // console.log('Submitting data:', updateData);
 
     // Update Firebase
-    await ref.child(`teachers/${teacherID}/students/${userid}`).update(cleanData);
+    await ref.child(`teachers/${teacherID}/students/${userid}`).update(updateData);
 
     this.setState({
-      buttonStatus: ['Success!', 'btn btn-success fonted'],
+      buttonStatus: ['Success!', 'btn btn-success'],
     });
 
     setTimeout(() => {
       this.setState({
-        buttonStatus: ['Save Changes', 'btn btn-primary fonted'],
+        buttonStatus: ['Save Changes', 'btn btn-primary'],
       });
     }, 1200);
   }
 
-  // Generate dropdown options dynamically for each plenary
   generateDropdownOptions(plenKey) {
-    return this.state.plenOptions[plenKey].map((option) => (
-      <option key={option.id} value={option.id}>
-        {option.name}
-      </option>
-    ));
+    const plenOptions = this.state.plenOptions[plenKey]?.options || [];
+    return (
+      <>
+        <option value="">Select an option</option>
+        {plenOptions.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.name}
+          </option>
+        ))}
+      </>
+    );
   }
 
   render() {
     return (
       <Container>
         <Row>
-          <Col md="12">
-            <Card className="pt-4">
-              <Form onSubmit={this.handleSubmit}>
-                {/* Plenary 1 Rankings */}
-                <h5>Plenary 1 Rankings</h5>
+          <Col md="10">
+            <h1>Student Dashboard</h1>
+          </Col>
+          <Col md="2">
+            <Button color="secondary" className="float-right" onClick={logout}>
+              Log Out
+            </Button>
+          </Col>
+        </Row>
+
+        <Card className="mt-4">
+          <Form onSubmit={this.handleSubmit}>
+            <Row>
+              {/* Plenary 1 Section */}
+              <Col md="4">
+                <h5>Plenary 1</h5>
                 <FormGroup>
-                  <Label>First Choice</Label>
+                  <Label for="p1_rank1">Rank 1</Label>
                   <Input
                     type="select"
-                    name="p1_first"
-                    value={this.state.p1_first}
-                    onChange={this.handleChange}
+                    name="p1_rank1"
+                    id="p1_rank1"
+                    value={this.state.p1_rank1}
+                    onChange={this.handleDropdownChange}
                   >
-                    <option value="">Select</option>
                     {this.generateDropdownOptions('p1')}
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label>Second Choice</Label>
+                  <Label for="p1_rank2">Rank 2</Label>
                   <Input
                     type="select"
-                    name="p1_second"
-                    value={this.state.p1_second}
-                    onChange={this.handleChange}
+                    name="p1_rank2"
+                    id="p1_rank2"
+                    value={this.state.p1_rank2}
+                    onChange={this.handleDropdownChange}
                   >
-                    <option value="">Select</option>
                     {this.generateDropdownOptions('p1')}
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label>Third Choice</Label>
+                  <Label for="p1_rank3">Rank 3</Label>
                   <Input
                     type="select"
-                    name="p1_third"
-                    value={this.state.p1_third}
-                    onChange={this.handleChange}
+                    name="p1_rank3"
+                    id="p1_rank3"
+                    value={this.state.p1_rank3}
+                    onChange={this.handleDropdownChange}
                   >
-                    <option value="">Select</option>
                     {this.generateDropdownOptions('p1')}
                   </Input>
                 </FormGroup>
+              </Col>
 
-                {/* Plenary 2 Rankings */}
-                <h5>Plenary 2 Rankings</h5>
+              {/* Plenary 2 Section */}
+              <Col md="4">
+                <h5>Plenary 2</h5>
                 <FormGroup>
-                  <Label>First Choice</Label>
+                  <Label for="p2_rank1">Rank 1</Label>
                   <Input
                     type="select"
-                    name="p2_first"
-                    value={this.state.p2_first}
-                    onChange={this.handleChange}
+                    name="p2_rank1"
+                    id="p2_rank1"
+                    value={this.state.p2_rank1}
+                    onChange={this.handleDropdownChange}
                   >
-                    <option value="">Select</option>
                     {this.generateDropdownOptions('p2')}
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label>Second Choice</Label>
+                  <Label for="p2_rank2">Rank 2</Label>
                   <Input
                     type="select"
-                    name="p2_second"
-                    value={this.state.p2_second}
-                    onChange={this.handleChange}
+                    name="p2_rank2"
+                    id="p2_rank2"
+                    value={this.state.p2_rank2}
+                    onChange={this.handleDropdownChange}
                   >
-                    <option value="">Select</option>
                     {this.generateDropdownOptions('p2')}
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label>Third Choice</Label>
+                  <Label for="p2_rank3">Rank 3</Label>
                   <Input
                     type="select"
-                    name="p2_third"
-                    value={this.state.p2_third}
-                    onChange={this.handleChange}
+                    name="p2_rank3"
+                    id="p2_rank3"
+                    value={this.state.p2_rank3}
+                    onChange={this.handleDropdownChange}
                   >
-                    <option value="">Select</option>
                     {this.generateDropdownOptions('p2')}
                   </Input>
                 </FormGroup>
+              </Col>
 
-                {/* Plenary 3 Rankings */}
-                <h5>Plenary 3 Rankings</h5>
+              {/* Plenary 3 Section */}
+              <Col md="4">
+                <h5>Plenary 3</h5>
                 <FormGroup>
-                  <Label>First Choice</Label>
+                  <Label for="p3_rank1">Rank 1</Label>
                   <Input
                     type="select"
-                    name="p3_first"
-                    value={this.state.p3_first}
-                    onChange={this.handleChange}
+                    name="p3_rank1"
+                    id="p3_rank1"
+                    value={this.state.p3_rank1}
+                    onChange={this.handleDropdownChange}
                   >
-                    <option value="">Select</option>
                     {this.generateDropdownOptions('p3')}
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label>Second Choice</Label>
+                  <Label for="p3_rank2">Rank 2</Label>
                   <Input
                     type="select"
-                    name="p3_second"
-                    value={this.state.p3_second}
-                    onChange={this.handleChange}
+                    name="p3_rank2"
+                    id="p3_rank2"
+                    value={this.state.p3_rank2}
+                    onChange={this.handleDropdownChange}
                   >
-                    <option value="">Select</option>
                     {this.generateDropdownOptions('p3')}
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label>Third Choice</Label>
+                  <Label for="p3_rank3">Rank 3</Label>
                   <Input
                     type="select"
-                    name="p3_third"
-                    value={this.state.p3_third}
-                    onChange={this.handleChange}
+                    name="p3_rank3"
+                    id="p3_rank3"
+                    value={this.state.p3_rank3}
+                    onChange={this.handleDropdownChange}
                   >
-                    <option value="">Select</option>
                     {this.generateDropdownOptions('p3')}
                   </Input>
                 </FormGroup>
+              </Col>
+            </Row>
 
-                {/* Notes */}
+            {/* Notes and Lunch Section */}
+            <Row className="mt-4">
+              {/* Notes */}
+              <Col md="6">
                 <FormGroup>
-                  <Label>Notes</Label>
+                  <Label for="notes">Accessibility/Dietary Restrictions/Other Notes</Label>
                   <Input
                     type="textarea"
-                    name="inputNotes"
+                    name="notes"
+                    id="notes"
+                    placeholder="This input is optional."
                     value={this.state.inputNotes}
-                    onChange={this.handleChange}
+                    onChange={(e) => this.setState({ inputNotes: e.target.value })}
                   />
                 </FormGroup>
+              </Col>
 
-                {/* Lunch Checkbox */}
+              {/* Lunch Checkbox */}
+              <Col md="6" className="d-flex align-items-center justify-content-start">
                 <FormGroup check>
                   <Label check>
                     <Input
                       type="checkbox"
-                      name="lunch"
                       checked={this.state.lunch}
                       onChange={(e) => this.setState({ lunch: e.target.checked })}
                     />
                     Lunch?
                   </Label>
                 </FormGroup>
+              </Col>
+            </Row>
 
-                {/* Submit Button */}
-                <center>
-                  <Button type="submit" className={this.state.buttonStatus[1]}>
-                    {this.state.buttonStatus[0]}
-                  </Button>
-                </center>
-              </Form>
-            </Card>
-          </Col>
-        </Row>
+            {/* Submit Button */}
+            <Row>
+              <Col className="text-center mt-4">
+                <Button
+                  color="primary"
+                  type="submit"
+                  className={this.state.buttonStatus[1]}
+                >
+                  {this.state.buttonStatus[0]}
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </Container>
     );
   }

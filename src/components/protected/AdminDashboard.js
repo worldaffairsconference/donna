@@ -52,15 +52,15 @@ export default class AdminDashboard extends Component {
       changedAttendeeList: {},
       plenOptions: {
         open: false,
-        p1: { name: '', students: {}, max: 0 },
-        p2: { name: '', students: {}, max: 0 },
-        p3: { name: '', students: {}, max: 0 },
-        p4: { name: '', students: {}, max: 0 },
-        p5: { name: '', students: {}, max: 0 },
-        p6: { name: '', students: {}, max: 0 },
-        p7: { name: '', students: {}, max: 0 },
-        p8: { name: '', students: {}, max: 0 },
-        p9: { name: '', students: {}, max: 0 },
+        p1o1: { name: '', location: '', max: 0, students: {} },
+        p1o2: { name: '', location: '', max: 0, students: {} },
+        p1o3: { name: '', location: '', max: 0, students: {} },
+        p2o1: { name: '', location: '', max: 0, students: {} },
+        p2o2: { name: '', location: '', max: 0, students: {} },
+        p2o3: { name: '', location: '', max: 0, students: {} },
+        p3o1: { name: '', location: '', max: 0, students: {} },
+        p3o2: { name: '', location: '', max: 0, students: {} },
+        p3o3: { name: '', location: '', max: 0, students: {} },
       },
       gradeDropdownOpen: false,
       plenaryDropdownOpen: false,
@@ -129,7 +129,7 @@ export default class AdminDashboard extends Component {
           Name: student.name,
           Email: student.email,
           Grade: student.grade || '',
-          Lunch: student.lunch ? 'Yes' : 'No', // Boolean to Yes/No
+          Lunch: student.lunch ? 'Yes' : 'No',
           Plenary1_Rank1: student.p1?.rank1 || 'None',
           Plenary1_Rank2: student.p1?.rank2 || 'None',
           Plenary1_Rank3: student.p1?.rank3 || 'None',
@@ -139,7 +139,6 @@ export default class AdminDashboard extends Component {
           Plenary3_Rank1: student.p3?.rank1 || 'None',
           Plenary3_Rank2: student.p3?.rank2 || 'None',
           Plenary3_Rank3: student.p3?.rank3 || 'None',
-          Advisor: student.ucc_advisor || 'None',
           Notes: student.note || '',
         });
       });
@@ -168,22 +167,17 @@ export default class AdminDashboard extends Component {
   }  
 
   generateOptions() {
-    var options = [];
-    var length = Object.keys(this.state.plenOptions).length;
-    for (var i = 1; i < length; i++) {
-      if (this.state.plenOptions['p' + i].name != '') {
-        options.push(
-          <option value={'p' + i}>
-            {this.state.plenOptions['p' + i].name}
-          </option>
-        );
+    const options = [];
+    Object.entries(this.state.plenOptions).forEach(([key, plen]) => {
+      if (key.startsWith('p') && plen.name) {
+        options.push(<option value={key}>{plen.name}</option>);
       }
-    }
+    });
     return options;
   }
-
+  
   async componentDidMount() {
-    console.log('Mounted');
+    // console.log('Mounted');
     var fullSchoolList = [''];
     var teacherList = [];
     var schoolNum = 0;
@@ -191,15 +185,15 @@ export default class AdminDashboard extends Component {
     var schoolsList = [['', '']];
     var plenOptions = {
       open: false,
-      p1: { name: '', students: {}, max: 0 },
-      p2: { name: '', students: {}, max: 0 },
-      p3: { name: '', students: {}, max: 0 },
-      p4: { name: '', students: {}, max: 0 },
-      p5: { name: '', students: {}, max: 0 },
-      p6: { name: '', students: {}, max: 0 },
-      p7: { name: '', students: {}, max: 0 },
-      p8: { name: '', students: {}, max: 0 },
-      p9: { name: '', students: {}, max: 0 },
+      p1o1: { name: '', location: '', max: 0, students: {} },
+      p1o2: { name: '', location: '', max: 0, students: {} },
+      p1o3: { name: '', location: '', max: 0, students: {} },
+      p2o1: { name: '', location: '', max: 0, students: {} },
+      p2o2: { name: '', location: '', max: 0, students: {} },
+      p2o3: { name: '', location: '', max: 0, students: {} },
+      p3o1: { name: '', location: '', max: 0, students: {} },
+      p3o2: { name: '', location: '', max: 0, students: {} },
+      p3o3: { name: '', location: '', max: 0, students: {} },
     };
     await ref.child('teachers/').once(
       'value',
@@ -248,10 +242,10 @@ export default class AdminDashboard extends Component {
 
     ref.child('plenaries').on(
       'value',
-      function (snapshot) {
-        plenOptions = snapshot.val();
-        this.setState({ plenOptions: plenOptions });
-      }.bind(this)
+      (snapshot) => {
+        const plenOptions = snapshot.val() || { open: false };
+        this.setState({ plenOptions });
+      }
     );
   }
 
@@ -272,42 +266,25 @@ export default class AdminDashboard extends Component {
   }
 
   generateStatusBars() {
-    var length = Object.keys(this.state.plenOptions).length;
-    var bars = [];
-    //<h5>
-    //{this.state.plenOptions.p1.name}:
-    //<Progress
-    //value={
-    //this.state.plenOptions.p1.students
-    //? Object.keys(this.state.plenOptions.p1.students).length
-    //: 0
-    //}
-    //max={this.state.plenOptions.p1.max}
-    ///>
-    //{this.state.plenOptions.p1.students
-    //? Object.keys(this.state.plenOptions.p1.students).length
-    //: 0}
-    ///{this.state.plenOptions.p1.max}
-    //</h5>
-
-    for (var i = 1; i < length; i++) {
-      var plen = this.state.plenOptions['p' + i];
-      bars.push(
-        <Row>
-          <Col>
-            <h5>
-              {plen.name}:
-              <Progress
-                value={plen.students ? Object.keys(plen.students).length : 0}
-                max={plen.max}
-              />
-              {plen.students ? Object.keys(plen.students).length : 0}/{plen.max}
-            </h5>
-          </Col>
-        </Row>
-      );
-    }
-
+    const bars = [];
+    Object.entries(this.state.plenOptions).forEach(([key, plen]) => {
+      if (key.startsWith('p') && plen.name) {
+        bars.push(
+          <Row key={key}>
+            <Col>
+              <h5>
+                {plen.name}:
+                <Progress
+                  value={plen.students ? Object.keys(plen.students).length : 0}
+                  max={plen.max || 0}
+                />
+                {plen.students ? Object.keys(plen.students).length : 0}/{plen.max || 0}
+              </h5>
+            </Col>
+          </Row>
+        );
+      }
+    });
     return bars;
   }
 

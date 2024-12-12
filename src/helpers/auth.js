@@ -1,7 +1,7 @@
 import { ref, firebaseAuth, firebaseAuthNoLogin } from '../config/constants';
 
 export function auth(email, pw, name, grade, access) {
-  // Check whether teachers/access exists in rtdb
+  // Check whether teachers/access exists in RTDB
   return new Promise(async (resolve, reject) => {
     const snapshot = await ref.child(`teachers/${access}`).once('value');
     if (!snapshot.exists()) {
@@ -29,7 +29,7 @@ export function auth(email, pw, name, grade, access) {
             new Error(
               `Registration is currently unavailable for ${
                 snapshot.val().school
-              }. Maximum sign up quota is reached. Please ask your faculty advisor to contact the WAC team for further information.`
+              }. Maximum sign-up quota is reached. Please ask your faculty advisor to contact the WAC team for further information.`
             )
           );
           return;
@@ -49,6 +49,9 @@ export function auth(email, pw, name, grade, access) {
             p1: { rank1: '', rank2: '', rank3: '' },
             p2: { rank1: '', rank2: '', rank3: '' },
             p3: { rank1: '', rank2: '', rank3: '' },
+            plen1: '',
+            plen2: '',
+            plen3: '',
             note: '',
             lunch: false,
           })
@@ -70,7 +73,7 @@ export function auth(email, pw, name, grade, access) {
 }
 
 export function addAttendee(email, pw, name, grade, access) {
-  // Check whether teachers/access exists in rtdb
+  // Check whether teachers/access exists in RTDB
   return new Promise(async (resolve, reject) => {
     const snapshot = await ref.child(`teachers/${access}`).once('value');
     if (!snapshot.exists()) {
@@ -90,6 +93,9 @@ export function addAttendee(email, pw, name, grade, access) {
             p1: { rank1: '', rank2: '', rank3: '' },
             p2: { rank1: '', rank2: '', rank3: '' },
             p3: { rank1: '', rank2: '', rank3: '' },
+            plen1: '',
+            plen2: '',
+            plen3: '',
             note: '',
             lunch: false,
           })

@@ -152,6 +152,9 @@ export default class Dashboard extends Component {
               <b>
                 <a
                   href={`https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary"
                 >
                 </a>
               </b>
@@ -159,7 +162,11 @@ export default class Dashboard extends Component {
             <Button color="primary" onClick={this.handleCopy}>
               Copy Registration Link
             </Button>
-            {!this.state.alert && <Alert color="success">Registration link copied!</Alert>}
+            {!this.state.alert && (
+              <Alert color="success" className="mt-2">
+                Registration link copied!
+              </Alert>
+            )}
           </Card>
         </Row>
         <br />

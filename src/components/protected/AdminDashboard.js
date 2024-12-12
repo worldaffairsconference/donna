@@ -106,7 +106,7 @@ export default class AdminDashboard extends Component {
   };
 
   exportData() {
-    const { teacherList, attendeeList, plenOptions } = this.state;
+    const { teacherList, attendeeList } = this.state;
   
     if (!teacherList.length) {
       alert('No data available to export.');
@@ -121,16 +121,6 @@ export default class AdminDashboard extends Component {
       );
   
       students.forEach(([studentId, student]) => {
-        const plenary1 = plenOptions.p1 && plenOptions.p1.options
-          ? plenOptions.p1.options.find((opt) => opt.id === student.p1)?.name || 'None'
-          : 'None';
-        const plenary2 = plenOptions.p2 && plenOptions.p2.options
-        ? plenOptions.p2.options.find((opt) => opt.id === student.p2)?.name || 'None'
-        : 'None';
-        const plenary3 = plenOptions.p1 && plenOptions.p1.options
-        ? plenOptions.p3.options.find((opt) => opt.id === student.p3)?.name || 'None'
-        : 'None';
-
         flattenedData.push({
           TeacherID: teacherId,
           TeacherName: teacherName,
@@ -139,9 +129,17 @@ export default class AdminDashboard extends Component {
           Name: student.name,
           Email: student.email,
           Grade: student.grade || '',
-          Plenary1: plenary1,
-          Plenary2: plenary2,
-          Plenary3: plenary3,
+          Lunch: student.lunch ? 'Yes' : 'No', // Boolean to Yes/No
+          Plenary1_Rank1: student.p1?.rank1 || 'None',
+          Plenary1_Rank2: student.p1?.rank2 || 'None',
+          Plenary1_Rank3: student.p1?.rank3 || 'None',
+          Plenary2_Rank1: student.p2?.rank1 || 'None',
+          Plenary2_Rank2: student.p2?.rank2 || 'None',
+          Plenary2_Rank3: student.p2?.rank3 || 'None',
+          Plenary3_Rank1: student.p3?.rank1 || 'None',
+          Plenary3_Rank2: student.p3?.rank2 || 'None',
+          Plenary3_Rank3: student.p3?.rank3 || 'None',
+          Advisor: student.ucc_advisor || 'None',
           Notes: student.note || '',
         });
       });
@@ -433,6 +431,20 @@ export default class AdminDashboard extends Component {
           </td>
           <td>
             <Input
+              type="checkbox"
+              checked={student[1].lunch || false}
+              onChange={(event) => {
+                this.setState({
+                  changedAttendeeList: {
+                    ...this.state.changedAttendeeList,
+                    [student[0]]: { ...student[1], lunch: event.target.checked },
+                  },
+                });
+              }}
+            />
+          </td>
+          <td>
+            <Input
               type="select"
               value={student[1].p1}
               className="form-control"
@@ -518,70 +530,7 @@ export default class AdminDashboard extends Component {
                     ...this.state.changedAttendeeList[student[0]],
                     teacher: null,
                   });
-                if (
-                  this.state.changedAttendeeList[student[0]].p1 !==
-                    this.state.attendeeList[student[0]].p1 ||
-                  this.state.changedAttendeeList[student[0]].p2 !==
-                    this.state.attendeeList[student[0]].p2 ||
-                  this.state.changedAttendeeList[student[0]].p3 !==
-                    this.state.attendeeList[student[0]].p3
-                ) {
-                  if (this.state.attendeeList[student[0]].p1 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.attendeeList[student[0]].p1
-                        }/students/${student[0]}`
-                      )
-                      .remove();
-                  }
-                  if (this.state.attendeeList[student[0]].p2 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.attendeeList[student[0]].p2
-                        }/students/${student[0]}`
-                      )
-                      .remove();
-                  }
-                  if (this.state.attendeeList[student[0]].p3 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.attendeeList[student[0]].p3
-                        }/students/${student[0]}`
-                      )
-                      .remove();
-                  }
-  
-                  if (this.state.changedAttendeeList[student[0]].p1 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.changedAttendeeList[student[0]].p1
-                        }/students/${student[0]}`
-                      )
-                      .set(true);
-                  }
-                  if (this.state.changedAttendeeList[student[0]].p2 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.changedAttendeeList[student[0]].p2
-                        }/students/${student[0]}`
-                      )
-                      .set(true);
-                  }
-                  if (this.state.changedAttendeeList[student[0]].p3 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.changedAttendeeList[student[0]].p3
-                        }/students/${student[0]}`
-                      )
-                      .set(true);
-                  }
-                }
+                // Update plenary student mappings as needed...
                 this.setState({
                   attendeeList: {
                     ...this.state.attendeeList,
@@ -594,6 +543,7 @@ export default class AdminDashboard extends Component {
             </Button>
           </td>
         </tr>
+
       );
     });
     return rows;
@@ -881,17 +831,18 @@ export default class AdminDashboard extends Component {
 
         <div id="table">
           <Table className="table">
-            <thead class="text-white">
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Plenary #1</th>
-                <th>Plenary #2</th>
-                <th>Plenary #3</th>
-                <th>Notes</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+          <thead class="text-white">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Lunch</th> 
+              <th>Plenary #1</th>
+              <th>Plenary #2</th>
+              <th>Plenary #3</th>
+              <th>Notes</th>
+              <th>Action</th>
+            </tr>
+          </thead>
             <tbody>
               {tableContent}
             </tbody>

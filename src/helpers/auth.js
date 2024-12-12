@@ -143,8 +143,8 @@ export async function deleteUserData(uid, teacherid) {
   return new Promise(async (resolve, reject) => {
     await ref.child(`students/${uid}`).remove();
     await ref.child(`teachers/${teacherid}/students/${uid}`).remove();
-    console.log(teacherid);
-    console.log(uid);
+    // console.log(teacherid);
+    // console.log(uid);
     await ref
       .child(`teachers/${teacherid}/students/${uid}`)
       .once('value', (snapshot) => {

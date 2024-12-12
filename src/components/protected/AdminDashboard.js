@@ -129,7 +129,7 @@ export default class AdminDashboard extends Component {
           Name: student.name,
           Email: student.email,
           Grade: student.grade || '',
-          Lunch: student.lunch ? 'Yes' : 'No', // Boolean to Yes/No
+          Lunch: student.lunch ? 'Yes' : 'No',
           Plenary1_Rank1: student.p1?.rank1 || 'None',
           Plenary1_Rank2: student.p1?.rank2 || 'None',
           Plenary1_Rank3: student.p1?.rank3 || 'None',
@@ -139,7 +139,6 @@ export default class AdminDashboard extends Component {
           Plenary3_Rank1: student.p3?.rank1 || 'None',
           Plenary3_Rank2: student.p3?.rank2 || 'None',
           Plenary3_Rank3: student.p3?.rank3 || 'None',
-          Advisor: student.ucc_advisor || 'None',
           Notes: student.note || '',
         });
       });
@@ -288,7 +287,7 @@ export default class AdminDashboard extends Component {
     });
     return bars;
   }
-  
+
   generateTeacherOptions() {
     var options = [];
     for (var i = 0; i < this.state.teacherList.length; i++) {

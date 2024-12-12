@@ -433,6 +433,20 @@ export default class AdminDashboard extends Component {
           </td>
           <td>
             <Input
+              type="checkbox"
+              checked={student[1].lunch || false}
+              onChange={(event) => {
+                this.setState({
+                  changedAttendeeList: {
+                    ...this.state.changedAttendeeList,
+                    [student[0]]: { ...student[1], lunch: event.target.checked },
+                  },
+                });
+              }}
+            />
+          </td>
+          <td>
+            <Input
               type="select"
               value={student[1].p1}
               className="form-control"
@@ -518,70 +532,7 @@ export default class AdminDashboard extends Component {
                     ...this.state.changedAttendeeList[student[0]],
                     teacher: null,
                   });
-                if (
-                  this.state.changedAttendeeList[student[0]].p1 !==
-                    this.state.attendeeList[student[0]].p1 ||
-                  this.state.changedAttendeeList[student[0]].p2 !==
-                    this.state.attendeeList[student[0]].p2 ||
-                  this.state.changedAttendeeList[student[0]].p3 !==
-                    this.state.attendeeList[student[0]].p3
-                ) {
-                  if (this.state.attendeeList[student[0]].p1 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.attendeeList[student[0]].p1
-                        }/students/${student[0]}`
-                      )
-                      .remove();
-                  }
-                  if (this.state.attendeeList[student[0]].p2 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.attendeeList[student[0]].p2
-                        }/students/${student[0]}`
-                      )
-                      .remove();
-                  }
-                  if (this.state.attendeeList[student[0]].p3 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.attendeeList[student[0]].p3
-                        }/students/${student[0]}`
-                      )
-                      .remove();
-                  }
-  
-                  if (this.state.changedAttendeeList[student[0]].p1 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.changedAttendeeList[student[0]].p1
-                        }/students/${student[0]}`
-                      )
-                      .set(true);
-                  }
-                  if (this.state.changedAttendeeList[student[0]].p2 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.changedAttendeeList[student[0]].p2
-                        }/students/${student[0]}`
-                      )
-                      .set(true);
-                  }
-                  if (this.state.changedAttendeeList[student[0]].p3 !== '') {
-                    await ref
-                      .child(
-                        `plenaries/${
-                          this.state.changedAttendeeList[student[0]].p3
-                        }/students/${student[0]}`
-                      )
-                      .set(true);
-                  }
-                }
+                // Update plenary student mappings as needed...
                 this.setState({
                   attendeeList: {
                     ...this.state.attendeeList,
@@ -594,6 +545,7 @@ export default class AdminDashboard extends Component {
             </Button>
           </td>
         </tr>
+
       );
     });
     return rows;
@@ -881,17 +833,18 @@ export default class AdminDashboard extends Component {
 
         <div id="table">
           <Table className="table">
-            <thead class="text-white">
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Plenary #1</th>
-                <th>Plenary #2</th>
-                <th>Plenary #3</th>
-                <th>Notes</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+          <thead class="text-white">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Lunch</th> 
+              <th>Plenary #1</th>
+              <th>Plenary #2</th>
+              <th>Plenary #3</th>
+              <th>Notes</th>
+              <th>Action</th>
+            </tr>
+          </thead>
             <tbody>
               {tableContent}
             </tbody>

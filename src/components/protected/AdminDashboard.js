@@ -106,7 +106,7 @@ export default class AdminDashboard extends Component {
   };
 
   exportData() {
-    const { teacherList, attendeeList, plenOptions } = this.state;
+    const { teacherList, attendeeList } = this.state;
   
     if (!teacherList.length) {
       alert('No data available to export.');
@@ -121,16 +121,6 @@ export default class AdminDashboard extends Component {
       );
   
       students.forEach(([studentId, student]) => {
-        const plenary1 = plenOptions.p1 && plenOptions.p1.options
-          ? plenOptions.p1.options.find((opt) => opt.id === student.p1)?.name || 'None'
-          : 'None';
-        const plenary2 = plenOptions.p2 && plenOptions.p2.options
-        ? plenOptions.p2.options.find((opt) => opt.id === student.p2)?.name || 'None'
-        : 'None';
-        const plenary3 = plenOptions.p1 && plenOptions.p1.options
-        ? plenOptions.p3.options.find((opt) => opt.id === student.p3)?.name || 'None'
-        : 'None';
-
         flattenedData.push({
           TeacherID: teacherId,
           TeacherName: teacherName,
@@ -139,9 +129,17 @@ export default class AdminDashboard extends Component {
           Name: student.name,
           Email: student.email,
           Grade: student.grade || '',
-          Plenary1: plenary1,
-          Plenary2: plenary2,
-          Plenary3: plenary3,
+          Lunch: student.lunch ? 'Yes' : 'No', // Boolean to Yes/No
+          Plenary1_Rank1: student.p1?.rank1 || 'None',
+          Plenary1_Rank2: student.p1?.rank2 || 'None',
+          Plenary1_Rank3: student.p1?.rank3 || 'None',
+          Plenary2_Rank1: student.p2?.rank1 || 'None',
+          Plenary2_Rank2: student.p2?.rank2 || 'None',
+          Plenary2_Rank3: student.p2?.rank3 || 'None',
+          Plenary3_Rank1: student.p3?.rank1 || 'None',
+          Plenary3_Rank2: student.p3?.rank2 || 'None',
+          Plenary3_Rank3: student.p3?.rank3 || 'None',
+          Advisor: student.ucc_advisor || 'None',
           Notes: student.note || '',
         });
       });

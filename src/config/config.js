@@ -13,11 +13,11 @@ export const EarlyBirdDueDate = 'TBD';
 export const DueDate = 'TBD';
 export const Links = {
   site: 'https://worldaffairscon.org/',
-  contact: 'https://worldaffairscon.org/contact/',
+  // contact: 'https://worldaffairscon.org/contact/',
   repo: 'https://github.com/worldaffairsconference/donna',
-  email: 'mailto:wac@ucc.on.ca',
-  facebook: 'https://facebook.com/worldaffairsconference',
+  email: 'mailto:uccwac@gmail.com',
+  // facebook: 'https://facebook.com/worldaffairsconference',
   github: 'https://github.com/worldaffairsconference',
   instagram: 'https://instagram.com/worldaffairscon',
-  twitter: 'https://twitter.com/worldaffairscon',
+  // twitter: 'https://twitter.com/worldaffairscon',
 };

@@ -18,34 +18,28 @@ export default class Footer extends Component {
               <div className="container text-muted">
                 <h4>World Affairs Conference</h4>
                 <p>
-                  <a href={Links['site']}>
-                    <FontAwesome name="link" className="fa-2x black-icon" />
-                  </a>{' '}
-                  <a href={Links['email']}>
-                    <FontAwesome name="envelope" className="fa-2x black-icon" />
-                  </a>{' '}
-                  <a href={Links['facebook']}>
-                    <FontAwesome name="facebook" className="fa-2x black-icon" />
-                  </a>{' '}
-                  <a href={Links['instagram']}>
+                  <a href={Links['site']} style={{ marginRight: '10px' }}>
+                    <FontAwesome name="link" className="fa-2x white-icon" />
+                  </a>{' '}{' '}
+                  <a href={Links['email']} style={{ marginRight: '10px' }}>
+                    <FontAwesome name="envelope" className="fa-2x white-icon" />
+                  </a>{' '}{' '}
+                  <a href={Links['instagram']} style={{ marginRight: '10px' }}>
                     <FontAwesome
                       name="instagram"
-                      className="fa-2x black-icon"
+                      className="fa-2x white-icon"
                     />
-                  </a>{' '}
-                  <a href={Links['twitter']}>
-                    <FontAwesome name="twitter" className="fa-2x black-icon" />
-                  </a>{' '}
-                  <a href={Links['github']}>
-                    <FontAwesome name="github" className="fa-2x black-icon" />
-                  </a>{' '}
+                  </a>{' '}{' '}
+                  <a href={Links['github']} style={{ marginRight: '10px' }}>
+                    <FontAwesome name="github" className="fa-2x white-icon" />
+                  </a>{' '}{' '}
                 </p>
                 <p>
                   The World Affairs Conference online registration system, made
                   by the <a href={Links['github']}>WAC team</a> with{' '}
                   <a href={Links['repo']}>
-                    <FontAwesome name="code" className="black-icon" />
-                  </a>{' '}
+                    <FontAwesome name="code" className="white-icon" />
+                  </a>{' '}{' '}
                   and <FontAwesome name="heart" style={redHeart} />
                 </p>
                 <p>
@@ -62,3 +56,4 @@ export default class Footer extends Component {
     );
   }
 }
+

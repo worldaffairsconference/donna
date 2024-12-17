@@ -1,52 +1,31 @@
 import React from 'react';
-import { Button } from 'reactstrap';
-import FontAwesome from 'react-fontawesome';
-import { ref, firebaseAuth } from '../../helpers/firebase';
-import { RegOpen } from '../../config/config.js';
 
-export function StudentRow(props) {
-  const plenInfo = props.plenOptions;
-  const studentInfo = props.studentData.map((student) => {
-    let p1status,
-      p2status,
-      p3status = false;
-
-    if (student.p1) {
-      p1status = true;
-    }
-    if (student.p2) {
-      p2status = true;
-    }
-    if (student.p3) {
-      p3status = true;
-    }
-
-    if (
-      student.p1 == 'SPRINT' ||
-      student.p1 == 'SECURITY' ||
-      student.p1 == 'EXECUTIVE' ||
-      student.p1 == 'VOLUNTEER' ||
-      student.p1 == 'OTHER'
-    ) {
-      p1status = false;
-      p2status = false;
-      p3status = false;
-    }
+export function StudentRow({ plenOptions, studentData }) {
+  const studentInfo = studentData.map((student) => {
+    // Resolve plenary names from plenOptions
+    const plen1Name =
+      plenOptions.p1.options.find((opt) => opt.id === student.p1?.rank1)?.name || 'N/A';
+    const plen2Name =
+      plenOptions.p2.options.find((opt) => opt.id === student.p2?.rank2)?.name || 'N/A';
+    const plen3Name =
+      plenOptions.p3.options.find((opt) => opt.id === student.p3?.rank3)?.name || 'N/A';
 
     return (
-      <tr>
-        <td>{student.name}</td>
-        <td>{student.grade}</td>
-        <td>{p1status && student.plen1}</td>
-        <td>{p2status && student.plen2}</td>
-        <td>{p3status && student.plen3}</td>
+      <tr key={student.id}>
+        <td>{student.name || 'Unknown'}</td>
+        <td>{student.grade || 'N/A'}</td>
+        <td>{plen1Name}</td>
+        <td>{plen2Name}</td>
+        <td>{plen3Name}</td>
         <td>
-          <div style={{
-            width: '200px',
-            overflow: 'auto',
-            whitepace:'nowrap'
-          }}>
-            {student.note}
+          <div
+            style={{
+              width: '200px',
+              overflow: 'auto',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {student.note || 'None'}
           </div>
         </td>
       </tr>

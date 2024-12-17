@@ -47,6 +47,8 @@ export default class Dashboard extends Component {
     this.state = {
       userId,
       students: [],
+      searchQuery: '',
+      alert: false,
       plenOptions: {
         p1: {
           name: 'Plenary 1',
@@ -73,7 +75,6 @@ export default class Dashboard extends Component {
           ],
         },
       },
-      searchQuery: '',
     };
 
     this.initializeData = this.initializeData.bind(this);
@@ -127,17 +128,20 @@ export default class Dashboard extends Component {
   }
 
   handleCopy() {
-    var Text = `https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`;
-    var dummy = document.createElement('textarea');
+    const text = `https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`;
+    const dummy = document.createElement('textarea');
     document.body.appendChild(dummy);
-    dummy.value = Text;
+    dummy.value = text;
     dummy.select();
     document.execCommand('copy');
     document.body.removeChild(dummy);
-    // alert then dissapear after 3 seconds
-    this.setState({ alert: false });
+
+    // Show the alert
+    this.setState({ alert: true });
+
+    // Hide the alert after 3 seconds
     setTimeout(() => {
-      this.setState({ alert: true });
+      this.setState({ alert: false });
     }, 3000);
   }
 
@@ -198,7 +202,7 @@ export default class Dashboard extends Component {
             <Button color="primary" onClick={this.handleCopy}>
               Copy Registration Link
             </Button>
-            {!this.state.alert && (
+            {this.state.alert && (
               <Alert color="success" className="mt-2">
                 Registration link copied!
               </Alert>

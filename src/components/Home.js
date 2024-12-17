@@ -10,20 +10,14 @@ export default class Home extends Component {
         <div className="jumbotron inner-container">
           <h1 className="display-5 fonted-h" class="text-[3rem] leading-none sm:text-6xl lg:text-[5.5rem] text-white font-bold mb-5 lg:mb-6 tracking-[-0.03em]">WAC Online Registration</h1>
           <p className="lead">
-            Welcome to the WAC {Year} online registration system, where you can
-            select your plenaries and activities throughout the day. You will
-            also be able to access your personalized schedule. To get started,{' '}
-            <Link to="/register">sign up</Link>.
-          </p>
-          <p className="lead">
-            For students attending online, please register using this{' '}
-            <a href="https://hopin.com/events/world-affairs-conference-2023-hybrid-thinking">
-              link
-            </a>
-            .
-          </p>
-          <p className="lead">
-            Have any questions? <a href={Links['contact']}>Get in touch.</a>
+          Welcome to the WAC {Year} online registration system, where you 
+          can select plenaries and activities for conference day. 
+          In your dashboard, you will also be able to access your personalized schedule. 
+          This year, all student registrations must go through a faculty supervisor. 
+          To get started, ask your teacher to sign up <Link to="/tregister">here</Link>.
+          and share their customized registration link with you. <br /><br />
+          Have any questions? <a href="mailto:uccwac@gmail.com">Get in touch</a> 
+          .
           </p>
           <hr className="my-4" />
           <ul className="ulStyle">

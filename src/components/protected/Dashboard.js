@@ -98,6 +98,11 @@ export default class Dashboard extends Component {
     //   this.setState({ plenOptions: snapshot.val() });
     // });
   }
+
+  componentDidMount() {
+    this.initializeData(this.state.userId);
+  }
+  
   initializeData(userId) {
     ref.child(`teachers/${userId}/students`).on('value', (snapshot) => {
       const studentData = snapshot.val();

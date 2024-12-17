@@ -6,9 +6,9 @@ export function StudentRow({ plenOptions, studentData }) {
     const plen1Name =
       plenOptions.p1.options.find((opt) => opt.id === student.p1?.rank1)?.name || 'N/A';
     const plen2Name =
-      plenOptions.p2.options.find((opt) => opt.id === student.p2?.rank2)?.name || 'N/A';
+      plenOptions.p2.options.find((opt) => opt.id === student.p2?.rank1)?.name || 'N/A';
     const plen3Name =
-      plenOptions.p3.options.find((opt) => opt.id === student.p3?.rank3)?.name || 'N/A';
+      plenOptions.p3.options.find((opt) => opt.id === student.p3?.rank1)?.name || 'N/A';
 
     return (
       <tr key={student.id}>

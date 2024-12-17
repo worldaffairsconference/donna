@@ -102,7 +102,7 @@ export default class Dashboard extends Component {
   componentDidMount() {
     this.initializeData(this.state.userId);
   }
-  
+
   initializeData(userId) {
     ref.child(`teachers/${userId}/students`).on('value', (snapshot) => {
       const studentData = snapshot.val();
@@ -256,6 +256,7 @@ export default class Dashboard extends Component {
               <tr>
                 <th>Name</th>
                 <th>Grade</th>
+                <th>Lunch</th>
                 <th>Plenary #1</th>
                 <th>Plenary #2</th>
                 <th>Plenary #3</th>

@@ -14,6 +14,7 @@ export function StudentRow({ plenOptions, studentData }) {
       <tr key={student.id}>
         <td>{student.name || 'Unknown'}</td>
         <td>{student.grade || 'N/A'}</td>
+        <td>{student.lunch ? 'Yes' : 'No'}</td>
         <td>{plen1Name}</td>
         <td>{plen2Name}</td>
         <td>{plen3Name}</td>

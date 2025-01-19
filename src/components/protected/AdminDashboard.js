@@ -195,6 +195,19 @@ export default class AdminDashboard extends Component {
       p3o2: { name: '', location: '', max: 0, students: {} },
       p3o3: { name: '', location: '', max: 0, students: {} },
     };
+    let lunchCount = 0;
+
+    await ref.child('teachers/').once('value', (snapshot) => {
+      snapshot.forEach((teacherSnapshot) => {
+        const students = teacherSnapshot.val().students || {};
+        Object.values(students).forEach((student) => {
+          if (student.lunch) {
+            lunchCount += 1;
+          }
+        });
+      });
+      this.setState({ lunchCount });
+    });
     await ref.child('teachers/').once(
       'value',
       function (snapshot) {
@@ -216,15 +229,17 @@ export default class AdminDashboard extends Component {
             schoolsList.push([childSchool, childSnapshot.key]);
           }
           if (childSnapshot.val().students) {
-            Object.entries(childSnapshot.val().students).forEach(
-              ([key, val]) => {
-                attendeeList[key] = {
-                  ...val,
-                  teacher: childSnapshot.key,
-                  school: childSchool,
-                };
+            Object.entries(childSnapshot.val().students).forEach(([key, val]) => {
+              attendeeList[key] = {
+                ...val,
+                teacher: childSnapshot.key,
+                school: childSchool,
+              };
+  
+              if (val.lunch) {
+                lunchCount += 1;
               }
-            );
+            });
           }
         });
         this.setState({
@@ -236,6 +251,7 @@ export default class AdminDashboard extends Component {
           schoolNum: schoolNum,
           waiverSelectedSchool: schoolsList[0][1],
           attendeeSelectedTeacher: teacherList[0][1],
+          lunchCount: lunchCount,
         });
       }.bind(this)
     );
@@ -632,6 +648,7 @@ export default class AdminDashboard extends Component {
             <CardText>
               <h5>Schools: {this.state.schoolNum}</h5>
               <h5>Attendees: {Object.keys(this.state.attendeeList).length}</h5>
+              <h5>Lunch Orders: {this.state.lunchCount}</h5>
               <hr />
               {this.state.plenOptions.open ? (
                 <div>

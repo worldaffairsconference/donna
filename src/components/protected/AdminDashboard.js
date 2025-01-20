@@ -195,6 +195,10 @@ export default class AdminDashboard extends Component {
       p3o2: { name: '', location: '', max: 0, students: {} },
       p3o3: { name: '', location: '', max: 0, students: {} },
     };
+    let lunchCount = 0;
+    let waiverTrue = 0;
+    let waiverFalse = 0;
+
     await ref.child('teachers/').once(
       'value',
       function (snapshot) {
@@ -206,25 +210,33 @@ export default class AdminDashboard extends Component {
         snapshot.forEach(function (childSnapshot) {
           schoolNum += 1;
           var childSchool = childSnapshot.val().school;
+          var hasWaiver = childSnapshot.val().waiver || false;
+  
           teacherList.push([
             childSnapshot.val().name,
             childSnapshot.key,
             childSchool,
           ]);
           fullSchoolList.push(childSchool);
-          if (!childSnapshot.val().waiver) {
+  
+          if (!hasWaiver) {
             schoolsList.push([childSchool, childSnapshot.key]);
+            waiverFalse += 1;
+          } else {
+            waiverTrue += 1;
           }
           if (childSnapshot.val().students) {
-            Object.entries(childSnapshot.val().students).forEach(
-              ([key, val]) => {
-                attendeeList[key] = {
-                  ...val,
-                  teacher: childSnapshot.key,
-                  school: childSchool,
-                };
+            Object.entries(childSnapshot.val().students).forEach(([key, val]) => {
+              attendeeList[key] = {
+                ...val,
+                teacher: childSnapshot.key,
+                school: childSchool,
+              };
+
+              if (val.lunch) {
+                lunchCount += 1;
               }
-            );
+            });
           }
         });
         this.setState({
@@ -236,6 +248,9 @@ export default class AdminDashboard extends Component {
           schoolNum: schoolNum,
           waiverSelectedSchool: schoolsList[0][1],
           attendeeSelectedTeacher: teacherList[0][1],
+          lunchCount: lunchCount,
+          waiverTrue: waiverTrue,
+          waiverFalse: waiverFalse,
         });
       }.bind(this)
     );
@@ -632,6 +647,9 @@ export default class AdminDashboard extends Component {
             <CardText>
               <h5>Schools: {this.state.schoolNum}</h5>
               <h5>Attendees: {Object.keys(this.state.attendeeList).length}</h5>
+              <h5>Lunch Orders: {this.state.lunchCount}</h5>
+              <h5>Waivers Signed: {this.state.waiverTrue}</h5>
+              <h5>Waivers Pending: {this.state.waiverTrue}</h5>
               <hr />
               {this.state.plenOptions.open ? (
                 <div>

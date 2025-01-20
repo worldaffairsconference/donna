@@ -309,11 +309,15 @@ export default class StudentDashboard extends Component {
             </Button>
           </Col>
         </Row>
+        <Row className="mt-4">
+          <Col md="12">
+            <h3 class="text-white">Plenary selection will open shortly. Stay tuned.</h3>
+          </Col>
+        </Row>
 
-        <Card className="mt-4 inner-container">
+        {/* <Card className="mt-4 inner-container">
           <Form onSubmit={this.handleSubmit}>
             <Row>
-              {/* Plenary 1 Section */}
               <Col md="4">
                 <h5>Plenary 1</h5>
                 <FormGroup>
@@ -357,7 +361,6 @@ export default class StudentDashboard extends Component {
                 </FormGroup>
               </Col>
 
-              {/* Plenary 2 Section */}
               <Col md="4">
                 <h5>Plenary 2</h5>
                 <FormGroup>
@@ -401,7 +404,6 @@ export default class StudentDashboard extends Component {
                 </FormGroup>
               </Col>
 
-              {/* Plenary 3 Section */}
               <Col md="4">
                 <h5>Plenary 3</h5>
                 <FormGroup>
@@ -446,9 +448,7 @@ export default class StudentDashboard extends Component {
               </Col>
             </Row>
 
-            {/* Notes and Lunch Section */}
             <Row className="mt-4">
-              {/* Notes */}
               <Col md="6">
                 <FormGroup>
                   <Label for="notes">Accessibility/Dietary Restrictions/Other Notes</Label>
@@ -464,7 +464,6 @@ export default class StudentDashboard extends Component {
                 </FormGroup>
               </Col>
 
-              {/* Lunch Checkbox */}
               <Col md="6" className="d-flex align-items-center justify-content-start">
                 <FormGroup check>
                   <Label check>
@@ -479,7 +478,6 @@ export default class StudentDashboard extends Component {
               </Col>
             </Row>
 
-            {/* Submit Button */}
             <Row>
               <Col className="text-center mt-4">
                 <Button
@@ -492,7 +490,8 @@ export default class StudentDashboard extends Component {
               </Col>
             </Row>
           </Form>
-        </Card>
+        </Card> */}
+
          {/* Magic Modal */}
         <Modal isOpen={this.state.modal2} toggle={this.toggleModal2}>
           <ModalHeader toggle={this.toggleModal2}>Magic Code Entry</ModalHeader>

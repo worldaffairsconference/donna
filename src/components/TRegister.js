@@ -9,7 +9,15 @@ function setErrorMsg(error) {
 }
 
 export default class TRegister extends Component {
-  state = { tregisterError: null };
+  state = { tregisterError: null, accessCode: '' };
+
+  componentDidMount() {
+    const queryParams = new URLSearchParams(window.location.search);
+    const accessCode = queryParams.get('accessCode');
+    if (accessCode) {
+      this.setState({ accessCode });
+    }
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     tauth(
@@ -18,6 +26,7 @@ export default class TRegister extends Component {
       this.cnumber.value,
       this.pw.value,
       this.name.value,
+      this.state.accessCode,
     ).catch((e) => this.setState(setErrorMsg(e)));
   };
   render() {
@@ -68,6 +77,17 @@ export default class TRegister extends Component {
               className="form-control inner-container input-border-grey"
               placeholder="Password"
               ref={(pw) => (this.pw = pw)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label class="text-white">Access Code</label>
+            <input
+              type="text"
+              className="form-control inner-container input-border-grey"
+              placeholder="Access Code"
+              value={this.state.accessCode}
+              disabled //
             />
           </div>
 

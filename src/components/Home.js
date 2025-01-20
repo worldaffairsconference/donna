@@ -28,7 +28,7 @@ export default class Home extends Component {
             </li>
             <li className="liStyle">
               <Link className="btn btn-primary btn-lg" to="/register">
-                Register
+                Student Register
               </Link>
             </li>
           </ul>

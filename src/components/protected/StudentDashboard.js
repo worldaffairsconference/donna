@@ -349,16 +349,13 @@ export default class StudentDashboard extends Component {
             </p>
           </Col>
         </Row>
-
+{/* 
         <Card className="mt-4 inner-container">
           <Form onSubmit={this.handleSavePlenaries}>
-            <Row>
-              {/* ============ Plenary 1 ============ */}
-              
+            <Row>              
               <Col md="4">
                 <h5>Plenary 1</h5>
 
-                {/* Rank 1 */}
                 <FormGroup>
                   <Label for="p1_rank1">Rank 1</Label>
                   <Input
@@ -374,7 +371,6 @@ export default class StudentDashboard extends Component {
                   </Input>
                 </FormGroup>
 
-                {/* Rank 2 */}
                 <FormGroup>
                   <Label for="p1_rank2">Rank 2</Label>
                   <Input
@@ -389,7 +385,6 @@ export default class StudentDashboard extends Component {
                   </Input>
                 </FormGroup>
 
-                {/* Rank 3 */}
                 <FormGroup>
                   <Label for="p1_rank3">Rank 3</Label>
                   <Input
@@ -404,13 +399,10 @@ export default class StudentDashboard extends Component {
                   </Input>
                 </FormGroup>
               </Col>
-
-              {/* ============ Plenary 2 ============ */}
               
               <Col md="4">
                 <h5>Plenary 2</h5>
 
-                {/* Rank 1 */}
                 <FormGroup>
                   <Label for="p2_rank1">Rank 1</Label>
                   <Input
@@ -425,7 +417,6 @@ export default class StudentDashboard extends Component {
                   </Input>
                 </FormGroup>
 
-                {/* Rank 2 */}
                 <FormGroup>
                   <Label for="p2_rank2">Rank 2</Label>
                   <Input
@@ -440,7 +431,6 @@ export default class StudentDashboard extends Component {
                   </Input>
                 </FormGroup>
 
-                {/* Rank 3 */}
                 <FormGroup>
                   <Label for="p2_rank3">Rank 3</Label>
                   <Input
@@ -456,12 +446,9 @@ export default class StudentDashboard extends Component {
                 </FormGroup>
               </Col>
 
-              {/* ============ Plenary 3 ============ */}
-
               <Col md="4">
                 <h5>Plenary 3</h5>
 
-                {/* Rank 1 */}
                 <FormGroup>
                   <Label for="p3_rank1">Rank 1</Label>
                   <Input
@@ -476,7 +463,6 @@ export default class StudentDashboard extends Component {
                   </Input>
                 </FormGroup>
 
-                {/* Rank 2 */}
                 <FormGroup>
                   <Label for="p3_rank2">Rank 2</Label>
                   <Input
@@ -491,7 +477,6 @@ export default class StudentDashboard extends Component {
                   </Input>
                 </FormGroup>
 
-                {/* Rank 3 */}
                 <FormGroup>
                   <Label for="p3_rank3">Rank 3</Label>
                   <Input
@@ -508,7 +493,6 @@ export default class StudentDashboard extends Component {
               </Col>
             </Row>
 
-            {/* "Save Plenary Selections" button */}
             <Row>
               <Col className="text-center mt-4">
                 <Button color="primary" type="submit">
@@ -518,8 +502,6 @@ export default class StudentDashboard extends Component {
             </Row>
           </Form>
 
-
-          {/* Notes and Lunch */}
           <Form onSubmit={this.handleNotesAndLunchSubmit}>
 
             <Row className="mt-4">
@@ -557,7 +539,7 @@ export default class StudentDashboard extends Component {
             </Row>
           </Form>
         </Card>
-
+ */}
 
         {/* Magic Modal */}
         <Modal isOpen={this.state.modal2} toggle={this.toggleModal2}>
@@ -583,7 +565,6 @@ export default class StudentDashboard extends Component {
     );
   }
 }
-
 
 
 

@@ -525,7 +525,7 @@ export default class StudentDashboard extends Component {
             <Row className="mt-4">
               <Col md="6">
                 <FormGroup>
-                  <Label for="notes">Notes</Label>
+                  <Label for="notes">Accessibility/Dietary Restrictions/Other Notes</Label>
                   <Input
                     type="textarea"
                     name="notes"

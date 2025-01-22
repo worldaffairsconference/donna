@@ -335,6 +335,11 @@ export default class StudentDashboard extends Component {
             </Button>
           </Col>
         </Row>
+        <Row className="mt-4">
+          <Col md="12">
+            <h3 class="text-white">Plenary selection will open shortly. Stay tuned.</h3>
+          </Col>
+        </Row>
 
         {/* Greeting and Info Section */}
         <Row>
@@ -349,6 +354,7 @@ export default class StudentDashboard extends Component {
           <Form onSubmit={this.handleSavePlenaries}>
             <Row>
               {/* ============ Plenary 1 ============ */}
+              
               <Col md="4">
                 <h5>Plenary 1</h5>
 
@@ -400,6 +406,7 @@ export default class StudentDashboard extends Component {
               </Col>
 
               {/* ============ Plenary 2 ============ */}
+              
               <Col md="4">
                 <h5>Plenary 2</h5>
 
@@ -450,6 +457,7 @@ export default class StudentDashboard extends Component {
               </Col>
 
               {/* ============ Plenary 3 ============ */}
+
               <Col md="4">
                 <h5>Plenary 3</h5>
 
@@ -513,6 +521,7 @@ export default class StudentDashboard extends Component {
 
           {/* Notes and Lunch */}
           <Form onSubmit={this.handleNotesAndLunchSubmit}>
+
             <Row className="mt-4">
               <Col md="6">
                 <FormGroup>

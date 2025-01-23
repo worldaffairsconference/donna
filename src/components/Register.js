@@ -50,28 +50,15 @@ export default class Register extends Component {
             What is an Access Code?
           </ModalHeader>
           <ModalBody className="text-white inner-container">
-            The access code is our way of ensuring all in-person attendees are
-            associated with an organization. <br />
-            If you are interested in attending in-person, please reach out to
-            us. If you would like to register as a virtual delegate, please use
-            this{' '}
-            <a href="https://hopin.com/events/world-affairs-conference-2023-hybrid-thinking" class="text-white">
-              link
-            </a>
-            . <br />
-            If you are a teacher and would like to bring your school, please
-            fill out this{' '}
-            <a href="https://coda.io/form/WAC-Interest-Form_dHaDOjXdHJT">
+          The access code is our way of ensuring all in-person attendees are associated with an organization.
+          If you are a teacher and would like to bring your school, please fill out this {' '}
+            <a href="https://reg.worldaffairscon.org/tregister">
               form
             </a>
             . <br />
             If you are associated with Upper Canada College, Branksome Hall or
-            the World Affairs Conference and would like a special invite, please
-            complete this{' '}
-            <a href="https://coda.io/form/Access-Code-Request_ddUfef9uoEU">
-              form
-            </a>
-            .
+            the World Affairs Conference and would like a special invite, 
+            please check your email and/or contact the team at uccwac@gmail.com
           </ModalBody>
           <ModalFooter className="inner-container">
             <Button class="text-white" color="danger" onClick={this.toggle}>

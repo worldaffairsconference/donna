@@ -43,8 +43,8 @@ export default class Footer extends Component {
                   and <FontAwesome name="heart" style={redHeart} />
                 </p>
                 <p>
-                  Have any questions or concerns? Check out{' '}
-                  <a href="https://worldaffairscon.org/faq/">our FAQ</a> or get
+                  Have any questions or concerns? Check out the faq on {' '}
+                  <a href={Links['site']}>our Website</a> or get
                   in touch with us!
                 </p>
               </div>

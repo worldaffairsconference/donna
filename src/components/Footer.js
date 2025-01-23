@@ -44,7 +44,7 @@ export default class Footer extends Component {
                 </p>
                 <p>
                   Have any questions or concerns? Check out{' '}
-                  <a href="https://worldaffairscon.org/faq/">our FAQ</a> or get
+                  <a href={Links['faq']}>our FAQ</a> or get
                   in touch with us!
                 </p>
               </div>

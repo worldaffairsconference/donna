@@ -127,33 +127,6 @@ export default class Dashboard extends Component {
     deleteTeacherUserData();
   }
 
-  handleInputChange = (event, studentId) => {
-    const { name, value } = event.target;
-  
-    this.setState((prevState) => ({
-      attendeeList: {
-        ...prevState.attendeeList,
-        [studentId]: {
-          ...prevState.attendeeList[studentId],
-          [name]: value,  // ✅ Dynamically update name or notes
-        },
-      },
-    }));
-  };
-
-  handleUpdate = async (studentId) => {
-    const updatedStudent = this.state.attendeeList[studentId];
-  
-    if (!updatedStudent) return;
-  
-    await ref.child(`students/${studentId}`).update({
-      name: updatedStudent.name,  
-      notes: updatedStudent.notes,  
-    });
-  
-    alert("Student updated successfully!");
-  };
-
   handleCopy() {
     const text = `https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`;
     const dummy = document.createElement('textarea');
@@ -285,29 +258,13 @@ export default class Dashboard extends Component {
           <Table className="text-white">
             <thead class="text-white">
               <tr>
-              <td>
-                <input
-                  type="text"
-                  name="name"
-                  value={student.name || ""}
-                  onChange={(e) => this.handleInputChange(e, student.id)}
-                />
-              </td>
+                <th>Name</th>
                 <th>Grade</th>
                 <th>Lunch</th>
                 <th>Plenary #1</th>
                 <th>Plenary #2</th>
                 <th>Plenary #3</th>
-                <td>
-                  <textarea
-                    name="notes"
-                    value={student.notes || ""}
-                    onChange={(e) => this.handleInputChange(e, student.id)}
-                  />
-                </td>
-                <td>
-                  <button onClick={() => this.handleUpdate(student.id)}>Update</button>
-                </td>
+                <th style={{width: '200px'}}>Notes</th>
               </tr>
             </thead>
             <StudentRow

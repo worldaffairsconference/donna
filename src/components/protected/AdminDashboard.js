@@ -549,13 +549,12 @@ export default class AdminDashboard extends Component {
       changedAttendeeList: {
         ...prevState.changedAttendeeList,
         [studentId]: {
-          ...prevState.changedAttendeeList[studentId],
-          [name]: value,
+          ...prevState.changedAttendeeList[studentId], 
+          [name]: value,  
         },
       },
     }));
   };
-
   handleUpdate = async (studentId) => {
     const updatedStudent = this.state.changedAttendeeList[studentId];
   
@@ -965,7 +964,7 @@ export default class AdminDashboard extends Component {
                           />
                         </td>
                         <td>
-                          {/* ✅ Restored Original Button Style */}
+                          {}
                           <button
                             className="btn btn-primary btn-sm"
                             style={{ backgroundColor: "#007bff", color: "white", border: "none", padding: "5px 10px" }}

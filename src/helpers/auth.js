@@ -20,7 +20,7 @@ export function auth(email, pw, name, grade, access) {
         );
         return;
       }
-      if (snapshot.val().students) {
+      /*if (snapshot.val().students) {
         if (
           Object.keys(snapshot.val().students).length + 1 >
           snapshot.val().regcountmax
@@ -34,7 +34,7 @@ export function auth(email, pw, name, grade, access) {
           );
           return;
         }
-      }
+      }*/
     }
 
     firebaseAuth

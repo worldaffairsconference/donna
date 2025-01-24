@@ -18,8 +18,24 @@ export default class Register extends Component {
     });
   };
 
+  handleNameChange = (event) => {
+    const fullName = event.target.value.trim();
+    const isValid = fullName.split(" ").length >= 2;
+  
+    this.setState({
+      registerError: isValid ? null : (
+        <>
+          Please enter your full name (first and last name). <br />
+          If you are entering your full name and this message shows, <br />
+          please email <strong>uccwac@gmail.com</strong> with a screenshot.
+        </>
+      ),
+    });
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
+
     if (!this.access.value) {
       this.setState({
         registerError:
@@ -75,8 +91,9 @@ export default class Register extends Component {
             <input
               type="text"
               className="form-control inner-container input-border-grey"
-              placeholder="Name"
+              placeholder="Full Name"
               ref={(name) => (this.name = name)}
+              onChange={this.handleNameChange}
             />
           </div>
           <div className="form-group" class="text-white">

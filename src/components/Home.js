@@ -16,8 +16,7 @@ export default class Home extends Component {
           This year, all student registrations must go through a faculty supervisor. 
           To get started, ask your teacher to sign up <Link to="/tregister">here</Link>.
           and share their customized registration link with you. <br /><br />
-          Have any questions? <a href="mailto:uccwac@gmail.com">Get in touch</a> 
-          .
+          Have any questions? Email us at: <strong>uccwac@gmail.com</strong>.
           </p>
           <hr className="my-4" />
           <ul className="ulStyle">

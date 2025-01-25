@@ -183,6 +183,7 @@ export default class StudentDashboard extends Component {
   }
 
   initializeData(userId) {
+    
     // Fetch the student data
     ref.child(`students/${userId}`).once('value', (snapshot) => {
       const studentData = snapshot.val();
@@ -192,12 +193,23 @@ export default class StudentDashboard extends Component {
         // Set initial student-related state
         this.setState({
           teacherID: teacherID || '',
-          name: name || 'Student',
           school: school || 'Your School',
           wacDate: wacDate || 'March 5th, 2025',
         });
 
+
         if (teacherID) {
+          ref.child(`teachers/${teacherID}/students/${userId}`).once('value', (teacherStudentSnapshot) => {
+            const teacherStudentData = teacherStudentSnapshot.val();
+            if (teacherStudentData) {
+              this.setState({
+                name: teacherStudentData.name || 'Student',
+              });
+            } else {
+              console.error('Student entry not found under teachers node.');
+            }
+          });
+
           // Fetch teacher's name using the teacherID
           ref.child(`teachers/${teacherID}/name`).once('value', (teacherSnapshot) => {
             const teacherName = teacherSnapshot.val();

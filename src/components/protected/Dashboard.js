@@ -215,8 +215,9 @@ export default class Dashboard extends Component {
         <p class="text-white">
           You will need to complete and sign a waiver before attending the
           conference. Please download the document below and complete the form.
-          Send the completed form via this{' '}
-          <a href="https://coda.io/form/Waiver_deuhNh1mvi4">link</a>. Once we
+          {/* Send the completed form via this{' '} */}
+          {/* <a href="https://coda.io/form/Waiver_deuhNh1mvi4">link</a>.  */}
+          Please stand by as we are creating a new form. Once we
           have received and processed your waiver, the status below will change
           to "Received".
         </p>
@@ -233,7 +234,7 @@ export default class Dashboard extends Component {
             </h2>
             <Button
               color="primary"
-              href="/resources/Teacher Responsibility and Liability Waiver v08.2022.pdf"
+              href="/resources/Faculty Waiver 2025.pdf"
               target="_blank"
             >
               Download PDF

@@ -46,6 +46,8 @@ export default class Dashboard extends Component {
 
     this.state = {
       userId,
+      name: '',
+      greeting,
       students: [],
       searchQuery: '',
       alert: false,
@@ -101,18 +103,33 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.initializeData(this.state.userId);
-  }
+    // Set greeting based on the current time
+    const currentHour = new Date().getHours();
+    let greeting = '';
+    if (currentHour < 12) greeting = 'Good morning';
+    else if (currentHour < 18) greeting = 'Good afternoon';
+    else greeting = 'Good evening';
 
+    this.setState({ greeting });
+
+    this.initializeData(this.state.userId);
+
+  }
   initializeData(userId) {
-    ref.child(`teachers/${userId}/students`).on('value', (snapshot) => {
-      const studentData = snapshot.val();
-      if (studentData) {
-        const students = Object.entries(studentData).map(([id, data]) => ({
-          id,
-          ...data,
-        }));
-        this.setState({ students });
+    ref.child(`teachers/${userId}`).on('value', (snapshot) => {
+      const teacherData = snapshot.val();
+      if (teacherData) {
+        this.setState({
+          name: teacherData.name || 'Unknown',  // Fetch teacher's name
+          school: teacherData.school || 'Unknown School',  // Fetch school name
+          waiver: teacherData.waiver || false,  // Fetch waiver status
+          students: teacherData.students // Fetch student data
+            ? Object.entries(teacherData.students).map(([id, data]) => ({
+                id,
+                ...data,
+              })) 
+            : [],
+        });
       }
     });
   }
@@ -142,7 +159,7 @@ export default class Dashboard extends Component {
     // Hide the alert after 3 seconds
     setTimeout(() => {
       this.setState({ alert: false });
-    }, 3000);
+    }, 3000); 
   }
 
   handleSearch(event) {
@@ -150,7 +167,7 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    const { students, searchQuery } = this.state;
+    const { greeting, students, searchQuery } = this.state;
     const filteredStudents = students.filter((student) =>
       student.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -160,7 +177,7 @@ export default class Dashboard extends Component {
         <br />
         <Row>
           <Col md="10" sm="12" xs="12">
-            <h1 className="fonted-h" class="text-white">Teacher Dashboard</h1>
+            <h1 className="fonted-h" class="text-white">{`${greeting}, ${this.state.name}`}</h1>
           </Col>
           <Col md="2" sm="12" xs="12">
             <Button
@@ -176,7 +193,7 @@ export default class Dashboard extends Component {
         </Row>
         <Row>
           <Col>
-            <h4 class="text-white">Supervisor: {this.state.name}</h4>
+            {/* <h4 class="text-white">Supervisor: {this.state.name}</h4> */}
             <h4 class="text-white">School: {this.state.school}</h4>
           </Col>
         </Row>

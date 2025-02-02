@@ -21,12 +21,14 @@ import { ref, firebaseAuth } from '../../helpers/firebase';
 import { deleteTeacherUserData, logout } from '../../helpers/auth';
 import QRCode from 'react-qr-code';
 
+
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     const userId = firebaseAuth.currentUser.uid;
     // var myStudentDataKey = [];
     // var myStudentDataArr = [];
+
 
     // ref
     //   .child('teachers/' + userId + '/students/')
@@ -39,10 +41,12 @@ export default class Dashboard extends Component {
     //     });
     //   });
 
+
     this.toggleModal = this.toggleModal.bind(this);
     this.proceedDeleteAccount = this.proceedDeleteAccount.bind(this);
     this.handleCopy = this.handleCopy.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+
 
     this.state = {
       userId,
@@ -79,14 +83,18 @@ export default class Dashboard extends Component {
       },
     };
 
+
     this.initializeData = this.initializeData.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+
 
     // Initialize data retrieval
     this.initializeData(userId);
 
+
     // console.log(this.state.myStudentDataKey);
     // console.log(this.state.myStudentDataArr);
+
 
     // ref.child('teachers/' + userId).once('value', (snapshot) =>
     //   this.setState({
@@ -97,27 +105,48 @@ export default class Dashboard extends Component {
     //   })
     // );
 
+
     // ref.child('plenaries').once('value', (snapshot) => {
     //   this.setState({ plenOptions: snapshot.val() });
     // });
   }
 
-  componentDidMount() {
-    this.initializeData(this.state.userId);
-  }
 
+  componentDidMount() {
+    // Set greeting based on the current time
+    const currentHour = new Date().getHours();
+    let greeting = '';
+    if (currentHour < 12) greeting = 'Good morning';
+    else if (currentHour < 18) greeting = 'Good afternoon';
+    else greeting = 'Good evening';
+
+
+    this.setState({ greeting });
+
+
+    this.initializeData(this.state.userId);
+
+
+  }
   initializeData(userId) {
-    ref.child(`teachers/${userId}/students`).on('value', (snapshot) => {
-      const studentData = snapshot.val();
-      if (studentData) {
-        const students = Object.entries(studentData).map(([id, data]) => ({
-          id,
-          ...data,
-        }));
-        this.setState({ students });
+    ref.child(`teachers/${userId}`).on('value', (snapshot) => {
+      const teacherData = snapshot.val();
+      if (teacherData) {
+        this.setState({
+          name: teacherData.name || 'Unknown',  // Fetch teacher's name
+          school: teacherData.school || 'Unknown School',  // Fetch school name
+          waiver: teacherData.waiver || false,  // Fetch waiver status
+          students: teacherData.students // Fetch student data
+            ? Object.entries(teacherData.students).map(([id, data]) => ({
+                id,
+                ...data,
+              }))
+            : [],
+        });
       }
     });
   }
+
 
   toggleModal() {
     this.setState({
@@ -125,9 +154,11 @@ export default class Dashboard extends Component {
     });
   }
 
+
   proceedDeleteAccount() {
     deleteTeacherUserData();
   }
+
 
   handleCopy() {
     const text = `https://reg.worldaffairscon.org/register?access=${firebaseAuth.currentUser.uid}`;
@@ -138,8 +169,10 @@ export default class Dashboard extends Component {
     document.execCommand('copy');
     document.body.removeChild(dummy);
 
+
     // Show the alert
     this.setState({ alert: true });
+
 
     // Hide the alert after 3 seconds
     setTimeout(() => {
@@ -147,22 +180,25 @@ export default class Dashboard extends Component {
     }, 3000);
   }
 
+
   handleSearch(event) {
     this.setState({ searchQuery: event.target.value });
   }
 
+
   render() {
-    const { students, searchQuery } = this.state;
+    const { greeting, students, searchQuery } = this.state;
     const filteredStudents = students.filter((student) =>
       student.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
 
     return (
       <Container>
         <br />
         <Row>
           <Col md="10" sm="12" xs="12">
-            <h1 className="fonted-h" class="text-white">Teacher Dashboard</h1>
+            <h1 className="fonted-h" class="text-white">{`${greeting}, ${this.state.name}`}</h1>
           </Col>
           <Col md="2" sm="12" xs="12">
             <Button
@@ -178,7 +214,7 @@ export default class Dashboard extends Component {
         </Row>
         <Row>
           <Col>
-            <h4 class="text-white">Supervisor: {this.state.name}</h4>
+            {/* <h4 class="text-white">Supervisor: {this.state.name}</h4> */}
             <h4 class="text-white">School: {this.state.school}</h4>
           </Col>
         </Row>
@@ -217,9 +253,8 @@ export default class Dashboard extends Component {
         <p class="text-white">
           You will need to complete and sign a waiver before attending the
           conference. Please download the document below and complete the form.
-          {/* Send the completed form via this{' '} */}
-          {/* <a href="https://coda.io/form/Waiver_deuhNh1mvi4">link</a>.  */}
-          Please stand by as we are creating a new form. Once we
+          Send the completed form via this{' '}
+          <a href="https://coda.io/form/Waiver_deuhNh1mvi4">link</a>. Once we
           have received and processed your waiver, the status below will change
           to "Received".
         </p>
@@ -236,7 +271,7 @@ export default class Dashboard extends Component {
             </h2>
             <Button
               color="primary"
-              href="/resources/Faculty Waiver 2025.pdf"
+              href="/resources/Teacher Responsibility and Liability Waiver v08.2022.pdf"
               target="_blank"
             >
               Download PDF

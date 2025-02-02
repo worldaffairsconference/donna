@@ -47,7 +47,7 @@ export default class Dashboard extends Component {
     this.state = {
       userId,
       name: '',
-      greeting,
+      greeting: '',
       students: [],
       searchQuery: '',
       alert: false,

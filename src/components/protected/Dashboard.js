@@ -103,33 +103,18 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    // Set greeting based on the current time
-    const currentHour = new Date().getHours();
-    let greeting = '';
-    if (currentHour < 12) greeting = 'Good morning';
-    else if (currentHour < 18) greeting = 'Good afternoon';
-    else greeting = 'Good evening';
-
-    this.setState({ greeting });
-
     this.initializeData(this.state.userId);
-
   }
+
   initializeData(userId) {
-    ref.child(`teachers/${userId}`).on('value', (snapshot) => {
-      const teacherData = snapshot.val();
-      if (teacherData) {
-        this.setState({
-          name: teacherData.name || 'Unknown',  // Fetch teacher's name
-          school: teacherData.school || 'Unknown School',  // Fetch school name
-          waiver: teacherData.waiver || false,  // Fetch waiver status
-          students: teacherData.students // Fetch student data
-            ? Object.entries(teacherData.students).map(([id, data]) => ({
-                id,
-                ...data,
-              })) 
-            : [],
-        });
+    ref.child(`teachers/${userId}/students`).on('value', (snapshot) => {
+      const studentData = snapshot.val();
+      if (studentData) {
+        const students = Object.entries(studentData).map(([id, data]) => ({
+          id,
+          ...data,
+        }));
+        this.setState({ students });
       }
     });
   }
@@ -159,7 +144,7 @@ export default class Dashboard extends Component {
     // Hide the alert after 3 seconds
     setTimeout(() => {
       this.setState({ alert: false });
-    }, 3000); 
+    }, 3000);
   }
 
   handleSearch(event) {
@@ -167,7 +152,7 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    const { greeting, students, searchQuery } = this.state;
+    const { students, searchQuery } = this.state;
     const filteredStudents = students.filter((student) =>
       student.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -177,7 +162,7 @@ export default class Dashboard extends Component {
         <br />
         <Row>
           <Col md="10" sm="12" xs="12">
-            <h1 className="fonted-h" class="text-white">{`${greeting}, ${this.state.name}`}</h1>
+            <h1 className="fonted-h" class="text-white">Teacher Dashboard</h1>
           </Col>
           <Col md="2" sm="12" xs="12">
             <Button
@@ -193,7 +178,7 @@ export default class Dashboard extends Component {
         </Row>
         <Row>
           <Col>
-            {/* <h4 class="text-white">Supervisor: {this.state.name}</h4> */}
+            <h4 class="text-white">Supervisor: {this.state.name}</h4>
             <h4 class="text-white">School: {this.state.school}</h4>
           </Col>
         </Row>
@@ -232,8 +217,9 @@ export default class Dashboard extends Component {
         <p class="text-white">
           You will need to complete and sign a waiver before attending the
           conference. Please download the document below and complete the form.
-          Send the completed form via this{' '}
-          <a href="https://coda.io/form/Waiver_deuhNh1mvi4">link</a>. Once we
+          {/* Send the completed form via this{' '} */}
+          {/* <a href="https://coda.io/form/Waiver_deuhNh1mvi4">link</a>.  */}
+          Please stand by as we are creating a new form. Once we
           have received and processed your waiver, the status below will change
           to "Received".
         </p>
@@ -250,7 +236,7 @@ export default class Dashboard extends Component {
             </h2>
             <Button
               color="primary"
-              href="/resources/Teacher Responsibility and Liability Waiver v08.2022.pdf"
+              href="/resources/Faculty Waiver 2025.pdf"
               target="_blank"
             >
               Download PDF

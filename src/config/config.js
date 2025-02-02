@@ -20,4 +20,5 @@ export const Links = {
   github: 'https://github.com/worldaffairsconference',
   instagram: 'https://instagram.com/worldaffairscon',
   // twitter: 'https://twitter.com/worldaffairscon',
+  faq: 'https://worldaffairscon.org/faq/',
 };

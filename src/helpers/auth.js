@@ -20,7 +20,12 @@ export function auth(email, pw, name, grade, access) {
         );
         return;
       }
-      if (snapshot.val().students) {
+
+
+      //Uncomment this to reinstitute a registration limit per school
+
+
+      /*if (snapshot.val().students) {
         if (
           Object.keys(snapshot.val().students).length + 1 >
           snapshot.val().regcountmax
@@ -34,7 +39,7 @@ export function auth(email, pw, name, grade, access) {
           );
           return;
         }
-      }
+      }*/
     }
 
     firebaseAuth
@@ -128,7 +133,7 @@ export function tauth(email, school, cnumber, pw, name) {
         cnumber: cnumber,
         name: name,
         regstatus: true,
-        regcountmax: 25,
+        regcountmax: 300,
         waiver: false,
       })
       .then(() => data.user);

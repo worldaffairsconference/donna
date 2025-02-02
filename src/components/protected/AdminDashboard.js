@@ -183,6 +183,7 @@ export default class AdminDashboard extends Component {
     var schoolNum = 0;
     var attendeeList = {};
     var schoolsList = [['', '']];
+    var schoolCounts = {};
     var plenOptions = {
       open: false,
       p1o1: { name: '', location: '', max: 0, students: {} },
@@ -196,73 +197,72 @@ export default class AdminDashboard extends Component {
       p3o3: { name: '', location: '', max: 0, students: {} },
     };
     let lunchCount = 0;
+    let waiverTrue = 0;
+    let waiverFalse = 0;
 
     await ref.child('teachers/').once('value', (snapshot) => {
-      snapshot.forEach((teacherSnapshot) => {
-        const students = teacherSnapshot.val().students || {};
-        Object.values(students).forEach((student) => {
-          if (student.lunch) {
+      schoolNum = 0;
+      fullSchoolList = [''];
+      teacherList = [];
+      attendeeList = {};
+      schoolsList = [['', '']];
+      schoolCounts = {};
+  
+      snapshot.forEach((childSnapshot) => {
+        schoolNum += 1;
+        var childSchool = childSnapshot.val().school;
+        var hasWaiver = childSnapshot.val().waiver || false;
+  
+        teacherList.push([childSnapshot.val().name, childSnapshot.key, childSchool]);
+        fullSchoolList.push(childSchool);
+  
+        if (!hasWaiver) {
+          schoolsList.push([childSchool, childSnapshot.key]);
+          waiverFalse += 1;
+        } else {
+          waiverTrue += 1;
+        }
+  
+        const students = childSnapshot.val().students || {};
+        Object.entries(students).forEach(([key, val]) => {
+          attendeeList[key] = {
+            ...val,
+            teacher: childSnapshot.key,
+            school: childSchool,
+          };
+  
+          if (val.lunch) {
             lunchCount += 1;
           }
+  
+          if (!schoolCounts[childSchool]) {
+            schoolCounts[childSchool] = 0;
+          }
+          schoolCounts[childSchool] += 1;
         });
       });
-      this.setState({ lunchCount });
-    });
-    await ref.child('teachers/').once(
-      'value',
-      function (snapshot) {
-        schoolNum = 0;
-        fullSchoolList = [''];
-        teacherList = [];
-        attendeeList = {};
-        schoolsList = [['', '']];
-        snapshot.forEach(function (childSnapshot) {
-          schoolNum += 1;
-          var childSchool = childSnapshot.val().school;
-          teacherList.push([
-            childSnapshot.val().name,
-            childSnapshot.key,
-            childSchool,
-          ]);
-          fullSchoolList.push(childSchool);
-          if (!childSnapshot.val().waiver) {
-            schoolsList.push([childSchool, childSnapshot.key]);
-          }
-          if (childSnapshot.val().students) {
-            Object.entries(childSnapshot.val().students).forEach(([key, val]) => {
-              attendeeList[key] = {
-                ...val,
-                teacher: childSnapshot.key,
-                school: childSchool,
-              };
   
-              if (val.lunch) {
-                lunchCount += 1;
-              }
-            });
-          }
-        });
-        this.setState({
-          fullSchoolList: fullSchoolList,
-          schoolsList: schoolsList,
-          teacherList: teacherList,
-          attendeeList: attendeeList,
-          changedAttendeeList: attendeeList,
-          schoolNum: schoolNum,
-          waiverSelectedSchool: schoolsList[0][1],
-          attendeeSelectedTeacher: teacherList[0][1],
-          lunchCount: lunchCount,
-        });
-      }.bind(this)
-    );
+      this.setState({
+        fullSchoolList,
+        schoolsList,
+        teacherList,
+        attendeeList,
+        changedAttendeeList: attendeeList,
+        schoolNum,
+        waiverSelectedSchool: schoolsList?.[0]?.[1] || '',
+        attendeeSelectedTeacher: teacherList?.[0]?.[1] || '',
+        lunchCount,
+        waiverTrue: waiverTrue,
+        waiverFalse: waiverFalse,
+        schoolCounts,
+      });
+    });
+  
+    ref.child('plenaries').on('value', (snapshot) => {
+      const plenOptions = snapshot.val() || { open: false };
+      this.setState({ plenOptions });
+    });
 
-    ref.child('plenaries').on(
-      'value',
-      (snapshot) => {
-        const plenOptions = snapshot.val() || { open: false };
-        this.setState({ plenOptions });
-      }
-    );
   }
 
   generateSchoolOptions() {
@@ -542,6 +542,43 @@ export default class AdminDashboard extends Component {
     return rows;
   }
 
+  handleInputChange = (event, studentId) => {
+    const { name, value } = event.target;
+  
+    this.setState((prevState) => ({
+      changedAttendeeList: {
+        ...prevState.changedAttendeeList,
+        [studentId]: {
+          ...prevState.changedAttendeeList[studentId], 
+          [name]: value,  
+        },
+      },
+    }));
+  };
+  handleUpdate = async (studentId) => {
+    const updatedStudent = this.state.changedAttendeeList[studentId];
+  
+    if (!updatedStudent) return;
+  
+    await ref.child(`teachers/${updatedStudent.teacher}/students/${studentId}`).update({
+      name: updatedStudent.name,
+      notes: updatedStudent.notes,
+      lunch: updatedStudent.lunch,
+      p1: updatedStudent.p1,
+      p2: updatedStudent.p2,
+      p3: updatedStudent.p3,
+    });
+  
+    this.setState((prevState) => ({
+      attendeeList: {
+        ...prevState.attendeeList,
+        [studentId]: updatedStudent,
+      },
+    }));
+  
+    alert("Student updated successfully!");
+  };
+  
   handleSearch(event) {
     this.setState({ searchQuery: event.target.value });
   }
@@ -649,6 +686,8 @@ export default class AdminDashboard extends Component {
               <h5>Schools: {this.state.schoolNum}</h5>
               <h5>Attendees: {Object.keys(this.state.attendeeList).length}</h5>
               <h5>Lunch Orders: {this.state.lunchCount}</h5>
+              <h5>Waivers Signed: {this.state.waiverTrue}</h5>
+              <h5>Waivers Pending: {this.state.waiverTrue}</h5>
               <hr />
               {this.state.plenOptions.open ? (
                 <div>
@@ -825,22 +864,123 @@ export default class AdminDashboard extends Component {
 
         <div id="table">
           <Table className="table">
-          <thead class="text-white">
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Lunch</th> 
-              <th>Plenary #1</th>
-              <th>Plenary #2</th>
-              <th>Plenary #3</th>
-              <th>Notes</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+            <thead className="text-white">
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Lunch</th>
+                <th>Plenary #1</th>
+                <th>Plenary #2</th>
+                <th>Plenary #3</th>
+                <th>Notes</th>
+                <th>Action</th>
+              </tr>
+            </thead>
             <tbody>
-              {tableContent}
+              {Object.entries(this.state.schoolCounts || {}).map(([school, count]) => (
+                <React.Fragment key={school}>
+                  <tr>
+                    <th colSpan="8" style={{ textAlign: "center", fontSize: "18px", backgroundColor: "#222", color: "white" }}>
+                      {school} ({count} students)
+                    </th>
+                  </tr>
+                  {Object.entries(this.state.attendeeList || {})
+                    .filter(([studentId, student]) => student.school === school)
+                    .map(([studentId, student]) => (
+                      <tr key={studentId}>
+                        <td>
+                          <input
+                            type="text"
+                            name="name"
+                            value={student.name || ""}
+                            onChange={(e) => this.handleInputChange(e, studentId)}
+                          />
+                        </td>
+                        <td>
+                          <a
+                            className="passwdresetclick"
+                            onClick={() => {
+                              this.toggle(student.email, student.teacher, studentId);
+                            }}
+                          >
+                            {student.email}
+                          </a>
+                        </td>
+                        <td>
+                          <Input
+                            type="checkbox"
+                            checked={student.lunch || false}
+                            onChange={(event) => {
+                              this.setState((prevState) => ({
+                                changedAttendeeList: {
+                                  ...prevState.changedAttendeeList,
+                                  [studentId]: { ...student, lunch: event.target.checked },
+                                },
+                              }));
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <Input
+                            type="select"
+                            name="p1"
+                            value={student.p1 || "None"}
+                            className="form-control"
+                            onChange={(event) => this.handleInputChange(event, studentId)}
+                          >
+                            <option value="None">None</option>
+                            {this.generateOptions()}
+                          </Input>
+                        </td>
+                        <td>
+                          <Input
+                            type="select"
+                            name="p2"
+                            value={student.p2 || "None"}
+                            className="form-control"
+                            onChange={(event) => this.handleInputChange(event, studentId)}
+                          >
+                            <option value="None">None</option>
+                            {this.generateOptions()}
+                          </Input>
+                        </td>
+                        <td>
+                          <Input
+                            type="select"
+                            name="p3"
+                            value={student.p3 || "None"}
+                            className="form-control"
+                            onChange={(event) => this.handleInputChange(event, studentId)}
+                          >
+                            <option value="None">None</option>
+                            {this.generateOptions()}
+                          </Input>
+                        </td>
+                        <td>
+                          <textarea
+                            name="notes"
+                            value={student.notes || ""}
+                            onChange={(e) => this.handleInputChange(e, studentId)}
+                          />
+                        </td>
+                        <td>
+                          {}
+                          <button
+                            className="btn btn-primary btn-sm"
+                            style={{ backgroundColor: "#007bff", color: "white", border: "none", padding: "5px 10px" }}
+                            onClick={() => this.handleUpdate(studentId)}
+                          >
+                            Update
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                </React.Fragment>
+              ))}
             </tbody>
           </Table>
+
+
         </div>
         <div>
           <br />

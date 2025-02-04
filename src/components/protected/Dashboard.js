@@ -240,7 +240,7 @@ export default class Dashboard extends Component {
             </CardText>
             <hr className="my-2" color='white'/>
             <CardText className="mt-3">
-              Alternatively, give students access code: <b>{firebaseAuth.currentUser.uid}</b>
+              Alternatively, give your students this access code: <b>{firebaseAuth.currentUser.uid}</b>
             </CardText>
             <CardText className="mt-1">
               <Button

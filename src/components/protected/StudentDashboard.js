@@ -513,29 +513,33 @@ export default class StudentDashboard extends Component {
               </Col>
             </Row>
           </Form>
+        </Card> // MOVE THIS TO THE BOTTOM OF THE PAGE AFTER BOTH FORMS
+  */}
 
-          <Form onSubmit={this.handleNotesAndLunchSubmit}>
+          <Form onSubmit={this.handleNotesAndLunchSubmit} style={{ color: 'white' }}>
 
             <Row className="mt-4">
               <Col md="6">
                 <FormGroup>
-                  <Label for="notes">Accessibility/Dietary Restrictions/Other Notes</Label>
+                  <Label for="notes" style={{ color: 'white' }}>Accessibility/Dietary Restrictions/Other Notes</Label>
                   <Input
                     type="textarea"
                     name="notes"
                     id="notes"
                     value={this.state.inputNotes}
                     onChange={this.handleNoteChange}
+                    style={{ color: '#333' }}
                   />
                 </FormGroup>
               </Col>
               <Col md="6" className="d-flex align-items-center">
                 <FormGroup check>
-                  <Label check>
+                  <Label check style={{ color: 'white' }}>
                     <Input
                       type="checkbox"
                       checked={this.state.lunch}
                       onChange={this.handleCheckboxChange}
+                      style={{ color: '#333' }}
                     />
                     I will be eating the catered lunch (provided by Aramark)
                   </Label>
@@ -544,14 +548,13 @@ export default class StudentDashboard extends Component {
             </Row>
             <Row>
               <Col className="text-center mt-4">
-                <Button color="primary" type="submit">
+                <Button color="primary" type="submit" style={{ backgroundColor: '#4a8dee', borderColor: '#4a8dee' }}>
                   Save Notes and Lunch
                 </Button>
               </Col>
             </Row>
           </Form>
-        </Card>
- */}
+
 
         {/* Magic Modal */}
         <Modal isOpen={this.state.modal2} toggle={this.toggleModal2}>

@@ -169,15 +169,11 @@ export default class Dashboard extends Component {
     document.execCommand('copy');
     document.body.removeChild(dummy);
 
-
-    // Show the alert
     this.setState({ alert: true });
 
-
-    // Hide the alert after 3 seconds
     setTimeout(() => {
       this.setState({ alert: false });
-    }, 3000);
+    }, 1000);
   }
 
 
@@ -237,12 +233,26 @@ export default class Dashboard extends Component {
                 </a>
               </b>
             </CardText>
-            <Button color="primary" onClick={this.handleCopy}>
-              Copy Registration Link
-            </Button>
-            {this.state.alert && (
+            <CardText className="mt-1">
+              <Button color="primary" onClick={this.handleCopy}>
+                Copy Registration Link
+              </Button>
+            </CardText>
+            <hr className="my-2" color='white'/>
+            <CardText className="mt-3">
+              Alternatively, give students access code: <b>{firebaseAuth.currentUser.uid}</b>
+            </CardText>
+            <CardText className="mt-1">
+              <Button
+                color="primary"
+                onClick={this.handleCopy}
+              >
+                Copy Access Code
+              </Button>
+            </CardText>
+            {(this.state.alert || this.state.alertCopyCode) && (
               <Alert color="success" className="mt-2">
-                Registration link copied!
+                Copy Successful!
               </Alert>
             )}
           </Card>

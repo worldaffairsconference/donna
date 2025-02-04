@@ -14,8 +14,8 @@ export default class Home extends Component {
           can select plenaries and activities for conference day. 
           In your dashboard, you will also be able to access your personalized schedule. 
           This year, all student registrations must go through a faculty supervisor. 
-          To get started, ask your teacher to sign up <Link to="/tregister">here</Link>.
-          and share their customized registration link with you. <br /><br />
+          To get started, ask your teacher to <Link to="/tregister">register </Link>
+          and share their <strong>customized registration link</strong> or <strong>access code</strong> with you. <br /><br />
           Have any questions? Email us at: <strong>uccwac@gmail.com</strong>.
           </p>
           <hr className="my-4" />
@@ -30,9 +30,15 @@ export default class Home extends Component {
                 Student Register
               </Link>
             </li>
+            <li className="liStyle">
+              <Link className="btn btn-primary btn-lg" to="/tregister">
+                Teacher Register
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
     );
   }
 }
+

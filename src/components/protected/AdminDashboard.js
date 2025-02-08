@@ -9,9 +9,7 @@ import {
   ModalBody,
   ModalFooter,
   Card,
-  CardHeader,
   CardBody,
-  CardFooter,
   CardText,
   CardTitle,
   Form,
@@ -40,6 +38,7 @@ export default class AdminDashboard extends Component {
     var userId = firebaseAuth.currentUser.uid;
 
     this.state = {
+      // Existing state
       modal: [false, '', '', ''],
       userId: userId,
       schoolsList: [],
@@ -48,7 +47,7 @@ export default class AdminDashboard extends Component {
       schoolNum: 0,
       searchQuery: '',
       searchSchool: '',
-      attendeeList: {},        // Keep only attendeeList, no changedAttendeeList
+      attendeeList: {},
       plenOptions: {
         open: false,
         p1o1: { name: '', location: '', max: 0, students: {} },
@@ -73,6 +72,14 @@ export default class AdminDashboard extends Component {
       schoolCounts: {},
       waiverSelectedSchool: '',
       attendeeSelectedTeacher: '',
+
+      // NEW: For "Add Attendee" confirmation
+      addAttendeeModalOpen: false,
+      newAttendeeDraft: { name: '', email: '', grade: '7', access: '' },
+
+      // NEW: For "Delete Account" final confirmation
+      deleteConfirmModalOpen: false,
+      userToDelete: { email: '', teacherid: '', uid: '' },
     };
 
     // Bind
@@ -89,30 +96,123 @@ export default class AdminDashboard extends Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+
+    // NEW: these for the two new modals
+    this.toggleAddAttendeeModal = this.toggleAddAttendeeModal.bind(this);
+    this.handleOpenAddAttendeeModal = this.handleOpenAddAttendeeModal.bind(this);
+    this.confirmAddAttendee = this.confirmAddAttendee.bind(this);
+
+    this.openDeleteConfirmModal = this.openDeleteConfirmModal.bind(this);
+    this.closeDeleteConfirmModal = this.closeDeleteConfirmModal.bind(this);
+    this.confirmDeleteAccount = this.confirmDeleteAccount.bind(this);
   }
 
-  copytoClipboard = (text) => {
+  copytoClipboard(text) {
     var textField = document.createElement('textarea');
     textField.innerText = text;
     document.body.appendChild(textField);
     textField.select();
     document.execCommand('copy');
     textField.remove();
-  };
+  }
 
-  toggle = (email, teacherid, uid) => {
-    this.setState({
-      modal: [
-        !this.state.modal[0],
-        email ? email : '',
-        teacherid ? teacherid : '',
-        uid ? uid : '',
-      ],
-    });
+  toggle = (email = '', teacherid = '', uid = '') => {
+    // The existing "Account Actions" modal
+    this.setState((prevState) => ({
+      modal: [!prevState.modal[0], email, teacherid, uid],
+    }));
     if (!this.state.modal[0]) {
       this.copytoClipboard(uid);
     }
-  };
+  }
+
+  // --------------------------------------------------
+  //   ADD/DELETE CONFIRMATION LOGIC
+  // --------------------------------------------------
+
+  // Opening the "Add Attendee" confirm modal
+  handleOpenAddAttendeeModal(e) {
+    e.preventDefault();
+    // Grab form values
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const grade = e.target.grade.value;
+    const access = e.target.access.value;
+
+    // Store them in newAttendeeDraft
+    this.setState({
+      newAttendeeDraft: { name, email, grade, access },
+      addAttendeeModalOpen: true,
+    });
+  }
+
+  // Toggling the "Add Attendee" confirm modal
+  toggleAddAttendeeModal() {
+    this.setState((prevState) => ({
+      addAttendeeModalOpen: !prevState.addAttendeeModalOpen,
+    }));
+  }
+
+  // Actually add the attendee after confirmation
+  async confirmAddAttendee() {
+    const { name, email, grade, access } = this.state.newAttendeeDraft;
+
+    try {
+      var uid = await addAttendee(
+        email,
+        (Math.random() + 1).toString(36),
+        name,
+        grade,
+        access
+      );
+      console.log(uid.uid);
+      this.copytoClipboard(uid.uid);
+      alert('Added attendee with UID:' + uid.uid);
+    } catch (e) {
+      alert(e);
+    }
+
+    // Close the confirmation modal
+    this.setState({
+      addAttendeeModalOpen: false,
+      newAttendeeDraft: { name: '', email: '', grade: '7', access: '' },
+    });
+  }
+
+  // Called from the first "Account Actions" modal
+  openDeleteConfirmModal() {
+    // This pulls from the state.modal array: [isOpen, email, teacherid, uid]
+    const [isOpen, email, teacherid, uid] = this.state.modal;
+    this.setState({
+      deleteConfirmModalOpen: true,
+      userToDelete: { email, teacherid, uid },
+    });
+  }
+
+  closeDeleteConfirmModal = () => {
+    this.setState((prevState) => ({
+      deleteConfirmModalOpen: false,
+      userToDelete: { email: '', teacherid: '', uid: '' },
+    }));
+  };  
+
+  // Actually confirm delete
+  confirmDeleteAccount() {
+    const { email, teacherid, uid } = this.state.userToDelete;
+    console.log(`Deleting account for ${email}, uid: ${uid}, tid: ${teacherid}`);
+
+    deleteUserData(uid, teacherid);
+
+    // close both modals
+    this.closeDeleteConfirmModal();
+
+    // also close the original "Account Actions" modal
+    this.toggle();
+  }
+
+  // --------------------------------------------------
+  //   Existing logic
+  // --------------------------------------------------
 
   exportData() {
     const { teacherList, attendeeList } = this.state;
@@ -138,7 +238,6 @@ export default class AdminDashboard extends Component {
           Email: student.email,
           Grade: student.grade || '',
           Lunch: student.lunch ? 'Yes' : 'No',
-          // If you really do use rank1, rank2, rank3, adjust below
           Plenary1: student.p1 || 'None',
           Plenary2: student.p2 || 'None',
           Plenary3: student.p3 || 'None',
@@ -189,7 +288,6 @@ export default class AdminDashboard extends Component {
     let attendeeList = {};
     let schoolsList = [['', '']];
     let schoolCounts = {};
-    let plenOptions = { open: false };
     let lunchCount = 0;
     let waiverTrue = 0;
     let waiverFalse = 0;
@@ -208,7 +306,11 @@ export default class AdminDashboard extends Component {
         var childSchool = childSnapshot.val().school;
         var hasWaiver = childSnapshot.val().waiver || false;
 
-        teacherList.push([childSnapshot.val().name, childSnapshot.key, childSchool]);
+        teacherList.push([
+          childSnapshot.val().name,
+          childSnapshot.key,
+          childSchool,
+        ]);
         fullSchoolList.push(childSchool);
 
         if (!hasWaiver) {
@@ -326,54 +428,8 @@ export default class AdminDashboard extends Component {
     });
   }
 
-  // Add Attendee
-  handleAddAttendee = async (event) => {
-    event.preventDefault();
-    var name = event.target.name.value;
-    var email = event.target.email.value;
-    var school = event.target.access.value;
-    var grade = event.target.grade.value;
-    try {
-      var uid = await addAttendee(
-        email,
-        (Math.random() + 1).toString(36),
-        name,
-        grade,
-        school
-      );
-      console.log(uid.uid);
-      this.copytoClipboard(uid.uid);
-      alert('Added attendee with UID:' + uid.uid);
-    } catch (e) {
-      alert(e);
-    }
-  };
+  // === Single source of truth for attendeeList ===
 
-  // Modal actions
-  resetPassword = () => {
-    console.log('resetting password for ' + this.state.modal[1]);
-    adminResetPassword(this.state.modal[1]);
-    this.toggle();
-  };
-
-  deleteAccount = () => {
-    console.log(
-      'deleting account for ' +
-        this.state.modal[1] +
-        ' uid: ' +
-        this.state.modal[3] +
-        ' tid: ' +
-        this.state.modal[2]
-    );
-    deleteUserData(this.state.modal[3], this.state.modal[2]);
-    this.toggle();
-  };
-
-  // === APPROACH #2: Single source of truth in `attendeeList` ===
-
-  /**
-   * Whenever a field changes, update attendeeList[studentId] directly.
-   */
   handleInputChange(event, studentId) {
     const { name, value, type, checked } = event.target;
     this.setState((prevState) => ({
@@ -387,16 +443,11 @@ export default class AdminDashboard extends Component {
     }));
   }
 
-  /**
-   * Called when user clicks the "Update" button.
-   * Push the student’s current data from attendeeList into Firebase.
-   */
   async handleUpdate(studentId) {
     const updatedStudent = this.state.attendeeList[studentId];
     if (!updatedStudent) return;
 
     try {
-      // Update the Firebase database with the entire updated object
       await ref
         .child(`teachers/${updatedStudent.teacher}/students/${studentId}`)
         .update({ ...updatedStudent });
@@ -448,6 +499,10 @@ export default class AdminDashboard extends Component {
     this.setState({ selectedPlenaries });
   }
 
+  // --------------------------------------------------
+  //   RENDER
+  // --------------------------------------------------
+
   render() {
     const {
       attendeeList,
@@ -455,36 +510,31 @@ export default class AdminDashboard extends Component {
       searchSchool,
       selectedGrades,
       selectedPlenaries,
-      schoolCounts,
     } = this.state;
 
-    // Filter logic: build an array from attendeeList entries, then filter by name/school/grade/plenary
+    // Filter logic
     const filteredStudents = Object.entries(attendeeList).filter(
       ([, student]) => {
-        if (!student) return false; // safety
-        // Match name
+        if (!student) return false;
         const nameMatch = student.name
           .toLowerCase()
           .includes(searchQuery.toLowerCase());
-        // Match school
         const schoolMatch = student.school
           .toLowerCase()
           .includes(searchSchool.toLowerCase());
-        // Match grade
         const gradeMatch =
-          selectedGrades.length === 0 || selectedGrades.includes(student.grade);
-        // Match plenary
+          selectedGrades.length === 0 ||
+          selectedGrades.includes(student.grade);
         const plenaryMatch =
           selectedPlenaries.length === 0 ||
           selectedPlenaries.some(
             (p) => student.p1 === p || student.p2 === p || student.p3 === p
           );
-
         return nameMatch && schoolMatch && gradeMatch && plenaryMatch;
       }
     );
 
-    // We will group those filtered students by their school
+    // Group by school
     const groupedBySchool = {};
     filteredStudents.forEach(([studentId, student]) => {
       const sch = student.school || 'Unknown School';
@@ -496,7 +546,7 @@ export default class AdminDashboard extends Component {
 
     return (
       <Container>
-        {/* Modal for account actions */}
+        {/* 1) MODAL: "Account Actions" (already existed) */}
         <Modal isOpen={this.state.modal[0]} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Account Actions</ModalHeader>
           <ModalBody>Select actions to perform on account</ModalBody>
@@ -504,7 +554,9 @@ export default class AdminDashboard extends Component {
             <Button color="primary" onClick={this.resetPassword}>
               Reset Password
             </Button>{' '}
-            <Button color="warning" onClick={this.deleteAccount}>
+            {/* Instead of calling `deleteAccount` directly, 
+                we now open the second confirmation modal. */}
+            <Button color="warning" onClick={this.openDeleteConfirmModal}>
               Delete Account
             </Button>{' '}
             <Button color="danger" onClick={this.toggle}>
@@ -513,6 +565,62 @@ export default class AdminDashboard extends Component {
           </ModalFooter>
         </Modal>
 
+        {/* 2) MODAL: "Delete Confirm" (NEW) */}
+        <Modal
+          isOpen={this.state.deleteConfirmModalOpen}
+          toggle={this.closeDeleteConfirmModal}
+        >
+          <ModalHeader toggle={this.closeDeleteConfirmModal}>
+            Confirm Delete
+          </ModalHeader>
+          <ModalBody>
+            <p>
+              Are you sure you want to <strong>permanently delete</strong> this
+              user?
+            </p>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" onClick={this.confirmDeleteAccount}>
+              Yes, Delete
+            </Button>
+            <Button color="secondary" onClick={this.closeDeleteConfirmModal}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        {/* 3) MODAL: "Add Attendee Confirm" (NEW) */}
+        <Modal
+          isOpen={this.state.addAttendeeModalOpen}
+          toggle={this.toggleAddAttendeeModal}
+        >
+          <ModalHeader toggle={this.toggleAddAttendeeModal}>
+            Confirm New Attendee
+          </ModalHeader>
+          <ModalBody>
+            <p>
+              Are you sure you want to add:
+              <br />
+              <strong>Name:</strong> {this.state.newAttendeeDraft.name}
+              <br />
+              <strong>Email:</strong> {this.state.newAttendeeDraft.email}
+              <br />
+              <strong>Grade:</strong> {this.state.newAttendeeDraft.grade}
+              <br />
+              <strong>Supervisor:</strong> {this.state.newAttendeeDraft.access}
+            </p>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.confirmAddAttendee}>
+              Confirm
+            </Button>
+            <Button color="secondary" onClick={this.toggleAddAttendeeModal}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        {/* Title Row */}
         <br />
         <Row>
           <Col md="10" sm="12" xs="12">
@@ -525,6 +633,7 @@ export default class AdminDashboard extends Component {
           </Col>
         </Row>
 
+        {/* Export Button */}
         <Row className="mb-3">
           <Col>
             <Button color="info" onClick={this.exportData}>
@@ -533,6 +642,7 @@ export default class AdminDashboard extends Component {
           </Col>
         </Row>
 
+        {/* Conference Statistics */}
         <Row className="mt-3">
           <Card body className="inner-container">
             <CardTitle tag="h3" className="text-white">
@@ -540,7 +650,9 @@ export default class AdminDashboard extends Component {
             </CardTitle>
             <CardText>
               <h5>Schools: {this.state.schoolNum}</h5>
-              <h5>Attendees: {Object.keys(this.state.attendeeList).length}</h5>
+              <h5>
+                Attendees: {Object.keys(this.state.attendeeList).length}
+              </h5>
               <h5>Lunch Orders: {this.state.lunchCount}</h5>
               <h5>Waivers Signed: {this.state.waiverTrue}</h5>
               <h5>Waivers Pending: {this.state.waiverFalse}</h5>
@@ -563,6 +675,7 @@ export default class AdminDashboard extends Component {
             </CardText>
           </Card>
         </Row>
+
         <br />
         <hr />
 
@@ -594,18 +707,24 @@ export default class AdminDashboard extends Component {
             </Row>
           </FormGroup>
         </Form>
+
         <hr />
         <br />
 
         {/* Add Attendee */}
         <h2 className="text-white">Add Attendee:</h2>
-        <Form onSubmit={this.handleAddAttendee}>
+        {/* 
+            Instead of calling handleAddAttendee directly,
+            we open the "confirm add" modal first.
+        */}
+        <Form onSubmit={this.handleOpenAddAttendeeModal}>
           <Label className="text-white">Name:</Label>
           <Input
             className="form-control inner-container input-border-grey"
             type="text"
             name="name"
             id="name"
+            required
           />
           <Label className="text-white">Email:</Label>
           <Input
@@ -613,6 +732,7 @@ export default class AdminDashboard extends Component {
             type="email"
             name="email"
             id="email"
+            required
           />
           <Label className="text-white">Grade:</Label>
           <Input
@@ -644,11 +764,14 @@ export default class AdminDashboard extends Component {
             value="Add Attendee!"
           />
         </Form>
+
         <hr />
         <br />
 
         {/* All Attendees */}
         <h2 className="text-white">All Attendees</h2>
+        <br />
+
         <Row className="mb-4">
           <Col md="3" sm="5" xs="10">
             <Input
@@ -668,6 +791,9 @@ export default class AdminDashboard extends Component {
               onChange={this.handleSchoolSearch}
             />
           </Col>
+        </Row>
+
+        <Row className="mb-5">
           <Col md="9" sm="7" xs="12" className="d-flex align-items-center">
             <Label className="mr-2 mb-0 text-white">Filters:</Label>
             <Dropdown
@@ -678,7 +804,10 @@ export default class AdminDashboard extends Component {
               <DropdownToggle caret>Grade</DropdownToggle>
               <DropdownMenu style={{ minWidth: '190px' }}>
                 {['7', '8', '9', '10', '11', '12', 'other'].map((grade) => (
-                  <div key={grade} className="px-5 py-1 d-flex align-items-center">
+                  <div
+                    key={grade}
+                    className="px-5 py-1 d-flex align-items-center"
+                  >
                     <Input
                       type="checkbox"
                       checked={this.state.selectedGrades.includes(grade)}
@@ -690,6 +819,7 @@ export default class AdminDashboard extends Component {
                 ))}
               </DropdownMenu>
             </Dropdown>
+
             <Dropdown
               isOpen={this.state.plenaryDropdownOpen}
               toggle={this.togglePlenaryDropdown}
@@ -718,11 +848,12 @@ export default class AdminDashboard extends Component {
           </Col>
         </Row>
 
-        {(selectedGrades.length > 0 || selectedPlenaries.length > 0) && (
+        {(this.state.selectedGrades.length > 0 ||
+          this.state.selectedPlenaries.length > 0) && (
           <Row className="mb-3">
             <Col>
               <h5 className="text-white">Active Filters:</h5>
-              {selectedGrades.map((grade) => (
+              {this.state.selectedGrades.map((grade) => (
                 <Badge key={grade} color="info" className="mr-2 p-2">
                   Grade {grade}
                   <span
@@ -734,7 +865,7 @@ export default class AdminDashboard extends Component {
                   </span>
                 </Badge>
               ))}
-              {selectedPlenaries.map((plenary) => (
+              {this.state.selectedPlenaries.map((plenary) => (
                 <Badge key={plenary} color="info" className="mr-2 p-2">
                   {this.state.plenOptions[plenary].name}
                   <span
@@ -804,7 +935,11 @@ export default class AdminDashboard extends Component {
                             className="passwdresetclick"
                             style={{ cursor: 'pointer', color: '#0dcaf0' }}
                             onClick={() => {
-                              this.toggle(student.email, student.teacher, studentId);
+                              this.toggle(
+                                student.email,
+                                student.teacher,
+                                studentId
+                              );
                             }}
                           >
                             {student.email}
@@ -826,9 +961,10 @@ export default class AdminDashboard extends Component {
                             name="p1"
                             value={student.p1 || 'None'}
                             className="form-control"
-                            onChange={(event) =>
-                              this.handleInputChange(event, studentId)
-                            }
+                            // Commenting out the onChange to prevent changes
+                            // onChange={(event) =>
+                            //   this.handleInputChange(event, studentId)
+                            // }
                           >
                             <option value="None">None</option>
                             {this.generateOptions()}
@@ -840,9 +976,10 @@ export default class AdminDashboard extends Component {
                             name="p2"
                             value={student.p2 || 'None'}
                             className="form-control"
-                            onChange={(event) =>
-                              this.handleInputChange(event, studentId)
-                            }
+                            // Commented out as requested
+                            // onChange={(event) =>
+                            //   this.handleInputChange(event, studentId)
+                            // }
                           >
                             <option value="None">None</option>
                             {this.generateOptions()}
@@ -854,9 +991,10 @@ export default class AdminDashboard extends Component {
                             name="p3"
                             value={student.p3 || 'None'}
                             className="form-control"
-                            onChange={(event) =>
-                              this.handleInputChange(event, studentId)
-                            }
+                            // Commented out as requested
+                            // onChange={(event) =>
+                            //   this.handleInputChange(event, studentId)
+                            // }
                           >
                             <option value="None">None</option>
                             {this.generateOptions()}

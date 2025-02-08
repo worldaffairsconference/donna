@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { login, resetPassword } from '../helpers/auth';
+import { login } from '../helpers/auth';
+import { Link } from 'react-router-dom'; 
 
 function setErrorMsg(error) {
   return {
@@ -9,29 +10,23 @@ function setErrorMsg(error) {
 
 export default class Login extends Component {
   state = { loginMessage: null };
+
   handleSubmit = (e) => {
     e.preventDefault();
-    login(this.email.value, this.pw.value).catch((error) => {
+    login(this.email.value, this.pw.value).catch(() => {
       this.setState(setErrorMsg('Invalid username/password.'));
     });
   };
-  resetPassword = () => {
-    resetPassword(this.email.value)
-      .then(() =>
-        this.setState(
-          setErrorMsg(`Password reset email sent to ${this.email.value}.`)
-        )
-      )
-      .catch((error) => this.setState(setErrorMsg(`Email address not found.`)));
-  };
+
   render() {
     return (
       <div className="col-sm-6 col-sm-offset-3">
         <br />
-        <h1 class="text-white"> Login </h1>
+        <h1 className="text-white">Login</h1>
+        <br />
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label class="text-white">Email</label>
+            <label className="text-white">Email</label>
             <input
               className="form-control inner-container input-border-grey"
               ref={(email) => (this.email = email)}
@@ -39,7 +34,7 @@ export default class Login extends Component {
             />
           </div>
           <div className="form-group">
-            <label class="text-white">Password</label>
+            <label className="text-white">Password</label>
             <input
               type="password"
               className="form-control inner-container input-border-grey"
@@ -47,6 +42,20 @@ export default class Login extends Component {
               ref={(pw) => (this.pw = pw)}
             />
           </div>
+          < br />
+          <div className="form-group">
+            <div className="row">
+              <div className="col-sm-6">
+                <button className="btn btn-primary">Login</button>
+              </div>
+              <div className="col-sm-6 text-right">
+                <Link to="/forgot-password" className="text-primary">
+                  Forgot your password?
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {this.state.loginMessage && (
             <div className="alert alert-danger" role="alert">
               <span
@@ -54,20 +63,19 @@ export default class Login extends Component {
                 aria-hidden="true"
               ></span>
               <span className="sr-only">Error:</span>
-              &nbsp;{this.state.loginMessage}{' '}
-              <a href="#" onClick={this.resetPassword} className="alert-link" class="text-white">
-                Forgot Password?
-              </a>
+              &nbsp;{this.state.loginMessage}
             </div>
           )}
-          {/* <Button onClick="submit" color="primary">Login</Button>{' '} */}
-          <button className="btn btn-primary">Login</button>
         </form>
+
         <br />
-        <p class="text-white">
-          If you're not registered, register <a href="/register">here</a>.
+        
+        <p className="text-white">
+          Don't have an account? Register <a href="/register">here!</a>.
         </p>
+
       </div>
     );
   }
 }
+

@@ -68,6 +68,8 @@ export default class Login extends Component {
           )}
         </form>
 
+        <br />
+        
         <p className="text-white">
           Don't have an account? Register <a href="/register">here!</a>.
         </p>

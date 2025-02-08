@@ -29,7 +29,8 @@ export default class ForgotPassword extends Component {
       <div className="col-sm-6 col-sm-offset-3">
         <br />
         <h1 className="text-white">Reset Password</h1>
-        <p className="text-white">Enter your email below to receive a password reset link.</p>
+        < br />
+        <p className="text-white"><strong>Enter your email below to receive password reset instructions in your inbox.</strong></p>
         <form onSubmit={this.handleReset}>
           <div className="form-group">
             <label className="text-white">Email</label>

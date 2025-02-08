@@ -5,10 +5,11 @@ import { Year, Links } from '../config/config.js';
 export default class Home extends Component {
   render() {
     return (
-      <div className="container">
-        <br />
-        <div className="jumbotron inner-container">
-          <h1 className="display-5 fonted-h" class="text-[3rem] leading-none sm:text-6xl lg:text-[5.5rem] text-white font-bold mb-5 lg:mb-6 tracking-[-0.03em]">WAC Online Registration</h1>
+      <div className="container mb-0">
+        <div className="jumbotron inner-container mb-0">
+          <h1 className="display-5 fonted-h text-[3rem] leading-none sm:text-6xl lg:text-[5.5rem] text-white font-bold mb-5 lg:mb-6 tracking-[-0.03em]">
+            WAC Online Registration
+          </h1>
           <p className="lead">
           Welcome to the WAC {Year} online registration system, where you 
           can select plenaries and activities for conference day. 
@@ -31,7 +32,7 @@ export default class Home extends Component {
               </Link>
             </li>
             <li className="liStyle">
-              <Link className="btn btn-primary btn-lg" to="/tregister">
+              <Link className="btn btn-primary btn-lg mb-0" to="/tregister">
                 Teacher Register
               </Link>
             </li>

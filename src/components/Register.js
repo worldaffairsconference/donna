@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import { auth } from '../helpers/auth';
+import { Link } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 function setErrorMsg(error) {
@@ -21,7 +22,7 @@ export default class Register extends Component {
   handleNameChange = (event) => {
     const fullName = event.target.value.trim();
     const isValid = fullName.split(" ").length >= 2;
-  
+
     this.setState({
       registerError: isValid ? null : (
         <>
@@ -51,6 +52,7 @@ export default class Register extends Component {
       this.access.value
     ).catch((e) => this.setState(setErrorMsg(e)));
   };
+
   componentDidMount() {
     const params = queryString.parse(this.props.location.search);
     if (params.access) {
@@ -58,36 +60,37 @@ export default class Register extends Component {
       this.setState({ qs: true });
     }
   }
+
   render() {
     return (
-      <div className="col-sm-6 col-sm-offset-3" class="inner-container">
+      <div className="col-sm-6 col-sm-offset-3">
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle} className="inner-container">
             What is an Access Code?
           </ModalHeader>
           <ModalBody className="text-white inner-container">
-          The access code is our way of ensuring all in-person attendees are associated with an organization.
-          If you are a teacher and would like to bring your school, please fill out this {' '}
-            <a href="https://reg.worldaffairscon.org/tregister">
+            The access code is our way of ensuring all in-person attendees are associated with an organization. <br />
+            If you are a teacher and would like to bring your school, please fill out this{' '}
+            <a href="https://reg.worldaffairscon.org/tregister" target="_blank" rel="noopener noreferrer">
               form
             </a>
             . <br />
-            If you are associated with Upper Canada College, Branksome Hall or
-            the World Affairs Conference and would like a special invite, 
-            please check your email and/or contact the team at uccwac@gmail.com
+            If you are associated with Upper Canada College, Branksome Hall, or the World Affairs Conference and would like a special invite, 
+            please check your email and/or contact the team at uccwac@gmail.com.
           </ModalBody>
           <ModalFooter className="inner-container">
-            <Button class="text-white" color="danger" onClick={this.toggle}>
+            <Button className="text-white" color="danger" onClick={this.toggle}>
               Close
-            </Button>{' '}
+            </Button>
           </ModalFooter>
         </Modal>
+
         <br />
-        {/* <h1>Registration is closed.</h1> */}
-        <p>{}</p>
+        <h1 className="text-white">Student Register</h1>
+        <br />
         <form onSubmit={this.handleSubmit}>
-          <div className="form-group" class="text-white">
-            <label >Full Name</label>
+          <div className="form-group">
+            <label className="text-white">Full Name</label>
             <input
               type="text"
               className="form-control inner-container input-border-grey"
@@ -96,9 +99,9 @@ export default class Register extends Component {
               onChange={this.handleNameChange}
             />
           </div>
-          <div className="form-group" class="text-white">
-            <label>Access Code </label>
-            <span onClick={this.toggle} className="ml-1">
+          <div className="form-group">
+            <label className="text-white">Access Code</label>
+            <span onClick={this.toggle} className="ml-1 text-info" style={{ cursor: 'pointer' }}>
               <i className="fa fa-info-circle"></i>
             </span>
             <input
@@ -109,8 +112,8 @@ export default class Register extends Component {
               disabled={this.state.qs}
             />
           </div>
-          <div className="form-group" class="text-white">
-            <label>Grade</label>
+          <div className="form-group">
+            <label className="text-white">Grade</label>
             <select
               className="form-control inner-container input-border-grey"
               ref={(grade) => (this.grade = grade)}
@@ -124,16 +127,16 @@ export default class Register extends Component {
               <option value="other">Other</option>
             </select>
           </div>
-          <div className="form-group" class="text-white">
-            <label>Email</label>
+          <div className="form-group">
+            <label className="text-white">Email</label>
             <input
               className="form-control inner-container input-border-grey"
-              ref={(email) => (this.email = email)}
               placeholder="Email"
+              ref={(email) => (this.email = email)}
             />
           </div>
-          <div className="form-group" class="text-white">
-            <label>Password</label>
+          <div className="form-group">
+            <label className="text-white">Password</label>
             <input
               type="password"
               className="form-control inner-container input-border-grey"
@@ -141,7 +144,21 @@ export default class Register extends Component {
               ref={(pw) => (this.pw = pw)}
             />
           </div>
-
+          <br />
+          <div className="form-group">
+            <div className="row">
+              <div className="col-sm-6">
+                <button type="submit" className="btn btn-primary">
+                  Register
+                </button>
+              </div>
+              <div className="col-sm-6 text-right">
+                <Link to="/login" className="text-primary">
+                  Already registered? Log in
+                </Link>
+              </div>
+            </div>
+          </div>
           {this.state.registerError && (
             <div className="alert alert-danger" role="alert">
               <i className="fa fa-exclamation-triangle" aria-hidden="true"></i>
@@ -149,15 +166,10 @@ export default class Register extends Component {
               &nbsp;{this.state.registerError}
             </div>
           )}
-          <button type="submit" className="btn btn-primary">
-            Register
-          </button>
         </form>
-        <p class="text-white">
-          Please <a href="/login">log in</a> to your account or{' '}
-          <a href="https://worldaffairscon.org/contact">contact us</a> for more
-          information.
-        </p>
+        <br />
+        <br />
+        <br />
       </div>
     );
   }

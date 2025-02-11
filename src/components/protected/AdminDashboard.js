@@ -21,6 +21,7 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
+  DropdownItem,
   Label,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -39,6 +40,10 @@ export default class AdminDashboard extends Component {
 
     this.state = {
       // Existing state
+      signedWaiverDropdownOpen: false,
+      unsignedWaiverDropdownOpen: false,
+      signedWaiverSchools: [],
+      unsignedWaiverSchools: [],
       modal: [false, '', '', ''],
       userId: userId,
       schoolsList: [],
@@ -83,6 +88,8 @@ export default class AdminDashboard extends Component {
     };
 
     // Bind
+    this.toggleSignedWaiverDropdown = this.toggleSignedWaiverDropdown.bind(this);
+    this.toggleUnsignedWaiverDropdown = this.toggleUnsignedWaiverDropdown.bind(this);
     this.handleWaiver = this.handleWaiver.bind(this);
     this.handleWaiverSubmit = this.handleWaiverSubmit.bind(this);
     this.copytoClipboard = this.copytoClipboard.bind(this);
@@ -115,6 +122,18 @@ export default class AdminDashboard extends Component {
     document.execCommand('copy');
     textField.remove();
   }
+
+  toggleSignedWaiverDropdown = () => {
+    this.setState((prevState) => ({
+      signedWaiverDropdownOpen: !prevState.signedWaiverDropdownOpen,
+    }));
+  };
+  
+  toggleUnsignedWaiverDropdown = () => {
+    this.setState((prevState) => ({
+      unsignedWaiverDropdownOpen: !prevState.unsignedWaiverDropdownOpen,
+    }));
+  };
 
   toggle = (email = '', teacherid = '', uid = '') => {
     // The existing "Account Actions" modal
@@ -291,6 +310,8 @@ export default class AdminDashboard extends Component {
     let lunchCount = 0;
     let waiverTrue = 0;
     let waiverFalse = 0;
+    let signedWaiverSchools = [];
+    let unsignedWaiverSchools = [];
 
     // Grab teachers
     await ref.child('teachers/').once('value', (snapshot) => {
@@ -316,8 +337,10 @@ export default class AdminDashboard extends Component {
         if (!hasWaiver) {
           schoolsList.push([childSchool, childSnapshot.key]);
           waiverFalse += 1;
+          unsignedWaiverSchools.push(childSchool);
         } else {
           waiverTrue += 1;
+          signedWaiverSchools.push(childSchool)
         }
 
         const students = childSnapshot.val().students || {};
@@ -351,6 +374,8 @@ export default class AdminDashboard extends Component {
         waiverTrue,
         waiverFalse,
         schoolCounts,
+        signedWaiverSchools,
+        unsignedWaiverSchools,
       });
     });
 
@@ -654,8 +679,48 @@ export default class AdminDashboard extends Component {
                 Attendees: {Object.keys(this.state.attendeeList).length}
               </h5>
               <h5>Lunch Orders: {this.state.lunchCount}</h5>
-              <h5>Waivers Signed: {this.state.waiverTrue}</h5>
-              <h5>Waivers Pending: {this.state.waiverFalse}</h5>
+              <h5>
+                Waivers Signed: {this.state.waiverTrue}{' '}
+                <Dropdown
+                  isOpen={this.state.signedWaiverDropdownOpen}
+                  toggle={this.toggleSignedWaiverDropdown}
+                >
+                  <DropdownToggle caret color="success" size="sm">
+                    View Schools
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    {this.state.signedWaiverSchools.length > 0 ? (
+                      this.state.signedWaiverSchools.map((school, index) => (
+                        <DropdownItem key={index}>{school}</DropdownItem>
+                      ))
+                    ) : (
+                      <DropdownItem disabled>No schools</DropdownItem>
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
+              </h5>
+
+              <h5>
+                Waivers Pending: {this.state.waiverFalse}{' '}
+                <Dropdown
+                  isOpen={this.state.unsignedWaiverDropdownOpen}
+                  toggle={this.toggleUnsignedWaiverDropdown}
+                >
+                  <DropdownToggle caret color="warning" size="sm">
+                    View Schools
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    {this.state.unsignedWaiverSchools.length > 0 ? (
+                      this.state.unsignedWaiverSchools.map((school, index) => (
+                        <DropdownItem key={index}>{school}</DropdownItem>
+                      ))
+                    ) : (
+                      <DropdownItem disabled>No schools</DropdownItem>
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
+              </h5>
+
               <hr />
               {this.state.plenOptions.open ? (
                 <div>

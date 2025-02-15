@@ -42,12 +42,33 @@ export default class StudentDashboard extends Component {
       inputNotes: '',
       lunch: false,
       plenOptions: {
+
+        // Add these plenary names in once we know what slot (p1, p2, p3)
+        // they should be in
+
+        // AI Horizons: Inspiring the Next Generation of Innovators
+        // High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato
+        // On the Frontlines: Reporting Wildfires, Climate Change, and a Warming World
+        // Beyond Borders: The inspiring story of Dr. Orbinski’s work with Médecins Sans Frontières
+        // TBD:  Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones
+        // From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation
+        // Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy
+        // Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication 
+        // Behind the Stanley Cup: What Makes a Winning Team with a Championship Mindset?
+        // Breaking Barriers: Engaging Men in Gender Equality for a Better World
+        // Eyes on the Frontlines: challenges and triumphs of reporting in conflict zones
+        // Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War
+
+        // Add the rest of the plenaries once the titles are known (check speaker doc)
+        
         p1: {
           name: 'Plenary 1',
           options: [
             { id: 'p1o1', name: 'Plenary 1 Option 1' },
             { id: 'p1o2', name: 'Plenary 1 Option 2' },
             { id: 'p1o3', name: 'Plenary 1 Option 3' },
+            { id: 'p1o4', name: 'Plenary 1 Option 4' },
+            { id: 'p1o5', name: 'Plenary 1 Option 5' },
           ],
         },
         p2: {
@@ -56,6 +77,8 @@ export default class StudentDashboard extends Component {
             { id: 'p2o1', name: 'Plenary 2 Option 1' },
             { id: 'p2o2', name: 'Plenary 2 Option 2' },
             { id: 'p2o3', name: 'Plenary 2 Option 3' },
+            { id: 'p2o4', name: 'Plenary 2 Option 4' },
+            { id: 'p2o5', name: 'Plenary 2 Option 5' },
           ],
         },
         p3: {
@@ -64,6 +87,8 @@ export default class StudentDashboard extends Component {
             { id: 'p3o1', name: 'Plenary 3 Option 1' },
             { id: 'p3o2', name: 'Plenary 3 Option 2' },
             { id: 'p3o3', name: 'Plenary 3 Option 3' },
+            { id: 'p3o4', name: 'Plenary 3 Option 4' },
+            { id: 'p3o5', name: 'Plenary 3 Option 5' },
           ],
         },
       },
@@ -361,7 +386,7 @@ export default class StudentDashboard extends Component {
             </p>
           </Col>
         </Row>
-{/* 
+
         <Card className="mt-4 inner-container">
           <Form onSubmit={this.handleSavePlenaries}>
             <Row>              
@@ -551,7 +576,7 @@ export default class StudentDashboard extends Component {
             </Row>
           </Form>
         </Card>
- */}
+
 
         {/* Magic Modal */}
         <Modal isOpen={this.state.modal2} toggle={this.toggleModal2}>

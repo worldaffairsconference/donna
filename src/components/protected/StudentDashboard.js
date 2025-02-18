@@ -46,14 +46,8 @@ export default class StudentDashboard extends Component {
         // Add these plenary names in once we know what slot (p1, p2, p3)
         // they should be in
 
-        // AI Horizons: Inspiring the Next Generation of Innovators
-        // 
         // On the Frontlines: Reporting Wildfires, Climate Change, and a Warming World
         // Beyond Borders: The inspiring story of Dr. Orbinski’s work with Médecins Sans Frontières
-        //  
-        // 
-        // 
-        // Eyes on the Frontlines: challenges and triumphs of reporting in conflict zones
 
         // Add the rest of the plenaries once the titles are known (check speaker doc)
         
@@ -74,7 +68,7 @@ export default class StudentDashboard extends Component {
             { id: 'p2o2', name: 'TBD' },
             { id: 'p2o3', name: 'TBD' },
             { id: 'p2o4', name: 'Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication' },
-            // { id: 'p2o5', name: 'Plenary 2 Option 5' },
+            { id: 'p2o5', name: 'Eyes on the Frontlines: challenges and triumphs of reporting in conflict zones' },
           ],
         },
         p3: {
@@ -84,7 +78,7 @@ export default class StudentDashboard extends Component {
             { id: 'p3o2', name: 'Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones' },
             { id: 'p3o3', name: 'High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato' },
             { id: 'p3o4', name: 'TBD' },
-            // { id: 'p3o5', name: 'Plenary 3 Option 5' },
+            { id: 'p3o5', name: 'AI Horizons: Inspiring the Next Generation of Innovators' },
           ],
         },
       },

@@ -230,6 +230,7 @@ export default class StudentDashboard extends Component {
           teacherID: teacherID || '',
           school: school || 'Your School',
           wacDate: wacDate || 'March 5th, 2025',
+          // This will be filled using the algorithm
           plenarySelections: {
             p1: studentData.p1 || '',
             p2: studentData.p2 || '',
@@ -374,22 +375,22 @@ export default class StudentDashboard extends Component {
     }
   }
 
-  generateSchedule = () => {
-    const { plenarySelections } = this.state;
-    const schedule = [
-      { time: '8:30 AM - 9:00 AM', title: 'Registration', speaker: '', location: 'Bernick Foyer' },
-      { time: '9:10 AM - 10:20 AM', title: 'Opening Keynote', speaker: 'Bill Weir', location: 'Laidlaw Hall' },
-      { time: '10:25 AM - 11:15 AM', ...this.plenaryDetails[plenarySelections.p1] },
-      { time: '11:15 AM - 11:45 AM', title: 'Various Events', speaker: 'Various', location: 'Various' },
-      { time: '11:45 AM - 12:35 PM', ...this.plenaryDetails[plenarySelections.p2] },
-      { time: '12:35 PM - 1:35 PM', title: 'Lunch', speaker: '', location: 'Lett Gym' },
-      { time: '1:35 PM - 2:25 PM', ...this.plenaryDetails[plenarySelections.p3] },
-      { time: '2:25 PM - 2:30 PM', title: '5-Minute Break', speaker: 'N/A', location: 'N/A' },
-      { time: '2:30 PM - 3:40 PM', title: 'Closing Keynote', speaker: 'Dr. James Orbinski', location: 'Laidlaw Hall' },
-    ].filter(event => event.title);
+  // generateSchedule = () => {
+  //   const { plenarySelections } = this.state;
+  //   const schedule = [
+  //     { time: '8:30 AM - 9:00 AM', title: 'Registration', speaker: '', location: 'Bernick Foyer' },
+  //     { time: '9:10 AM - 10:20 AM', title: 'Opening Keynote', speaker: 'Bill Weir', location: 'Laidlaw Hall' },
+  //     { time: '10:25 AM - 11:15 AM', ...this.plenaryDetails[plenarySelections.p1] },
+  //     { time: '11:15 AM - 11:45 AM', title: 'Various Events', speaker: 'Various', location: 'Various' },
+  //     { time: '11:45 AM - 12:35 PM', ...this.plenaryDetails[plenarySelections.p2] },
+  //     { time: '12:35 PM - 1:35 PM', title: 'Lunch', speaker: '', location: 'Lett Gym' },
+  //     { time: '1:35 PM - 2:25 PM', ...this.plenaryDetails[plenarySelections.p3] },
+  //     { time: '2:25 PM - 2:30 PM', title: '5-Minute Break', speaker: 'N/A', location: 'N/A' },
+  //     { time: '2:30 PM - 3:40 PM', title: 'Closing Keynote', speaker: 'Dr. James Orbinski', location: 'Laidlaw Hall' },
+  //   ].filter(event => event.title);
 
-    this.setState({ schedule });
-  };
+  //   this.setState({ schedule });
+  // };
 
   render() {
     const { greeting, name, teacherName, school, wacDate } = this.state;

@@ -200,7 +200,7 @@ export default class StudentDashboard extends Component {
     p2o2: { time: '11:45 AM - 12:35 PM', title: 'Organ Donation and Transplant - Success on the Edge', speaker: 'Andrew Healey', location: 'Student Centre' },
     p2o3: { time: '11:45 AM - 12:35 PM', title: 'From Idea to Reality – Using the Earth as a Battery', speaker: 'Curtis VanWelleghem', location: 'Manucha & Bellamy Studio Theatre' },
     p2o4: { time: '11:45 AM - 12:35 PM', title: 'Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication', speaker: 'John Smol', location: 'Rooms 248 + 249' },
-    p2o5: { time: '10:25 AM - 11:15 AM', title: 'Eyes on the Frontlines: Challenges and Triumphs of Reporting in Conflict Zones', speaker: 'Wolfgang Schwan and Yan Boechat', location: 'Room 232' },
+    p2o5: { time: '11:45 AM - 12:35 AM', title: 'Eyes on the Frontlines: Challenges and Triumphs of Reporting in Conflict Zones', speaker: 'Wolfgang Schwan and Yan Boechat', location: 'Room 232' },
     p3o1: { time: '1:35 PM - 2:25 PM', title: 'Behind the Stanley Cup: What Makes a Winning Team with a Championship Mindset?', speaker: 'James Suh', location: 'Laidlaw Hall' },
     p3o2: { time: '1:35 PM - 2:25 PM', title: 'Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones', speaker: 'Dr. Jeremy Wang', location: 'Student Centre' },
     p3o3: { time: '1:35 PM - 2:25 PM', title: 'High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato', speaker: 'Eric Zhu', location: 'Manucha & Bellamy Studio Theatre' },

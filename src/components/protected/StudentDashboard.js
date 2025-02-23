@@ -56,7 +56,7 @@ export default class StudentDashboard extends Component {
           options: [
             { id: 'p1o1', name: 'Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War' },
             { id: 'p1o2', name: 'Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy' },
-            { id: 'p1o3', name: 'TBD' },
+            { id: 'p1o3', name: 'Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective' },
             { id: 'p1o4', name: 'From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation' },
             // { id: 'p1o5', name: 'Plenary 1 Option 5' },
           ],
@@ -197,6 +197,26 @@ export default class StudentDashboard extends Component {
     );
   }
 
+
+  // DOUBLE CHECK WITH LIYANG TO SEE IF EVERYTHING IS CORRECT
+
+  plenaryDetails = {
+    p1o1: { time: '10:25 AM - 11:15 AM', title: 'Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War', speaker: 'John Sitilides', location: 'Laidlaw Hall' },
+    p1o2: { time: '10:25 AM - 11:15 AM', title: 'Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy', speaker: 'Sylvia Torres-Guillen', location: 'Student Centre'},
+    p1o3: { time: '10:25 AM - 11:15 AM', title: 'Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective', speaker: 'Dr. Justina Ray', location: 'Manucha & Bellamy Studio Theatre' },
+    p1o4: { time: '10:25 AM - 11:15 AM', title: 'From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation', speaker: 'Emma Lozhkin', location: 'Rooms 248 + 249' },
+    p2o1: { time: '11:45 AM - 12:35 PM', title: 'Breaking Barriers: Engaging Men in Gender Equality for a Better World', speaker: 'Michael Kaufman', location: 'Laidlaw Hall' },
+    p2o2: { time: '11:45 AM - 12:35 PM', title: 'Organ Donation and Transplant - Success on the Edge', speaker: 'Andrew Healey', location: 'Student Centre' },
+    p2o3: { time: '11:45 AM - 12:35 PM', title: 'From Idea to Reality – Using the Earth as a Battery', speaker: 'Curtis VanWelleghem', location: 'Manucha & Bellamy Studio Theatre' },
+    p2o4: { time: '11:45 AM - 12:35 PM', title: 'Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication', speaker: 'John Smol', location: 'Rooms 248 + 249' },
+    p2o5: { time: '10:25 AM - 11:15 AM', title: 'Eyes on the Frontlines: Challenges and Triumphs of Reporting in Conflict Zones', speaker: 'Wolfgang Schwan and Yan Boechat', location: 'Room 232' },
+    p3o1: { time: '1:35 PM - 2:25 PM', title: 'Behind the Stanley Cup: What Makes a Winning Team with a Championship Mindset?', speaker: 'James Suh', location: 'Laidlaw Hall' },
+    p3o2: { time: '1:35 PM - 2:25 PM', title: 'Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones', speaker: 'Dr. Jeremy Wang', location: 'Student Centre' },
+    p3o3: { time: '1:35 PM - 2:25 PM', title: 'High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato', speaker: 'Eric Zhu', location: 'Manucha & Bellamy Studio Theatre' },
+    p3o4: { time: '1:35 PM - 2:25 PM', title: 'Imagining the Future: Building on the Past', speaker: 'Shirley Blumberg', location: 'Rooms 248 + 249' },
+    p3o5: { time: '1:35 PM - 2:25 PM', title: 'AI Horizons: Inspiring the Next Generation of Innovators', speaker: 'Dr. Sebastian Maurice', location: 'Room 232' },
+  };
+
   initializeData(userId) {
     
     // Fetch the student data
@@ -210,8 +230,15 @@ export default class StudentDashboard extends Component {
           teacherID: teacherID || '',
           school: school || 'Your School',
           wacDate: wacDate || 'March 5th, 2025',
-        });
-
+          plenarySelections: {
+            p1: studentData.p1 || '',
+            p2: studentData.p2 || '',
+            p3: studentData.p3 || '',
+          },
+          lunch: studentData.lunch || false,
+        },
+        this.generateSchedule
+      );  
 
         if (teacherID) {
           ref.child(`teachers/${teacherID}/students/${userId}`).once('value', (teacherStudentSnapshot) => {
@@ -347,9 +374,27 @@ export default class StudentDashboard extends Component {
     }
   }
 
+  generateSchedule = () => {
+    const { plenarySelections } = this.state;
+    const schedule = [
+      { time: '8:30 AM - 9:00 AM', title: 'Registration', speaker: '', location: 'Bernick Foyer' },
+      { time: '9:10 AM - 10:20 AM', title: 'Opening Keynote', speaker: 'Bill Weir', location: 'Laidlaw Hall' },
+      { time: '10:25 AM - 11:15 AM', ...this.plenaryDetails[plenarySelections.p1] },
+      { time: '11:15 AM - 11:45 AM', title: 'Various Events', speaker: 'Various', location: 'Various' },
+      { time: '11:45 AM - 12:35 PM', ...this.plenaryDetails[plenarySelections.p2] },
+      { time: '12:35 PM - 1:35 PM', title: 'Lunch', speaker: '', location: 'Lett Gym' },
+      { time: '1:35 PM - 2:25 PM', ...this.plenaryDetails[plenarySelections.p3] },
+      { time: '2:25 PM - 2:30 PM', title: '5-Minute Break', speaker: 'N/A', location: 'N/A' },
+      { time: '2:30 PM - 3:40 PM', title: 'Closing Keynote', speaker: 'Dr. James Orbinski', location: 'Laidlaw Hall' },
+    ].filter(event => event.title);
+
+    this.setState({ schedule });
+  };
+
   render() {
     const { greeting, name, teacherName, school, wacDate } = this.state;
 
+    {/* Greeting and Info Section */}
     return (
       <Container>
         <Row>
@@ -365,10 +410,12 @@ export default class StudentDashboard extends Component {
         <Row className="mt-4">
           <Col md="12">
             <h3 class="text-white">Plenary selection will open shortly. Stay tuned.</h3>
+            {/* <h3 class="text-white">Your Schedule</h3> */}
           </Col>
         </Row>
 
-        {/* Greeting and Info Section */}
+
+        {/* PLENARY SELECTION */}
         <Row>
           <Col>
             <p className="text-muted">
@@ -566,6 +613,31 @@ export default class StudentDashboard extends Component {
             </Row>
           </Form>
         </Card>
+
+        {/* <Card className="mt-4 p-4">
+          <h3 className="text-center">Your Schedule</h3>
+          <Table striped bordered className="mt-3">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Event</th>
+                <th>Speaker</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              {schedule.map((event, index) => (
+                <tr key={index}>
+                  <td>{event.time}</td>
+                  <td>{event.title || 'TBD'}</td>
+                  <td>{event.speaker || 'TBD'}</td>
+                  <td>{event.location || 'TBD'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Card>
+      </Container> */}
 
 
         {/* Magic Modal */}

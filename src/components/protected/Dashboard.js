@@ -265,6 +265,14 @@ export default class Dashboard extends Component {
         </Row>
         <br />
         <hr />
+        <h2 class="text-white">Cancellation Policy: </h2>
+        <p class="text-white">
+          If you can no longer attend WAC, kindly email us at <a href="mailto:2wac@ucc.on.ca">wac@ucc.on.ca</a>. 
+        </p>
+        <p class="text-white">
+          After <strong>Friday, February 28th 2025</strong>, all lunch orders are final and your school will be charged for all orders as they appear on that date.
+        </p>
+        <br />
         <h2 class="text-white">Waiver Status: </h2>
         <p class="text-white">
           You will need to complete and sign a waiver before attending the

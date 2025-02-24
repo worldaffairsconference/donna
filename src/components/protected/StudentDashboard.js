@@ -567,8 +567,8 @@ export default class StudentDashboard extends Component {
               </Col>
             </Row>
           </Form>
-        </Card> // MOVE THIS TO THE BOTTOM OF THE PAGE AFTER BOTH FORMS
-  */}
+        </Card> 
+        {/* MOVE THIS TO THE BOTTOM OF THE PAGE AFTER BOTH FORMS */}
 
           <Form onSubmit={this.handleNotesAndLunchSubmit} style={{ color: 'white' }}>
 
@@ -608,7 +608,6 @@ export default class StudentDashboard extends Component {
               </Col>
             </Row>
           </Form>
-        </Card>
 
         {/* <Card className="mt-4 p-4">
           <h3 className="text-center">Your Schedule</h3>
@@ -659,12 +658,3 @@ export default class StudentDashboard extends Component {
     );
   }
 }
-
-
-
-
-
-
-
-
-

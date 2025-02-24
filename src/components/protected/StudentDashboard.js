@@ -595,7 +595,7 @@ export default class StudentDashboard extends Component {
                       onChange={this.handleCheckboxChange}
                       style={{ color: '#333' }}
                     />
-                    I will be eating the catered lunch (provided by Aramark)
+                    I will be eating the catered lunch provided by Aramark for <strong>$15</strong>
                   </Label>
                 </FormGroup>
               </Col>

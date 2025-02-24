@@ -13,6 +13,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Popover,
+  PopoverHeader,
+  PopoverBody,
 } from 'reactstrap';
 import { ref, firebaseAuth } from '../../helpers/firebase';
 import { logout } from '../../helpers/auth';
@@ -75,6 +78,9 @@ export default class StudentDashboard extends Component {
       },
       magic: '',
       modal2: false,
+      popoverOpenP1: false,
+      popoverOpenP2: false,
+      popoverOpenP3: false,
       buttonStatus: ['Save Changes', 'btn btn-primary'],
     };
 
@@ -86,8 +92,21 @@ export default class StudentDashboard extends Component {
     this.toggleModal2 = this.toggleModal2.bind(this);
     this.handleMagicCode = this.handleMagicCode.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.togglePopoverP1 = this.togglePopoverP1.bind(this);
+    this.togglePopoverP2 = this.togglePopoverP2.bind(this);
+    this.togglePopoverP3 = this.togglePopoverP3.bind(this);
 
     this.initializeData = this.initializeData.bind(this);
+  }
+
+  togglePopoverP1() {
+    this.setState(prev => ({ popoverOpenP1: !prev.popoverOpenP1 }));
+  }
+  togglePopoverP2() {
+    this.setState(prev => ({ popoverOpenP2: !prev.popoverOpenP2 }));
+  }
+  togglePopoverP3() {
+    this.setState(prev => ({ popoverOpenP3: !prev.popoverOpenP3 }));
   }
 
   // Handle saving the plenaries section
@@ -420,8 +439,32 @@ export default class StudentDashboard extends Component {
           <Form onSubmit={this.handleSavePlenaries}>
             <Row>              
               <Col md="4">
-                <h5>Plenary 1</h5>
-
+                <h5>Plenary 1
+                <Button
+                      id="PopoverP1"
+                      color="link"
+                      onMouseEnter={this.togglePopoverP1}
+                      onMouseLeave={this.togglePopoverP1}
+                      style={{ padding: 0, fontSize: '0.9rem' }}
+                    >
+                      Info
+                  </Button>
+                </h5>
+                <Popover
+                  placement="bottom"
+                  isOpen={this.state.popoverOpenP1}
+                  target="PopoverP1"
+                  toggle={this.togglePopoverP1}
+                  trigger="hover"
+                >
+                  <PopoverHeader>Plenary 1 Speakers</PopoverHeader>
+                  <PopoverBody>
+                    <strong>John Sitilides</strong> (Jan 27): We’re proud to announce our first plenary speaker for WAC ’25!<br/><br/>
+                    <strong>Sylvia Torres-Guillen</strong> (Feb 18): From the courtroom to the conference stage, join us in welcoming her!<br/><br/>
+                    <strong>Dr. Justina Ray</strong> (Feb 19): President and Senior Scientist with extensive expertise in biodiversity conservation.<br/><br/>
+                    <strong>Emma Lozhkin</strong> (Feb 12): Former Canadian National Gymnast turned software engineer at NVIDIA.
+                  </PopoverBody>
+                </Popover>
                 <FormGroup>
                   <Label for="p1_rank1">Rank 1</Label>
                   <Input
@@ -467,8 +510,33 @@ export default class StudentDashboard extends Component {
               </Col>
               
               <Col md="4">
-                <h5>Plenary 2</h5>
-
+                <h5>Plenary 2
+                <Button
+                    id="PopoverP2"
+                    color="link"
+                    onMouseEnter={this.togglePopoverP2}
+                    onMouseLeave={this.togglePopoverP2}
+                    style={{ padding: 0, fontSize: '0.9rem' }}
+                  >
+                    Info
+                  </Button>
+                </h5>
+                <Popover
+                  placement="bottom"
+                  isOpen={this.state.popoverOpenP2}
+                  target="PopoverP2"
+                  toggle={this.togglePopoverP2}
+                  trigger="hover"
+                >
+                  <PopoverHeader>Plenary 2 Speakers</PopoverHeader>
+                  <PopoverBody>
+                    <strong>Michael Kaufman</strong> (Feb 10): Renowned for engaging men in gender equality.<br/><br/>
+                    <strong>Dr. Andrew Healey</strong> (Feb 3): Critical care specialist and transplant expert.<br/><br/>
+                    <strong>Curtis VanWelleghem</strong> (Feb 14): Innovative thinker turning ideas into reality.<br/><br/>
+                    <strong>John Smol</strong> (Jan 30): Distinguished professor known for pioneering environmental research.<br/><br/>
+                    <strong>Wolfgang Schwarz</strong> (Feb 25): Celebrated former Olympic figure skater.
+                  </PopoverBody>
+                </Popover>
                 <FormGroup>
                   <Label for="p2_rank1">Rank 1</Label>
                   <Input
@@ -513,7 +581,33 @@ export default class StudentDashboard extends Component {
               </Col>
 
               <Col md="4">
-                <h5>Plenary 3</h5>
+                <h5>Plenary 3
+                <Button
+                    id="PopoverP3"
+                    color="link"
+                    onMouseEnter={this.togglePopoverP3}
+                    onMouseLeave={this.togglePopoverP3}
+                    style={{ padding: 0, fontSize: '0.9rem' }}
+                  >
+                    Info
+                </Button>
+                </h5>
+                <Popover
+                  placement="bottom"
+                  isOpen={this.state.popoverOpenP3}
+                  target="PopoverP3"
+                  toggle={this.togglePopoverP3}
+                  trigger="hover"
+                >
+                  <PopoverHeader>Plenary 3 Speakers</PopoverHeader>
+                  <PopoverBody>
+                    <strong>James Suh</strong> (Feb 20): CFO with leadership in sports business.<br/><br/>
+                    <strong>Dr. Jeremy Wang</strong> (Jan 29): COO and innovator in aerospace and drone technology.<br/><br/>
+                    <strong>Eric Zhu</strong> (Feb 5): Young CEO who began his entrepreneurial journey in high school.<br/><br/>
+                    <strong>Shirley Blumberg</strong> (Feb 17): Acclaimed architect known for sustainable designs.<br/><br/>
+                    <strong>Dr. Sebastian Maurice</strong> (Feb 23): Esteemed academic and keynote plenary speaker.
+                  </PopoverBody>
+                </Popover>
 
                 <FormGroup>
                   <Label for="p3_rank1">Rank 1</Label>

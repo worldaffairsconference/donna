@@ -62,6 +62,8 @@ export default class Dashboard extends Component {
             { id: 'p1o1', name: 'Plenary 1 Option 1' },
             { id: 'p1o2', name: 'Plenary 1 Option 2' },
             { id: 'p1o3', name: 'Plenary 1 Option 3' },
+            { id: 'p1o4', name: 'Plenary 1 Option 4' },
+            { id: 'p1o5', name: 'Plenary 1 Option 5' },
           ],
         },
         p2: {
@@ -70,6 +72,8 @@ export default class Dashboard extends Component {
             { id: 'p2o1', name: 'Plenary 2 Option 1' },
             { id: 'p2o2', name: 'Plenary 2 Option 2' },
             { id: 'p2o3', name: 'Plenary 2 Option 3' },
+            { id: 'p2o4', name: 'Plenary 2 Option 4' },
+            { id: 'p2o5', name: 'Plenary 2 Option 5' },
           ],
         },
         p3: {
@@ -78,6 +82,8 @@ export default class Dashboard extends Component {
             { id: 'p3o1', name: 'Plenary 3 Option 1' },
             { id: 'p3o2', name: 'Plenary 3 Option 2' },
             { id: 'p3o3', name: 'Plenary 3 Option 3' },
+            { id: 'p3o4', name: 'Plenary 3 Option 4' },
+            { id: 'p3o5', name: 'Plenary 3 Option 5' },
           ],
         },
       },

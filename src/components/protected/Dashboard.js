@@ -59,25 +59,31 @@ export default class Dashboard extends Component {
         p1: {
           name: 'Plenary 1',
           options: [
-            { id: 'p1o1', name: 'Plenary 1 Option 1' },
-            { id: 'p1o2', name: 'Plenary 1 Option 2' },
-            { id: 'p1o3', name: 'Plenary 1 Option 3' },
+            { id: 'p1o1', name: 'John Sitilides | Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War' },
+            { id: 'p1o2', name: 'Sylvia Torres-Guillen | Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy' },
+            { id: 'p1o3', name: 'Dr. Justina Ray | Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective' },
+            { id: 'p1o4', name: 'Emma Lozhkin | From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation' },
+            // { id: 'p1o5', name: 'Plenary 1 Option 5' },
           ],
         },
         p2: {
           name: 'Plenary 2',
           options: [
-            { id: 'p2o1', name: 'Plenary 2 Option 1' },
-            { id: 'p2o2', name: 'Plenary 2 Option 2' },
-            { id: 'p2o3', name: 'Plenary 2 Option 3' },
+            { id: 'p2o1', name: 'Michael Kaufman | Breaking Barriers: Engaging Men in Gender Equality for a Better World' },
+            { id: 'p2o2', name: 'Andrew Healey | Organ Donation and Transplant - Success on the Edge' },
+            { id: 'p2o3', name: ' Curtis VanWelleghem | From Idea to Reality – Using the Earth as a Battery' },
+            { id: 'p2o4', name:  'John Smol | Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication' },
+            { id: 'p2o5', name: 'Wolfgang Schwan and Yan Boechat | Eyes on the Frontlines: challenges and triumphs of reporting in conflict zones' },
           ],
         },
         p3: {
           name: 'Plenary 3',
           options: [
-            { id: 'p3o1', name: 'Plenary 3 Option 1' },
-            { id: 'p3o2', name: 'Plenary 3 Option 2' },
-            { id: 'p3o3', name: 'Plenary 3 Option 3' },
+            { id: 'p3o1', name: 'James Suh | Behind the Stanley Cup: What Makes a Winning Team with a Championship Mindset?' },
+            { id: 'p3o2', name: 'Dr. Jeremy Wang | Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones' },
+            { id: 'p3o3', name: 'Eric Zhu | High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato' },
+            { id: 'p3o4', name: 'Shirley Blumberg | Imagining the Future: Building on the Past' },
+            { id: 'p3o5', name: 'Dr. Sebastian Maurice | AI Horizons: Inspiring the Next Generation of Innovators' },
           ],
         },
       },
@@ -259,6 +265,14 @@ export default class Dashboard extends Component {
         </Row>
         <br />
         <hr />
+        <h2 class="text-white">Cancellation Policy: </h2>
+        <p class="text-white">
+          If you can no longer attend WAC, kindly email us at <a href="mailto:2wac@ucc.on.ca">wac@ucc.on.ca</a>. 
+        </p>
+        <p class="text-white">
+          After <strong>Friday, February 28th 2025</strong>, all lunch orders are final and your school will be charged for all orders as they appear on that date.
+        </p>
+        <br />
         <h2 class="text-white">Waiver Status: </h2>
         <p class="text-white">
           You will need to complete and sign a waiver before attending the

@@ -175,15 +175,11 @@ export default class Dashboard extends Component {
     document.execCommand('copy');
     document.body.removeChild(dummy);
 
-
-    // Show the alert
     this.setState({ alert: true });
 
-
-    // Hide the alert after 3 seconds
     setTimeout(() => {
       this.setState({ alert: false });
-    }, 3000);
+    }, 1000);
   }
 
 
@@ -243,12 +239,26 @@ export default class Dashboard extends Component {
                 </a>
               </b>
             </CardText>
-            <Button color="primary" onClick={this.handleCopy}>
-              Copy Registration Link
-            </Button>
-            {this.state.alert && (
+            <CardText className="mt-1">
+              <Button color="primary" onClick={this.handleCopy}>
+                Copy Registration Link
+              </Button>
+            </CardText>
+            <hr className="my-2" color='white'/>
+            <CardText className="mt-3">
+              Alternatively, give your students this access code: <b>{firebaseAuth.currentUser.uid}</b>
+            </CardText>
+            <CardText className="mt-1">
+              <Button
+                color="primary"
+                onClick={this.handleCopy}
+              >
+                Copy Access Code
+              </Button>
+            </CardText>
+            {(this.state.alert || this.state.alertCopyCode) && (
               <Alert color="success" className="mt-2">
-                Registration link copied!
+                Copy Successful!
               </Alert>
             )}
           </Card>
@@ -259,8 +269,9 @@ export default class Dashboard extends Component {
         <p class="text-white">
           You will need to complete and sign a waiver before attending the
           conference. Please download the document below and complete the form.
-          Send the completed form via this{' '}
-          <a href="https://coda.io/form/Waiver_deuhNh1mvi4">link</a>. Once we
+          {/* Send the completed form via this{' '} */}
+          {/* <a href="https://coda.io/form/Waiver_deuhNh1mvi4">link</a>.  */}
+          Please stand by as we are creating a new form. Once we
           have received and processed your waiver, the status below will change
           to "Received".
         </p>
@@ -277,7 +288,7 @@ export default class Dashboard extends Component {
             </h2>
             <Button
               color="primary"
-              href="/resources/Teacher Responsibility and Liability Waiver v08.2022.pdf"
+              href="/resources/Faculty Waiver 2025.pdf"
               target="_blank"
             >
               Download PDF

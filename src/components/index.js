@@ -9,6 +9,8 @@ import Footer from './Footer';
 import NotFound from './NotFound';
 import AdminDashboard from './protected/AdminDashboard';
 import TRegister from './TRegister';
+import ForgotPassword from './ForgotPassword';
+import Success from './Success';
 import QRReg from './protected/QRReg';
 import Attendance from './protected/Attendance';
 import LunchReg from './protected/LunchReg';
@@ -192,6 +194,16 @@ export default class App extends Component {
                   authed={this.state.authed}
                   path="/tregister"
                   component={TRegister}
+                />
+                <PublicRoute
+                  authed={this.state.authed}
+                  path="/forgot-password"
+                  component={ForgotPassword}
+                />
+                <PublicRoute
+                  authed={this.state.authed}
+                  path="/success"
+                  component={Success}
                 />
                 <PrivateRoute
                   authed={this.state.authed}

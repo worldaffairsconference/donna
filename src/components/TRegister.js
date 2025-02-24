@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { tauth } from '../helpers/auth';
+import { Link } from 'react-router-dom';
 
 function setErrorMsg(error) {
   return {
@@ -80,15 +81,31 @@ export default class TRegister extends Component {
               &nbsp;{this.state.tregisterError}
             </div>
           )}
-          <button type="submit" className="btn btn-primary">
-            Register
-          </button>
+
+          <br />
+          
+          <div className="row">
+            <div className="col-sm-6">
+              <button type="submit" className="btn btn-primary">
+                Register
+              </button>
+            </div>
+            <div className="col-sm-6 text-right">
+              <p class="text-white">
+                <Link to="/login" className="text-primary">
+                  Already registered? Log in
+                </Link>
+              </p>
+            </div>
+          </div>
         </form>
         <br />
-        <p class="text-white">
-          If you're already registered, <a href="/login">log in</a>.
-        </p>
+        <br />
+        <br />
+        <br />
       </div>
     );
   }
 }
+
+

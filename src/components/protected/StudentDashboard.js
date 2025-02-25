@@ -468,6 +468,12 @@ export default class StudentDashboard extends Component {
           </Col>
         </Row>
 
+        <Row className="mt-4">
+          <Col md="12">
+            <h3 class="text-white">Plenary selection is now open!</h3>
+          </Col>
+        </Row> 
+
         <Row className="mt-2">
           <Col md="12">
             <h5 className="text-white">Below, you will have the opportunity to choose your <strong>top 3</strong> most preferred plenaries in each time slot. <br />We will try our best to <strong>accommodate your preferences.</strong> Happy Choosing!</h5>
@@ -637,7 +643,8 @@ export default class StudentDashboard extends Component {
                   >
                     <strong>Michael Kaufman</strong>, PhD, is a Canadian author and educator dedicated to engaging men and boys in promoting gender equality and ending violence against women. He co-founded the White Ribbon Campaign, the world's largest movement of men working to end violence against women. Over four decades, his work with the United Nations, governments, NGOs, and corporations has spanned fifty countries.<br/><br/>
                     <strong>Dr. Andrew Healey</strong> is an emergency and critical care specialist currently working in Hamilton, Ontario as the Chief of Critical care at St. Joseph's Hamilton.  After completing vigorous training in the organ donation field, Dr Healey now holds the position of Provincial Medical Director for Donation with Trillium Gift of Life (organ transplants through Ontario Health).  Dr Healey uses adaptive leadership to ensure that the people he works with have excellent experiences within the organ transplant and healthcare realm. <br/><br/>
-                    {/* <strong>Curtis VanWelleghem</strong> (Feb 14): Innovative thinker turning ideas into reality.<br/><br/> */}
+                    <strong>Curtis VanWelleghem</strong> is the Co-Founder and CEO of Hydrostor and has led the company through technology development into commercial operations, with a multi-GW pipeline globally. Prior to Hydrostor, Curtis held positions at nuclear generator Bruce Power and in Deloitte’s Corporate Strategy Consulting Practice. Previously, Curtis was a Senior Manager in Deloitte’s Corporate Strategy Consulting Practice where he advised and consulted for some of the top energy companies globally. He has also held positions at nuclear/wind generator Bruce Power and wind developer Environmental Electric Company. He has experience working in more than 10 countries, including time volunteering in India. Curtis was a varsity hockey player while earning an Industrial Engineering degree and MBA from the University of Toronto.
+                    <br/><br/>
                     <strong>Dr. John P. Smol</strong> is a Distinguished University Professor at Queen’s University. His pioneering research focuses on long-term ecosystem changes, exploring the impacts of climate change and other environmental stressors. Dr. Smol has authored over 720 academic papers and 24 books, making significant contributions to environmental science. With more than 100 prestigious teaching and research awards to his name, he is widely recognized for his lasting influence on both academia and environmental policy.
                     <br/><br/>
                     <strong>Wolfgang Schwarz</strong> is a former Austrian figure skater best known for winning the gold medal at the 1968 Winter Olympics in Grenoble. A highly skilled competitor, he also earned silver medals at the World Champions (1966,1967) and multiple podium finishes at the European Championships. His skating career showcased technical precision and artistic excellence, making him one of Austria’s notable Olympic champions. 
@@ -745,7 +752,7 @@ export default class StudentDashboard extends Component {
                     <br/><br/>
                     <strong>Shirley Blumberg</strong> is a renowned Canadian architect and a founding partner of KPMB Architects, known for her innovative and socially conscious designs. She has played a significant role in shaping modern urban architecture, focusing on sustainable and community-driven projects. Her work includes cultural institutions, academic buildings, and affordable housing, earring her numerous accolades, including the Order of Canada for her contributions to architecture and social equity. 
                     <br/><br/>
-                    {/* <strong>Dr. Sebastian Maurice</strong> (Feb 23): Esteemed academic and keynote plenary speaker. */}
+                    <strong>Dr. Sebastian Maurice</strong> is Founder and CTO of OTICS, a company that applies transactional machine learning and AI to real-time data streams. Sebastian has close to 25 years of experience in public and private sectors with emphasis on providing AI strategy, software development and solutions.  He has led global teams to solve critical business problems with machine learning in Oil and Gas, Retail, Utilities, Manufacturing, Finance and Insurance, and Healthcare.  In addition to founding OTICS, he was Principal Architect at Ayla Networks in Silicon Valley, Associate Director at Gartner, Canadian Data Science Lead for Accenture, Director of Architecture and Analytics for Hitachi Solutions, Head of Data Science at Capgemini, and Energy Analytics Practice Lead at SAS.  He was also (Interim) Chief Analytics Officer at Finning Digital.  
                   </PopoverBody>
                 </Popover>
 
@@ -899,10 +906,4 @@ export default class StudentDashboard extends Component {
   }
 }
 
-// {/* <Row className="mt-4">
-//   <Col md="12">
-//     <h3 class="text-white">Plenary selection will open shortly. Stay tuned.</h3>
-//     {/* <h3 class="text-white">Your Schedule</h3> */}
-//   </Col>
-// </Row>  */}
       

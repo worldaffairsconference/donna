@@ -49,10 +49,10 @@ export default class StudentDashboard extends Component {
           name: 'Plenary 1',
           options: [
             { id: 'p1o1', name: 'John Sitilides | Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War' },
-            { id: 'p1o3', name: 'Dr. Justina Ray | Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective' },
-            { id: 'p1o5', name: '[Keynote] Keith Pelley | President & CEO of Maple Leafs Sports and Entertainment' },
-            { id: 'p1o6', name: 'Andrew Healey | Organ Donation and Transplant - Success on the Edge' },
-            { id: 'p1o7', name: 'Dr. Jeremy Wang | Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones' },
+            { id: 'p1o2', name: 'Dr. Justina Ray | Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective' },
+            { id: 'p1o3', name: '[Keynote] Keith Pelley | President & CEO of Maple Leafs Sports and Entertainment' },
+            { id: 'p1o4', name: 'Andrew Healey | Organ Donation and Transplant - Success on the Edge' },
+            { id: 'p1o5', name: 'Dr. Jeremy Wang | Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones' },
           ],
         },
         p2: {

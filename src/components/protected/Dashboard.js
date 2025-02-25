@@ -63,7 +63,7 @@ export default class Dashboard extends Component {
             { id: 'p1o2', name: 'Sylvia Torres-Guillen | Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy' },
             { id: 'p1o3', name: 'Dr. Justina Ray | Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective' },
             { id: 'p1o4', name: 'Emma Lozhkin | From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation' },
-            // { id: 'p1o5', name: 'Plenary 1 Option 5' },
+            { id: 'p1o5', name: '[Keynote] Keith Pelley | President & CEO of Maple Leafs Sports and Entertainment' },
           ],
         },
         p2: {

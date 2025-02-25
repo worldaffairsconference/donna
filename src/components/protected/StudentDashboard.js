@@ -467,10 +467,10 @@ export default class StudentDashboard extends Component {
           </Col>
         </Row>
 
-        <Row className="mt-4">
+        <Row className="mt-2">
           <Col md="12">
-            <h5 className="text-white">Below, you will have the opportunity to choose your <strong>top 3</strong> most preferred plenaries in each time slot. <br />We will try our best to <strong>accommodate your preferences.</strong></h5>
-            <p className="text-white mt-2">In addition to the plenaries, all attendees will attend the <strong>Opening and Closing Keynotes at 9am and 2:30pm</strong>, respectively.</p>
+            <h5 className="text-white">Below, you will have the opportunity to choose your <strong>top 3</strong> most preferred plenaries in each time slot. <br />We will try our best to <strong>accommodate your preferences.</strong> Happy Choosing!</h5>
+            <p className="text-white mt-2">In addition to the plenaries, all attendees will attend the <strong>Opening and Closing Keynotes at 9am and 2:30pm</strong>, respectively. Lastly, please note that in <strong>Plenary Session 1</strong>, there is an alternative <strong>keynote option</strong> led by speaker <strong>Keith Pelley, President & CEO of Maple Leafs Sports and Entertainment.</strong></p>
           </Col>
         </Row> 
       
@@ -479,7 +479,7 @@ export default class StudentDashboard extends Component {
           <Form onSubmit={this.handleSavePlenaries}>
             <Row>              
               <Col md="4">
-                <h5>Plenary 1
+                <h5>Plenary 1 (10:25am - 11:15am)
                 <br />
                 <Button
                       id="PopoverP1"
@@ -556,7 +556,7 @@ export default class StudentDashboard extends Component {
               </Col>
               
               <Col md="4">
-                <h5>Plenary 2
+                <h5>Plenary 2 (11:45am - 12:35pm)
                 <br />
                 <Button
                     id="PopoverP2"
@@ -632,7 +632,7 @@ export default class StudentDashboard extends Component {
               </Col>
 
               <Col md="4">
-                <h5>Plenary 3
+                <h5>Plenary 3 (1:35pm - 2:25pm)
                 <br />
                 <Button
                     id="PopoverP3"

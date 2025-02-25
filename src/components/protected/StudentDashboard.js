@@ -468,7 +468,7 @@ export default class StudentDashboard extends Component {
           </Col>
         </Row>
 
-        <Row className="mt-4">
+        <Row className="mt-2">
           <Col md="12">
             <h3 class="text-white">Plenary selection is now open!</h3>
           </Col>
@@ -541,6 +541,7 @@ export default class StudentDashboard extends Component {
                     <strong>Sylvia Torres-Guillen</strong> is a graduate of Harvard & UC Berkeley Law and is currently the Executive Director and Director of Litigation for the Disability Rights Legal Center. A public defender of 23 years, she has had over 40 trials in federal court. Someone with a strong sense of righteousness and justice in and out of the classroom, we will be excited to hear her speak.<br/><br/>
                     <strong>Dr. Justina Ray</strong>  has been President and Senior Scientist of WCS Canada since 2004 and has been actively involved in biodiversity conservation with a focus on northern boreal landscapes. Dr. Justina Ray has held positions on many government panels such as the Terrestrial Mammals Subcommittee of the Committee on the Status of Endangered Wildlife in Canada (COSEWIC) from 2009-2017 and a member of the IUCN Taskforce on Biodiversity and Protected Areas in (2012-2016). She has also edited or authored 3 books and a large amount of articles, and is currently Adjunct Professor at the University of Toronto (Department of Ecology and Evolution; Graduate Department of Forestry) and Trent University (Environmental & Life Sciences Graduate Program). <br/><br/>
                     <strong>Emma Lozhkin</strong> has been a successful software engineer at NVIDIA, the international computer manufacturing corporation, for over two years. In her role, she has worked on innovative projects that push the boundaries of technology and artificial intelligence. Before embarking on her career in tech, Emma was a member of the Canadian Rhythmic Gymnastics National Team from 2012 to 2017. During this time, she represented Canada in several prestigious international competitions, including the 2014 Youth Olympic Games, showcasing her exceptional skill and dedication. Her transition from elite athletics to Branksome alum to a thriving career in software engineering highlights her versatility, discipline, and drive for excellence.
+                    <strong>Keith Pelley</strong> is the CEO of MLSE, a $10 billion organization that owns the Toronto Maple Leafs, Toronto Raptors, Toronto FC, Toronto Argonauts, and more. Keith is also the former CEO of Rogers Media and President of the PGA. His insight into the business of pro sports is unrivalled and he’s an excellent speaker. 
                   </PopoverBody>
                 </Popover>
                 <FormGroup>

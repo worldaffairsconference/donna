@@ -458,6 +458,12 @@ export default class StudentDashboard extends Component {
             </Button>
           </Col>
         </Row>
+    
+        <Row className="mt-2">
+          <Col md="12">
+            <h3 class="text-white">Plenary selection is now open!</h3>
+          </Col>
+        </Row> 
 
         {/* PLENARY SELECTION */}
         <Row>
@@ -468,11 +474,7 @@ export default class StudentDashboard extends Component {
           </Col>
         </Row>
 
-        <Row className="mt-2">
-          <Col md="12">
-            <h3 class="text-white">Plenary selection is now open!</h3>
-          </Col>
-        </Row> 
+        
 
         <Row className="mt-2">
           <Col md="12">

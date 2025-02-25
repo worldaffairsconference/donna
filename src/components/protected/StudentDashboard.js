@@ -467,7 +467,15 @@ export default class StudentDashboard extends Component {
           </Col>
         </Row>
 
-        <Card className="mt-4 inner-container">
+        <Row className="mt-4">
+          <Col md="12">
+            <h5 className="text-white">Below, you will have the opportunity to choose your <strong>top 3</strong> most preferred plenaries in each time slot. <br />We will try our best to <strong>accommodate your preferences.</strong></h5>
+            <p className="text-white mt-2">In addition to the plenaries, all attendees will attend the <strong>Opening and Closing Keynotes at 9am and 2:30pm</strong>, respectively.</p>
+          </Col>
+        </Row> 
+      
+
+        <Card className="mt-2 inner-container">
           <Form onSubmit={this.handleSavePlenaries}>
             <Row>              
               <Col md="4">

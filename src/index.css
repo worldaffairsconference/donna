@@ -5,6 +5,10 @@ body {
 	background-color: #18181B;
   }
   
+  html, body {
+	overflow-x: hidden; /* hides any horizontal scrollbar */
+  }
+  
   h{
 	  font-family: GillSans;
   }

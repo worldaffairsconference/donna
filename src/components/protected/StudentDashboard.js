@@ -52,7 +52,7 @@ export default class StudentDashboard extends Component {
             { id: 'p1o2', name: 'Sylvia Torres-Guillen | Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy' },
             { id: 'p1o3', name: 'Dr. Justina Ray | Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective' },
             { id: 'p1o4', name: 'Emma Lozhkin | From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation' },
-            // { id: 'p1o5', name: 'Plenary 1 Option 5' },
+            { id: 'p1o5', name: '[Keynote] Keith Pelley | President & CEO of Maple Leafs Sports and Entertainment' },
           ],
         },
         p2: {
@@ -92,22 +92,61 @@ export default class StudentDashboard extends Component {
     this.toggleModal2 = this.toggleModal2.bind(this);
     this.handleMagicCode = this.handleMagicCode.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.togglePopoverP1 = this.togglePopoverP1.bind(this);
-    this.togglePopoverP2 = this.togglePopoverP2.bind(this);
-    this.togglePopoverP3 = this.togglePopoverP3.bind(this);
 
     this.initializeData = this.initializeData.bind(this);
   }
 
-  togglePopoverP1() {
-    this.setState(prev => ({ popoverOpenP1: !prev.popoverOpenP1 }));
-  }
-  togglePopoverP2() {
-    this.setState(prev => ({ popoverOpenP2: !prev.popoverOpenP2 }));
-  }
-  togglePopoverP3() {
-    this.setState(prev => ({ popoverOpenP3: !prev.popoverOpenP3 }));
-  }
+  popoverCloseTimerP1 = null;
+  popoverCloseTimerP2 = null;
+  popoverCloseTimerP3 = null;
+
+  handlePopoverMouseEnterP1 = () => {
+    // Clear any closing timer if the mouse enters the target or popover
+    if (this.popoverCloseTimerP1) {
+      clearTimeout(this.popoverCloseTimerP1);
+      this.popoverCloseTimerP1 = null;
+    }
+    this.setState({ popoverOpenP1: true });
+  };
+
+  handlePopoverMouseLeaveP1 = () => {
+    // Set a delay before closing the popover
+    this.popoverCloseTimerP1 = setTimeout(() => {
+      this.setState({ popoverOpenP1: false });
+    }, 300); // 300ms delay; adjust as needed
+  };
+
+  handlePopoverMouseEnterP2 = () => {
+    // Clear any closing timer if the mouse enters the target or popover
+    if (this.popoverCloseTimerP2) {
+      clearTimeout(this.popoverCloseTimerP2);
+      this.popoverCloseTimerP2 = null;
+    }
+    this.setState({ popoverOpenP2: true });
+  };
+
+  handlePopoverMouseLeaveP2 = () => {
+    // Set a delay before closing the popover
+    this.popoverCloseTimerP2 = setTimeout(() => {
+      this.setState({ popoverOpenP2: false });
+    }, 300); // 300ms delay; adjust as needed
+  };
+
+  handlePopoverMouseEnterP3 = () => {
+    // Clear any closing timer if the mouse enters the target or popover
+    if (this.popoverCloseTimerP3) {
+      clearTimeout(this.popoverCloseTimerP3);
+      this.popoverCloseTimerP3 = null;
+    }
+    this.setState({ popoverOpenP3: true });
+  };
+
+  handlePopoverMouseLeaveP3 = () => {
+    // Set a delay before closing the popover
+    this.popoverCloseTimerP3 = setTimeout(() => {
+      this.setState({ popoverOpenP3: false });
+    }, 300); // 300ms delay; adjust as needed
+  };
 
   // Handle saving the plenaries section
   async handleSavePlenaries(event) {
@@ -158,7 +197,7 @@ export default class StudentDashboard extends Component {
     };
 
     await ref.child(`teachers/${teacherID}/students/${userid}`).update(updatePlenaries);
-    alert('Plenary selections saved successfully!');
+    alert('Plenary selections saved successfully! Your detailed conference schedule will be published on March 3rd.');
   }
 
   // Handle saving the notes and lunch section
@@ -211,10 +250,11 @@ export default class StudentDashboard extends Component {
   // DOUBLE CHECK WITH LIYANG TO SEE IF EVERYTHING IS CORRECT
 
   plenaryDetails = {
-    p1o1: { time: '10:25 AM - 11:15 AM', title: 'Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War', speaker: 'John Sitilides', location: 'Laidlaw Hall' },
+    p1o1: { time: '10:25 AM - 11:15 AM', title: 'Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War', speaker: 'John Sitilides', location: 'Manucha & Bellamy Studio Theatre' },
     p1o2: { time: '10:25 AM - 11:15 AM', title: 'Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy', speaker: 'Sylvia Torres-Guillen', location: 'Student Centre'},
-    p1o3: { time: '10:25 AM - 11:15 AM', title: 'Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective', speaker: 'Dr. Justina Ray', location: 'Manucha & Bellamy Studio Theatre' },
+    p1o3: { time: '10:25 AM - 11:15 AM', title: 'Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective', speaker: 'Dr. Justina Ray', location: 'Room 232' },
     p1o4: { time: '10:25 AM - 11:15 AM', title: 'From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation', speaker: 'Emma Lozhkin', location: 'Rooms 248 + 249' },
+    p1o5: { time: '10:25 AM - 11:15 AM', title: 'Keith Pelley | The Future of Maple Leafs Sports and Entertainment', speaker: 'Keith Pelley', location: 'Laidlaw Hall' },
     p2o1: { time: '11:45 AM - 12:35 PM', title: 'Breaking Barriers: Engaging Men in Gender Equality for a Better World', speaker: 'Michael Kaufman', location: 'Laidlaw Hall' },
     p2o2: { time: '11:45 AM - 12:35 PM', title: 'Organ Donation and Transplant - Success on the Edge', speaker: 'Andrew Healey', location: 'Student Centre' },
     p2o3: { time: '11:45 AM - 12:35 PM', title: 'From Idea to Reality – Using the Earth as a Battery', speaker: 'Curtis VanWelleghem', location: 'Manucha & Bellamy Studio Theatre' },
@@ -418,13 +458,6 @@ export default class StudentDashboard extends Component {
             </Button>
           </Col>
         </Row>
-        <Row className="mt-4">
-          <Col md="12">
-            <h3 class="text-white">Plenary selection will open shortly. Stay tuned.</h3>
-            {/* <h3 class="text-white">Your Schedule</h3> */}
-          </Col>
-        </Row>
-
 
         {/* PLENARY SELECTION */}
         <Row>
@@ -435,16 +468,26 @@ export default class StudentDashboard extends Component {
           </Col>
         </Row>
 
-        <Card className="mt-4 inner-container">
+        <Row className="mt-2">
+          <Col md="12">
+            <h5 className="text-white">Below, you will have the opportunity to choose your <strong>top 3</strong> most preferred plenaries in each time slot. <br />We will try our best to <strong>accommodate your preferences.</strong> Happy Choosing!</h5>
+            <p className="text-white mt-2">In addition to the plenaries, all attendees will attend the <strong>Opening and Closing Keynotes at 9am and 2:30pm</strong>, respectively. Lastly, please note that in <strong>Plenary Session 1</strong>, there is an alternative <strong>keynote option</strong> led by speaker <strong>Keith Pelley, President & CEO of Maple Leafs Sports and Entertainment.</strong></p>
+          </Col>
+        </Row> 
+      
+
+        <Card className="mt-2 inner-container">
           <Form onSubmit={this.handleSavePlenaries}>
             <Row>              
               <Col md="4">
-                <h5>Plenary 1
+                <h5>Plenary 1 (10:25am - 11:15am)
+                <br />
                 <Button
                       id="PopoverP1"
                       color="link"
-                      onMouseEnter={this.togglePopoverP1}
-                      onMouseLeave={this.togglePopoverP1}
+                      onMouseEnter={this.handlePopoverMouseEnterP1}
+                      onMouseLeave={this.handlePopoverMouseLeaveP1}
+                      onClick={(e) => e.preventDefault()}
                       style={{ padding: 0, fontSize: '0.9rem' }}
                     >
                       Info
@@ -454,15 +497,44 @@ export default class StudentDashboard extends Component {
                   placement="bottom"
                   isOpen={this.state.popoverOpenP1}
                   target="PopoverP1"
-                  toggle={this.togglePopoverP1}
-                  trigger="hover"
+                  style={{
+                    width: '90vw',
+                    maxWidth: 'none',      // up to 80% of the viewport width
+                    whiteSpace: 'normal',  // let text wrap onto multiple lines
+                    overflow: 'visible',    // crucial for showing content that overflows
+                    border: '1px solid #ccc',
+                    boxShadow: '0 0 8px rgba(0,0,0,0.2)' // optional styling
+                  }}
+                  // toggle={this.togglePopoverP1}
+                  // trigger="hover"
                 >
-                  <PopoverHeader>Plenary 1 Speakers</PopoverHeader>
-                  <PopoverBody>
-                    <strong>John Sitilides</strong> (Jan 27): We’re proud to announce our first plenary speaker for WAC ’25!<br/><br/>
-                    <strong>Sylvia Torres-Guillen</strong> (Feb 18): From the courtroom to the conference stage, join us in welcoming her!<br/><br/>
-                    <strong>Dr. Justina Ray</strong> (Feb 19): President and Senior Scientist with extensive expertise in biodiversity conservation.<br/><br/>
-                    <strong>Emma Lozhkin</strong> (Feb 12): Former Canadian National Gymnast turned software engineer at NVIDIA.
+                  <div
+                    onMouseEnter={this.handlePopoverMouseEnterP1}
+                    onMouseLeave={this.handlePopoverMouseLeaveP1}
+                    style={{
+                      backgroundColor: 'white',
+                      overflow: 'visible',  // let it expand beyond bounding box
+                    }}
+                  ></div>
+                  <PopoverHeader style={{
+                    backgroundColor: 'white',
+                    whiteSpace: 'normal',
+                    overflow: 'visible',
+                    textAlign: 'center',
+                  }}> 
+                    Plenary 1 Speakers
+                  </PopoverHeader>
+                  <PopoverBody
+                    style={{
+                      backgroundColor: 'white',
+                      whiteSpace: 'normal',
+                      overflow: 'visible',
+                    }}
+                  >
+                    <strong>John Sitilides</strong> has been a State Department Diplomacy Consultant for Presidents Trump, Biden, Obama, and Bush. He is a National Security Senior Fellow at the Foreign Policy Research Institute and explores the complex geopolitical and geo-economic decisions that impact markets in Asia, Europe, the Middle East, and worldwide. He was Southern Europe Regional Coordinator at the Foreign Service Institute, the State Department's professional development and diplomacy academy for American foreign policy professionals as well as the Board Chairman of the Woodrow Wilson Center Southeast Europe Project from 2005-2011. <br/><br/>
+                    <strong>Sylvia Torres-Guillen</strong> is a graduate of Harvard & UC Berkeley Law and is currently the Executive Director and Director of Litigation for the Disability Rights Legal Center. A public defender of 23 years, she has had over 40 trials in federal court. Someone with a strong sense of righteousness and justice in and out of the classroom, we will be excited to hear her speak.<br/><br/>
+                    <strong>Dr. Justina Ray</strong>  has been President and Senior Scientist of WCS Canada since 2004 and has been actively involved in biodiversity conservation with a focus on northern boreal landscapes. Dr. Justina Ray has held positions on many government panels such as the Terrestrial Mammals Subcommittee of the Committee on the Status of Endangered Wildlife in Canada (COSEWIC) from 2009-2017 and a member of the IUCN Taskforce on Biodiversity and Protected Areas in (2012-2016). She has also edited or authored 3 books and a large amount of articles, and is currently Adjunct Professor at the University of Toronto (Department of Ecology and Evolution; Graduate Department of Forestry) and Trent University (Environmental & Life Sciences Graduate Program). <br/><br/>
+                    <strong>Emma Lozhkin</strong> has been a successful software engineer at NVIDIA, the international computer manufacturing corporation, for over two years. In her role, she has worked on innovative projects that push the boundaries of technology and artificial intelligence. Before embarking on her career in tech, Emma was a member of the Canadian Rhythmic Gymnastics National Team from 2012 to 2017. During this time, she represented Canada in several prestigious international competitions, including the 2014 Youth Olympic Games, showcasing her exceptional skill and dedication. Her transition from elite athletics to Branksome alum to a thriving career in software engineering highlights her versatility, discipline, and drive for excellence.
                   </PopoverBody>
                 </Popover>
                 <FormGroup>
@@ -510,31 +582,65 @@ export default class StudentDashboard extends Component {
               </Col>
               
               <Col md="4">
-                <h5>Plenary 2
+                <h5>Plenary 2 (11:45am - 12:35pm)
+                <br />
                 <Button
                     id="PopoverP2"
                     color="link"
-                    onMouseEnter={this.togglePopoverP2}
-                    onMouseLeave={this.togglePopoverP2}
+                    onMouseEnter={this.handlePopoverMouseEnterP2}
+                    onMouseLeave={this.handlePopoverMouseLeaveP2}
+                    onClick={(e) => e.preventDefault()}
                     style={{ padding: 0, fontSize: '0.9rem' }}
                   >
-                    Info
+                  Info
                   </Button>
                 </h5>
                 <Popover
-                  placement="bottom"
+                  placement="bottom-start"
                   isOpen={this.state.popoverOpenP2}
                   target="PopoverP2"
-                  toggle={this.togglePopoverP2}
-                  trigger="hover"
+                  popper={false}
+                  style={{
+                    position: 'absolute',
+                    left: '-33vw', // Move it near Plenary 1, or wherever you want
+                    width: '90vw', // or '90vw'
+                    backgroundColor: 'white',
+                    border: '1px solid #ccc',
+                    boxShadow: '0 0 8px rgba(0,0,0,0.2)',
+                    whiteSpace: 'normal',
+                    overflow: 'visible'
+                  }}
+                  
+                  // toggle={this.togglePopoverP2}
+                  // trigger="hover"
                 >
-                  <PopoverHeader>Plenary 2 Speakers</PopoverHeader>
-                  <PopoverBody>
-                    <strong>Michael Kaufman</strong> (Feb 10): Renowned for engaging men in gender equality.<br/><br/>
-                    <strong>Dr. Andrew Healey</strong> (Feb 3): Critical care specialist and transplant expert.<br/><br/>
-                    <strong>Curtis VanWelleghem</strong> (Feb 14): Innovative thinker turning ideas into reality.<br/><br/>
-                    <strong>John Smol</strong> (Jan 30): Distinguished professor known for pioneering environmental research.<br/><br/>
-                    <strong>Wolfgang Schwarz</strong> (Feb 25): Celebrated former Olympic figure skater.
+                  <div
+                    onMouseEnter={this.handlePopoverMouseEnterP2}
+                    onMouseLeave={this.handlePopoverMouseLeaveP2}
+                    style={{
+                      backgroundColor: 'white',
+                      overflow: 'visible',  // let it expand beyond bounding box
+                    }}
+                  ></div>
+                  <PopoverHeader style={{
+                    backgroundColor: 'white',
+                    whiteSpace: 'normal',
+                    overflow: 'visible',
+                    textAlign: 'center',
+                  }}> Plenary 2 Speakers</PopoverHeader>
+                  <PopoverBody
+                    style={{
+                      backgroundColor: 'white',
+                      whiteSpace: 'normal',
+                      overflow: 'visible',
+                    }}
+                  >
+                    <strong>Michael Kaufman</strong>, PhD, is a Canadian author and educator dedicated to engaging men and boys in promoting gender equality and ending violence against women. He co-founded the White Ribbon Campaign, the world's largest movement of men working to end violence against women. Over four decades, his work with the United Nations, governments, NGOs, and corporations has spanned fifty countries.<br/><br/>
+                    <strong>Dr. Andrew Healey</strong> is an emergency and critical care specialist currently working in Hamilton, Ontario as the Chief of Critical care at St. Joseph's Hamilton.  After completing vigorous training in the organ donation field, Dr Healey now holds the position of Provincial Medical Director for Donation with Trillium Gift of Life (organ transplants through Ontario Health).  Dr Healey uses adaptive leadership to ensure that the people he works with have excellent experiences within the organ transplant and healthcare realm. <br/><br/>
+                    {/* <strong>Curtis VanWelleghem</strong> (Feb 14): Innovative thinker turning ideas into reality.<br/><br/> */}
+                    <strong>Dr. John P. Smol</strong> is a Distinguished University Professor at Queen’s University. His pioneering research focuses on long-term ecosystem changes, exploring the impacts of climate change and other environmental stressors. Dr. Smol has authored over 720 academic papers and 24 books, making significant contributions to environmental science. With more than 100 prestigious teaching and research awards to his name, he is widely recognized for his lasting influence on both academia and environmental policy.
+                    <br/><br/>
+                    <strong>Wolfgang Schwarz</strong> is a former Austrian figure skater best known for winning the gold medal at the 1968 Winter Olympics in Grenoble. A highly skilled competitor, he also earned silver medals at the World Champions (1966,1967) and multiple podium finishes at the European Championships. His skating career showcased technical precision and artistic excellence, making him one of Austria’s notable Olympic champions. 
                   </PopoverBody>
                 </Popover>
                 <FormGroup>
@@ -581,31 +687,65 @@ export default class StudentDashboard extends Component {
               </Col>
 
               <Col md="4">
-                <h5>Plenary 3
+                <h5>Plenary 3 (1:35pm - 2:25pm)
+                <br />
                 <Button
                     id="PopoverP3"
                     color="link"
-                    onMouseEnter={this.togglePopoverP3}
-                    onMouseLeave={this.togglePopoverP3}
+                    onMouseEnter={this.handlePopoverMouseEnterP3}
+                    onMouseLeave={this.handlePopoverMouseLeaveP3}
+                    onClick={(e) => e.preventDefault()}
                     style={{ padding: 0, fontSize: '0.9rem' }}
                   >
                     Info
                 </Button>
                 </h5>
                 <Popover
-                  placement="bottom"
+                  placement="bottom-start"
                   isOpen={this.state.popoverOpenP3}
                   target="PopoverP3"
-                  toggle={this.togglePopoverP3}
-                  trigger="hover"
+                  popper={false}
+                  style={{
+                    position: 'absolute',
+                    left: '-58vw', // Move it near Plenary 1, or wherever you want
+                    width: '90vw', // or '90vw'
+                    backgroundColor: 'white',
+                    border: '1px solid #ccc',
+                    boxShadow: '0 0 8px rgba(0,0,0,0.2)',
+                    whiteSpace: 'normal',
+                    overflow: 'visible'
+                  }}
+                  // toggle={this.togglePopoverP3}
+                  // trigger="hover"
                 >
-                  <PopoverHeader>Plenary 3 Speakers</PopoverHeader>
-                  <PopoverBody>
-                    <strong>James Suh</strong> (Feb 20): CFO with leadership in sports business.<br/><br/>
-                    <strong>Dr. Jeremy Wang</strong> (Jan 29): COO and innovator in aerospace and drone technology.<br/><br/>
-                    <strong>Eric Zhu</strong> (Feb 5): Young CEO who began his entrepreneurial journey in high school.<br/><br/>
-                    <strong>Shirley Blumberg</strong> (Feb 17): Acclaimed architect known for sustainable designs.<br/><br/>
-                    <strong>Dr. Sebastian Maurice</strong> (Feb 23): Esteemed academic and keynote plenary speaker.
+                  <div
+                    onMouseEnter={this.handlePopoverMouseEnterP3}
+                    onMouseLeave={this.handlePopoverMouseLeaveP3}
+                    style={{
+                      backgroundColor: 'white',
+                      overflow: 'visible',  // let it expand beyond bounding box
+                    }}
+                  ></div>
+                  <PopoverHeader style={{
+                    backgroundColor: 'white',
+                    whiteSpace: 'normal',
+                    overflow: 'visible',
+                    textAlign: 'center',
+                  }}>Plenary 3 Speakers</PopoverHeader>
+                  <PopoverBody
+                    style={{
+                      backgroundColor: 'white',
+                      whiteSpace: 'normal',
+                      overflow: 'visible',
+                    }}
+                  >
+                    <strong>James Suh</strong> is the CFO of the NHL’s Florida Panthers, managing the finances and legalities of the Sunshine Sports and Entertainment league alongside the Panthers themselves, culminating in a Stanley Cup victory in 2024. Before joining the Panther’s management, he lived in Toronto working for Maple Leaf Sports & Entertainment as VP of Finance, as well as having finance and audit roles at Canadian Tire, Unilever, and PwC. <br/><br/>
+                    <strong>Dr. Jeremy Wang</strong> is the co-founder and current serving COO of the aviation service Ribbit, recipient of the Mitacs Change Agent Entrepreneur Award, and PhD graduate of Mechanical & Mechatronics Engineering from Waterloo, Dr.Wang has lead numerous teams in revolutionizing automated aerospace in Canada. He has also served at The Sky Guys, where he developed his own division creating NATO class I drones for use in North America. <br/><br/>
+                    <strong>Eric Zhu</strong>, the 17 year old CEO and co-founder of Aviato, an analytical platform for private market data, often described as a “Bloomberg Terminal” for private markets. At 15 Eric started his business out of his high school bathroom, taking business calls in the stalls. He has worked with several famous investors like 8VC, Soma Capital, and the SoftBank-Naver Fund and has raised around 2.3 million dollars to date.
+                    <br/><br/>
+                    <strong>Shirley Blumberg</strong> is a renowned Canadian architect and a founding partner of KPMB Architects, known for her innovative and socially conscious designs. She has played a significant role in shaping modern urban architecture, focusing on sustainable and community-driven projects. Her work includes cultural institutions, academic buildings, and affordable housing, earring her numerous accolades, including the Order of Canada for her contributions to architecture and social equity. 
+                    <br/><br/>
+                    {/* <strong>Dr. Sebastian Maurice</strong> (Feb 23): Esteemed academic and keynote plenary speaker. */}
                   </PopoverBody>
                 </Popover>
 
@@ -758,3 +898,11 @@ export default class StudentDashboard extends Component {
     );
   }
 }
+
+// {/* <Row className="mt-4">
+//   <Col md="12">
+//     <h3 class="text-white">Plenary selection will open shortly. Stay tuned.</h3>
+//     {/* <h3 class="text-white">Your Schedule</h3> */}
+//   </Col>
+// </Row>  */}
+      

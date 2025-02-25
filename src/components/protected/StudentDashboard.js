@@ -92,22 +92,61 @@ export default class StudentDashboard extends Component {
     this.toggleModal2 = this.toggleModal2.bind(this);
     this.handleMagicCode = this.handleMagicCode.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.togglePopoverP1 = this.togglePopoverP1.bind(this);
-    this.togglePopoverP2 = this.togglePopoverP2.bind(this);
-    this.togglePopoverP3 = this.togglePopoverP3.bind(this);
 
     this.initializeData = this.initializeData.bind(this);
   }
 
-  togglePopoverP1() {
-    this.setState(prev => ({ popoverOpenP1: !prev.popoverOpenP1 }));
-  }
-  togglePopoverP2() {
-    this.setState(prev => ({ popoverOpenP2: !prev.popoverOpenP2 }));
-  }
-  togglePopoverP3() {
-    this.setState(prev => ({ popoverOpenP3: !prev.popoverOpenP3 }));
-  }
+  popoverCloseTimerP1 = null;
+  popoverCloseTimerP2 = null;
+  popoverCloseTimerP3 = null;
+
+  handlePopoverMouseEnterP1 = () => {
+    // Clear any closing timer if the mouse enters the target or popover
+    if (this.popoverCloseTimerP1) {
+      clearTimeout(this.popoverCloseTimerP1);
+      this.popoverCloseTimerP1 = null;
+    }
+    this.setState({ popoverOpenP1: true });
+  };
+
+  handlePopoverMouseLeaveP1 = () => {
+    // Set a delay before closing the popover
+    this.popoverCloseTimerP1 = setTimeout(() => {
+      this.setState({ popoverOpenP1: false });
+    }, 300); // 300ms delay; adjust as needed
+  };
+
+  handlePopoverMouseEnterP2 = () => {
+    // Clear any closing timer if the mouse enters the target or popover
+    if (this.popoverCloseTimerP2) {
+      clearTimeout(this.popoverCloseTimerP2);
+      this.popoverCloseTimerP2 = null;
+    }
+    this.setState({ popoverOpenP2: true });
+  };
+
+  handlePopoverMouseLeaveP2 = () => {
+    // Set a delay before closing the popover
+    this.popoverCloseTimerP2 = setTimeout(() => {
+      this.setState({ popoverOpenP2: false });
+    }, 300); // 300ms delay; adjust as needed
+  };
+
+  handlePopoverMouseEnterP3 = () => {
+    // Clear any closing timer if the mouse enters the target or popover
+    if (this.popoverCloseTimerP3) {
+      clearTimeout(this.popoverCloseTimerP3);
+      this.popoverCloseTimerP3 = null;
+    }
+    this.setState({ popoverOpenP3: true });
+  };
+
+  handlePopoverMouseLeaveP3 = () => {
+    // Set a delay before closing the popover
+    this.popoverCloseTimerP3 = setTimeout(() => {
+      this.setState({ popoverOpenP3: false });
+    }, 300); // 300ms delay; adjust as needed
+  };
 
   // Handle saving the plenaries section
   async handleSavePlenaries(event) {
@@ -418,13 +457,6 @@ export default class StudentDashboard extends Component {
             </Button>
           </Col>
         </Row>
-        <Row className="mt-4">
-          <Col md="12">
-            <h3 class="text-white">Plenary selection will open shortly. Stay tuned.</h3>
-            {/* <h3 class="text-white">Your Schedule</h3> */}
-          </Col>
-        </Row>
-
 
         {/* PLENARY SELECTION */}
         <Row>
@@ -440,11 +472,13 @@ export default class StudentDashboard extends Component {
             <Row>              
               <Col md="4">
                 <h5>Plenary 1
+                <br />
                 <Button
                       id="PopoverP1"
                       color="link"
-                      onMouseEnter={this.togglePopoverP1}
-                      onMouseLeave={this.togglePopoverP1}
+                      onMouseEnter={this.handlePopoverMouseEnterP1}
+                      onMouseLeave={this.handlePopoverMouseLeaveP1}
+                      onClick={(e) => e.preventDefault()}
                       style={{ padding: 0, fontSize: '0.9rem' }}
                     >
                       Info
@@ -454,9 +488,13 @@ export default class StudentDashboard extends Component {
                   placement="bottom"
                   isOpen={this.state.popoverOpenP1}
                   target="PopoverP1"
-                  toggle={this.togglePopoverP1}
-                  trigger="hover"
+                  // toggle={this.togglePopoverP1}
+                  // trigger="hover"
                 >
+                  <div
+                    onMouseEnter={this.handlePopoverMouseEnterP1}
+                    onMouseLeave={this.handlePopoverMouseLeaveP1}
+                  ></div>
                   <PopoverHeader>Plenary 1 Speakers</PopoverHeader>
                   <PopoverBody>
                     <strong>John Sitilides</strong> (Jan 27): We’re proud to announce our first plenary speaker for WAC ’25!<br/><br/>
@@ -511,11 +549,12 @@ export default class StudentDashboard extends Component {
               
               <Col md="4">
                 <h5>Plenary 2
+                <br />
                 <Button
                     id="PopoverP2"
                     color="link"
-                    onMouseEnter={this.togglePopoverP2}
-                    onMouseLeave={this.togglePopoverP2}
+                    onMouseEnter={this.handlePopoverMouseEnterP2}
+                    onMouseLeave={this.handlePopoverMouseLeaveP2}
                     style={{ padding: 0, fontSize: '0.9rem' }}
                   >
                     Info
@@ -525,9 +564,13 @@ export default class StudentDashboard extends Component {
                   placement="bottom"
                   isOpen={this.state.popoverOpenP2}
                   target="PopoverP2"
-                  toggle={this.togglePopoverP2}
-                  trigger="hover"
+                  // toggle={this.togglePopoverP2}
+                  // trigger="hover"
                 >
+                  <div
+                    onMouseEnter={this.handlePopoverMouseEnterP2}
+                    onMouseLeave={this.handlePopoverMouseLeaveP2}
+                  ></div>
                   <PopoverHeader>Plenary 2 Speakers</PopoverHeader>
                   <PopoverBody>
                     <strong>Michael Kaufman</strong> (Feb 10): Renowned for engaging men in gender equality.<br/><br/>
@@ -582,11 +625,12 @@ export default class StudentDashboard extends Component {
 
               <Col md="4">
                 <h5>Plenary 3
+                <br />
                 <Button
                     id="PopoverP3"
                     color="link"
-                    onMouseEnter={this.togglePopoverP3}
-                    onMouseLeave={this.togglePopoverP3}
+                    onMouseEnter={this.handlePopoverMouseEnterP3}
+                    onMouseLeave={this.handlePopoverMouseLeaveP3}
                     style={{ padding: 0, fontSize: '0.9rem' }}
                   >
                     Info
@@ -596,9 +640,13 @@ export default class StudentDashboard extends Component {
                   placement="bottom"
                   isOpen={this.state.popoverOpenP3}
                   target="PopoverP3"
-                  toggle={this.togglePopoverP3}
-                  trigger="hover"
+                  // toggle={this.togglePopoverP3}
+                  // trigger="hover"
                 >
+                  <div
+                    onMouseEnter={this.handlePopoverMouseEnterP3}
+                    onMouseLeave={this.handlePopoverMouseLeaveP3}
+                  ></div>
                   <PopoverHeader>Plenary 3 Speakers</PopoverHeader>
                   <PopoverBody>
                     <strong>James Suh</strong> (Feb 20): CFO with leadership in sports business.<br/><br/>
@@ -758,3 +806,11 @@ export default class StudentDashboard extends Component {
     );
   }
 }
+
+// {/* <Row className="mt-4">
+//   <Col md="12">
+//     <h3 class="text-white">Plenary selection will open shortly. Stay tuned.</h3>
+//     {/* <h3 class="text-white">Your Schedule</h3> */}
+//   </Col>
+// </Row>  */}
+      

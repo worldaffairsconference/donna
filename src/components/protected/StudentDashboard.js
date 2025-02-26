@@ -48,20 +48,20 @@ export default class StudentDashboard extends Component {
         p1: {
           name: 'Plenary 1',
           options: [
-            { id: 'p1o1', name: 'John Sitilides | Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War' },
-            { id: 'p1o2', name: 'Sylvia Torres-Guillen | Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy' },
-            { id: 'p1o3', name: 'Dr. Justina Ray | Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective' },
-            { id: 'p1o4', name: 'Emma Lozhkin | From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation' },
-            { id: 'p1o5', name: '[Keynote] Keith Pelley | President & CEO of Maple Leafs Sports and Entertainment' },
+            { id: 'p1o1', name: '[Keynote] Keith Pelley | President & CEO of Maple Leafs Sports and Entertainment' },
+            { id: 'p1o2', name: 'Andrew Healey | Organ Donation and Transplant - Success on the Edge' },
+            { id: 'p1o3', name: 'John Sitilides | Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War' },
+            { id: 'p1o4', name: 'Dr. Jeremy Wang | Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones' },
+            { id: 'p1o5', name: 'Dr. Justina Ray | Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective' },
           ],
         },
         p2: {
           name: 'Plenary 2',
           options: [
             { id: 'p2o1', name: 'Michael Kaufman | Breaking Barriers: Engaging Men in Gender Equality for a Better World' },
-            { id: 'p2o2', name: 'Andrew Healey | Organ Donation and Transplant - Success on the Edge' },
-            { id: 'p2o3', name: ' Curtis VanWelleghem | From Idea to Reality – Using the Earth as a Battery' },
-            { id: 'p2o4', name:  'John Smol | Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication' },
+            { id: 'p2o2', name: 'Sylvia Torres Guillen | Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy' },
+            { id: 'p2o3', name: 'Shirley Blumberg | Imagining the Future: Building on the Past' },
+            { id: 'p2o4', name: 'John Smol | Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication' },
             { id: 'p2o5', name: 'Wolfgang Schwan and Yan Boechat | Eyes on the Frontlines: challenges and triumphs of reporting in conflict zones' },
           ],
         },
@@ -69,13 +69,14 @@ export default class StudentDashboard extends Component {
           name: 'Plenary 3',
           options: [
             { id: 'p3o1', name: 'James Suh | Behind the Stanley Cup: What Makes a Winning Team with a Championship Mindset?' },
-            { id: 'p3o2', name: 'Dr. Jeremy Wang | Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones' },
+            { id: 'p3o2', name: 'Emma Lozhkin | From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation' },
             { id: 'p3o3', name: 'Eric Zhu | High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato' },
-            { id: 'p3o4', name: 'Shirley Blumberg | Imagining the Future: Building on the Past' },
+            { id: 'p3o4', name: 'Curtis VanWelleghem | From Idea to Reality – Using the Earth as a Battery' },
             { id: 'p3o5', name: 'Dr. Sebastian Maurice | AI Horizons: Inspiring the Next Generation of Innovators' },
           ],
         },
       },
+      
       magic: '',
       modal2: false,
       popoverOpenP1: false,
@@ -250,22 +251,24 @@ export default class StudentDashboard extends Component {
   // DOUBLE CHECK WITH LIYANG TO SEE IF EVERYTHING IS CORRECT
 
   plenaryDetails = {
-    p1o1: { time: '10:25 AM - 11:15 AM', title: 'Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War', speaker: 'John Sitilides', location: 'Manucha & Bellamy Studio Theatre' },
-    p1o2: { time: '10:25 AM - 11:15 AM', title: 'Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy', speaker: 'Sylvia Torres-Guillen', location: 'Student Centre'},
-    p1o3: { time: '10:25 AM - 11:15 AM', title: 'Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective', speaker: 'Dr. Justina Ray', location: 'Room 232' },
-    p1o4: { time: '10:25 AM - 11:15 AM', title: 'From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation', speaker: 'Emma Lozhkin', location: 'Rooms 248 + 249' },
-    p1o5: { time: '10:25 AM - 11:15 AM', title: 'Keith Pelley | The Future of Maple Leafs Sports and Entertainment', speaker: 'Keith Pelley', location: 'Laidlaw Hall' },
+    p1o1: { time: '10:25 AM - 11:15 AM', title: 'Keith Pelley | The Future of Maple Leafs Sports and Entertainment', speaker: 'Keith Pelley', location: 'Laidlaw Hall' },
+    p1o2: { time: '10:25 AM - 11:15 AM', title: 'Organ Donation and Transplant - Success on the Edge', speaker: 'Andrew Healey', location: 'Student Centre' },
+    p1o3: { time: '10:25 AM - 11:15 AM', title: 'Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War', speaker: 'John Sitilides', location: 'Manucha & Bellamy Studio Theatre' },
+    p1o4: { time: '10:25 AM - 11:15 AM', title: 'Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones', speaker: 'Dr. Jeremy Wang', location: 'Student Centre' },
+    p1o5: { time: '10:25 AM - 11:15 AM', title: 'Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective', speaker: 'Dr. Justina Ray', location: 'Room 232' },
     p2o1: { time: '11:45 AM - 12:35 PM', title: 'Breaking Barriers: Engaging Men in Gender Equality for a Better World', speaker: 'Michael Kaufman', location: 'Laidlaw Hall' },
-    p2o2: { time: '11:45 AM - 12:35 PM', title: 'Organ Donation and Transplant - Success on the Edge', speaker: 'Andrew Healey', location: 'Student Centre' },
-    p2o3: { time: '11:45 AM - 12:35 PM', title: 'From Idea to Reality – Using the Earth as a Battery', speaker: 'Curtis VanWelleghem', location: 'Manucha & Bellamy Studio Theatre' },
+    p2o2: { time: '11:45 AM - 12:35 PM', title: 'Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy', speaker: 'Sylvia Torres Guillen', location: 'Student Centre' },
+    p2o3: { time: '11:45 AM - 12:35 PM', title: 'Imagining the Future: Building on the Past', speaker: 'Shirley Blumberg', location: 'Rooms 248 + 249' },
     p2o4: { time: '11:45 AM - 12:35 PM', title: 'Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication', speaker: 'John Smol', location: 'Rooms 248 + 249' },
-    p2o5: { time: '11:45 AM - 12:35 AM', title: 'Eyes on the Frontlines: Challenges and Triumphs of Reporting in Conflict Zones', speaker: 'Wolfgang Schwan and Yan Boechat', location: 'Room 232' },
+    p2o5: { time: '11:45 AM - 12:35 PM', title: 'Eyes on the Frontlines: Challenges and Triumphs of Reporting in Conflict Zones', speaker: 'Wolfgang Schwartz and Yan Boechat', location: 'Room 232' },
     p3o1: { time: '1:35 PM - 2:25 PM', title: 'Behind the Stanley Cup: What Makes a Winning Team with a Championship Mindset?', speaker: 'James Suh', location: 'Laidlaw Hall' },
-    p3o2: { time: '1:35 PM - 2:25 PM', title: 'Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones', speaker: 'Dr. Jeremy Wang', location: 'Student Centre' },
+    p3o2: { time: '1:35 PM - 2:25 PM', title: 'From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation', speaker: 'Emma Lozhkin', location: 'Rooms 248 + 249' },
     p3o3: { time: '1:35 PM - 2:25 PM', title: 'High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato', speaker: 'Eric Zhu', location: 'Manucha & Bellamy Studio Theatre' },
-    p3o4: { time: '1:35 PM - 2:25 PM', title: 'Imagining the Future: Building on the Past', speaker: 'Shirley Blumberg', location: 'Rooms 248 + 249' },
-    p3o5: { time: '1:35 PM - 2:25 PM', title: 'AI Horizons: Inspiring the Next Generation of Innovators', speaker: 'Dr. Sebastian Maurice', location: 'Room 232' },
-  };
+    p3o4: { time: '1:35 PM - 2:25 PM', title: 'From Idea to Reality – Using the Earth as a Battery', speaker: 'Curtis Van Welleghem', location: 'Manucha & Bellamy Studio Theatre' },
+    p3o5: { time: '1:35 PM - 2:25 PM', title: 'AI Horizons: Inspiring the Next Generation of Innovators', speaker: 'Dr. Sebastian Maurice', location: 'Room 232' }
+}
+
+
 
   initializeData(userId) {
     
@@ -539,11 +542,11 @@ export default class StudentDashboard extends Component {
                       overflow: 'visible',
                     }}
                   >
-                    <strong>John Sitilides</strong> has been a State Department Diplomacy Consultant for Presidents Trump, Biden, Obama, and Bush. He is a National Security Senior Fellow at the Foreign Policy Research Institute and explores the complex geopolitical and geo-economic decisions that impact markets in Asia, Europe, the Middle East, and worldwide. He was Southern Europe Regional Coordinator at the Foreign Service Institute, the State Department's professional development and diplomacy academy for American foreign policy professionals as well as the Board Chairman of the Woodrow Wilson Center Southeast Europe Project from 2005-2011. <br/><br/>
-                    <strong>Sylvia Torres-Guillen</strong> is a graduate of Harvard & UC Berkeley Law and is currently the Executive Director and Director of Litigation for the Disability Rights Legal Center. A public defender of 23 years, she has had over 40 trials in federal court. Someone with a strong sense of righteousness and justice in and out of the classroom, we will be excited to hear her speak.<br/><br/>
-                    <strong>Dr. Justina Ray</strong>  has been President and Senior Scientist of WCS Canada since 2004 and has been actively involved in biodiversity conservation with a focus on northern boreal landscapes. Dr. Justina Ray has held positions on many government panels such as the Terrestrial Mammals Subcommittee of the Committee on the Status of Endangered Wildlife in Canada (COSEWIC) from 2009-2017 and a member of the IUCN Taskforce on Biodiversity and Protected Areas in (2012-2016). She has also edited or authored 3 books and a large amount of articles, and is currently Adjunct Professor at the University of Toronto (Department of Ecology and Evolution; Graduate Department of Forestry) and Trent University (Environmental & Life Sciences Graduate Program). <br/><br/>
-                    <strong>Emma Lozhkin</strong> has been a successful software engineer at NVIDIA, the international computer manufacturing corporation, for over two years. In her role, she has worked on innovative projects that push the boundaries of technology and artificial intelligence. Before embarking on her career in tech, Emma was a member of the Canadian Rhythmic Gymnastics National Team from 2012 to 2017. During this time, she represented Canada in several prestigious international competitions, including the 2014 Youth Olympic Games, showcasing her exceptional skill and dedication. Her transition from elite athletics to Branksome alum to a thriving career in software engineering highlights her versatility, discipline, and drive for excellence.
                     <strong>Keith Pelley</strong> is the CEO of MLSE, a $10 billion organization that owns the Toronto Maple Leafs, Toronto Raptors, Toronto FC, Toronto Argonauts, and more. Keith is also the former CEO of Rogers Media and President of the PGA. His insight into the business of pro sports is unrivalled and he’s an excellent speaker. 
+                    <strong>Dr. Andrew Healey</strong> is an emergency and critical care specialist currently working in Hamilton, Ontario as the Chief of Critical care at St. Joseph's Hamilton.  After completing vigorous training in the organ donation field, Dr Healey now holds the position of Provincial Medical Director for Donation with Trillium Gift of Life (organ transplants through Ontario Health).  Dr Healey uses adaptive leadership to ensure that the people he works with have excellent experiences within the organ transplant and healthcare realm. <br/><br/>
+                    <strong>John Sitilides</strong> has been a State Department Diplomacy Consultant for Presidents Trump, Biden, Obama, and Bush. He is a National Security Senior Fellow at the Foreign Policy Research Institute and explores the complex geopolitical and geo-economic decisions that impact markets in Asia, Europe, the Middle East, and worldwide. He was Southern Europe Regional Coordinator at the Foreign Service Institute, the State Department's professional development and diplomacy academy for American foreign policy professionals as well as the Board Chairman of the Woodrow Wilson Center Southeast Europe Project from 2005-2011. <br/><br/>
+                    <strong>Dr. Jeremy Wang</strong> is the co-founder and current serving COO of the aviation service Ribbit, recipient of the Mitacs Change Agent Entrepreneur Award, and PhD graduate of Mechanical & Mechatronics Engineering from Waterloo, Dr.Wang has lead numerous teams in revolutionizing automated aerospace in Canada. He has also served at The Sky Guys, where he developed his own division creating NATO class I drones for use in North America. <br/><br/>
+                    <strong>Dr. Justina Ray</strong>  has been President and Senior Scientist of WCS Canada since 2004 and has been actively involved in biodiversity conservation with a focus on northern boreal landscapes. Dr. Justina Ray has held positions on many government panels such as the Terrestrial Mammals Subcommittee of the Committee on the Status of Endangered Wildlife in Canada (COSEWIC) from 2009-2017 and a member of the IUCN Taskforce on Biodiversity and Protected Areas in (2012-2016). She has also edited or authored 3 books and a large amount of articles, and is currently Adjunct Professor at the University of Toronto (Department of Ecology and Evolution; Graduate Department of Forestry) and Trent University (Environmental & Life Sciences Graduate Program). <br/><br/>
                   </PopoverBody>
                 </Popover>
                 <FormGroup>
@@ -645,12 +648,12 @@ export default class StudentDashboard extends Component {
                     }}
                   >
                     <strong>Michael Kaufman</strong>, PhD, is a Canadian author and educator dedicated to engaging men and boys in promoting gender equality and ending violence against women. He co-founded the White Ribbon Campaign, the world's largest movement of men working to end violence against women. Over four decades, his work with the United Nations, governments, NGOs, and corporations has spanned fifty countries.<br/><br/>
+                    <strong>Sylvia Torres-Guillen</strong> is a graduate of Harvard & UC Berkeley Law and is currently the Executive Director and Director of Litigation for the Disability Rights Legal Center. A public defender of 23 years, she has had over 40 trials in federal court. Someone with a strong sense of righteousness and justice in and out of the classroom, we will be excited to hear her speak.<br/><br/>
+                    <strong>Shirley Blumberg</strong> is a renowned Canadian architect and a founding partner of KPMB Architects, known for her innovative and socially conscious designs. She has played a significant role in shaping modern urban architecture, focusing on sustainable and community-driven projects. Her work includes cultural institutions, academic buildings, and affordable housing, earring her numerous accolades, including the Order of Canada for her contributions to architecture and social equity.<br/><br/>
+                    <strong>Dr. John P. Smol</strong> is a Distinguished University Professor at Queen’s University. His pioneering research focuses on long-term ecosystem changes, exploring the impacts of climate change and other environmental stressors. Dr. Smol has authored over 720 academic papers and 24 books, making significant contributions to environmental science. With more than 100 prestigious teaching and research awards to his name, he is widely recognized for his lasting influence on both academia and environmental policy.<br/><br/>
+                    <strong>Wolfgang Schwarz</strong> is a former Austrian figure skater best known for winning the gold medal at the 1968 Winter Olympics in Grenoble. A highly skilled competitor, he also earned silver medals at the World Champions (1966,1967) and multiple podium finishes at the European Championships. His skating career showcased technical precision and artistic excellence, making him one of Austria’s notable Olympic champions.<br/><br/>
+                    <strong>Yan Boechat</strong> has been a journalist for over 20 years. Throughout most of his career, he worked as a writer-reporter, writing for the largest publications in Brazil, both in daily newspapers, magazines, and news sites. He is or was a collaborator also in international vehicles, such as The New York Times, BBC, Deutsche Welle, Voice of America, NBC News, among others.<br/><br/>
                     <strong>Dr. Andrew Healey</strong> is an emergency and critical care specialist currently working in Hamilton, Ontario as the Chief of Critical care at St. Joseph's Hamilton.  After completing vigorous training in the organ donation field, Dr Healey now holds the position of Provincial Medical Director for Donation with Trillium Gift of Life (organ transplants through Ontario Health).  Dr Healey uses adaptive leadership to ensure that the people he works with have excellent experiences within the organ transplant and healthcare realm. <br/><br/>
-                    <strong>Curtis VanWelleghem</strong> is the Co-Founder and CEO of Hydrostor and has led the company through technology development into commercial operations, with a multi-GW pipeline globally. Prior to Hydrostor, Curtis held positions at nuclear generator Bruce Power and in Deloitte’s Corporate Strategy Consulting Practice. Previously, Curtis was a Senior Manager in Deloitte’s Corporate Strategy Consulting Practice where he advised and consulted for some of the top energy companies globally. He has also held positions at nuclear/wind generator Bruce Power and wind developer Environmental Electric Company. He has experience working in more than 10 countries, including time volunteering in India. Curtis was a varsity hockey player while earning an Industrial Engineering degree and MBA from the University of Toronto.
-                    <br/><br/>
-                    <strong>Dr. John P. Smol</strong> is a Distinguished University Professor at Queen’s University. His pioneering research focuses on long-term ecosystem changes, exploring the impacts of climate change and other environmental stressors. Dr. Smol has authored over 720 academic papers and 24 books, making significant contributions to environmental science. With more than 100 prestigious teaching and research awards to his name, he is widely recognized for his lasting influence on both academia and environmental policy.
-                    <br/><br/>
-                    <strong>Wolfgang Schwarz</strong> is a former Austrian figure skater best known for winning the gold medal at the 1968 Winter Olympics in Grenoble. A highly skilled competitor, he also earned silver medals at the World Champions (1966,1967) and multiple podium finishes at the European Championships. His skating career showcased technical precision and artistic excellence, making him one of Austria’s notable Olympic champions. 
                   </PopoverBody>
                 </Popover>
                 <FormGroup>
@@ -750,11 +753,9 @@ export default class StudentDashboard extends Component {
                     }}
                   >
                     <strong>James Suh</strong> is the CFO of the NHL’s Florida Panthers, managing the finances and legalities of the Sunshine Sports and Entertainment league alongside the Panthers themselves, culminating in a Stanley Cup victory in 2024. Before joining the Panther’s management, he lived in Toronto working for Maple Leaf Sports & Entertainment as VP of Finance, as well as having finance and audit roles at Canadian Tire, Unilever, and PwC. <br/><br/>
-                    <strong>Dr. Jeremy Wang</strong> is the co-founder and current serving COO of the aviation service Ribbit, recipient of the Mitacs Change Agent Entrepreneur Award, and PhD graduate of Mechanical & Mechatronics Engineering from Waterloo, Dr.Wang has lead numerous teams in revolutionizing automated aerospace in Canada. He has also served at The Sky Guys, where he developed his own division creating NATO class I drones for use in North America. <br/><br/>
-                    <strong>Eric Zhu</strong>, the 17 year old CEO and co-founder of Aviato, an analytical platform for private market data, often described as a “Bloomberg Terminal” for private markets. At 15 Eric started his business out of his high school bathroom, taking business calls in the stalls. He has worked with several famous investors like 8VC, Soma Capital, and the SoftBank-Naver Fund and has raised around 2.3 million dollars to date.
-                    <br/><br/>
-                    <strong>Shirley Blumberg</strong> is a renowned Canadian architect and a founding partner of KPMB Architects, known for her innovative and socially conscious designs. She has played a significant role in shaping modern urban architecture, focusing on sustainable and community-driven projects. Her work includes cultural institutions, academic buildings, and affordable housing, earring her numerous accolades, including the Order of Canada for her contributions to architecture and social equity. 
-                    <br/><br/>
+                    <strong>Emma Lozhkin</strong> has been a successful software engineer at NVIDIA, the international computer manufacturing corporation, for over two years. In her role, she has worked on innovative projects that push the boundaries of technology and artificial intelligence. Before embarking on her career in tech, Emma was a member of the Canadian Rhythmic Gymnastics National Team from 2012 to 2017. During this time, she represented Canada in several prestigious international competitions, including the 2014 Youth Olympic Games, showcasing her exceptional skill and dedication. Her transition from elite athletics to Branksome alum to a thriving career in software engineering highlights her versatility, discipline, and drive for excellence.<br/><br/>
+                    <strong>Eric Zhu</strong>, the 17 year old CEO and co-founder of Aviato, an analytical platform for private market data, often described as a “Bloomberg Terminal” for private markets. At 15 Eric started his business out of his high school bathroom, taking business calls in the stalls. He has worked with several famous investors like 8VC, Soma Capital, and the SoftBank-Naver Fund and has raised around 2.3 million dollars to date.<br/><br/>
+                    <strong>Curtis VanWelleghem</strong> is the Co-Founder and CEO of Hydrostor and has led the company through technology development into commercial operations, with a multi-GW pipeline globally. Prior to Hydrostor, Curtis held positions at nuclear generator Bruce Power and in Deloitte’s Corporate Strategy Consulting Practice.<br/><br/>
                     <strong>Dr. Sebastian Maurice</strong> is Founder and CTO of OTICS, a company that applies transactional machine learning and AI to real-time data streams. Sebastian has close to 25 years of experience in public and private sectors with emphasis on providing AI strategy, software development and solutions.  He has led global teams to solve critical business problems with machine learning in Oil and Gas, Retail, Utilities, Manufacturing, Finance and Insurance, and Healthcare.  In addition to founding OTICS, he was Principal Architect at Ayla Networks in Silicon Valley, Associate Director at Gartner, Canadian Data Science Lead for Accenture, Director of Architecture and Analytics for Hitachi Solutions, Head of Data Science at Capgemini, and Energy Analytics Practice Lead at SAS.  He was also (Interim) Chief Analytics Officer at Finning Digital.  
                   </PopoverBody>
                 </Popover>

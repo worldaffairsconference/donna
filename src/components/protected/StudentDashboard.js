@@ -58,7 +58,7 @@ export default class StudentDashboard extends Component {
         p2: {
           name: 'Plenary 2',
           options: [
-            { id: 'p2o1', name: 'Michael Kaufman | Why Women’s Rights & Gender Equality Are Great for Boys and Men!' },
+            { id: 'p2o1', name: 'Michael Kaufman | Breaking Barriers: Engaging Men in Gender Equality for a Better World' },
             { id: 'p2o2', name: 'Sylvia Torres Guillen | Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy' },
             { id: 'p2o3', name: 'Shirley Blumberg | Imagining the Future: Building on the Past' },
             { id: 'p2o4', name: 'John Smol | Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication' },
@@ -269,30 +269,62 @@ export default class StudentDashboard extends Component {
 }
 
 
+generateSchedule = () => {
+  const { plenarySelections } = this.state;
 
-  initializeData(userId) {
-    
-    // Fetch the student data
-    ref.child(`students/${userId}`).once('value', (snapshot) => {
-      const studentData = snapshot.val();
-      if (studentData) {
-        const { teacherID, name, school, wacDate } = studentData;
+  if (!plenarySelections || !plenarySelections.p1 || !plenarySelections.p2 || !plenarySelections.p3) {
+    console.error('Plenary selections are missing:', plenarySelections);
+    return;
+  }
 
-        // Set initial student-related state
-        this.setState({
+  //console.log("Generating Schedule with:", plenarySelections);
+
+  const schedule = [
+    { time: '8:30 AM - 9:00 AM', title: 'Registration', speaker: '', location: 'Bernick Foyer' },
+    { time: '9:10 AM - 10:20 AM', title: 'Opening Keynote', speaker: 'Bill Weir', location: 'Laidlaw Hall' },
+    { time: '10:25 AM - 11:15 AM', ...this.plenDetails[plenarySelections.p1] },
+    { time: '11:15 AM - 11:45 AM', title: 'Break', speaker: '', location: '' },
+    { time: '11:45 AM - 12:35 PM', ...this.plenDetails[plenarySelections.p2] },
+    { time: '12:35 PM - 1:35 PM', title: 'Lunch', speaker: '', location: 'Lett Gym' },
+    { time: '1:35 PM - 2:25 PM', ...this.plenDetails[plenarySelections.p3] },
+    { time: '2:25 PM - 2:30 PM', title: '5-Minute Break', speaker: 'N/A', location: 'N/A' },
+    { time: '2:30 PM - 3:40 PM', title: 'Closing Keynote', speaker: 'Dr. James Orbinski', location: 'Laidlaw Hall' },
+  ].filter(event => event.title); // Removing any empty slots
+
+  this.setState({ schedule }, () => console.log("Updated Schedule:", this.state.schedule));
+};
+
+
+
+initializeData(userId) {
+  ref.child(`students/${userId}`).once('value', (snapshot) => {
+    const studentData = snapshot.val();
+    if (studentData) {
+      const { teacherID, name, school, wacDate } = studentData;
+
+      // To be filled by algorithm
+      const plenarySelections = {
+        p1: studentData.p1 || null,
+        p2: studentData.p2 || null,
+        p3: studentData.p3 || null,
+      };
+
+      //console.log("Plenary Selections:", plenarySelections);
+
+      // Set initial student-related state
+      this.setState(
+        {
           teacherID: teacherID || '',
+          name: name || 'Student',
           school: school || 'Your School',
           wacDate: wacDate || 'March 5th, 2025',
-          // This will be filled using the algorithm
-          plenarySelections: {
-            p1: studentData.p1 || '',
-            p2: studentData.p2 || '',
-            p3: studentData.p3 || '',
-          },
+          plenarySelections,
           lunch: studentData.lunch || false,
         },
-        this.generateSchedule
-      );  
+        () => {
+          this.generateSchedule();
+        }
+      );
 
         if (teacherID) {
           ref.child(`teachers/${teacherID}/students/${userId}`).once('value', (teacherStudentSnapshot) => {
@@ -462,13 +494,6 @@ export default class StudentDashboard extends Component {
           </Col>
         </Row>
 
-        <Row className="mt-2">
-          <Col md="12">
-            <h3 class="text-white">Plenary selection is now open!</h3>
-          </Col>
-        </Row> 
-
-        {/* PLENARY SELECTION */}
         <Row>
           <Col>
             <p className="text-muted">
@@ -476,6 +501,39 @@ export default class StudentDashboard extends Component {
             </p>
           </Col>
         </Row>
+
+        {/* ATTENDEE SCHEDULE */}
+
+        <Card className="mt-4 p-4">
+          <h3 className="text-center">Your Schedule</h3>
+          {this.state.schedule && this.state.schedule.length > 0 ? (
+            <Table striped bordered className="mt-3">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Event</th>
+                  <th>Speaker</th>
+                  <th>Location</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.schedule.map((event, index) => (
+                  <tr key={index}>
+                    <td>{event.time}</td>
+                    <td>{event.title || 'TBD'}</td>
+                    <td>{event.speaker || 'TBD'}</td>
+                    <td>{event.location || 'TBD'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <p className="text-center text-muted">Schedule is not available yet.</p>
+          )}
+        </Card>
+
+              
+        {/* PLENARY SELECTION */}
 
         <Row className="mt-2">
           <Col md="12">
@@ -540,10 +598,10 @@ export default class StudentDashboard extends Component {
                       overflow: 'visible',
                     }}
                   >
-                    <strong>Keith Pelley</strong> is the CEO of MLSE, a $10 billion organization that owns the Toronto Maple Leafs, Toronto Raptors, Toronto FC, Toronto Argonauts, and more. Keith is also the former CEO of Rogers Media and President of the PGA. His insight into the business of pro sports is unrivalled and he’s an excellent speaker. <br/><br/>
-                    <strong>Dr. Andrew Healey</strong> is an emergency and critical care specialist currently working in Hamilton, Ontario as the Chief of Critical care at St. Joseph's Hamilton.  After completing vigorous training in the organ donation field, Dr Healey now holds the position of Provincial Medical Director for Donation with Trillium Gift of Life (organ transplants through Ontario Health).  Dr Healey uses adaptive leadership to ensure that the people he works with have excellent experiences within the organ transplant and healthcare realm. <br/><br/>
-                    <strong>John Sitilides</strong> has been a State Department Diplomacy Consultant for Presidents Trump, Biden, Obama, and Bush. He is a National Security Senior Fellow at the Foreign Policy Research Institute and explores the complex geopolitical and geo-economic decisions that impact markets in Asia, Europe, the Middle East, and worldwide. He was Southern Europe Regional Coordinator at the Foreign Service Institute, the State Department's professional development and diplomacy academy for American foreign policy professionals as well as the Board Chairman of the Woodrow Wilson Center Southeast Europe Project from 2005-2011. <br/><br/>
+                    <strong>Keith Pelley</strong><br></br><br></br>
                     <strong>Dr. Jeremy Wang</strong> is the co-founder and current serving COO of the aviation service Ribbit, recipient of the Mitacs Change Agent Entrepreneur Award, and PhD graduate of Mechanical & Mechatronics Engineering from Waterloo, Dr.Wang has lead numerous teams in revolutionizing automated aerospace in Canada. He has also served at The Sky Guys, where he developed his own division creating NATO class I drones for use in North America. <br/><br/>
+                    <strong>John Sitilides</strong> has been a State Department Diplomacy Consultant for Presidents Trump, Biden, Obama, and Bush. He is a National Security Senior Fellow at the Foreign Policy Research Institute and explores the complex geopolitical and geo-economic decisions that impact markets in Asia, Europe, the Middle East, and worldwide. He was Southern Europe Regional Coordinator at the Foreign Service Institute, the State Department's professional development and diplomacy academy for American foreign policy professionals as well as the Board Chairman of the Woodrow Wilson Center Southeast Europe Project from 2005-2011. <br/><br/>
+                    <strong>Dr. Andrew Healey</strong> is an emergency and critical care specialist currently working in Hamilton, Ontario as the Chief of Critical care at St. Joseph's Hamilton.  After completing vigorous training in the organ donation field, Dr Healey now holds the position of Provincial Medical Director for Donation with Trillium Gift of Life (organ transplants through Ontario Health).  Dr Healey uses adaptive leadership to ensure that the people he works with have excellent experiences within the organ transplant and healthcare realm. <br/><br/>
                     <strong>Dr. Justina Ray</strong>  has been President and Senior Scientist of WCS Canada since 2004 and has been actively involved in biodiversity conservation with a focus on northern boreal landscapes. Dr. Justina Ray has held positions on many government panels such as the Terrestrial Mammals Subcommittee of the Committee on the Status of Endangered Wildlife in Canada (COSEWIC) from 2009-2017 and a member of the IUCN Taskforce on Biodiversity and Protected Areas in (2012-2016). She has also edited or authored 3 books and a large amount of articles, and is currently Adjunct Professor at the University of Toronto (Department of Ecology and Evolution; Graduate Department of Forestry) and Trent University (Environmental & Life Sciences Graduate Program). <br/><br/>
                   </PopoverBody>
                 </Popover>
@@ -645,8 +703,8 @@ export default class StudentDashboard extends Component {
                       overflow: 'visible',
                     }}
                   >
-                    <strong>Michael Kaufman</strong>, PhD, is a Canadian author and educator dedicated to engaging men and boys in promoting gender equality and ending violence against women. He co-founded the White Ribbon Campaign, the world's largest movement of men working to end violence against women. Over four decades, his work with the United Nations, governments, NGOs, and corporations has spanned fifty countries.<br/><br/>
                     <strong>Sylvia Torres-Guillen</strong> is a graduate of Harvard & UC Berkeley Law and is currently the Executive Director and Director of Litigation for the Disability Rights Legal Center. A public defender of 23 years, she has had over 40 trials in federal court. Someone with a strong sense of righteousness and justice in and out of the classroom, we will be excited to hear her speak.<br/><br/>
+                    <strong>Michael Kaufman</strong>, PhD, is a Canadian author and educator dedicated to engaging men and boys in promoting gender equality and ending violence against women. He co-founded the White Ribbon Campaign, the world's largest movement of men working to end violence against women. Over four decades, his work with the United Nations, governments, NGOs, and corporations has spanned fifty countries.<br/><br/>
                     <strong>Shirley Blumberg</strong> is a renowned Canadian architect and a founding partner of KPMB Architects, known for her innovative and socially conscious designs. She has played a significant role in shaping modern urban architecture, focusing on sustainable and community-driven projects. Her work includes cultural institutions, academic buildings, and affordable housing, earring her numerous accolades, including the Order of Canada for her contributions to architecture and social equity.<br/><br/>
                     <strong>Dr. John P. Smol</strong> is a Distinguished University Professor at Queen’s University. His pioneering research focuses on long-term ecosystem changes, exploring the impacts of climate change and other environmental stressors. Dr. Smol has authored over 720 academic papers and 24 books, making significant contributions to environmental science. With more than 100 prestigious teaching and research awards to his name, he is widely recognized for his lasting influence on both academia and environmental policy.<br/><br/>
                     <strong>Wolfgang Schwarz</strong> is a former Austrian figure skater best known for winning the gold medal at the 1968 Winter Olympics in Grenoble. A highly skilled competitor, he also earned silver medals at the World Champions (1966,1967) and multiple podium finishes at the European Championships. His skating career showcased technical precision and artistic excellence, making him one of Austria’s notable Olympic champions.<br/><br/>
@@ -749,11 +807,11 @@ export default class StudentDashboard extends Component {
                       overflow: 'visible',
                     }}
                   >
-                    <strong>James Suh</strong> is the CFO of the NHL’s Florida Panthers, managing the finances and legalities of the Sunshine Sports and Entertainment league alongside the Panthers themselves, culminating in a Stanley Cup victory in 2024. Before joining the Panther’s management, he lived in Toronto working for Maple Leaf Sports & Entertainment as VP of Finance, as well as having finance and audit roles at Canadian Tire, Unilever, and PwC. <br/><br/>
                     <strong>Emma Lozhkin</strong> has been a successful software engineer at NVIDIA, the international computer manufacturing corporation, for over two years. In her role, she has worked on innovative projects that push the boundaries of technology and artificial intelligence. Before embarking on her career in tech, Emma was a member of the Canadian Rhythmic Gymnastics National Team from 2012 to 2017. During this time, she represented Canada in several prestigious international competitions, including the 2014 Youth Olympic Games, showcasing her exceptional skill and dedication. Her transition from elite athletics to Branksome alum to a thriving career in software engineering highlights her versatility, discipline, and drive for excellence.<br/><br/>
-                    <strong>Eric Zhu</strong> is the 17 year old CEO and co-founder of Aviato, an analytical platform for private market data, often described as a “Bloomberg Terminal” for private markets. At 15 Eric started his business out of his high school bathroom, taking business calls in the stalls. He has worked with several famous investors like 8VC, Soma Capital, and the SoftBank-Naver Fund and has raised around 2.3 million dollars to date.<br/><br/>
+                    <strong>James Suh</strong> is the CFO of the NHL’s Florida Panthers, managing the finances and legalities of the Sunshine Sports and Entertainment league alongside the Panthers themselves, culminating in a Stanley Cup victory in 2024. Before joining the Panther’s management, he lived in Toronto working for Maple Leaf Sports & Entertainment as VP of Finance, as well as having finance and audit roles at Canadian Tire, Unilever, and PwC. <br/><br/>
+                    <strong>Eric Zhu</strong>, the 17 year old CEO and co-founder of Aviato, an analytical platform for private market data, often described as a “Bloomberg Terminal” for private markets. At 15 Eric started his business out of his high school bathroom, taking business calls in the stalls. He has worked with several famous investors like 8VC, Soma Capital, and the SoftBank-Naver Fund and has raised around 2.3 million dollars to date.<br/><br/>
                     <strong>Curtis VanWelleghem</strong> is the Co-Founder and CEO of Hydrostor and has led the company through technology development into commercial operations, with a multi-GW pipeline globally. Prior to Hydrostor, Curtis held positions at nuclear generator Bruce Power and in Deloitte’s Corporate Strategy Consulting Practice.<br/><br/>
-                    <strong>Dr. Sebastian Maurice</strong> is Founder and CTO of OTICS, a company that applies transactional machine learning and AI to real-time data streams. Sebastian has close to 25 years of experience in public and private sectors with emphasis on providing AI strategy, software development and solutions.  He has led global teams to solve critical business problems with machine learning in Oil and Gas, Retail, Utilities, Manufacturing, Finance and Insurance, and Healthcare.  In addition to founding OTICS, he was Principal Architect at Ayla Networks in Silicon Valley, Associate Director at Gartner, Canadian Data Science Lead for Accenture, Director of Architecture and Analytics for Hitachi Solutions, Head of Data Science at Capgemini, and Energy Analytics Practice Lead at SAS.  He was also (Interim) Chief Analytics Officer at Finning Digital.
+                    <strong>Dr. Sebastian Maurice</strong> Sebastian Maurice is Founder and CTO of OTICS, a company that applies transactional machine learning and AI to real-time data streams.  The company pioneered Transactional Machine Learning (TML) and published the seminal book on the topic called Transactional Machine Learning with Data Streams and AutoML: Build Frictionless and Elastic Machine Learning Solutions with Apache Kafka in the Cloud Using Python.<br/><br/>
                   </PopoverBody>
                 </Popover>
 

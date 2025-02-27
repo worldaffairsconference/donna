@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/static/css/main.cecde086.css",
-    "main.js": "/static/js/main.f4940b95.js",
+    "main.js": "/static/js/main.3b4b4a7e.js",
     "static/media/wac_logo_full.png": "/static/media/wac_logo_full.f67408d72add69a513a7.png",
     "index.html": "/index.html"
   },
   "entrypoints": [
     "static/css/main.cecde086.css",
-    "static/js/main.f4940b95.js"
+    "static/js/main.3b4b4a7e.js"
   ]
 }

@@ -58,7 +58,7 @@ export default class StudentDashboard extends Component {
         p2: {
           name: 'Plenary 2',
           options: [
-            { id: 'p2o1', name: 'Michael Kaufman | Breaking Barriers: Engaging Men in Gender Equality for a Better World' },
+            { id: 'p2o1', name: 'Michael Kaufman | Why Women’s Rights & Gender Equality Are Great for Boys and Men!' },
             { id: 'p2o2', name: 'Sylvia Torres Guillen | Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy' },
             { id: 'p2o3', name: 'Shirley Blumberg | Imagining the Future: Building on the Past' },
             { id: 'p2o4', name: 'John Smol | Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication' },

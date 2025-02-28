@@ -117,52 +117,16 @@ export default class AdminDashboard extends Component {
 
   /*
   
-  NOTE: This will not work with all csv files. If they have different
-  column and row names they must be changed in the function to match. 
+  NOTE: CSV Column names MUST match those stated on the dashboard above the button.
 
   */
+
   handleBatchRegister = (event) => {
     const file = event.target.files[0];
     if (!file) return;
   
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: async (results) => {
-        for (const row of results.data) {
-          try {
-            // Normalize the access code to lower case (case insensitive)
-            const normalizedAccess = row.access ? row.access.trim().toLowerCase() : '';
-            const uid = await addAttendee(
-              row.email,
-              (Math.random() + 1).toString(36),
-              row.name,
-              row.grade,
-              normalizedAccess
-            );
-            console.log(`Registered ${row.email} with uid: ${uid.uid}`);
-          } catch (error) {
-            console.error('Error registering attendee for', row.email, error);
-          }
-        }
-        alert('Batch registration complete!');
-      },
-      error: (error) => {
-        console.error('Error parsing CSV:', error);
-      },
-    });
-  };  
-
-  /*
-
-  Note: DO NOT use this with schools other than UCC. This function will
-  bypass the access code and add the students in the csv to UCC.
-
-  */
-
-  handleBatchRegisterUCC = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+    // Alert the user to not close the page until completion
+    alert("File uploaded. Processing batch registration. Please do not close the page until complete.");
   
     Papa.parse(file, {
       header: true,
@@ -170,44 +134,55 @@ export default class AdminDashboard extends Component {
       complete: async (results) => {
         console.log("CSV parsing complete. Data:", results.data);
         for (const row of results.data) {
-          // Normalize keys to lowercase so case won't matter
+          // Normalize keys: lowercase and remove spaces
           const normalizedRow = Object.keys(row).reduce((acc, key) => {
-            acc[key.toLowerCase()] = row[key];
+            let newKey = key.toLowerCase().replace(/\s+/g, '');
+            acc[newKey] = row[key];
             return acc;
           }, {});
-          console.log("Normalized row:", normalizedRow);
   
-          // Check for required fields
-          if (!normalizedRow.firstname || !normalizedRow.lastname || !normalizedRow.email || !normalizedRow.yearlevel) {
+          // Check required fields
+          if (
+            !normalizedRow.email ||
+            !normalizedRow.firstname ||
+            !normalizedRow.lastname ||
+            !(normalizedRow.grade || normalizedRow.yearlevel) ||
+            !normalizedRow.access
+          ) {
             console.error("Missing required fields in row:", normalizedRow);
             continue;
           }
   
           try {
-            // Combine firstName and lastName
+            // Combine first and last name
             const fullName = `${normalizedRow.firstname} ${normalizedRow.lastname}`;
-            // Remove the "Year" prefix (case-insensitive) from yearLevel
-            const grade = normalizedRow.yearlevel.replace(/year\s*/i, '');
-            const uid = await addAttendee(
+            // Get grade from either 'grade' or 'yearlevel' and remove "Year" if present
+            let grade = normalizedRow.grade || normalizedRow.yearlevel || "";
+            grade = grade.replace(/year\s*/i, "").trim();
+            // Use the access code from CSV as provided (trim whitespace)
+            const access = normalizedRow.access.trim();
+            // Generate a random temporary password
+            const pw = (Math.random() + 1).toString(36);
+  
+            const newUser = await addAttendee(
               normalizedRow.email,
-              (Math.random() + 1).toString(36),
+              pw,
               fullName,
               grade,
-              "ZKEOh3NMKsUnugBrKOWwirJTRiY2"  // Hard-coded UCC access code
+              access
             );
-            console.log(`Registered ${normalizedRow.email} with uid: ${uid.uid}`);
+            console.log(`Registered ${normalizedRow.email} with uid: ${newUser.uid}`);
           } catch (error) {
-            console.error('Error registering attendee for', normalizedRow.email, error);
+            console.error("Error registering attendee for", normalizedRow.email, error);
           }
         }
-        alert('Batch registration complete!');
+        alert("Batch registration complete!");
       },
       error: (error) => {
-        console.error('Error parsing CSV:', error);
+        console.error("Error parsing CSV:", error);
       },
     });
-  };
-  
+  };  
 
   copytoClipboard(text) {
     var textField = document.createElement('textarea');
@@ -765,35 +740,20 @@ export default class AdminDashboard extends Component {
         {/* UCC Batch Reg Button*/}
 
         <div>
-          <h2 className="text-white">Batch Register UCC</h2>
+          <h2 className="text-white">Batch Register</h2>
           <p className="text-white">
             Please ensure your CSV file is formatted with a header row containing the following columns:
             <br />
-            <strong>First name, Last name, email, grade</strong>
+            <strong>First name, Last name, email, grade, access</strong>
             <br />
             Each subsequent row should provide the corresponding values for each attendee.
             <br />
-            All students will be added to the school "Upper Canada College".
-          </p>
-          <input type="file" accept=".csv" onChange={this.handleBatchRegisterUCC} />
-        </div>
-
-        <br></br>
-
-        {/* Batch Register Button*/}
-
-        <div>
-          <h2 className="text-white">Batch Register Attendees</h2>
-          <p className="text-white">
-            Please ensure your CSV file is formatted with a header row containing the following columns:
-            <br />
-            <strong>name, email, grade, access</strong>
-            <br />
-            Each subsequent row should provide the corresponding values for each attendee.
+            All students will be added to the school corresponding to their access code.
           </p>
           <input type="file" accept=".csv" onChange={this.handleBatchRegister} />
         </div>
 
+        <br></br>
 
 
         {/* Conference Statistics */}

@@ -894,12 +894,7 @@ initializeData(userId) {
                       checked={this.state.lunch}
                       onChange={this.handleCheckboxChange}
                       style={{ color: '#333' }}
-
-                      /*Uncomment to disable lunch orders
-
                       disabled
-
-                      Uncomment to disable lunch orders*/
                     />
                     I will be eating the catered lunch provided by Aramark for <strong>$15</strong>
                   </Label>

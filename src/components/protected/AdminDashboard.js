@@ -120,7 +120,8 @@ export default class AdminDashboard extends Component {
   NOTE: CSV Column names MUST match those stated on the dashboard above the button.
   This function will not add duplicate students.
   This function will only work with a limited number of students before firebase rate limits
-  To avoid rate limiting use the "batch-user-creation" folder which uses the Admin SDK
+  To avoid rate limiting use the "batchRegAdminSDK" file under helpers folder. Note, you will need
+  node.js to run this file.
 
   */
 

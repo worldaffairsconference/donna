@@ -118,7 +118,6 @@ export default class AdminDashboard extends Component {
   /*
   
   NOTE: CSV Column names MUST match those stated on the dashboard above the button.
-  This function will not add duplicate students.
 
   */
 

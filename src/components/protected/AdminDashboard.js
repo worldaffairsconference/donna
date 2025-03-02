@@ -119,8 +119,6 @@ export default class AdminDashboard extends Component {
   
   NOTE: CSV Column names MUST match those stated on the dashboard above the button.
   This function will not add duplicate students.
-  This function will only work with a limited number of students before firebase rate limits
-  To avoid rate limiting use the "batch-user-creation" folder which uses the Admin SDK
 
   */
 
@@ -752,8 +750,6 @@ export default class AdminDashboard extends Component {
             Each subsequent row should provide the corresponding values for each attendee.
             <br />
             All students will be added to the school corresponding to their access code.
-            <br />
-            Firebase will rate limit you with this function after a certain number of calls, check comments in AdminDashboard.js for handleBatchRegister function for more detail
           </p>
           <input type="file" accept=".csv" onChange={this.handleBatchRegister} />
         </div>

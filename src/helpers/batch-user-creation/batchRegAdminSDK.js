@@ -18,7 +18,7 @@ const serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   //This may need to be changed, found top of the realtime database
-  databaseURL: 'testest',
+  databaseURL: 'link here',
 });
 
 // Path of CSV file, make sure column headers are: first name, last name, email, year, access (access code, do not put this bracket)

@@ -870,7 +870,7 @@ initializeData(userId) {
         </Card> 
         {/* MOVE THIS TO THE BOTTOM OF THE PAGE AFTER BOTH FORMS */}
           <br />
-          Please note we will only be accepting cash and card as payment for lunch, no student cards.
+          <p className="text-white">Please note we will only be accepting cash and card as payment for lunch, no student cards.</p>
           <Form onSubmit={this.handleNotesAndLunchSubmit} style={{ color: 'white' }}>
 
             <Row className="mt-4">

@@ -327,41 +327,46 @@ export default class AdminDashboard extends Component {
 
   exportData() {
     const { teacherList, attendeeList } = this.state;
-    if (!teacherList.length) {
-      alert('No data available to export.');
-      return;
-    }
-
-    const flattenedData = [];
-
-    teacherList.forEach(([teacherName, teacherId, teacherSchool]) => {
+    let flattenedData = [];
+    
+    // Loop through each teacher record
+    teacherList.forEach(([teacherName, teacherId, teacherSchool, teacherEmail]) => {
+      // Filter all students who belong to this teacher
       const students = Object.entries(attendeeList).filter(
         ([, student]) => student.teacher === teacherId
       );
-
+      
+      // Loop through each student and build a flattened object
       students.forEach(([studentId, student]) => {
         flattenedData.push({
           TeacherID: teacherId,
           TeacherName: teacherName,
+          TeacherEmail: teacherEmail,
           TeacherSchool: teacherSchool,
           StudentID: studentId,
           Name: student.name,
           Email: student.email,
           Grade: student.grade || '',
           Lunch: student.lunch ? 'Yes' : 'No',
-          Plenary1: student.p1 && student.p1.rank1 ? student.p1.rank1 : 'None',
-          Plenary2: student.p2 && student.p2.rank1 ? student.p2.rank1 : 'None',
-          Plenary3: student.p3 && student.p3.rank1 ? student.p3.rank1 : 'None',
+          "Plenary1 Rank 1": student.p1 && student.p1.rank1 ? student.p1.rank1 : 'None',
+          "Plenary1 Rank 2": student.p1 && student.p1.rank2 ? student.p1.rank2 : 'None',
+          "Plenary1 Rank 3": student.p1 && student.p1.rank3 ? student.p1.rank3 : 'None',
+          "Plenary2 Rank 1": student.p2 && student.p2.rank1 ? student.p2.rank1 : 'None',
+          "Plenary2 Rank 2": student.p2 && student.p2.rank2 ? student.p2.rank2 : 'None',
+          "Plenary2 Rank 3": student.p2 && student.p2.rank3 ? student.p2.rank3 : 'None',
+          "Plenary3 Rank 1": student.p3 && student.p3.rank1 ? student.p3.rank1 : 'None',
+          "Plenary3 Rank 2": student.p3 && student.p3.rank2 ? student.p3.rank2 : 'None',
+          "Plenary3 Rank 3": student.p3 && student.p3.rank3 ? student.p3.rank3 : 'None',
           Note: student.note || '',
         });
       });
     });
-
+    
     if (!flattenedData.length) {
       alert('No student data available to export.');
       return;
     }
-
+    
     const csv = Papa.unparse(flattenedData);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -371,12 +376,12 @@ export default class AdminDashboard extends Component {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
+    
     this.setState({ exportButtonStatus: 'Exported!' });
     setTimeout(() => {
       this.setState({ exportButtonStatus: 'Export Data' });
     }, 2000);
-  }
+  }  
 
   generateOptions(plenKey) {
     const plen = this.state.plenOptions[plenKey];
@@ -426,6 +431,7 @@ export default class AdminDashboard extends Component {
           childSnapshot.val().name,
           childSnapshot.key,
           childSchool,
+          childSnapshot.val().email || '',
         ]);
         fullSchoolList.push(childSchool);
 

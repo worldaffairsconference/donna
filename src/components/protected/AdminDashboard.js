@@ -384,7 +384,7 @@ export default class AdminDashboard extends Component {
     
     return (
       <>
-        <option value="None">None</option>
+        {/* <option value="">None</option> */}
         {plen.options.map((opt) => (
           <option key={opt.id} value={opt.id}>
             {opt.name}

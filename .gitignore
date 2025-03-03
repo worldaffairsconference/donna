@@ -9,4 +9,8 @@ functions/adminKey.json
 notes.txt
 ui-debug.log
 
+teachers_students_data.csv
+detailed_assignments.txt
+test.txt
+
 build/

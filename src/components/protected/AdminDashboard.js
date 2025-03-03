@@ -54,17 +54,38 @@ export default class AdminDashboard extends Component {
       searchSchool: '',
       attendeeList: {},
       plenOptions: {
-        open: false,
-        p1o1: { name: '', location: '', max: 0, students: {} },
-        p1o2: { name: '', location: '', max: 0, students: {} },
-        p1o3: { name: '', location: '', max: 0, students: {} },
-        p2o1: { name: '', location: '', max: 0, students: {} },
-        p2o2: { name: '', location: '', max: 0, students: {} },
-        p2o3: { name: '', location: '', max: 0, students: {} },
-        p3o1: { name: '', location: '', max: 0, students: {} },
-        p3o2: { name: '', location: '', max: 0, students: {} },
-        p3o3: { name: '', location: '', max: 0, students: {} },
+        p1: {
+          name: 'Plenary 1',
+          options: [
+            { id: 'p1o1', name: '[Keynote] Keith Pelley | President & CEO of Maple Leafs Sports and Entertainment' },
+            { id: 'p1o2', name: 'Andrew Healey | Organ Donation and Transplant - Success on the Edge' },
+            { id: 'p1o3', name: 'John Sitilides | Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War' },
+            { id: 'p1o4', name: 'Dr. Jeremy Wang | Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones' },
+            { id: 'p1o5', name: 'Dr. Justina Ray | Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective' },
+          ],
+        },
+        p2: {
+          name: 'Plenary 2',
+          options: [
+            { id: 'p2o1', name: 'Michael Kaufman | Breaking Barriers: Engaging Men in Gender Equality for a Better World' },
+            { id: 'p2o2', name: 'Sylvia Torres Guillen | Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy' },
+            { id: 'p2o3', name: 'Shirley Blumberg | Imagining the Future: Building on the Past' },
+            { id: 'p2o4', name: 'John Smol | Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication' },
+            { id: 'p2o5', name: 'Wolfgang Schwartz and Yan Boechat | Eyes on the Frontlines: challenges and triumphs of reporting in conflict zones' },
+          ],
+        },
+        p3: {
+          name: 'Plenary 3',
+          options: [
+            { id: 'p3o1', name: 'James Suh | Behind the Stanley Cup: What Makes a Winning Team with a Championship Mindset?' },
+            { id: 'p3o2', name: 'Emma Lozhkin | From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation' },
+            { id: 'p3o3', name: 'Eric Zhu | High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato' },
+            { id: 'p3o4', name: 'Curtis VanWelleghem | From Idea to Reality – Using the Earth as a Battery' },
+            { id: 'p3o5', name: 'Dr. Sebastian Maurice | AI Horizons: Inspiring the Next Generation of Innovators' },
+          ],
+        },
       },
+      
       gradeDropdownOpen: false,
       plenaryDropdownOpen: false,
       selectedGrades: [],
@@ -328,9 +349,9 @@ export default class AdminDashboard extends Component {
           Email: student.email,
           Grade: student.grade || '',
           Lunch: student.lunch ? 'Yes' : 'No',
-          Plenary1: student.p1 || 'None',
-          Plenary2: student.p2 || 'None',
-          Plenary3: student.p3 || 'None',
+          Plenary1: student.p1 && student.p1.rank1 ? student.p1.rank1 : 'None',
+          Plenary2: student.p2 && student.p2.rank1 ? student.p2.rank1 : 'None',
+          Plenary3: student.p3 && student.p3.rank1 ? student.p3.rank1 : 'None',
           Note: student.note || '',
         });
       });
@@ -357,19 +378,22 @@ export default class AdminDashboard extends Component {
     }, 2000);
   }
 
-  generateOptions() {
-    const options = [];
-    Object.entries(this.state.plenOptions).forEach(([key, plen]) => {
-      if (key.startsWith('p') && plen.name) {
-        options.push(
-          <option key={key} value={key}>
-            {plen.name}
+  generateOptions(plenKey) {
+    const plen = this.state.plenOptions[plenKey];
+    if (!plen || !plen.options) return null;
+    
+    return (
+      <>
+        <option value="None">None</option>
+        {plen.options.map((opt) => (
+          <option key={opt.id} value={opt.id}>
+            {opt.name}
           </option>
-        );
-      }
-    });
-    return options;
+        ))}
+      </>
+    );
   }
+  
 
   async componentDidMount() {
     let fullSchoolList = [''];
@@ -451,10 +475,10 @@ export default class AdminDashboard extends Component {
     });
 
     // Grab plenaries
-    ref.child('plenaries').on('value', (snapshot) => {
-      const p = snapshot.val() || { open: false };
-      this.setState({ plenOptions: p });
-    });
+    // ref.child('plenaries').on('value', (snapshot) => {
+    //   const p = snapshot.val() || { open: false };
+    //   this.setState({ plenOptions: p });
+    // });
   }
 
   generateSchoolOptions() {
@@ -1114,7 +1138,7 @@ export default class AdminDashboard extends Component {
                           <Input
                             type="select"
                             name="p1"
-                            value={student.p1 || 'None'}
+                            value={student.p1 && student.p1.rank1 ? student.p1.rank1 : 'None'}
                             className="form-control"
                             // Commenting out the onChange to prevent changes
                             // onChange={(event) =>
@@ -1122,14 +1146,14 @@ export default class AdminDashboard extends Component {
                             // }
                           >
                             <option value="None">None</option>
-                            {this.generateOptions()}
+                            {this.generateOptions('p1')}
                           </Input>
                         </td>
                         <td>
                           <Input
                             type="select"
                             name="p2"
-                            value={student.p2 || 'None'}
+                            value={student.p2 && student.p2.rank1 ? student.p2.rank1 : 'None'}
                             className="form-control"
                             // Commented out as requested
                             // onChange={(event) =>
@@ -1137,14 +1161,14 @@ export default class AdminDashboard extends Component {
                             // }
                           >
                             <option value="None">None</option>
-                            {this.generateOptions()}
+                            {this.generateOptions('p2')}
                           </Input>
                         </td>
                         <td>
                           <Input
                             type="select"
                             name="p3"
-                            value={student.p3 || 'None'}
+                            value={student.p3 && student.p3.rank1 ? student.p3.rank1 : 'None'}
                             className="form-control"
                             // Commented out as requested
                             // onChange={(event) =>
@@ -1152,7 +1176,7 @@ export default class AdminDashboard extends Component {
                             // }
                           >
                             <option value="None">None</option>
-                            {this.generateOptions()}
+                            {this.generateOptions('p3')}
                           </Input>
                         </td>
                         <td>

@@ -16,6 +16,7 @@ import {
   Popover,
   PopoverHeader,
   PopoverBody,
+  Table
 } from 'reactstrap';
 import { ref, firebaseAuth } from '../../helpers/firebase';
 import { logout } from '../../helpers/auth';
@@ -44,6 +45,9 @@ export default class StudentDashboard extends Component {
       p3_rank3: '',
       inputNotes: '',
       lunch: false,
+      plen1: '', 
+      plen2: '', 
+      plen3: '',
       plenOptions: {
         p1: {
           name: 'Plenary 1',
@@ -76,7 +80,7 @@ export default class StudentDashboard extends Component {
           ],
         },
       },
-      
+      schedule: [], // This will hold the final generated schedule
       magic: '',
       modal2: false,
       popoverOpenP1: false,
@@ -93,7 +97,7 @@ export default class StudentDashboard extends Component {
     this.toggleModal2 = this.toggleModal2.bind(this);
     this.handleMagicCode = this.handleMagicCode.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-
+    this.generateSchedule = this.generateSchedule.bind(this);
     this.initializeData = this.initializeData.bind(this);
   }
 
@@ -251,7 +255,7 @@ export default class StudentDashboard extends Component {
   // DOUBLE CHECK WITH LIYANG TO SEE IF EVERYTHING IS CORRECT
 
   plenDetails = {
-    p1o1: { time: '10:25 AM - 11:15 AM', title: 'Keith Pelley | The Future of Maple Leafs Sports and Entertainment', speaker: 'Keith Pelley', location: 'Laidlaw Hall' },
+    p1o1: { time: '10:25 AM - 11:15 AM', title: 'The Future of Maple Leafs Sports and Entertainment', speaker: 'Keith Pelley', location: 'Laidlaw Hall' },
     p1o2: { time: '10:25 AM - 11:15 AM', title: 'Organ Donation and Transplant - Success on the Edge', speaker: 'Andrew Healey', location: 'Student Centre' },
     p1o3: { time: '10:25 AM - 11:15 AM', title: 'Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War', speaker: 'John Sitilides', location: 'Manucha & Bellamy Studio Theatre' },
     p1o4: { time: '10:25 AM - 11:15 AM', title: 'Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones', speaker: 'Dr. Jeremy Wang', location: 'Room 248 + 249' },
@@ -269,45 +273,37 @@ export default class StudentDashboard extends Component {
 }
 
 
-generateSchedule = () => {
-  const { plenarySelections } = this.state;
+// Generate a personalized schedule based on the student's selected plenary IDs.
+  // The schedule uses fixed time blocks and injects the plenary details for each session.
+  generateSchedule() {
+    const { plen1, plen2, plen3 } = this.state;
+    if (!plen1 || !plen2 || !plen3) {
+      console.error('One or more plenary selections are missing:', { plen1, plen2, plen3 });
+      return;
+    }
 
-  if (!plenarySelections || !plenarySelections.p1 || !plenarySelections.p2 || !plenarySelections.p3) {
-    console.error('Plenary selections are missing:', plenarySelections);
-    return;
+    console.log({ plen1, plen2, plen3 });
+  
+    const schedule = [
+      { time: '8:00 AM - 9:00 AM', title: 'Registration', speaker: 'N/A', location: 'Bernick Foyer' },
+      { time: '9:10 AM - 10:20 AM', title: 'Opening Keynote', speaker: 'Bill Weir', location: 'Laidlaw Hall' },
+      { time: '10:25 AM - 11:15 AM', ...this.plenDetails[plen1] },
+      { time: '11:15 AM - 11:45 AM', title: 'Networking Break', speaker: 'N/A', location: 'Various' },
+      { time: '11:45 AM - 12:35 PM', ...this.plenDetails[plen2] },
+      { time: '12:35 PM - 1:35 PM', title: 'Lunch + Networking', speaker: 'N/A', location: 'Lett Gym' },
+      { time: '1:35 PM - 2:25 PM', ...this.plenDetails[plen3] },
+      { time: '2:25 PM - 3:40 PM', title: 'Closing Keynote', speaker: 'Dr. James Orbinski', location: 'Laidlaw Hall' },
+    ];
+  
+    this.setState({ schedule }, () => console.log('Updated Schedule:', this.state.schedule));
   }
-
-  //console.log("Generating Schedule with:", plenarySelections);
-
-  const schedule = [
-    { time: '8:30 AM - 9:00 AM', title: 'Registration', speaker: '', location: 'Bernick Foyer' },
-    { time: '9:10 AM - 10:20 AM', title: 'Opening Keynote', speaker: 'Bill Weir', location: 'Laidlaw Hall' },
-    { time: '10:25 AM - 11:15 AM', ...this.plenDetails[plenarySelections.p1] },
-    { time: '11:15 AM - 11:45 AM', title: 'Break', speaker: '', location: '' },
-    { time: '11:45 AM - 12:35 PM', ...this.plenDetails[plenarySelections.p2] },
-    { time: '12:35 PM - 1:35 PM', title: 'Lunch', speaker: '', location: 'Lett Gym' },
-    { time: '1:35 PM - 2:25 PM', ...this.plenDetails[plenarySelections.p3] },
-    { time: '2:25 PM - 2:30 PM', title: '5-Minute Break', speaker: 'N/A', location: 'N/A' },
-    { time: '2:30 PM - 3:40 PM', title: 'Closing Keynote', speaker: 'Dr. James Orbinski', location: 'Laidlaw Hall' },
-  ].filter(event => event.title); // Removing any empty slots
-
-  this.setState({ schedule }, () => console.log("Updated Schedule:", this.state.schedule));
-};
-
-
+  
 
 initializeData(userId) {
   ref.child(`students/${userId}`).once('value', (snapshot) => {
     const studentData = snapshot.val();
     if (studentData) {
       const { teacherID, name, school, wacDate } = studentData;
-
-      // To be filled by algorithm
-      const plenarySelections = {
-        p1: studentData.p1 || null,
-        p2: studentData.p2 || null,
-        p3: studentData.p3 || null,
-      };
 
       //console.log("Plenary Selections:", plenarySelections);
 
@@ -318,12 +314,8 @@ initializeData(userId) {
           name: name || 'Student',
           school: school || 'Your School',
           wacDate: wacDate || 'March 5th, 2025',
-          plenarySelections,
           lunch: studentData.lunch || false,
         },
-        () => {
-          this.generateSchedule();
-        }
       );
 
         if (teacherID) {
@@ -370,9 +362,15 @@ initializeData(userId) {
                 p3_rank2: studentDetails.p3?.rank2 || '',
                 p3_rank3: studentDetails.p3?.rank3 || '',
 
+                plen1: studentDetails.plen1 || null,
+                plen2: studentDetails.plen2 || null,
+                plen3: studentDetails.plen3 || null,
+
                 // Populate notes and lunch data
                 inputNotes: studentDetails.note || '',
                 lunch: studentDetails.lunch || false,
+              }, () => {
+                this.generateSchedule();
               });
             } else {
               console.error('Student details not found under teacher node.');
@@ -478,7 +476,7 @@ initializeData(userId) {
   // };
 
   render() {
-    const { greeting, name, teacherName, school, wacDate } = this.state;
+    const { greeting, name, teacherName, school, wacDate, schedule } = this.state;
 
     {/* Greeting and Info Section */}
     return (
@@ -506,23 +504,23 @@ initializeData(userId) {
 
         <Card className="mt-4 p-4">
           <h3 className="text-center">Your Schedule</h3>
-          {this.state.schedule && this.state.schedule.length > 0 ? (
+          {schedule && schedule.length > 0 ? (
             <Table striped bordered className="mt-3">
               <thead>
                 <tr>
-                  <th>Time</th>
-                  <th>Event</th>
-                  <th>Speaker</th>
-                  <th>Location</th>
+                  <th style={{ width: '17%' }}>Time</th>
+                  <th style={{ width: '50%' }}>Event</th>
+                  <th style={{ width: '15%' }}>Speaker</th>
+                  <th style={{ width: '18%' }}>Location</th>
                 </tr>
               </thead>
               <tbody>
-                {this.state.schedule.map((event, index) => (
+                {schedule.map((event, index) => (
                   <tr key={index}>
-                    <td>{event.time}</td>
-                    <td>{event.title || 'TBD'}</td>
-                    <td>{event.speaker || 'TBD'}</td>
-                    <td>{event.location || 'TBD'}</td>
+                    <td style={{ width: '17%' }}>{event.time}</td>
+                    <td style={{ width: '50%' }}>{event.title}</td>
+                    <td style={{ width: '15%' }}>{event.speaker}</td>
+                    <td style={{ width: '18%' }}>{event.location}</td>
                   </tr>
                 ))}
               </tbody>

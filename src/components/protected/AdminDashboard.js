@@ -1142,28 +1142,23 @@ export default class AdminDashboard extends Component {
                         <td>
                           <Input
                             type="select"
-                            name="p1"
-                            value={student.p1 && student.p1.rank1 ? student.p1.rank1 : 'None'}
+                            name="plen1"
+                            value={student.plen1 || 'None'}
                             className="form-control"
-                            // Commenting out the onChange to prevent changes
-                            // onChange={(event) =>
-                            //   this.handleInputChange(event, studentId)
-                            // }
+                            onChange={(event) => this.handleInputChange(event, studentId)}
                           >
                             <option value="None">None</option>
                             {this.generateOptions('p1')}
                           </Input>
+
                         </td>
                         <td>
                           <Input
                             type="select"
-                            name="p2"
-                            value={student.p2 && student.p2.rank1 ? student.p2.rank1 : 'None'}
+                            name="plen2"
+                            value={student.plen2 || 'None'}
                             className="form-control"
-                            // Commented out as requested
-                            // onChange={(event) =>
-                            //   this.handleInputChange(event, studentId)
-                            // }
+                            onChange={(event) => this.handleInputChange(event, studentId)}
                           >
                             <option value="None">None</option>
                             {this.generateOptions('p2')}
@@ -1172,13 +1167,10 @@ export default class AdminDashboard extends Component {
                         <td>
                           <Input
                             type="select"
-                            name="p3"
-                            value={student.p3 && student.p3.rank1 ? student.p3.rank1 : 'None'}
+                            name="plen3"
+                            value={student.plen3 || 'None'}
                             className="form-control"
-                            // Commented out as requested
-                            // onChange={(event) =>
-                            //   this.handleInputChange(event, studentId)
-                            // }
+                            onChange={(event) => this.handleInputChange(event, studentId)}
                           >
                             <option value="None">None</option>
                             {this.generateOptions('p3')}

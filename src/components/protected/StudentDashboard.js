@@ -866,8 +866,8 @@ initializeData(userId) {
             </Row>
           </Form>
         </Card>  */}
-        {/* MOVE THIS TO THE BOTTOM OF THE PAGE AFTER BOTH FORMS */}
-          <br />
+
+          {/* <br />
           Please note we will only be accepting cash and card as payment for lunch, no student cards.
           <Form onSubmit={this.handleNotesAndLunchSubmit} style={{ color: 'white' }}>
 
@@ -907,7 +907,7 @@ initializeData(userId) {
                 </Button>
               </Col>
             </Row>
-          </Form>
+          </Form> */}
 
         {/* <Card className="mt-4 p-4">
           <h3 className="text-center">Your Schedule</h3>

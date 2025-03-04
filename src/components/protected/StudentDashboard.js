@@ -258,18 +258,18 @@ export default class StudentDashboard extends Component {
     p1o1: { time: '10:25 AM - 11:15 AM', title: 'The Future of Maple Leafs Sports and Entertainment', speaker: 'Keith Pelley', location: 'Laidlaw Hall' },
     p1o2: { time: '10:25 AM - 11:15 AM', title: 'Organ Donation and Transplant - Success on the Edge', speaker: 'Andrew Healey', location: 'Student Centre' },
     p1o3: { time: '10:25 AM - 11:15 AM', title: 'Trump & the World 2025: The New Geopolitics of Trade, Energy, Diplomacy, and War', speaker: 'John Sitilides', location: 'Manucha & Bellamy Studio Theatre' },
-    p1o4: { time: '10:25 AM - 11:15 AM', title: 'Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones', speaker: 'Dr. Jeremy Wang', location: 'Room 248 + 249' },
-    p1o5: { time: '10:25 AM - 11:15 AM', title: 'Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective', speaker: 'Dr. Justina Ray', location: 'Room 232' },
+    p1o4: { time: '10:25 AM - 11:15 AM', title: 'Propelling Progress: Driving Positive Change Through Entrepreneurship and Drones', speaker: 'Dr. Jeremy Wang', location: 'Room 247 + 249' },
+    p1o5: { time: '10:25 AM - 11:15 AM', title: 'Biodiversity Conservation in a Rapidly Changing Environment: A Canadian Perspective', speaker: 'Dr. Justina Ray', location: 'Room 233' },
     p2o1: { time: '11:45 AM - 12:35 PM', title: 'Breaking Barriers: Engaging Men in Gender Equality for a Better World', speaker: 'Michael Kaufman', location: 'Laidlaw Hall' },
     p2o2: { time: '11:45 AM - 12:35 PM', title: 'Mi Camino A La Justicia: How Challenging the Legal System Results in a Real Democracy', speaker: 'Sylvia Torres Guillen', location: 'Student Centre' },
     p2o3: { time: '11:45 AM - 12:35 PM', title: 'Imagining the Future: Building on the Past', speaker: 'Shirley Blumberg', location: 'Manucha & Bellamy Studio Theatre' },
-    p2o4: { time: '11:45 AM - 12:35 PM', title: 'Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication', speaker: 'John Smol', location: 'Rooms 248 + 249' },
-    p2o5: { time: '11:45 AM - 12:35 PM', title: 'Eyes on the Frontlines: Challenges and Triumphs of Reporting in Conflict Zones', speaker: 'Wolfgang Schwartz and Yan Boechat', location: 'Room 232' },
+    p2o4: { time: '11:45 AM - 12:35 PM', title: 'Our “Anthropocene” World: The Critical Role of Science Literacy and Effective Communication', speaker: 'John Smol', location: 'Rooms 247 + 249' },
+    p2o5: { time: '11:45 AM - 12:35 PM', title: 'Eyes on the Frontlines: Challenges and Triumphs of Reporting in Conflict Zones', speaker: 'Wolfgang Schwartz and Yan Boechat', location: 'Room 233' },
     p3o1: { time: '1:35 PM - 2:25 PM', title: 'Behind the Stanley Cup: What Makes a Winning Team with a Championship Mindset?', speaker: 'James Suh', location: 'Laidlaw Hall' },
     p3o2: { time: '1:35 PM - 2:25 PM', title: 'From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation', speaker: 'Emma Lozhkin', location: 'Student Centre' },
     p3o3: { time: '1:35 PM - 2:25 PM', title: 'High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato', speaker: 'Eric Zhu', location: 'Manucha & Bellamy Studio Theatre' },
-    p3o4: { time: '1:35 PM - 2:25 PM', title: 'From Idea to Reality – Using the Earth as a Battery', speaker: 'Curtis Van Welleghem', location: 'Rooms 248 + 249' },
-    p3o5: { time: '1:35 PM - 2:25 PM', title: 'AI Horizons: Inspiring the Next Generation of Innovators', speaker: 'Dr. Sebastian Maurice', location: 'Room 232' }
+    p3o4: { time: '1:35 PM - 2:25 PM', title: 'From Idea to Reality – Using the Earth as a Battery', speaker: 'Curtis Van Welleghem', location: 'Rooms 247 + 249' },
+    p3o5: { time: '1:35 PM - 2:25 PM', title: 'AI Horizons: Inspiring the Next Generation of Innovators', speaker: 'Dr. Sebastian Maurice', location: 'Room 233' }
 }
 
 

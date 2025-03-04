@@ -1,15 +1,17 @@
 import csv
+import random
 
 # ===============================
-# 1) Read CSV data and remove header
+# 1) Read CSV data, remove header, and randomize student order
 # ===============================
-with open("scripts/teachers_students_data.csv", newline='') as f:
+with open("scripts/teachers_students_data.csv", newline="") as f:
     reader = csv.reader(f)
     data = list(reader)
 
-# Remove header row if present (adjust condition as needed)
 if data and "TeacherID" in data[0]:
     data.pop(0)
+
+random.shuffle(data)
 
 # ===============================
 # 2) Plenary details for this year
@@ -44,11 +46,8 @@ location_capacity = {
 }
 
 # ===============================
-# 4) Build the schedule per session from plenDetails
-#     Session 1: keys starting with "p1"
-#     Session 2: keys starting with "p2"
-#     Session 3: keys starting with "p3"
-#     Each session is a list of tuples: (option_id, location)
+# 4) Build the schedule per session from plenDetails.
+# Each session is a sorted list of tuples: (option_id, location)
 # ===============================
 session1 = sorted([(key, plenDetails[key]["location"]) for key in plenDetails if key.startswith("p1")])
 session2 = sorted([(key, plenDetails[key]["location"]) for key in plenDetails if key.startswith("p2")])
@@ -56,7 +55,7 @@ session3 = sorted([(key, plenDetails[key]["location"]) for key in plenDetails if
 schedule = [session1, session2, session3]
 
 # ===============================
-# 5) Build a parallel 'spots' array based on each option's location capacity
+# 5) Build the 'spots' array based on location capacity.
 # ===============================
 spots = []
 for sess in schedule:
@@ -67,58 +66,46 @@ for sess in schedule:
     spots.append(row_spots)
 
 # ===============================
-# 6) Assignment function for one session that returns both option and choice information.
+# 6) Assignment function for one session.
 #
-# For a given session and a list of rank preferences (in order):
-# - Try each submitted preference in order (Rank 1, then Rank 2, then Rank 3).
-# - If none is available and if one of the top two preferences is a Laidlaw Hall option,
-#   then assign that option as a "Fallback".
-# - Otherwise, if no submitted preference is available, assign any available option
-#   even if it means "Overcapacity".
+# If all submitted preferences are "None" (case-insensitive), return ("Pending", "Pending").
+# Otherwise, for each submitted preference (Rank 1, then Rank 2, then Rank 3):
+#   - If the option has available capacity (spots > 0), decrement capacity and return that option with "Rank X".
+#   - If the option's capacity is 0, do NOT assign it.
+# If no submitted preference can be assigned, return ("N/A", None).
 # ===============================
 def assign_session_with_rank(session_index, rank_preferences):
     sess = schedule[session_index]
     sess_spots = spots[session_index]
-    # First, try each submitted preference in order.
+    # If all submitted preferences are "None", mark as pending.
+    if all(pref.lower() == "none" for pref in rank_preferences):
+        return "Pending", "Pending"
+    # Process each submitted preference in order.
     for rank, pref in enumerate(rank_preferences, start=1):
+        if pref.lower() == "none":
+            continue
         for idx, (option_id, loc) in enumerate(sess):
             if pref == option_id and sess_spots[idx] > 0:
                 sess_spots[idx] -= 1
                 return option_id, f"Rank {rank}"
-    # Fallback: only assign Laidlaw Hall if one of the top two choices is a Laidlaw option.
-    laidlaw_options = [option_id for option_id, loc in sess if loc == "Laidlaw Hall"]
-    if rank_preferences[0] in laidlaw_options or rank_preferences[1] in laidlaw_options:
-        for idx, (option_id, loc) in enumerate(sess):
-            if loc == "Laidlaw Hall" and sess_spots[idx] > 0:
-                sess_spots[idx] -= 1
-                return option_id, "Fallback"
-    # Otherwise, try to assign any available option (even if capacity is exceeded).
-    for idx, (option_id, loc) in enumerate(sess):
-        if sess_spots[idx] > 0:
-            sess_spots[idx] -= 1
-            return option_id, "Overcapacity"
+    # If none of the submitted preferences have available capacity, return "N/A".
     return "N/A", None
 
+# Create container for pending assignments per session.
+pending_assignments = {0: [], 1: [], 2: []}
+
 # ===============================
-# 7) Process each student row and assign one option per session,
-#     recording which choice (Rank 1, Rank 2, Rank 3, Fallback, or Overcapacity) was used.
+# 7) Process each student row and assign options.
 #
-# CSV structure is assumed to be:
-# [TeacherID, TeacherName, TeacherEmail, TeacherSchool,
-#  StudentID, Name, Email, Grade, Lunch,
-#  Plenary1 Rank 1, Plenary1 Rank 2, Plenary1 Rank 3,
-#  Plenary2 Rank 1, Plenary2 Rank 2, Plenary2 Rank 3,
-#  Plenary3 Rank 1, Plenary3 Rank 2, Plenary3 Rank 3, Note]
-# Adjust indexes as needed.
+# If teacherName is "WAC Exec" (case-insensitive), set assignments to "Ignored".
+# If all submitted preferences for a session are "None", mark that student as pending for that session.
 # ===============================
 assigned_plen = []
 option_counts = { key: 0 for key in plenDetails.keys() }
-rank_tally = { "Rank 1": 0, "Rank 2": 0, "Rank 3": 0, "Fallback": 0, "Overcapacity": 0 }
+rank_tally = { "Rank 1": 0, "Rank 2": 0, "Rank 3": 0 }
 detailed_assignments = { key: [] for key in plenDetails.keys() }
 
-for row in data:
-    # print(row)  # Debug
-    
+for i, row in enumerate(data):
     teacherID    = row[0].strip()
     teacherName  = row[1].strip()
     teacherEmail = row[2].strip()
@@ -129,39 +116,68 @@ for row in data:
     studentGrade = row[7].strip()
     lunch        = row[8].strip()
     
-    # For Plenary1: columns 9,10,11
-    p1_prefs = [row[9].strip(), row[10].strip(), row[11].strip()]
-    # For Plenary2: columns 12,13,14
-    p2_prefs = [row[12].strip(), row[13].strip(), row[14].strip()]
-    # For Plenary3: columns 15,16,17 (if available)
-    p3_prefs = [row[15].strip(), row[16].strip(), row[17].strip()] if len(row) > 17 else ["", "", ""]
-    
-    a_opt, a_choice = assign_session_with_rank(0, p1_prefs)
-    b_opt, b_choice = assign_session_with_rank(1, p2_prefs)
-    c_opt, c_choice = assign_session_with_rank(2, p3_prefs)
-    
-    for opt, choice in [(a_opt, a_choice), (b_opt, b_choice), (c_opt, c_choice)]:
-        if opt != "N/A":
-            option_counts[opt] += 1
-        if choice in rank_tally:
-            rank_tally[choice] += 1
+    if teacherName.lower() == "wac exec":
+        a_opt, a_choice = "Ignored", "Ignored"
+        b_opt, b_choice = "Ignored", "Ignored"
+        c_opt, c_choice = "Ignored", "Ignored"
+    else:
+        p1_prefs = [row[9].strip(), row[10].strip(), row[11].strip()]
+        p2_prefs = [row[12].strip(), row[13].strip(), row[14].strip()]
+        p3_prefs = [row[15].strip(), row[16].strip(), row[17].strip()] if len(row) > 17 else ["", "", ""]
+        a_opt, a_choice = assign_session_with_rank(0, p1_prefs)
+        b_opt, b_choice = assign_session_with_rank(1, p2_prefs)
+        c_opt, c_choice = assign_session_with_rank(2, p3_prefs)
+        if a_opt == "Pending":
+            pending_assignments[0].append(i)
+        if b_opt == "Pending":
+            pending_assignments[1].append(i)
+        if c_opt == "Pending":
+            pending_assignments[2].append(i)
     
     record = [teacherID, teacherName, teacherEmail, teacherSchool,
               studentID, studentName, studentEmail, studentGrade, lunch,
               f"{a_opt} ({a_choice})", f"{b_opt} ({b_choice})", f"{c_opt} ({c_choice})"]
-    
     note = row[18].strip() if len(row) > 18 else ""
     record.append(note)
-    
     assigned_plen.append(record)
     
     student_identifier = f"{studentName} ({studentID})"
     for opt, choice in [(a_opt, a_choice), (b_opt, b_choice), (c_opt, c_choice)]:
-        if opt != "N/A":
+        if opt not in ["N/A", "Ignored", "Pending"]:
+            option_counts[opt] += 1
+            if choice in rank_tally:
+                rank_tally[choice] += 1
             detailed_assignments[opt].append((student_identifier, choice))
 
 # ===============================
-# 8) Write the flattened output to a CSV file
+# 7b) Process pending assignments.
+#
+# For each pending student in each session, try to assign an option:
+# - Look for the first option with available capacity.
+# - If no option is available, leave as "Pending".
+# ===============================
+for session_index in [0, 1, 2]:
+    sess = schedule[session_index]
+    sess_spots = spots[session_index]
+    for i in pending_assignments[session_index]:
+        assigned = False
+        for idx, (option_id, loc) in enumerate(sess):
+            if sess_spots[idx] > 0:
+                sess_spots[idx] -= 1
+                if session_index == 0:
+                    assigned_plen[i][9] = f"{option_id} (Filled)"
+                elif session_index == 1:
+                    assigned_plen[i][10] = f"{option_id} (Filled)"
+                elif session_index == 2:
+                    assigned_plen[i][11] = f"{option_id} (Filled)"
+                option_counts[option_id] += 1
+                detailed_assignments[option_id].append((f"{assigned_plen[i][5]} ({assigned_plen[i][4]})", "Filled"))
+                assigned = True
+                break
+        # If no option with available capacity is found, the assignment remains "Pending"
+
+# ===============================
+# 8) Write the flattened output to a CSV file.
 # ===============================
 with open("scripts/test.txt", "w", newline="") as f:
     writer = csv.writer(f)
@@ -173,7 +189,7 @@ with open("scripts/test.txt", "w", newline="") as f:
         writer.writerow(rec)
 
 # ===============================
-# 9) Print summary of assignments per plenary option (with title and location) and overall rank tally
+# 9) Print summary of assignments per plenary option and overall rank tally to the terminal.
 # ===============================
 print("\n=== Plenary Assignment Summary ===")
 for option_id, info in plenDetails.items():
@@ -184,11 +200,10 @@ print("\n=== Overall Rank Tally ===")
 print(f"Rank 1: {rank_tally['Rank 1']}")
 print(f"Rank 2: {rank_tally['Rank 2']}")
 print(f"Rank 3: {rank_tally['Rank 3']}")
-print(f"Fallback (Laidlaw Hall): {rank_tally['Fallback']}")
-print(f"Overcapacity: {rank_tally['Overcapacity']}")
 
 # ===============================
-# 10) Write detailed assignments to a text file
+# 10) Write detailed assignments to a text file.
+# Each option will list the students assigned along with the rank choice they received.
 # ===============================
 with open("scripts/detailed_assignments.txt", "w") as f:
     f.write("=== Detailed Assignment per Plenary Option ===\n\n")
@@ -203,8 +218,9 @@ with open("scripts/detailed_assignments.txt", "w") as f:
         f.write("\n")
 
 # ===============================
-# 11) Print a final tally per plenary option with student identifiers (optional)
+# 11) (Optional) Print final tally per plenary option with student identifiers.
 # ===============================
+# Uncomment if needed.
 # print("\n=== Final Tally per Plenary Option ===")
 # for option_id, info in plenDetails.items():
 #     assigned_students = detailed_assignments.get(option_id, [])

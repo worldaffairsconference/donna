@@ -193,7 +193,7 @@ with open("scripts/output.txt", "w", newline="") as f:
 print("\n=== Plenary Assignment Summary ===")
 for option_id, info in plenDetails.items():
     count = option_counts.get(option_id, 0)
-    print(f"{option_id} -> {count} assigned | {info['title']} ({info['location']})")
+    print(f"{option_id} -> {count} assigned | {info['speaker']} ({info['location']})")
 
 # ===============================
 # 10) Print overall tally of assignments by rank.

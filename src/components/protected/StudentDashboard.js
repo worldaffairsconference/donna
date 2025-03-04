@@ -535,14 +535,14 @@ initializeData(userId) {
               
         {/* PLENARY SELECTION */}
 
-        <Row className="mt-2">
+        {/* <Row className="mt-2">
           <Col md="12">
             <h5 className="text-white">Below, you will have the opportunity to choose your <strong>top 3</strong> most preferred plenaries in each time slot. <br />We will try our best to <strong>accommodate your preferences.</strong> Happy Choosing!</h5>
             <p className="text-white mt-2">In addition to the plenaries, all attendees will attend the <strong>Opening and Closing Keynotes at 9am and 2:30pm</strong>, respectively. Lastly, please note that in <strong>Plenary Session 1</strong>, there is an alternative <strong>keynote option</strong> led by speaker <strong>Keith Pelley, President & CEO of Maple Leafs Sports and Entertainment.</strong></p>
           </Col>
-        </Row> 
+        </Row>  */}
       
-
+{/* 
         <Card className="mt-2 inner-container">
           <Form onSubmit={this.handleSavePlenaries}>
             <Row>              
@@ -867,7 +867,7 @@ initializeData(userId) {
               </Col>
             </Row>
           </Form>
-        </Card> 
+        </Card>  */}
         {/* MOVE THIS TO THE BOTTOM OF THE PAGE AFTER BOTH FORMS */}
           <br />
           Please note we will only be accepting cash and card as payment for lunch, no student cards.

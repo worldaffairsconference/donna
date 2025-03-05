@@ -48,6 +48,7 @@ export default class StudentDashboard extends Component {
       plen1: '', 
       plen2: '', 
       plen3: '',
+      showNetworkingPopup: false,
       plenOptions: {
         p1: {
           name: 'Plenary 1',
@@ -99,11 +100,16 @@ export default class StudentDashboard extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.generateSchedule = this.generateSchedule.bind(this);
     this.initializeData = this.initializeData.bind(this);
+    this.toggleNetworkingPopup = this.toggleNetworkingPopup.bind(this);
   }
 
   popoverCloseTimerP1 = null;
   popoverCloseTimerP2 = null;
   popoverCloseTimerP3 = null;
+
+  toggleNetworkingPopup() {
+    this.setState(prev => ({ showNetworkingPopup: !prev.showNetworkingPopup }));
+  }
 
   handlePopoverMouseEnterP1 = () => {
     // Clear any closing timer if the mouse enters the target or popover
@@ -509,7 +515,14 @@ initializeData(userId) {
               <thead>
                 <tr>
                   <th style={{ width: '17%' }}>Time</th>
-                  <th style={{ width: '50%' }}>Event</th>
+                  <th style={{ width: '50%', textAlign: 'left' }}>
+                    <div className="d-flex align-items-center">
+                      <span>Event</span>
+                      <Button color="info" size="sm" className="ml-3" onClick={this.toggleNetworkingPopup}>
+                        Networking Info
+                      </Button>
+                    </div>
+                  </th>
                   <th style={{ width: '15%' }}>Speaker</th>
                   <th style={{ width: '18%' }}>Location</th>
                 </tr>
@@ -529,6 +542,41 @@ initializeData(userId) {
             <p className="text-center text-muted">Schedule is not available yet.</p>
           )}
         </Card>
+
+        <Modal 
+          isOpen={this.state.showNetworkingPopup} 
+          toggle={this.toggleNetworkingPopup}
+          style={{ 
+            position: 'fixed', 
+            top: '20%',   // adjust this value as needed
+            left: '50%', 
+            transform: 'translateX(-50%)',
+            zIndex: 1050 // ensure it's above other content
+          }}
+        >
+          <ModalHeader toggle={this.toggleNetworkingPopup}>
+            Networking & Lunch Information
+          </ModalHeader>
+          <ModalBody>
+            <p>
+              During Lunch and the Networking period, you will be able to get lunch 
+              at the Lett Gym while meeting and talking with different like-minded 
+              thinkers. The Networking rooms for each speaker are as follows:
+            </p>
+            <ul>
+              <li>Networking with John Sitilides at MB Theatre from 11:15 - 11:45 am</li>
+              <li>Networking with Justina Ray in room 232 from 11:15 - 11:45 am</li>
+              <li>Networking with Sylvia Torres Guillen in room 232 from 11:15 - 11:45 am</li>
+              <li>Networking with Michael Kaufman in room 127 during lunch</li>
+              <li>Networking with Eric Zhu at MB Theatre during lunch</li>
+            </ul>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.toggleNetworkingPopup}>
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
 
               
         {/* PLENARY SELECTION */}
@@ -867,8 +915,8 @@ initializeData(userId) {
           </Form>
         </Card> 
         {/* MOVE THIS TO THE BOTTOM OF THE PAGE AFTER BOTH FORMS */}
-          <br />
-          <p className="text-white">Please note we will only be accepting cash and card as payment for lunch, no student cards.</p>
+
+          {/* <p className="text-white">Please note we will only be accepting cash and card as payment for lunch, no student cards.</p>
           <Form onSubmit={this.handleNotesAndLunchSubmit} style={{ color: 'white' }}>
 
             <Row className="mt-4">
@@ -907,7 +955,7 @@ initializeData(userId) {
                 </Button>
               </Col>
             </Row>
-          </Form> */
+          </Form>  */}
 
         {/* <Card className="mt-4 p-4">
           <h3 className="text-center">Your Schedule</h3>

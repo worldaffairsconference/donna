@@ -501,25 +501,70 @@ export default class AdminDashboard extends Component {
     return options;
   }
 
-  generateStatusBars() {
+  // Returns the capacity for a given location.
+  getCapacityForLocation(location) {
+    const mapping = {
+      "Manucha & Bellamy Studio Theatre": 100,
+      "Room 232": 35,
+      "Laidlaw Hall": 800,
+      "Student Centre": 180,
+      "Rooms 248 + 249": 55,
+      "Rooms 247 + 249": 55, // in case you use this variant
+    };
+    return mapping[location] || 100;
+  }
+
+  // Generates a progress bar for every plenary option (using its id)
+ // Returns the capacity for a given location
+getCapacityForLocation(location) {
+  const capacityMap = {
+    "Manucha & Bellamy Studio Theatre": 100,
+    "Room 232": 35,
+    "Laidlaw Hall": 800,
+    "Student Centre": 180,
+    "Rooms 248 + 249": 55,
+    "Rooms 247 + 249": 55, // in case this variant is used
+  };
+  return capacityMap[location] || 100;
+}
+
+  // Generates a progress bar for every option (using its ID)
+  // It iterates over each plenary group (p1, p2, p3) and each option therein.
+  generateAllProgressBars() {
+    const { plenOptions, attendeeList } = this.state;
+    if (!plenOptions) return null;
+    
     const bars = [];
-    Object.entries(this.state.plenOptions).forEach(([key, plen]) => {
-      if (key.startsWith('p') && plen.name) {
-        bars.push(
-          <Row key={key}>
-            <Col>
-              <h5>
-                {plen.name}:
-                <Progress
-                  value={plen.students ? Object.keys(plen.students).length : 0}
-                  max={plen.max || 0}
-                />
-                {plen.students ? Object.keys(plen.students).length : 0}/
-                {plen.max || 0}
-              </h5>
-            </Col>
-          </Row>
-        );
+    // Loop through each plenary group (e.g., p1, p2, p3)
+    Object.keys(plenOptions).forEach((groupKey) => {
+      const group = plenOptions[groupKey];
+      if (group && group.options) {
+        group.options.forEach((option) => {
+          // Look up the plenary details using the option's id
+          const detail = this.plenDetails[option.id];
+          // If detail is not found, skip this option
+          if (!detail) return;
+          // Get capacity for the option's location
+          const capacity = this.getCapacityForLocation(detail.location);
+          // Count how many attendees selected this option in the group (e.g., student['p1'])
+          let count = 0;
+          Object.values(attendeeList).forEach((student) => {
+            if (student[groupKey] === option.id) {
+              count++;
+            }
+          });
+          bars.push(
+            <Row key={option.id} className="mb-2">
+              <Col>
+                <h6>
+                  {option.name} – {detail.location}
+                </h6>
+                <Progress value={count} max={capacity} className="mt-1" />
+                <span>{` ${count} / ${capacity}`}</span>
+              </Col>
+            </Row>
+          );
+        });
       }
     });
     return bars;
@@ -855,7 +900,12 @@ export default class AdminDashboard extends Component {
                 </div>
               )}
               <hr />
-              {this.generateStatusBars()}
+              <Row className="mt-3">
+                <Col>
+                  <h4 className="text-white">Plenary Option Assignments</h4>
+                  {/* {this.generateAllProgressBars()} */}
+                </Col>
+              </Row>
             </CardText>
           </Card>
         </Row>

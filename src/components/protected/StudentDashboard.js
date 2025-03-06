@@ -75,9 +75,8 @@ export default class StudentDashboard extends Component {
           options: [
             { id: 'p3o1', name: 'James Suh | Behind the Stanley Cup: What Makes a Winning Team with a Championship Mindset?' },
             { id: 'p3o2', name: 'Emma Lozhkin | From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation' },
-            { id: 'p3o3', name: 'Eric Zhu | High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato' },
-            { id: 'p3o4', name: 'Curtis VanWelleghem | From Idea to Reality – Using the Earth as a Battery' },
-            { id: 'p3o5', name: 'Dr. Sebastian Maurice | AI Horizons: Inspiring the Next Generation of Innovators' },
+            { id: 'p3o3', name: 'Curtis VanWelleghem | From Idea to Reality – Using the Earth as a Battery' },
+            { id: 'p3o4', name: 'Dr. Sebastian Maurice | AI Horizons: Inspiring the Next Generation of Innovators' },
           ],
         },
       },
@@ -273,9 +272,8 @@ export default class StudentDashboard extends Component {
     p2o5: { time: '11:45 AM - 12:35 PM', title: 'Eyes on the Frontlines: Challenges and Triumphs of Reporting in Conflict Zones', speaker: 'Wolfgang Schwartz and Yan Boechat', location: 'Room 233' },
     p3o1: { time: '1:35 PM - 2:25 PM', title: 'Behind the Stanley Cup: What Makes a Winning Team with a Championship Mindset?', speaker: 'James Suh', location: 'Laidlaw Hall' },
     p3o2: { time: '1:35 PM - 2:25 PM', title: 'From Gymnastics to GPUs: Balancing Athletic Discipline and Technological Innovation', speaker: 'Emma Lozhkin', location: 'Student Centre' },
-    p3o3: { time: '1:35 PM - 2:25 PM', title: 'High School Hallways to Startup Success: Eric Zhu’s Journey with Aviato', speaker: 'Eric Zhu', location: 'Manucha & Bellamy Studio Theatre' },
-    p3o4: { time: '1:35 PM - 2:25 PM', title: 'From Idea to Reality – Using the Earth as a Battery', speaker: 'Curtis Van Welleghem', location: 'Rooms 247 + 249' },
-    p3o5: { time: '1:35 PM - 2:25 PM', title: 'AI Horizons: Inspiring the Next Generation of Innovators', speaker: 'Dr. Sebastian Maurice', location: 'Room 233' }
+    p3o3: { time: '1:35 PM - 2:25 PM', title: 'From Idea to Reality – Using the Earth as a Battery', speaker: 'Curtis Van Welleghem', location: 'Rooms 247 + 249' },
+    p3o4: { time: '1:35 PM - 2:25 PM', title: 'AI Horizons: Inspiring the Next Generation of Innovators', speaker: 'Dr. Sebastian Maurice', location: 'Room 233' }
 }
 
 
@@ -855,7 +853,6 @@ initializeData(userId) {
                   >
                     <strong>Emma Lozhkin</strong> has been a successful software engineer at NVIDIA, the international computer manufacturing corporation, for over two years. In her role, she has worked on innovative projects that push the boundaries of technology and artificial intelligence. Before embarking on her career in tech, Emma was a member of the Canadian Rhythmic Gymnastics National Team from 2012 to 2017. During this time, she represented Canada in several prestigious international competitions, including the 2014 Youth Olympic Games, showcasing her exceptional skill and dedication. Her transition from elite athletics to Branksome alum to a thriving career in software engineering highlights her versatility, discipline, and drive for excellence.<br/><br/>
                     <strong>James Suh</strong> is the CFO of the NHL’s Florida Panthers, managing the finances and legalities of the Sunshine Sports and Entertainment league alongside the Panthers themselves, culminating in a Stanley Cup victory in 2024. Before joining the Panther’s management, he lived in Toronto working for Maple Leaf Sports & Entertainment as VP of Finance, as well as having finance and audit roles at Canadian Tire, Unilever, and PwC. <br/><br/>
-                    <strong>Eric Zhu</strong>, the 17 year old CEO and co-founder of Aviato, an analytical platform for private market data, often described as a “Bloomberg Terminal” for private markets. At 15 Eric started his business out of his high school bathroom, taking business calls in the stalls. He has worked with several famous investors like 8VC, Soma Capital, and the SoftBank-Naver Fund and has raised around 2.3 million dollars to date.<br/><br/>
                     <strong>Curtis VanWelleghem</strong> is the Co-Founder and CEO of Hydrostor and has led the company through technology development into commercial operations, with a multi-GW pipeline globally. Prior to Hydrostor, Curtis held positions at nuclear generator Bruce Power and in Deloitte’s Corporate Strategy Consulting Practice.<br/><br/>
                     <strong>Dr. Sebastian Maurice</strong> Sebastian Maurice is Founder and CTO of OTICS, a company that applies transactional machine learning and AI to real-time data streams.  The company pioneered Transactional Machine Learning (TML) and published the seminal book on the topic called Transactional Machine Learning with Data Streams and AutoML: Build Frictionless and Elastic Machine Learning Solutions with Apache Kafka in the Cloud Using Python.<br/><br/>
                   </PopoverBody>

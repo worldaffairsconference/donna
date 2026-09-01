@@ -7,8 +7,8 @@ export const Plenaries = [
   'Future of Feminism',
   'A Nuclear World',
 ];
-export const Year = '2025';
-export const Theme = 'WAC to the Future';
+export const Year = '2027';
+export const Theme = 'Chase the Change';
 export const EarlyBirdDueDate = 'TBD';
 export const DueDate = 'TBD';
 export const Links = {
